@@ -11,7 +11,9 @@ import Navbar from './components/Navbar'
 import './styles/App.css'
 
 function App() {
-  const [user, setUser] = useState(false)
+  const [user, setUser] = useState(
+    JSON.parse(localStorage.getItem('user')) || null,
+  )
   const [showRegister, setShowRegister] = useState(false)
   const [view, setView] = useState('dashboard')
 
