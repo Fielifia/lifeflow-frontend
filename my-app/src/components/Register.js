@@ -16,9 +16,15 @@ import API from '../api/api'
 export default function Register() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
   const [username, setUsername] = useState('')
 
   const handleRegister = async () => {
+    if (password !== confirmPassword) {
+      alert('Passwords do not match')
+      return
+    }
+
     try {
       await API.post('/auth/register', { email, password, username })
       alert('Account created')
@@ -42,6 +48,13 @@ export default function Register() {
         type='password'
         placeholder='Password'
         onChange={(e) => setPassword(e.target.value)}
+      />
+
+      <input
+        className='input'
+        type='password'
+        placeholder='Confirm Password'
+        onChange={(e) => setConfirmPassword(e.target.value)}
       />
 
       <input
