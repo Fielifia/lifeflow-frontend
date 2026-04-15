@@ -1,9 +1,15 @@
+/**
+ * Entry point of the React application. This file renders the main App component into the DOM and sets up performance reporting.
+ *
+ * @module index
+ */
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import './styles/index.css'
 
+// --- Render the App component into the root DOM element ---
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <App />
