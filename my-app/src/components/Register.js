@@ -16,10 +16,11 @@ import API from '../api/api'
 export default function Register() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('')
 
   const handleRegister = async () => {
     try {
-      await API.post('/auth/register', { email, password })
+      await API.post('/auth/register', { email, password, username })
       alert('Account created')
     } catch {
       alert('Registration failed')
@@ -41,6 +42,12 @@ export default function Register() {
         type='password'
         placeholder='Password'
         onChange={(e) => setPassword(e.target.value)}
+      />
+
+      <input
+        className='input'
+        placeholder='Username'
+        onChange={(e) => setUsername(e.target.value)}
       />
 
       <button className='primary-btn' onClick={handleRegister}>
