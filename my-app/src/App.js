@@ -1,30 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
-import { useState, useEffect } from 'react'
-import { getTestMessage } from './api'
+import { useState } from 'react'
+import Login from './components/Login'
+import Register from './components/Register'
+import Dashboard from './components/Dashboard'
 
 function App() {
-  const [message, setTestMessage] = useState('')
+  const [user, setUser] = useState(false)
+  const [showRegister, setShowRegister] = useState(false)
 
-  useEffect(() => {
-    const fetchTestMessage = async () => {
-      const data = await getTestMessage()
-      setTestMessage(data || 'No message received')
-    }
-    fetchTestMessage()
-  }, [])
+  if (!user) {
+    return (
+      <div>
+        {showRegister ? (
+          <>
+            <Register />
+            <p onClick={() => setShowRegister(false)}>
+              Already have an account? Login
+            </p>
+          </>
+        ) : (
+          <>
+            <Login setUser={setUser} />
+            <p onClick={() => setShowRegister(true)}>Create account</p>
+          </>
+        )}
+      </div>
+    )
+  }
 
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h1>LifeFlow Frontend</h1>
-        <p>
-          {message || 'Loading message from backend...'}
-        </p>
-      </header>
-    </div>
-  );
+  return <Dashboard />
 }
 
-export default App;
+export default App
