@@ -28,17 +28,24 @@ export default function Register() {
 
   return (
     <div className='container'>
-      <h2>Register</h2>
-
-      <input onChange={(e) => setEmail(e.target.value)} placeholder='Email' />
+      <h2>Create account</h2>
 
       <input
-        type='password'
-        onChange={(e) => setPassword(e.target.value)}
-        placeholder='Password'
+        className='input'
+        placeholder='Email'
+        onChange={(e) => setEmail(e.target.value)}
       />
 
-      <button onClick={handleRegister}>Create account</button>
+      <input
+        className='input'
+        type='password'
+        placeholder='Password'
+        onChange={(e) => setPassword(e.target.value)}
+      />
+
+      <button className='primary-btn' onClick={handleRegister}>
+        Create account
+      </button>
     </div>
   )
 }
