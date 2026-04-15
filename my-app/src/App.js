@@ -41,7 +41,9 @@ function App() {
 
   return (
     <div className='app'>
-      {view === 'dashboard' && <Dashboard setView={setView} />}
+      {view === 'dashboard' && (
+        <Dashboard setUser={setUser} />
+      )}
       {view === 'workout' && <div className='card'>Workout (coming soon)</div>}
       {view === 'history' && <div className='card'>History (coming soon)</div>}
       {view === 'stats' && <div className='card'>Stats (coming soon)</div>}

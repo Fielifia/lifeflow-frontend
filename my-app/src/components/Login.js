@@ -46,7 +46,7 @@ export default function Login({ setUser }) {
       localStorage.setItem('user', JSON.stringify(res.data.user))
 
       // Update app state
-      setUser(true)
+      setUser(res.data.user)
     } catch (err) {
       const message = err.response?.data?.error || 'Login failed'
       setError(message)
