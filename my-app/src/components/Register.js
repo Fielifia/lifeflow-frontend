@@ -18,18 +18,21 @@ export default function Register() {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [username, setUsername] = useState('')
+  const [error, setError] = useState('')
+  const [message, setMessage] = useState('')
 
   const handleRegister = async () => {
     if (password !== confirmPassword) {
-      alert('Passwords do not match')
+      setError('Passwords do not match')
       return
     }
 
     try {
       await API.post('/auth/register', { email, password, username })
-      alert('Account created')
-    } catch {
-      alert('Registration failed')
+      setMessage('Account created')
+    } catch (error) {
+      const message = error.response?.data?.error || 'Registration failed'
+      setError(message)
     }
   }
 
@@ -66,6 +69,8 @@ export default function Register() {
       <button className='primary-btn' onClick={handleRegister}>
         Create account
       </button>
+      {error && <p className='error'>{error}</p>}
+        {message && <p className='message'>{message}</p>}
     </div>
   )
 }

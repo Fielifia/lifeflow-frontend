@@ -35,7 +35,7 @@ h3 {
   font-size: 12px;
 }
 
-.message {
+.error, .message {
   text-align: center;
 }
 
