@@ -22,6 +22,7 @@ export default function Login({ setUser }) {
     try {
       const res = await API.post('/auth/login', { email, password })
       localStorage.setItem('token', res.data.token)
+      localStorage.setItem('user', JSON.stringify(res.data.user))
       setUser(true)
     } catch {
       alert('Invalid credentials')

@@ -4,12 +4,13 @@
  * @returns {JSX.Element} The dashboard component.
  */
 export default function Dashboard() {
+    const user = JSON.parse(localStorage.getItem('user'))
   return (
     <div className='app'>
       {/* Header */}
       <div className='header-section'>
         <h2 className='logo'>LifeFlow Fitness</h2>
-        <p className='welcome'>Welcome back, Alex</p>
+        <p className='welcome'>Welcome back, {user.username}</p>
         <p className='quote'>"Progress is built one rep at a time"</p>
       </div>
 
