@@ -1,46 +1,102 @@
 /**
  * Login component for user authentication.
  *
- * Provides a form for users to enter their email and password to log in.
+ * Handles user input, sends login request to backend,
+ * stores authentication data (JWT + user), and updates app state.
  *
  * @module components/Login
  */
+
 import { useState } from 'react'
 import API from '../api/api'
 
 /**
  * Login component allows users to authenticate and access the dashboard.
  *
- * @param {Function} setUser - Function to update user authentication state in parent component.
- * @returns {JSX.Element} The login form component.
+ * @param {{ setUser: (value: boolean) => void }} props
+ * @returns {JSX.Element}
  */
 export default function Login({ setUser }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [loading, setLoading] = useState(false)
 
+  /**
+   * Sends login request and handles authentication flow.
+   *
+   * @async
+   * @function handleLogin
+   * @returns {Promise<void>}
+   */
   const handleLogin = async () => {
+    // Basic validation
+    if (!email || !password) {
+      setError('Please fill in all fields')
+      return
+    }
+
     try {
+      setLoading(true)
+
       const res = await API.post('/auth/login', { email, password })
+
+      // Store auth data
       localStorage.setItem('token', res.data.token)
-      setUser(true)
-    } catch {
-      alert('Invalid credentials')
+      localStorage.setItem('user', JSON.stringify(res.data.user))
+
+      // Update app state
+      setUser(res.data.user)
+    } catch (err) {
+      const message = err.response?.data?.error || 'Login failed'
+      setError(message)
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
     <div className='container'>
       <h2>Login</h2>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          handleLogin()
+        }}
+      >
+        <input
+          className='input'
+          placeholder='Email'
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value)
+            setError('')
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') handleLogin()
+          }}
+        />
 
-      <input placeholder='Email' onChange={(e) => setEmail(e.target.value)} />
+        <input
+          className='input'
+          type='password'
+          placeholder='Password'
+          value={password}
+          onChange={(e) => {
+            setPassword(e.target.value)
+            setError('')
+          }}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') handleLogin()
+          }}
+        />
 
-      <input
-        type='password'
-        placeholder='Password'
-        onChange={(e) => setPassword(e.target.value)}
-      />
+        <button type='submit' className='primary-btn' disabled={loading}>
+          {loading ? 'Logging in...' : 'Login'}
+        </button>
+      </form>
 
-      <button onClick={handleLogin}>Login</button>
+      {error && <p className='error'>{error}</p>}
     </div>
   )
 }
