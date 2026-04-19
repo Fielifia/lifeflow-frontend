@@ -47,23 +47,57 @@ export default function ExerciseDetail() {
 
   return (
     <div className='app'>
-      <button onClick={() => navigate(-1)} className='btn'>
+      <button onClick={() => navigate(-1)} className='logout-btn'>
         ← Back
       </button>
-      <div className='section'>
+
+      {/* Images */}
+      <div className='card'>
+        {exercise.images?.map((img, index) => (
+          <img
+            key={index}
+            src={img}
+            alt={`${exercise.name} ${index}`}
+            className='exercise-image'
+          />
+        ))}
+      </div>
+
+      {/* Title + meta */}
+      <div className='card'>
         <h2>{exercise.name}</h2>
 
-        <p>
-          <strong>Muscle:</strong> {exercise.target}
-        </p>
-        <p>
-          <strong>Equipment:</strong> {exercise.equipment}
-        </p>
-        <p>
-          <strong>Body part:</strong> {exercise.bodyPart}
-        </p>
+        <div className='stats-grid'>
+          <div className='card-base exercise-card'>
+            <p className='stat-value'>{exercise.target}</p>
+            <p className='stat-label'>Muscle</p>
+          </div>
 
-        {exercise.gifUrl && <img src={exercise.gifUrl} alt={exercise.name} />}
+          <div className='card-base exercise-card'>
+            <p className='stat-value'>{exercise.equipment}</p>
+            <p className='stat-label'>Equipment</p>
+          </div>
+
+          <div className='card-base exercise-card'>
+            <p className='stat-value'>{exercise.bodyPart}</p>
+            <p className='stat-label'>Body Part</p>
+          </div>
+
+          <div className='card-base exercise-card'>
+            <p className='stat-value'>{exercise.difficulty}</p>
+            <p className='stat-label'>Level</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Instructions */}
+      <div className='card'>
+        <h3>Instructions</h3>
+        <ul className='instructions'>
+          {exercise.instructions.map((step, i) => (
+            <li key={i}>{step}</li>
+          ))}
+        </ul>
       </div>
     </div>
   )

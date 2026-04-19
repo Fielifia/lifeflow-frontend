@@ -46,7 +46,7 @@ export default function ExerciseList({ setUser }) {
           {exercises.map((exercise) => (
             <div
               key={exercise._id}
-              className='stat-card'
+              className='card-base exerciseList-card'
               onClick={() => navigate(`/exercises/${exercise._id}`)}
             >
               <p className='stat-value'>{exercise.name}</p>

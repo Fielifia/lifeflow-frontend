@@ -40,22 +40,22 @@ export default function Dashboard({ setUser }) {
 
       {/* Stats cards */}
       <div className='stats-grid'>
-        <div className='stat-card'>
+        <div className='card-base stat-card'>
           <p className='stat-value'>18</p>
           <p className='stat-label'>Workouts this month</p>
         </div>
 
-        <div className='stat-card'>
+        <div className='card-base stat-card'>
           <p className='stat-value'>24</p>
           <p className='stat-label'>Total hours this month</p>
         </div>
 
-        <div className='stat-card'>
+        <div className='card-base stat-card'>
           <p className='stat-value'>342</p>
           <p className='stat-label'>Sets / 4,256 reps</p>
         </div>
 
-        <div className='stat-card'>
+        <div className='card-base stat-card'>
           <p className='stat-value'>12.4k</p>
           <p className='stat-label'>Total volume (kg)</p>
         </div>
@@ -99,11 +99,11 @@ export default function Dashboard({ setUser }) {
         <h3>Quick Access</h3>
 
         <div className='stats-grid'>
-          <Link to='/exercises' className='stat-card'>
+          <Link to='/exercises' className='card-base stat-card'>
             <p className='quick-label'>Exercises</p>
           </Link>
 
-          <Link to='/calendar' className='stat-card'>
+          <Link to='/calendar' className='card-base stat-card'>
             <p className='quick-label'>Calendar</p>
           </Link>
         </div>
