@@ -5,6 +5,7 @@
  */
 
 import Header from './Header'
+import { Link } from 'react-router-dom'
 
 /**
  * Dashboard view shown after successful login.
@@ -97,6 +98,21 @@ export default function Dashboard({ setUser }) {
                 <p className='muted small center'>Minutes active</p>
             </div>
 
+            {/* Quick actions */}
+            <div className='section'>
+                <h3>Quick Access</h3>
+
+                <div className='stats-grid'>
+                    <Link to="/exercises" className='stat-card'>
+                        <p className='quick-label'>Exercises</p>
+                    </Link>
+
+                    <Link to="/calendar" className='stat-card'>
+                        <p className='quick-label'>Calendar</p>
+                    </Link>
+                </div>
+            </div>
+
             {/* Monthly goal */}
             <div className='section'>
                 <h3>Monthly Goal</h3>
@@ -124,6 +140,7 @@ export default function Dashboard({ setUser }) {
                     )}
                 </div>
             </div>
+            <Link to="/exercises">Exercises</Link>
         </div>
     )
 }

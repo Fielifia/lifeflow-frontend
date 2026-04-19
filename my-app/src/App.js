@@ -1,13 +1,12 @@
-/**
- * Main application component that handles user authentication and routing.
- *
- * @module App
- */
 import { useState } from 'react'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+
 import Login from './components/Login'
 import Register from './components/Register'
 import Dashboard from './components/Dashboard'
+import ExerciseList from './components/ExerciseList'
 import Navbar from './components/Navbar'
+
 import './styles/App.css'
 
 function App() {
@@ -15,8 +14,8 @@ function App() {
     JSON.parse(localStorage.getItem('user')) || null,
   )
   const [showRegister, setShowRegister] = useState(false)
-  const [view, setView] = useState('dashboard')
 
+  // 🔒 Not logged in
   if (!user) {
     return (
       <div className='app'>
@@ -39,17 +38,26 @@ function App() {
     )
   }
 
+  // ✅ Logged in → router
   return (
-    <div className='app'>
-      {view === 'dashboard' && (
-        <Dashboard setUser={setUser} />
-      )}
-      {view === 'workout' && <div className='card'>Workout (coming soon)</div>}
-      {view === 'history' && <div className='card'>History (coming soon)</div>}
-      {view === 'stats' && <div className='card'>Stats (coming soon)</div>}
+    <BrowserRouter>
+      <div className='app'>
+        <Routes>
+          <Route path="/" element={<Dashboard setUser={setUser} />} />
+          <Route path="/exercises" element={<ExerciseList setUser={setUser} />} />
 
-      <Navbar current={view} setView={setView} />
-    </div>
+          <Route path="/workout" element={<div className="card">Workout (coming soon)</div>} />
+          <Route path="/history" element={<div className="card">History (coming soon)</div>} />
+          <Route path="/stats" element={<div className="card">Stats (coming soon)</div>} />
+          <Route path="/calendar" element={<div className="card">Calendar (coming soon)</div>} />
+
+          {/* fallback */}
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+
+        <Navbar />
+      </div>
+    </BrowserRouter>
   )
 }
 

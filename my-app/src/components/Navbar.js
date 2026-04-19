@@ -1,42 +1,56 @@
 /**
- * Navbar component that displays navigation links for the application.
- *
- * @param {Object} param0 - The props for the Navbar component.
- * @param {string} param0.current - The currently selected view.
- * @param {Function} param0.setView - The function to set the current view.
- * @returns {JSX.Element} The Navbar component.
+ * Navbar component that displays navigation links for the application using React Router.
  */
 
-export default function Navbar({ current, setView }) {
+import { NavLink } from 'react-router-dom'
+
+export default function Navbar() {
   return (
     <div className='navbar'>
-      <div
-        className={`nav-item ${current === 'dashboard' ? 'active' : ''}`}
-        onClick={() => setView('dashboard')}
+      <NavLink
+        to="/"
+        className={({ isActive }) =>
+          `nav-item ${isActive ? 'active' : ''}`
+        }
       >
         Home
-      </div>
+      </NavLink>
 
-      <div
-        className={`nav-item ${current === 'workout' ? 'active' : ''}`}
-        onClick={() => setView('workout')}
+      <NavLink
+        to="/workout"
+        className={({ isActive }) =>
+          `nav-item ${isActive ? 'active' : ''}`
+        }
       >
         Workout
-      </div>
+      </NavLink>
 
-      <div
-        className={`nav-item ${current === 'history' ? 'active' : ''}`}
-        onClick={() => setView('history')}
+      <NavLink
+        to="/history"
+        className={({ isActive }) =>
+          `nav-item ${isActive ? 'active' : ''}`
+        }
       >
         History
-      </div>
+      </NavLink>
 
-      <div
-        className={`nav-item ${current === 'stats' ? 'active' : ''}`}
-        onClick={() => setView('stats')}
+      <NavLink
+        to="/stats"
+        className={({ isActive }) =>
+          `nav-item ${isActive ? 'active' : ''}`
+        }
       >
         Stats
-      </div>
+      </NavLink>
+
+      <NavLink
+        to="/exercises"
+        className={({ isActive }) =>
+          `nav-item ${isActive ? 'active' : ''}`
+        }
+      >
+        Exercises
+      </NavLink>
     </div>
   )
 }

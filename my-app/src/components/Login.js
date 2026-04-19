@@ -42,8 +42,13 @@ export default function Login({ setUser }) {
       const res = await API.post('/auth/login', { email, password })
 
       // Store auth data
-      localStorage.setItem('token', res.data.token)
-      localStorage.setItem('user', JSON.stringify(res.data.user))
+      localStorage.setItem(
+        'user',
+        JSON.stringify({
+          ...res.data.user,
+          token: res.data.token,
+        })
+      )
 
       // Update app state
       setUser(res.data.user)
