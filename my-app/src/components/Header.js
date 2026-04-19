@@ -4,20 +4,28 @@
  * @module components/Header
  */
 
+/**
+ *
+ * @param root0
+ * @param root0.setUser
+ */
 export default function Header({ setUser }) {
-    const handleLogout = () => {
-        localStorage.removeItem('token')
-        localStorage.removeItem('user')
-        setUser(false)
-    }
+  /**
+   *
+   */
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+    setUser(false)
+  }
 
-    return (
-        <div className='header header-row'>
-            <h2 className='logo'>LifeFlow Fitness</h2>
+  return (
+    <div className='header header-row'>
+      <h2 className='logo'>LifeFlow Fitness</h2>
 
-            <button className='logout-btn' onClick={handleLogout}>
-                Logout
-            </button>
-        </div>
-    )
+      <button className='logout-btn' onClick={handleLogout}>
+        Logout
+      </button>
+    </div>
+  )
 }

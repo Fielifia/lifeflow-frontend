@@ -5,17 +5,20 @@ import Login from './components/Login'
 import Register from './components/Register'
 import Dashboard from './components/Dashboard'
 import ExerciseList from './components/ExerciseList'
+import ExerciseDetail from './components/ExerciseDetail'
 import Navbar from './components/Navbar'
 
 import './styles/App.css'
 
+/**
+ *
+ */
 function App() {
   const [user, setUser] = useState(
     JSON.parse(localStorage.getItem('user')) || null,
   )
   const [showRegister, setShowRegister] = useState(false)
 
-  // 🔒 Not logged in
   if (!user) {
     return (
       <div className='app'>
@@ -38,21 +41,36 @@ function App() {
     )
   }
 
-  // ✅ Logged in → router
   return (
     <BrowserRouter>
       <div className='app'>
         <Routes>
-          <Route path="/" element={<Dashboard setUser={setUser} />} />
-          <Route path="/exercises" element={<ExerciseList setUser={setUser} />} />
+          <Route path='/' element={<Dashboard setUser={setUser} />} />
+          <Route
+            path='/exercises'
+            element={<ExerciseList setUser={setUser} />}
+          />
+          <Route path='/exercises/:id' element={<ExerciseDetail />} />
 
-          <Route path="/workout" element={<div className="card">Workout (coming soon)</div>} />
-          <Route path="/history" element={<div className="card">History (coming soon)</div>} />
-          <Route path="/stats" element={<div className="card">Stats (coming soon)</div>} />
-          <Route path="/calendar" element={<div className="card">Calendar (coming soon)</div>} />
+          <Route
+            path='/workout'
+            element={<div className='card'>Workout (coming soon)</div>}
+          />
+          <Route
+            path='/history'
+            element={<div className='card'>History (coming soon)</div>}
+          />
+          <Route
+            path='/stats'
+            element={<div className='card'>Stats (coming soon)</div>}
+          />
+          <Route
+            path='/calendar'
+            element={<div className='card'>Calendar (coming soon)</div>}
+          />
 
           {/* fallback */}
-          <Route path="*" element={<Navigate to="/" />} />
+          <Route path='*' element={<Navigate to='/' />} />
         </Routes>
 
         <Navbar />

@@ -35,7 +35,8 @@ h3 {
   font-size: 12px;
 }
 
-.error, .message {
+.error,
+.message {
   text-align: center;
 }
 
@@ -330,21 +331,27 @@ h3 {
 .day:nth-child(1) .bar {
   height: 20px;
 }
+
 .day:nth-child(2) .bar {
   height: 30px;
 }
+
 .day:nth-child(3) .bar {
   height: 25px;
 }
+
 .day:nth-child(4) .bar {
   height: 40px;
 }
+
 .day:nth-child(5) .bar {
   height: 35px;
 }
+
 .day:nth-child(6) .bar {
   height: 50px;
 }
+
 .day:nth-child(7) .bar {
   height: 45px;
 }

@@ -5,26 +5,24 @@
  *
  * @module api/exerciseApi
  */
-import axios from 'axios'
-
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000'
 
 /**
+ * Fetches exercises from the backend API with optional query parameters.
  *
+ * @param {object} params - Query parameters for filtering exercises.
+ * @returns {Promise<Array>} A promise resolving to the list of exercises.
  */
 export const getExercises = async (params = {}) => {
   const query = new URLSearchParams(params).toString()
 
   const token = localStorage.getItem('token') // 🔥 här är fixen
 
-  const response = await fetch(
-    `http://localhost:5000/exercises?${query}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }
-  )
+  const response = await fetch(`${API_URL}/exercises?${query}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
 
   if (!response.ok) {
     throw new Error('Failed to fetch exercises')

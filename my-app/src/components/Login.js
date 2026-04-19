@@ -47,7 +47,7 @@ export default function Login({ setUser }) {
         JSON.stringify({
           ...res.data.user,
           token: res.data.token,
-        })
+        }),
       )
 
       // Update app state

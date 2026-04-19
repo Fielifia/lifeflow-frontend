@@ -4,50 +4,43 @@
 
 import { NavLink } from 'react-router-dom'
 
+/**
+ *
+ */
 export default function Navbar() {
   return (
     <div className='navbar'>
       <NavLink
-        to="/"
-        className={({ isActive }) =>
-          `nav-item ${isActive ? 'active' : ''}`
-        }
+        to='/'
+        className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
       >
         Home
       </NavLink>
 
       <NavLink
-        to="/workout"
-        className={({ isActive }) =>
-          `nav-item ${isActive ? 'active' : ''}`
-        }
+        to='/workout'
+        className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
       >
         Workout
       </NavLink>
 
       <NavLink
-        to="/history"
-        className={({ isActive }) =>
-          `nav-item ${isActive ? 'active' : ''}`
-        }
+        to='/history'
+        className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
       >
         History
       </NavLink>
 
       <NavLink
-        to="/stats"
-        className={({ isActive }) =>
-          `nav-item ${isActive ? 'active' : ''}`
-        }
+        to='/stats'
+        className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
       >
         Stats
       </NavLink>
 
       <NavLink
-        to="/exercises"
-        className={({ isActive }) =>
-          `nav-item ${isActive ? 'active' : ''}`
-        }
+        to='/exercises'
+        className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
       >
         Exercises
       </NavLink>
