@@ -3,8 +3,8 @@
  *
  * @module components/Dashboard
  */
-import Header from './Header'
 import { Link } from 'react-router-dom'
+import Header from '../../components/Header'
 /**
  * Dashboard view shown after successful login.
  *
@@ -39,7 +39,7 @@ export default function Dashboard({ setUser }) {
       </div>
 
       {/* Stats cards */}
-      <div className='stats-grid'>
+      <div className='grid-base stats-grid'>
         <div className='card-base stat-card'>
           <p className='stat-value'>18</p>
           <p className='stat-label'>Workouts this month</p>
@@ -98,7 +98,7 @@ export default function Dashboard({ setUser }) {
       <div className='section'>
         <h3>Quick Access</h3>
 
-        <div className='stats-grid'>
+        <div className='grid-base stats-grid'>
           <Link to='/exercises' className='card-base stat-card'>
             <p className='quick-label'>Exercises</p>
           </Link>
@@ -122,7 +122,7 @@ export default function Dashboard({ setUser }) {
       <div className='section'>
         <h3>Recent Achievements</h3>
 
-        <div className='achievements-grid'>
+        <div className='grid-base achievements-grid'>
           {['First Workout', '7 Day Streak', '100kg Club', 'Early Bird'].map(
             (title) => (
               <div key={title} className='achievement-card'>

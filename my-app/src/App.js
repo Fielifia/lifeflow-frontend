@@ -1,13 +1,14 @@
 import { useState } from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
-import Login from './components/Login'
-import Register from './components/Register'
-import Dashboard from './components/Dashboard'
-import ExerciseList from './components/ExerciseList'
-import ExerciseDetail from './components/ExerciseDetail'
 import Navbar from './components/Navbar'
-
+import Login from './pages/Auth/Login'
+import Register from './pages/Auth/Register'
+import Dashboard from './pages/Dashboard/Dashboard'
+import ExerciseBodyPart from './pages/Exercises/ExerciseBodyPart'
+import ExerciseDetail from './pages/Exercises/ExerciseDetail'
+import ExerciseMuscle from './pages/Exercises/ExerciseMuscle'
+import Exercises from './pages/Exercises/Exercises'
 import './styles/App.css'
 
 /**
@@ -46,11 +47,13 @@ function App() {
       <div className='app'>
         <Routes>
           <Route path='/' element={<Dashboard setUser={setUser} />} />
+          <Route path='/exercises' element={<Exercises />} />
+          <Route path='/exercises/:category' element={<ExerciseBodyPart />} />
           <Route
-            path='/exercises'
-            element={<ExerciseList setUser={setUser} />}
+            path='/exercises/:category/:muscle'
+            element={<ExerciseMuscle />}
           />
-          <Route path='/exercises/:id' element={<ExerciseDetail />} />
+          <Route path='/exercise/:id' element={<ExerciseDetail />} />
 
           <Route
             path='/workout'

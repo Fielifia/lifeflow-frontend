@@ -16,7 +16,7 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000'
 export const getExercises = async (params = {}) => {
   const query = new URLSearchParams(params).toString()
 
-  const token = localStorage.getItem('token') // 🔥 här är fixen
+  const token = localStorage.getItem('token')
 
   const response = await fetch(`${API_URL}/exercises?${query}`, {
     headers: {

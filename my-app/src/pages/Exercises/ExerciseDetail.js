@@ -1,10 +1,6 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { useNavigate } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 
-/**
- *
- */
 export default function ExerciseDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -14,9 +10,6 @@ export default function ExerciseDetail() {
   const [error, setError] = useState(null)
 
   useEffect(() => {
-    /**
-     *
-     */
     const fetchExercise = async () => {
       try {
         const token = localStorage.getItem('token')
@@ -47,51 +40,38 @@ export default function ExerciseDetail() {
 
   return (
     <div className='app'>
-      <button onClick={() => navigate(-1)} className='logout-btn'>
+      <button onClick={() => navigate(-1)} className='back-btn'>
         ← Back
       </button>
 
-      {/* Images */}
-      <div className='card'>
-        {exercise.images?.map((img, index) => (
-          <img
-            key={index}
-            src={img}
-            alt={`${exercise.name} ${index}`}
-            className='exercise-image'
-          />
+      <div className='card-base card'>
+        {exercise.images?.map((img, i) => (
+          <img key={i} src={img} alt='' className='exercise-image' />
         ))}
       </div>
 
-      {/* Title + meta */}
-      <div className='card'>
+      <div className='card-base card'>
         <h2>{exercise.name}</h2>
 
-        <div className='stats-grid'>
-          <div className='card-base exercise-card'>
+        <div className='grid-base'>
+          <div className='card-base'>
             <p className='stat-value'>{exercise.target}</p>
             <p className='stat-label'>Muscle</p>
           </div>
 
-          <div className='card-base exercise-card'>
-            <p className='stat-value'>{exercise.equipment}</p>
-            <p className='stat-label'>Equipment</p>
-          </div>
-
-          <div className='card-base exercise-card'>
+          <div className='card-base'>
             <p className='stat-value'>{exercise.bodyPart}</p>
             <p className='stat-label'>Body Part</p>
           </div>
 
-          <div className='card-base exercise-card'>
-            <p className='stat-value'>{exercise.difficulty}</p>
-            <p className='stat-label'>Level</p>
+          <div className='card-base'>
+            <p className='stat-value'>{exercise.equipment}</p>
+            <p className='stat-label'>Equipment</p>
           </div>
         </div>
       </div>
 
-      {/* Instructions */}
-      <div className='card'>
+      <div className='card-base card'>
         <h3>Instructions</h3>
         <ul className='instructions'>
           {exercise.instructions.map((step, i) => (

@@ -8,7 +8,7 @@
  */
 
 import { useState } from 'react'
-import API from '../api/api'
+import API from '../../api/api'
 
 /**
  * Login component allows users to authenticate and access the dashboard.
