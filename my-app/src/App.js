@@ -10,6 +10,7 @@ import ExerciseDetail from './pages/Exercises/ExerciseDetail'
 import ExerciseMuscle from './pages/Exercises/ExerciseMuscle'
 import Exercises from './pages/Exercises/Exercises'
 import './styles/App.css'
+import Header from './components/Header'
 
 /**
  *
@@ -45,6 +46,8 @@ function App() {
   return (
     <BrowserRouter>
       <div className='app'>
+        {/* Header */}
+        <Header setUser={setUser} />
         <Routes>
           <Route path='/' element={<Dashboard setUser={setUser} />} />
           <Route path='/exercises' element={<Exercises />} />

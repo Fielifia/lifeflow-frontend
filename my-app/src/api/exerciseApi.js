@@ -29,7 +29,8 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000'
 export const getExercises = async (params = {}) => {
   const query = new URLSearchParams(params).toString()
 
-  const token = localStorage.getItem('token')
+  const storedUser = JSON.parse(localStorage.getItem('user'))
+  const token = storedUser?.token
 
   const res = await fetch(`${API_URL}/exercises?${query}`, {
     headers: {
@@ -45,7 +46,8 @@ export const getExercises = async (params = {}) => {
 }
 
 export const getExerciseById = async (id) => {
-  const token = localStorage.getItem('token')
+  const storedUser = JSON.parse(localStorage.getItem('user'))
+  const token = storedUser?.token
 
   const res = await fetch(`${API_URL}/exercises/${id}`, {
     headers: {

@@ -4,7 +4,6 @@
  * @module components/Dashboard
  */
 import { Link } from 'react-router-dom'
-import Header from '../../components/Header'
 /**
  * Dashboard view shown after successful login.
  *
@@ -27,8 +26,6 @@ export default function Dashboard({ setUser }) {
 
   return (
     <div className='app'>
-      {/* Header */}
-      <Header setUser={setUser} />
 
       {/* Welcome section */}
       <div className='header-section'>

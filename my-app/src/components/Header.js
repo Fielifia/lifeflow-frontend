@@ -20,7 +20,7 @@ export default function Header({ setUser }) {
   }
 
   return (
-    <div className='header header-row'>
+    <div className='header'>
       <h2 className='logo'>LifeFlow Fitness</h2>
 
       <button className='logout-btn' onClick={handleLogout}>

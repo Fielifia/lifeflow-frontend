@@ -31,6 +31,11 @@ body {
   color: var(--text);
 }
 
+h2 {
+  font-size: 18px;
+  margin: 16px 0;
+}
+
 h3 {
   font-size: 12px;
 }
@@ -43,7 +48,7 @@ h3 {
 .app {
   max-width: 480px;
   margin: 0 auto;
-  padding: 16px;
+  padding: 12px;
 }
 
 .container {
@@ -57,6 +62,16 @@ h3 {
   grid-template-columns: 1fr 1fr;
   gap: 12px;
   margin-bottom: 20px;
+}
+
+.back-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 6px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  cursor: pointer;
 }
 
 /* --- CARD BASE (shared style) --- */
@@ -96,14 +111,17 @@ h3 {
 
 
 /* --- HEADER --- */
-.header {
-  margin-bottom: 20px;
-}
 
-.header-row {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.logo {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
 }
 
 .logout-btn {
@@ -432,28 +450,64 @@ h3 {
   padding: 12px;
   border-radius: 12px;
   background: #1c2a33;
+  color: white;
   border: none;
   margin-bottom: 12px;
+}
+
+.chips-wrapper {
+  position: relative;
+}
+
+.chips-wrapper::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  width: 30px;
+  background: linear-gradient(to left, var(--bg), transparent);
 }
 
 .chips {
   display: flex;
-  gap: 4px;
+  gap: 8px;
   overflow-x: auto;
   margin-bottom: 12px;
+
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+
+  cursor: grab;
+}
+
+.chips::-webkit-scrollbar {
+  display: none;
+}
+
+.chips:active {
+  cursor: grabbing;
 }
 
 .chips button {
-  padding: 0px 8px;
+  padding: 8px 12px;
   border-radius: 12px;
-  font-size: 14px;
   background: #1c2a33;
   border: none;
   color: white;
+
+  flex-shrink: 0;
+
+  scroll-snap-align: center;
+}
+
+.chips {
+  scroll-snap-type: x mandatory;
 }
 
 .chips .active {
-  background: #2f8f9d;
+  background: var(--primary);
+  color: white;
 }
 
 .primary {
