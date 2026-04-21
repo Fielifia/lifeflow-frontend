@@ -1,32 +1,61 @@
 /**
- * API module for making HTTP requests to the backend server.
+ * API module for exercise-related requests.
  *
- * This module uses Axios to create a pre-configured instance for making API calls.
+ * Handles fetching exercises with filters, pagination,
+ * and authentication.
  *
  * @module api/exerciseApi
  */
+
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000'
 
 /**
- * Fetches exercises from the backend API with optional query parameters.
+ * Fetch exercises with optional filters and pagination.
  *
- * @param {object} params - Query parameters for filtering exercises.
- * @returns {Promise<Array>} A promise resolving to the list of exercises.
+ * @param {Object} params - Query parameters
+ * @param {string} [params.category] - Filter by category
+ * @param {string} [params.muscle] - Filter by muscle
+ * @param {string} [params.search] - Search by name
+ * @param {number} [params.page=1] - Page number
+ * @param {number} [params.limit=20] - Items per page
+ *
+ * @returns {Promise<{
+ *   results: Array,
+ *   total: number,
+ *   page: number,
+ *   limit: number
+ * }>}
  */
 export const getExercises = async (params = {}) => {
   const query = new URLSearchParams(params).toString()
 
   const token = localStorage.getItem('token')
 
-  const response = await fetch(`${API_URL}/exercises?${query}`, {
+  const res = await fetch(`${API_URL}/exercises?${query}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   })
 
-  if (!response.ok) {
+  if (!res.ok) {
     throw new Error('Failed to fetch exercises')
   }
 
-  return response.json()
+  return res.json()
+}
+
+export const getExerciseById = async (id) => {
+  const token = localStorage.getItem('token')
+
+  const res = await fetch(`${API_URL}/exercises/${id}`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  })
+
+  if (!res.ok) {
+    throw new Error('Failed to fetch exercise')
+  }
+
+  return res.json()
 }

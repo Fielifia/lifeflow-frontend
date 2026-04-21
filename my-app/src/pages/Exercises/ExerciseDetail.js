@@ -1,83 +1,111 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { getExerciseById } from '../../api/exerciseApi'
+import { normalizeExercise } from '../../utils/exerciseAdapter'
+import { formatLabel } from '../../utils/format'
 
 export default function ExerciseDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
 
   const [exercise, setExercise] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [currentImage, setCurrentImage] = useState(0)
 
   useEffect(() => {
-    const fetchExercise = async () => {
-      try {
-        const token = localStorage.getItem('token')
-
-        const res = await fetch(`http://localhost:5000/exercises/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        })
-
-        if (!res.ok) throw new Error('Failed to fetch exercise')
-
-        const data = await res.json()
-        setExercise(data)
-      } catch (err) {
-        setError(err.message)
-      } finally {
-        setLoading(false)
-      }
+    const fetchData = async () => {
+      const data = await getExerciseById(id)
+      setExercise(normalizeExercise(data))
     }
 
-    fetchExercise()
+    fetchData()
   }, [id])
 
-  if (loading) return <p>Loading...</p>
-  if (error) return <p>Error: {error}</p>
-  if (!exercise) return <p>No data</p>
+  useEffect(() => {
+    if (!exercise?.images?.length) return
+
+    const interval = setInterval(() => {
+      setCurrentImage((prev) =>
+        prev === exercise.images.length - 1 ? 0 : prev + 1,
+      )
+    }, 1800)
+
+    return () => clearInterval(interval)
+  }, [exercise])
+
+  if (!exercise) return <p className='center'>Loading...</p>
+
+  const imageSrc = exercise.images?.[currentImage] || '/placeholder.png'
 
   return (
     <div className='app'>
+      {/* Header */}
       <button onClick={() => navigate(-1)} className='back-btn'>
         ← Back
       </button>
 
-      <div className='card-base card'>
-        {exercise.images?.map((img, i) => (
-          <img key={i} src={img} alt='' className='exercise-image' />
-        ))}
-      </div>
-
-      <div className='card-base card'>
+      {/* Title */}
+      <div className='section'>
         <h2>{exercise.name}</h2>
 
-        <div className='grid-base'>
-          <div className='card-base'>
-            <p className='stat-value'>{exercise.target}</p>
-            <p className='stat-label'>Muscle</p>
-          </div>
+        <p className='muted'>
+          {formatLabel(exercise.bodyPart)}
+          {exercise.muscle && exercise.muscle !== exercise.bodyPart && (
+            <> • {formatLabel(exercise.muscle)}</>
+          )}
+          {' • '}
+          {formatLabel(exercise.equipment)}
+        </p>
+      </div>
 
-          <div className='card-base'>
-            <p className='stat-value'>{exercise.bodyPart}</p>
-            <p className='stat-label'>Body Part</p>
-          </div>
+      {/* Image */}
+      <div className='container'>
+        <img
+          src={imageSrc}
+          alt={exercise.name}
+          onError={(e) => {
+            e.target.src = '/placeholder.png'
+          }}
+          className='detail-img'
+        />
 
-          <div className='card-base'>
-            <p className='stat-value'>{exercise.equipment}</p>
-            <p className='stat-label'>Equipment</p>
+        {/* dots indicator */}
+        {exercise.images?.length > 1 && (
+          <div className='dots'>
+            {exercise.images.map((_, i) => (
+              <span
+                key={i}
+                className={i === currentImage ? 'dot active' : 'dot'}
+              />
+            ))}
           </div>
+        )}
+      </div>
+
+      {/* Info cards */}
+      <div className='section exercise-overview'>
+        <div className='card-base'>
+          <p className='stat-label'>Muscle</p>
+          <p>{exercise.muscle}</p>
+        </div>
+
+        <div className='card-base'>
+          <p className='stat-label'>Equipment</p>
+          <p>{exercise.equipment}</p>
         </div>
       </div>
 
-      <div className='card-base card'>
+      {/* Instructions */}
+      <div className='section'>
         <h3>Instructions</h3>
-        <ul className='instructions'>
-          {exercise.instructions.map((step, i) => (
-            <li key={i}>{step}</li>
+
+        <div className='container'>
+          {exercise.instructions?.map((step, i) => (
+            <div key={i} className='instruction-step'>
+              <span className='step-number'>{i + 1}</span>
+              <p>{step}</p>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     </div>
   )

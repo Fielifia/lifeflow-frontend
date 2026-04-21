@@ -420,15 +420,137 @@ h3 {
 
 /* --- EXERCISES --- */
 
-.exercise-image {
-  width: 100%;
-  height: 200px;
-  object-fit: cover;
-  border-radius: 14px;
+/* --- EXERCISE SEARCH & FILTERS --- */
+.page {
+  padding: 16px;
+  color: white;
+  background: linear-gradient(#0f2027, #0b1a22);
 }
 
-.instructions {
-  list-style: disc;
-  padding-left: 20px;
+.search {
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+  background: #1c2a33;
+  border: none;
+  margin-bottom: 12px;
+}
+
+.chips {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  margin-bottom: 12px;
+}
+
+.chips button {
+  padding: 0px 8px;
+  border-radius: 12px;
+  font-size: 14px;
+  background: #1c2a33;
+  border: none;
+  color: white;
+}
+
+.chips .active {
+  background: #2f8f9d;
+}
+
+.primary {
+  width: 100%;
+  padding: 14px;
+  border-radius: 14px;
+  background: #2f8f9d;
+  border: none;
+  margin-top: 16px;
+}
+
+/* --- EXERCISE LIST --- */
+.exercise-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* --- EXERCISE CARD --- */
+.exercise-row {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.exercise-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.exercise-info h3 {
+  font-size: 16px;
+  margin: 0;
+}
+
+.exercise-info p {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+/* --- EXERCISE DETAIL --- */
+/* --- DETAIL --- */
+
+.detail-img {
+  width: 100%;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background: var(--muted);
+  border-radius: 50%;
+  opacity: 0.5;
+}
+
+.dot.active {
+  opacity: 1;
+  background: var(--primary);
+}
+
+.exercise-overview {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.instruction-step {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.instruction-step p {
+  font-size: 14px;
   color: var(--text);
+  margin: 0 0 10px;
+}
+
+.step-number {
+  min-width: 24px;
+  height: 24px;
+  background: var(--primary);
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
 }

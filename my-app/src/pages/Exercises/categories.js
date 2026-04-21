@@ -1,8 +1,12 @@
 export const categories = {
-  Chest: ['chest'],
+  Chest: ['upper chest', 'middle chest', 'lower chest'],
+
   Back: ['lats', 'middle back', 'lower back', 'traps'],
-  Shoulders: ['shoulders'],
+
+  Shoulders: ['shoulders', 'neck'],
+
   Arms: ['biceps', 'triceps', 'forearms'],
+
   Legs: [
     'glutes',
     'hamstrings',
@@ -11,5 +15,8 @@ export const categories = {
     'abductors',
     'adductors',
   ],
+
   Core: ['abdominals'],
+
+  Cardio: [],
 }
