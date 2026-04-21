@@ -35,11 +35,29 @@ export function normalizeExercise(e) {
     bodyPart: formatName(bodyPart),
     muscle: formatName(getMuscle(e, bodyPart)),
     category: getCategory(e),
-    equipment: formatName(e.equipment),
+    equipment: formatName(normalizeEquipment(e)),
     image: getImage(e),
     images: e.images || [],
     instructions: e.instructions || [],
   }
+}
+
+function normalizeEquipment(e) {
+    const specialCases = [
+      { match: 'chair', value: 'Other' },
+      { match: 'bench', value: 'Other' },
+    ]
+  const eq = e.equipment?.toLowerCase() || ''
+  const name = e.name?.toLowerCase() || ''
+
+  if (!eq || eq === 'unknown') {
+    const found = specialCases.find((s) => name.includes(s.match))
+    if (found) return found.value
+
+    return 'body only'
+  }
+
+  return eq
 }
 
 /**

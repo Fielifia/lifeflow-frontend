@@ -7,7 +7,6 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
-import './styles/index.css'
 import './styles/App.css'
 
 // --- Render the App component into the root DOM element ---

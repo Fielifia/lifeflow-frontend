@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
+import Header from './components/Header'
 import Navbar from './components/Navbar'
 import Login from './pages/Auth/Login'
 import Register from './pages/Auth/Register'
@@ -9,9 +10,6 @@ import ExerciseBodyPart from './pages/Exercises/ExerciseBodyPart'
 import ExerciseDetail from './pages/Exercises/ExerciseDetail'
 import ExerciseMuscle from './pages/Exercises/ExerciseMuscle'
 import Exercises from './pages/Exercises/Exercises'
-import './styles/App.css'
-import Header from './components/Header'
-
 /**
  *
  */
