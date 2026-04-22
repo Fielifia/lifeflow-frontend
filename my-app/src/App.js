@@ -6,11 +6,8 @@ import Navbar from './components/Navbar'
 import Login from './pages/Auth/Login'
 import Register from './pages/Auth/Register'
 import Dashboard from './pages/Dashboard/Dashboard'
-import ExerciseBodyPart from './pages/Exercises/ExerciseBodyPart'
 import ExerciseDetail from './pages/Exercises/ExerciseDetail'
-import ExerciseMuscle from './pages/Exercises/ExerciseMuscle'
 import Exercises from './pages/Exercises/Exercises'
-import ExerciseEquipment from './pages/Exercises/ExerciseEquipment'
 
 /**
  * Root application component handling authentication and routing.
@@ -52,15 +49,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Dashboard setUser={setUser} />} />
           <Route path="/exercises" element={<Exercises />} />
-          <Route path="/exercises/:category" element={<ExerciseBodyPart />} />
-          <Route
-            path="/exercises/:category/:muscle"
-            element={<ExerciseMuscle />}
-          />
-          <Route
-            path="/exercises/:category/:equipment"
-            element={<ExerciseEquipment />}
-          />
           <Route path="/exercise/:id" element={<ExerciseDetail />} />
 
           <Route

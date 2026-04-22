@@ -35,12 +35,6 @@ export default function Navbar() {
         Stats
       </NavLink>
 
-      <NavLink
-        to="/exercises"
-        className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
-      >
-        Exercises
-      </NavLink>
     </div>
   )
 }
