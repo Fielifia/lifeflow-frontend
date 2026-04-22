@@ -1,14 +1,10 @@
-/**
- * Dashboard component displaying user statistics and activity overview.
- * @module components/Dashboard
- */
 import { Link } from 'react-router-dom'
+
 /**
- * Dashboard view shown after successful login.
- * @param {{ setUser: (value: boolean) => void }} props
- * @returns {JSX.Element}
+ * Dashboard view displaying user statistics and quick navigation.
+ * @returns {import('react').ReactElement} Dashboard UI
  */
-export default function Dashboard({ setUser }) {
+export default function Dashboard() {
   const user = JSON.parse(localStorage.getItem('user'))
   const maxValue = 120
 

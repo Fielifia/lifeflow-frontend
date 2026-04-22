@@ -1,13 +1,15 @@
 import { useEffect, useRef } from 'react'
 
 /**
- *
- * @param root0
- * @param root0.exercises
- * @param root0.bodyPart
- * @param root0.selected
- * @param root0.onSelect
- * @param root0.isSpecial
+ * Displays selectable muscle groups based on selected body part.
+ * @param {{
+ *  exercises: Array<object>,
+ *  bodyPart: string,
+ *  selected: string | null,
+ *  onSelect: (value: string | null) => void,
+ *  isSpecial: boolean
+ * }} props - Component props
+ * @returns {import('react').ReactElement} Muscle selector UI
  */
 export default function ExerciseMuscle({
   exercises,

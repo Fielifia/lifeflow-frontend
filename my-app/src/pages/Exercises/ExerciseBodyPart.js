@@ -1,9 +1,11 @@
 /**
- *
- * @param root0
- * @param root0.categories
- * @param root0.selected
- * @param root0.onSelect
+ * Displays selectable body part categories.
+ * @param {{
+ *  categories: string[],
+ *  selected: string | null,
+ *  onSelect: (value: string) => void
+ * }} props - Component props
+ * @returns {import('react').ReactElement} Body part selector UI
  */
 export default function ExerciseBodyPart({ categories, selected, onSelect }) {
   return (

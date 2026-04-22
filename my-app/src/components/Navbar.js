@@ -1,11 +1,8 @@
-/**
- * Navbar component that displays navigation links for the application using React Router.
- */
-
 import { NavLink } from 'react-router-dom'
 
 /**
- *
+ * Navigation bar for switching between views.
+ * @returns {import('react').ReactElement} Navigation UI
  */
 export default function Navbar() {
   return (

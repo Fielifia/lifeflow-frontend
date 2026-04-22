@@ -1,13 +1,4 @@
-/**
- * API module for exercise-related requests.
- *
- * Handles fetching exercises with filters, pagination,
- * and authentication.
- * @module api/exerciseApi
- */
-
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000'
-
 /**
  * Fetch exercises with optional filters and pagination.
  * @param {object} params - Query parameters
@@ -21,9 +12,10 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000'
  *   total: number,
  *   page: number,
  *   limit: number
- * }>}
+ * }>} API response with paginated exercises
  */
 export const getExercises = async (params = {}) => {
+
   const query = new URLSearchParams(params).toString()
 
   const storedUser = JSON.parse(localStorage.getItem('user'))
@@ -42,6 +34,21 @@ export const getExercises = async (params = {}) => {
   return res.json()
 }
 
+/**
+ * Fetch a single exercise by its ID.
+ * @param {string} id - Exercise ID
+ * @returns {Promise<{
+ *  id: string,
+ *  name: string,
+ *  bodyPart: string,
+ *  target: string,
+ *  equipment: string,
+ *  images?: string[],
+ *  image?: string,
+ *  gifUrl?: string,
+ *  instructions?: string[]
+ * }>} Raw exercise object from API
+ */
 export const getExerciseById = async (id) => {
   const storedUser = JSON.parse(localStorage.getItem('user'))
   const token = storedUser?.token

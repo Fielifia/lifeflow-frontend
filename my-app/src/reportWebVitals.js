@@ -1,6 +1,6 @@
 /**
- *
- * @param onPerfEntry
+ * Reports web performance metrics.
+ * @param {(metric: object) => void} onPerfEntry - Callback for performance data
  */
 const reportWebVitals = (onPerfEntry) => {
   if (onPerfEntry && onPerfEntry instanceof Function) {

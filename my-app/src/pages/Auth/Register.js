@@ -1,17 +1,9 @@
-/**
- * Register component for user account creation.
- *
- * Handles user input, validates form data (including password confirmation),
- * sends registration request to backend, and displays feedback to the user.
- * @module components/Register
- */
-
 import { useState } from 'react'
 import API from '../../api/api'
 
 /**
- * Register component allows users to create a new account.
- * @returns {JSX.Element}
+ * Register component for creating a new user account.
+ * @returns {import('react').ReactElement} Registration form UI
  */
 export default function Register() {
   const [email, setEmail] = useState('')

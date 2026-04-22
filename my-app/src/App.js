@@ -10,8 +10,10 @@ import ExerciseBodyPart from './pages/Exercises/ExerciseBodyPart'
 import ExerciseDetail from './pages/Exercises/ExerciseDetail'
 import ExerciseMuscle from './pages/Exercises/ExerciseMuscle'
 import Exercises from './pages/Exercises/Exercises'
+
 /**
- *
+ * Root application component handling authentication and routing.
+ * @returns {import('react').ReactElement} Application UI
  */
 function App() {
   const [user, setUser] = useState(

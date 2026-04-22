@@ -11,7 +11,11 @@ const BASE_CATEGORIES = CATEGORY_ORDER
 const SPECIAL = CATEGORIES.SPECIAL
 
 /**
+ * Exercise library view with filtering, search, and pagination.
  *
+ * Fetches exercises from the API, normalizes data, and allows filtering
+ * by body part, muscle group, and search input.
+ * @returns {import('react').ReactElement} Exercise library UI
  */
 export default function Exercises() {
   const navigate = useNavigate()
@@ -25,7 +29,7 @@ export default function Exercises() {
   useEffect(() => {
     const fetchExercises = async () => {
       try {
-        let all = []
+        const all = []
         let page = 1
         let hasMore = true
 

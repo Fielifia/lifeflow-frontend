@@ -1,17 +1,10 @@
 /**
  * Header component displaying app title and logout action.
- * @module components/Header
- */
-
-/**
- *
- * @param root0
- * @param root0.setUser
+ * @param {{ setUser: (value: boolean) => void }} props - Component props
+ * @returns {import('react').ReactElement} Header UI
  */
 export default function Header({ setUser }) {
-  /**
-   *
-   */
+
   const handleLogout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')

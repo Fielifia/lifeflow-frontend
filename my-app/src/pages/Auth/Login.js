@@ -1,18 +1,10 @@
-/**
- * Login component for user authentication.
- *
- * Handles user input, sends login request to backend,
- * stores authentication data (JWT + user), and updates app state.
- * @module components/Login
- */
-
 import { useState } from 'react'
 import API from '../../api/api'
 
 /**
- * Login component allows users to authenticate and access the dashboard.
- * @param {{ setUser: (value: boolean) => void }} props
- * @returns {JSX.Element}
+ * Login component for user authentication.
+ * @param {{ setUser: (value: object) => void }} props - Component props
+ * @returns {import('react').ReactElement} Login form UI
  */
 export default function Login({ setUser }) {
   const [email, setEmail] = useState('')

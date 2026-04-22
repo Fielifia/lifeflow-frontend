@@ -5,7 +5,10 @@ import { normalizeExercise } from '../../utils/exerciseAdapter'
 import { formatLabel } from '../../utils/format'
 
 /**
+ * Displays detailed information about a selected exercise.
  *
+ * Fetches exercise data, handles image rotation, and displays instructions.
+ * @returns {import('react').ReactElement} Exercise detail UI
  */
 export default function ExerciseDetail() {
   const { id } = useParams()
@@ -15,6 +18,7 @@ export default function ExerciseDetail() {
   const [currentImage, setCurrentImage] = useState(0)
 
   useEffect(() => {
+    if (!id) return
     const fetchData = async () => {
       const data = await getExerciseById(id)
       setExercise(normalizeExercise(data))
@@ -24,15 +28,19 @@ export default function ExerciseDetail() {
   }, [id])
 
   useEffect(() => {
-    if (!exercise?.images?.length) return
+    let interval
 
-    const interval = setInterval(() => {
-      setCurrentImage((prev) =>
-        prev === exercise.images.length - 1 ? 0 : prev + 1,
-      )
-    }, 1800)
+    if (exercise?.images?.length) {
+      interval = setInterval(() => {
+        setCurrentImage((prev) =>
+          prev === exercise.images.length - 1 ? 0 : prev + 1,
+        )
+      }, 1800)
+    }
 
-    return () => clearInterval(interval)
+    return () => {
+      if (interval) clearInterval(interval)
+    }
   }, [exercise])
 
   if (!exercise) return <p className="center">Loading...</p>
@@ -66,7 +74,7 @@ export default function ExerciseDetail() {
           src={imageSrc}
           alt={exercise.name}
           onError={(e) => {
-            e.target.src = '/placeholder.png'
+            e.currentTarget.src = '/placeholder.png'
           }}
           className="detail-img"
         />

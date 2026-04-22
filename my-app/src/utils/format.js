@@ -1,6 +1,7 @@
 /**
- *
- * @param str
+ * Capitalizes each word in a string.
+ * @param {string} str - The input string to format
+ * @returns {string} The formatted string with capitalized words
  */
 export function formatName(str) {
   return str
@@ -10,8 +11,10 @@ export function formatName(str) {
 }
 
 /**
- *
- * @param str
+ * Formats a label string by capitalizing each word.
+ * Returns an empty string if input is undefined or empty.
+ * @param {string} str - The label to format
+ * @returns {string} The formatted label
  */
 export function formatLabel(str) {
   if (!str) return ''

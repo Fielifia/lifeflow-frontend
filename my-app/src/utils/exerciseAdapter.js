@@ -1,28 +1,28 @@
 import { formatName } from './format'
-
 /**
  * Normalizes raw exercise data from the API into a consistent structure
  * used throughout the application.
  * @param {object} e - Raw exercise object from API
- * @param {string} e.id
- * @param {string} e.name
- * @param {string} e.bodyPart
- * @param {string} e.target
- * @param {string} e.equipment
- * @param {string[]} [e.images]
- * @param {string} [e.image]
- * @param {string} [e.gifUrl]
- * @param {string[]} [e.instructions]
- * @returns {object} Normalized exercise
- * @returns {string} returns.id
- * @returns {string} returns.name
- * @returns {string} returns.bodyPart
- * @returns {string} returns.category
- * @returns {string} returns.muscle
- * @returns {string} returns.equipment
- * @returns {string} returns.image
- * @returns {string[]} returns.images
- * @returns {string[]} returns.instructions
+ * @param {string} e.id - Unique exercise ID
+ * @param {string} e.name - Exercise name
+ * @param {string} e.bodyPart - Body part category
+ * @param {string} e.target - Target muscle
+ * @param {string} e.equipment - Equipment used
+ * @param {string[]} [e.images] - Optional array of image URLs
+ * @param {string} [e.image] - Fallback image URL
+ * @param {string} [e.gifUrl] - GIF URL fallback
+ * @param {string[]} [e.instructions] - Exercise instructions
+ * @returns {{
+ *  id: string,
+ *  name: string,
+ *  bodyPart: string,
+ *  muscle: string,
+ *  category: string,
+ *  equipment: string,
+ *  image: string,
+ *  images: string[],
+ *  instructions: string[]
+ * }} Normalized exercise object
  */
 export function normalizeExercise(e) {
   const bodyPart = mapBodyPart(e.bodyPart)
@@ -41,8 +41,9 @@ export function normalizeExercise(e) {
 }
 
 /**
- *
- * @param e
+ * Normalizes equipment name and handles special cases.
+ * @param {object} e - Exercise object
+ * @returns {string} Normalized equipment name
  */
 function normalizeEquipment(e) {
   const specialCases = [
@@ -185,8 +186,9 @@ function getCategory(e) {
 }
 
 /**
- *
- * @param e
+ * Determines chest muscle focus based on exercise name.
+ * @param {object} e - Exercise object
+ * @returns {string} Chest muscle group
  */
 function getChestMuscle(e) {
   const name = e.name?.toLowerCase() || ''
@@ -202,9 +204,10 @@ function getChestMuscle(e) {
 }
 
 /**
- *
- * @param e
- * @param bodyPart
+ * Determines muscle group based on body part and exercise data.
+ * @param {object} e - Exercise object
+ * @param {string} bodyPart - Normalized body part
+ * @returns {string} Muscle group
  */
 function getMuscle(e, bodyPart) {
   if (bodyPart === 'Chest') {
