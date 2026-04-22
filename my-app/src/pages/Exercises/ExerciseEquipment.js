@@ -1,46 +1,18 @@
 // import { useEffect, useRef } from 'react'
 
 // /**
-//  * Displays selectable muscle groups based on selected body part.
+//  * Displays selectable equipment filters.
 //  * @param {{
 //  *  exercises: Array<object>,
-//  *  bodyPart: string,
 //  *  selected: string | null,
-//  *  onSelect: (value: string | null) => void,
-//  *  isSpecial: boolean
-//  * }} props - Component props
-//  * @returns {import('react').ReactElement} Muscle selector UI
+//  *  onSelect: (value: string | null) => void
+//  * }} props
+//  * @returns {import('react').ReactElement}
 //  */
-// export default function ExerciseMuscle({
-//   exercises,
-//   bodyPart,
-//   selected,
-//   onSelect,
-//   isSpecial,
-// }) {
+// export default function ExerciseEquipment({ exercises, selected, onSelect }) {
 //   const containerRef = useRef(null)
 
-//   let options = []
-
-//   if (isSpecial) {
-//     options = [
-//       ...new Set(
-//         exercises
-//           .filter((e) => e.category === bodyPart)
-//           .map((e) => e.bodyPart)
-//           .filter(Boolean),
-//       ),
-//     ]
-//   } else {
-//     options = [
-//       ...new Set(
-//         exercises
-//           .filter((e) => e.bodyPart === bodyPart)
-//           .map((e) => e.muscle)
-//           .filter(Boolean),
-//       ),
-//     ]
-//   }
+//   let options = [...new Set(exercises.map((e) => e.equipment).filter(Boolean))]
 
 //   options = options.sort((a, b) => a.localeCompare(b))
 

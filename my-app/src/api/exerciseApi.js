@@ -4,6 +4,7 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000'
  * @param {object} params - Query parameters
  * @param {string} [params.category] - Filter by category
  * @param {string} [params.muscle] - Filter by muscle
+ * @param {string} [params.equipment] - Filter by equipment
  * @param {string} [params.search] - Search by name
  * @param {number} [params.page] - Page number
  * @param {number} [params.limit] - Items per page
