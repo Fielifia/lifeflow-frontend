@@ -1,38 +1,46 @@
+import { NavLink } from 'react-router-dom'
+
 /**
- * Navbar component for navigating between different views.
- * @param {{ current: string, setView: (view: string) => void }} props - Current view and setter function
- * @returns {import('react').ReactElement} The rendered navigation bar
+ * Navigation bar for switching between views.
+ * @returns {import('react').ReactElement} Navigation UI
  */
-export default function Navbar({ current, setView }) {
+export default function Navbar() {
   return (
     <div className="navbar">
-      <div
-        className={`nav-item ${current === 'dashboard' ? 'active' : ''}`}
-        onClick={() => setView('dashboard')}
+      <NavLink
+        to="/"
+        className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
       >
         Home
-      </div>
+      </NavLink>
 
-      <div
-        className={`nav-item ${current === 'workout' ? 'active' : ''}`}
-        onClick={() => setView('workout')}
+      <NavLink
+        to="/workout"
+        className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
       >
         Workout
-      </div>
+      </NavLink>
 
-      <div
-        className={`nav-item ${current === 'history' ? 'active' : ''}`}
-        onClick={() => setView('history')}
+      <NavLink
+        to="/history"
+        className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
       >
         History
-      </div>
+      </NavLink>
 
-      <div
-        className={`nav-item ${current === 'stats' ? 'active' : ''}`}
-        onClick={() => setView('stats')}
+      <NavLink
+        to="/stats"
+        className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
       >
         Stats
-      </div>
+      </NavLink>
+
+      <NavLink
+        to="/exercises"
+        className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+      >
+        Exercises
+      </NavLink>
     </div>
   )
 }

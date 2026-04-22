@@ -1,9 +1,10 @@
 /**
- * Header component displaying app title and logout functionality.
- * @param {{ setUser: (value: boolean) => void }} props - Updates authentication state on logout
- * @returns {import('react').ReactElement} The rendered header component
+ * Header component displaying app title and logout action.
+ * @param {{ setUser: (value: boolean) => void }} props - Component props
+ * @returns {import('react').ReactElement} Header UI
  */
 export default function Header({ setUser }) {
+
   const handleLogout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
@@ -11,7 +12,7 @@ export default function Header({ setUser }) {
   }
 
   return (
-    <div className="header header-row">
+    <div className="header">
       <h2 className="logo">LifeFlow Fitness</h2>
 
       <button className="logout-btn" onClick={handleLogout}>

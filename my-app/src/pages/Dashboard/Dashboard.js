@@ -1,10 +1,10 @@
-import Header from './Header'
+import { Link } from 'react-router-dom'
+
 /**
- * Dashboard view shown after successful login.
- * @param {{ setUser: (value: boolean) => void }} props - Function to update authentication state
- * @returns {import('react').ReactElement} The rendered dashboard UI
+ * Dashboard view displaying user statistics and quick navigation.
+ * @returns {import('react').ReactElement} Dashboard UI
  */
-export default function Dashboard({ setUser }) {
+export default function Dashboard() {
   const user = JSON.parse(localStorage.getItem('user'))
   const maxValue = 120
 
@@ -20,35 +20,32 @@ export default function Dashboard({ setUser }) {
 
   return (
     <div className="app">
-      {/* Header */}
-      <Header setUser={setUser} />
-
       {/* Welcome section */}
       <div className="header-section">
         <p className="welcome">
           Welcome back{user?.username ? `, ${user.username}` : ''}
         </p>
-        <p className="quote">&apos;Progress is built one rep at a time&apos;</p>
+        <p className="quote">"Progress is built one rep at a time"</p>
       </div>
 
       {/* Stats cards */}
-      <div className="stats-grid">
-        <div className="stat-card">
+      <div className="grid-base stats-grid">
+        <div className="card-base stat-card">
           <p className="stat-value">18</p>
           <p className="stat-label">Workouts this month</p>
         </div>
 
-        <div className="stat-card">
+        <div className="card-base stat-card">
           <p className="stat-value">24</p>
           <p className="stat-label">Total hours this month</p>
         </div>
 
-        <div className="stat-card">
+        <div className="card-base stat-card">
           <p className="stat-value">342</p>
           <p className="stat-label">Sets / 4,256 reps</p>
         </div>
 
-        <div className="stat-card">
+        <div className="card-base stat-card">
           <p className="stat-value">12.4k</p>
           <p className="stat-label">Total volume (kg)</p>
         </div>
@@ -87,6 +84,21 @@ export default function Dashboard({ setUser }) {
         <p className="muted small center">Minutes active</p>
       </div>
 
+      {/* Quick actions */}
+      <div className="section">
+        <h3>Quick Access</h3>
+
+        <div className="grid-base stats-grid">
+          <Link to="/exercises" className="card-base stat-card">
+            <p className="quick-label">Exercises</p>
+          </Link>
+
+          <Link to="/calendar" className="card-base stat-card">
+            <p className="quick-label">Calendar</p>
+          </Link>
+        </div>
+      </div>
+
       {/* Monthly goal */}
       <div className="section">
         <h3>Monthly Goal</h3>
@@ -100,7 +112,7 @@ export default function Dashboard({ setUser }) {
       <div className="section">
         <h3>Recent Achievements</h3>
 
-        <div className="achievements-grid">
+        <div className="grid-base achievements-grid">
           {['First Workout', '7 Day Streak', '100kg Club', 'Early Bird'].map(
             (title) => (
               <div key={title} className="achievement-card">
@@ -112,6 +124,7 @@ export default function Dashboard({ setUser }) {
           )}
         </div>
       </div>
+      <Link to="/exercises">Exercises</Link>
     </div>
   )
 }

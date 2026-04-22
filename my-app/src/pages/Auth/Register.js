@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import API from '../api/api'
+import API from '../../api/api'
 
 /**
- * Register component allows users to create a new account.
- * @returns {import('react').ReactElement} The rendered registration form
+ * Register component for creating a new user account.
+ * @returns {import('react').ReactElement} Registration form UI
  */
 export default function Register() {
   const [email, setEmail] = useState('')
@@ -44,6 +44,7 @@ export default function Register() {
 
       setMessage('Account created successfully 🎉')
 
+      // Optional: reset fields
       setEmail('')
       setUsername('')
       setPassword('')

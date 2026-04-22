@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import API from '../api/api'
+import API from '../../api/api'
+
 /**
- * Login component allows users to authenticate and access the dashboard. Handles user input, sends login request to backend,
- * stores authentication data (JWT + user), and updates app state.
- * @param {{ setUser: (value: boolean) => void }} props - Updates authenticated user state
- * @returns {import('react').ReactElement} The rendered login form
+ * Login component for user authentication.
+ * @param {{ setUser: (value: object) => void }} props - Component props
+ * @returns {import('react').ReactElement} Login form UI
  */
 export default function Login({ setUser }) {
   const [email, setEmail] = useState('')
@@ -12,6 +12,12 @@ export default function Login({ setUser }) {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
+  /**
+   * Sends login request and handles authentication flow.
+   * @async
+   * @function handleLogin
+   * @returns {Promise<void>}
+   */
   const handleLogin = async () => {
     // Basic validation
     if (!email || !password) {
@@ -25,8 +31,13 @@ export default function Login({ setUser }) {
       const res = await API.post('/auth/login', { email, password })
 
       // Store auth data
-      localStorage.setItem('token', res.data.token)
-      localStorage.setItem('user', JSON.stringify(res.data.user))
+      localStorage.setItem(
+        'user',
+        JSON.stringify({
+          ...res.data.user,
+          token: res.data.token,
+        }),
+      )
 
       // Update app state
       setUser(res.data.user)
