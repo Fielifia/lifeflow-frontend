@@ -10,7 +10,7 @@ const SPECIAL = CATEGORIES.SPECIAL
 
 /**
  * Exercise library view with filtering, search, and pagination.
- * @returns {import('react').ReactElement} - 
+ * @returns {import('react').ReactElement} -
  */
 export default function Exercises() {
   const navigate = useNavigate()
@@ -52,7 +52,7 @@ export default function Exercises() {
   }, [])
 
   // ===== OPTIONS =====
-  
+
   const bodyParts = BASE_CATEGORIES
 
   const muscles = [

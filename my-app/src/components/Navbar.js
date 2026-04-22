@@ -1,4 +1,5 @@
 import { NavLink } from 'react-router-dom'
+import { House, Dumbbell, History, ChartNoAxesCombined } from 'lucide-react'
 
 /**
  * Navigation bar for switching between views.
@@ -11,6 +12,7 @@ export default function Navbar() {
         to="/"
         className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
       >
+        <House className="nav-icon" />
         Home
       </NavLink>
 
@@ -18,6 +20,7 @@ export default function Navbar() {
         to="/workout"
         className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
       >
+        <Dumbbell className="nav-icon" />
         Workout
       </NavLink>
 
@@ -25,6 +28,7 @@ export default function Navbar() {
         to="/history"
         className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
       >
+        <History className="nav-icon" />
         History
       </NavLink>
 
@@ -32,9 +36,9 @@ export default function Navbar() {
         to="/stats"
         className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
       >
+        <ChartNoAxesCombined className="nav-icon" />
         Stats
       </NavLink>
-
     </div>
   )
 }

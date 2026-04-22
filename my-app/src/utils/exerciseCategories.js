@@ -13,4 +13,11 @@ export const CATEGORY_ORDER = [
   'Mobility',
 ]
 
-export const equipmentList = ['Bands', 'Body weight', 'Barbell', 'Dumbbell', 'Machine', 'Other']
+export const equipmentList = [
+  'Bands',
+  'Body weight',
+  'Barbell',
+  'Dumbbell',
+  'Machine',
+  'Other',
+]

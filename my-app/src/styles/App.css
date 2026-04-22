@@ -150,6 +150,9 @@ h3 {
 
   border-top: 1px solid var(--border);
 
+  max-width: 480px;
+  margin: 0 auto;
+
   position: fixed;
   bottom: 0;
   left: 0;
@@ -184,20 +187,6 @@ h3 {
 .nav-item.active {
   color: var(--primary);
   font-weight: 600;
-}
-
-.nav-item.active::before {
-  content: '';
-  position: absolute;
-
-  top: -6px;
-  left: 50%;
-  transform: translateX(-50%);
-
-  width: 20px;
-  height: 3px;
-  border-radius: 999px;
-  background: var(--primary);
 }
 
 .nav-icon {
