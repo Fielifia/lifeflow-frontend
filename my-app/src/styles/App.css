@@ -13,7 +13,7 @@
   --card: #17242a;
   --card-2: #232f35;
   --text: #fff;
-  --muted: #747c7f;
+  --muted: #b0b8bb;
   --border: rgba(255, 255, 255, 0.05);
 }
 
@@ -48,7 +48,12 @@ h3 {
 .app {
   max-width: 480px;
   margin: 0 auto;
-  padding: 12px;
+  padding: 12px 12px 36px;
+}
+
+.section {
+  margin-bottom: 20px;
+  gap: 12px;
 }
 
 .container {
@@ -84,11 +89,6 @@ h3 {
 
 .card {
   margin-bottom: 16px;
-}
-
-.section {
-  margin-bottom: 20px;
-  gap: 12px;
 }
 
 .primary-btn {
@@ -144,7 +144,7 @@ h3 {
   justify-content: space-around;
   align-items: center;
 
-  padding: 14px 12px;
+  padding: 8px 4px;
   background: rgba(23, 36, 42, 0.95);
   backdrop-filter: blur(10px);
 
@@ -190,7 +190,7 @@ h3 {
 }
 
 .nav-icon {
-  font-size: 18px;
+  width: 20px;
   line-height: 1;
 }
 
