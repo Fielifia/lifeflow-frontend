@@ -35,7 +35,8 @@ h3 {
   font-size: 12px;
 }
 
-.error, .message {
+.error,
+.message {
   text-align: center;
 }
 
@@ -80,7 +81,6 @@ h3 {
 .muted {
   color: var(--muted);
 }
-
 
 /* --- HEADER --- */
 .header {
@@ -141,7 +141,6 @@ h3 {
   font-size: 16px;
   margin-top: 6px;
 }
-
 
 /* --- WORKOUT CARD --- */
 .exercise {

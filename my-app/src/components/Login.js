@@ -1,20 +1,10 @@
-/**
- * Login component for user authentication.
- *
- * Handles user input, sends login request to backend,
- * stores authentication data (JWT + user), and updates app state.
- *
- * @module components/Login
- */
-
 import { useState } from 'react'
 import API from '../api/api'
-
 /**
- * Login component allows users to authenticate and access the dashboard.
- *
- * @param {{ setUser: (value: boolean) => void }} props
- * @returns {JSX.Element}
+ * Login component allows users to authenticate and access the dashboard. Handles user input, sends login request to backend,
+ * stores authentication data (JWT + user), and updates app state.
+ * @param {{ setUser: (value: boolean) => void }} props - Updates authenticated user state
+ * @returns {import('react').ReactElement} The rendered login form
  */
 export default function Login({ setUser }) {
   const [email, setEmail] = useState('')
@@ -22,13 +12,6 @@ export default function Login({ setUser }) {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
-  /**
-   * Sends login request and handles authentication flow.
-   *
-   * @async
-   * @function handleLogin
-   * @returns {Promise<void>}
-   */
   const handleLogin = async () => {
     // Basic validation
     if (!email || !password) {
@@ -56,7 +39,7 @@ export default function Login({ setUser }) {
   }
 
   return (
-    <div className='container'>
+    <div className="container">
       <h2>Login</h2>
       <form
         onSubmit={(e) => {
@@ -65,8 +48,8 @@ export default function Login({ setUser }) {
         }}
       >
         <input
-          className='input'
-          placeholder='Email'
+          className="input"
+          placeholder="Email"
           value={email}
           onChange={(e) => {
             setEmail(e.target.value)
@@ -78,9 +61,9 @@ export default function Login({ setUser }) {
         />
 
         <input
-          className='input'
-          type='password'
-          placeholder='Password'
+          className="input"
+          type="password"
+          placeholder="Password"
           value={password}
           onChange={(e) => {
             setPassword(e.target.value)
@@ -91,12 +74,12 @@ export default function Login({ setUser }) {
           }}
         />
 
-        <button type='submit' className='primary-btn' disabled={loading}>
+        <button type="submit" className="primary-btn" disabled={loading}>
           {loading ? 'Logging in...' : 'Login'}
         </button>
       </form>
 
-      {error && <p className='error'>{error}</p>}
+      {error && <p className="error">{error}</p>}
     </div>
   )
 }

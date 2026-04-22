@@ -1,15 +1,11 @@
 /**
- * Navbar component that displays navigation links for the application.
- *
- * @param {Object} param0 - The props for the Navbar component.
- * @param {string} param0.current - The currently selected view.
- * @param {Function} param0.setView - The function to set the current view.
- * @returns {JSX.Element} The Navbar component.
+ * Navbar component for navigating between different views.
+ * @param {{ current: string, setView: (view: string) => void }} props - Current view and setter function
+ * @returns {import('react').ReactElement} The rendered navigation bar
  */
-
 export default function Navbar({ current, setView }) {
   return (
-    <div className='navbar'>
+    <div className="navbar">
       <div
         className={`nav-item ${current === 'dashboard' ? 'active' : ''}`}
         onClick={() => setView('dashboard')}

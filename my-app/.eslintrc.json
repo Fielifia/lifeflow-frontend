@@ -1,0 +1,35 @@
+{
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2021": true,
+    "jest": true
+  },
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:jsdoc/recommended",
+    "prettier"
+  ],
+  "plugins": ["react", "jsdoc"],
+  "rules": {
+    "no-unused-vars": "warn",
+    "no-console": "warn",
+    "jsdoc/require-jsdoc": "warn",
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off",
+    "indent": ["error", 2]
+  }
+}
