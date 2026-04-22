@@ -1,5 +1,14 @@
 import { useEffect, useRef } from 'react'
 
+/**
+ *
+ * @param root0
+ * @param root0.exercises
+ * @param root0.bodyPart
+ * @param root0.selected
+ * @param root0.onSelect
+ * @param root0.isSpecial
+ */
 export default function ExerciseMuscle({
   exercises,
   bodyPart,
@@ -50,7 +59,7 @@ export default function ExerciseMuscle({
   }, [selected])
 
   return (
-    <div className='chips' ref={containerRef}>
+    <div className="chips" ref={containerRef}>
       {options.map((opt) => (
         <button
           key={opt}

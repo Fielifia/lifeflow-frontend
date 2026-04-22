@@ -1,6 +1,5 @@
 /**
  * Entry point of the React application. This file renders the main App component into the DOM and sets up performance reporting.
- *
  * @module index
  */
 import React from 'react'

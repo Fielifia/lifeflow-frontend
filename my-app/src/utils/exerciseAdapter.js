@@ -3,8 +3,7 @@ import { formatName } from './format'
 /**
  * Normalizes raw exercise data from the API into a consistent structure
  * used throughout the application.
- *
- * @param {Object} e - Raw exercise object from API
+ * @param {object} e - Raw exercise object from API
  * @param {string} e.id
  * @param {string} e.name
  * @param {string} e.bodyPart
@@ -14,8 +13,7 @@ import { formatName } from './format'
  * @param {string} [e.image]
  * @param {string} [e.gifUrl]
  * @param {string[]} [e.instructions]
- *
- * @returns {Object} Normalized exercise
+ * @returns {object} Normalized exercise
  * @returns {string} returns.id
  * @returns {string} returns.name
  * @returns {string} returns.bodyPart
@@ -42,11 +40,15 @@ export function normalizeExercise(e) {
   }
 }
 
+/**
+ *
+ * @param e
+ */
 function normalizeEquipment(e) {
-    const specialCases = [
-      { match: 'chair', value: 'Other' },
-      { match: 'bench', value: 'Other' },
-    ]
+  const specialCases = [
+    { match: 'chair', value: 'Other' },
+    { match: 'bench', value: 'Other' },
+  ]
   const eq = e.equipment?.toLowerCase() || ''
   const name = e.name?.toLowerCase() || ''
 
@@ -62,8 +64,7 @@ function normalizeEquipment(e) {
 
 /**
  * Returns a valid image URL for an exercise, falling back to a placeholder if needed.
- *
- * @param {Object} e - Exercise object
+ * @param {object} e - Exercise object
  * @param {string[]} [e.images] - Array of image URLs
  * @param {string} [e.image] - Single image URL
  * @param {string} [e.gifUrl] - GIF URL
@@ -75,7 +76,6 @@ function getImage(e) {
 
 /**
  * Maps raw API bodyPart values into normalized high-level groups.
- *
  * @param {string} bp - Raw bodyPart string from API
  * @returns {string} Normalized body part category
  */
@@ -124,8 +124,7 @@ function mapBodyPart(bp) {
 
 /**
  * Derives a logical category based on exercise name and equipment.
- *
- * @param {Object} e - Exercise object
+ * @param {object} e - Exercise object
  * @param {string} e.name - Exercise name
  * @param {string} e.equipment - Equipment used for the exercise
  * @returns {string} 'Strength', 'Mobility', or 'Bodyweight'
@@ -185,11 +184,16 @@ function getCategory(e) {
   return 'Strength'
 }
 
+/**
+ *
+ * @param e
+ */
 function getChestMuscle(e) {
   const name = e.name?.toLowerCase() || ''
 
   if (name.includes('incline') || name.includes('low')) return 'Upper Chest'
-  if (name.includes('decline') || name.includes('pullover')) return 'Lower Chest'
+  if (name.includes('decline') || name.includes('pullover'))
+    return 'Lower Chest'
 
   if (name.includes('upper chest')) return 'Upper Chest'
   if (name.includes('lower chest')) return 'Lower Chest'
@@ -197,6 +201,11 @@ function getChestMuscle(e) {
   return 'Mid Chest'
 }
 
+/**
+ *
+ * @param e
+ * @param bodyPart
+ */
 function getMuscle(e, bodyPart) {
   if (bodyPart === 'Chest') {
     return getChestMuscle(e)

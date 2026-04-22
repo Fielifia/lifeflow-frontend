@@ -3,7 +3,6 @@
  *
  * Handles user input, validates form data (including password confirmation),
  * sends registration request to backend, and displays feedback to the user.
- *
  * @module components/Register
  */
 
@@ -12,7 +11,6 @@ import API from '../../api/api'
 
 /**
  * Register component allows users to create a new account.
- *
  * @returns {JSX.Element}
  */
 export default function Register() {
@@ -29,7 +27,6 @@ export default function Register() {
    *
    * Validates input, sends POST request to backend,
    * and displays success or error messages.
-   *
    * @async
    * @function handleRegister
    * @returns {Promise<void>}
@@ -69,7 +66,7 @@ export default function Register() {
   }
 
   return (
-    <div className='container'>
+    <div className="container">
       <h2>Create account</h2>
 
       <form
@@ -79,8 +76,8 @@ export default function Register() {
         }}
       >
         <input
-          className='input'
-          placeholder='Email'
+          className="input"
+          placeholder="Email"
           value={email}
           onChange={(e) => {
             setEmail(e.target.value)
@@ -89,8 +86,8 @@ export default function Register() {
         />
 
         <input
-          className='input'
-          placeholder='Username'
+          className="input"
+          placeholder="Username"
           value={username}
           onChange={(e) => {
             setUsername(e.target.value)
@@ -99,9 +96,9 @@ export default function Register() {
         />
 
         <input
-          className='input'
-          type='password'
-          placeholder='Password'
+          className="input"
+          type="password"
+          placeholder="Password"
           value={password}
           onChange={(e) => {
             setPassword(e.target.value)
@@ -110,9 +107,9 @@ export default function Register() {
         />
 
         <input
-          className='input'
-          type='password'
-          placeholder='Confirm Password'
+          className="input"
+          type="password"
+          placeholder="Confirm Password"
           value={confirmPassword}
           onChange={(e) => {
             setConfirmPassword(e.target.value)
@@ -120,13 +117,13 @@ export default function Register() {
           }}
         />
 
-        <button type='submit' className='primary-btn' disabled={loading}>
+        <button type="submit" className="primary-btn" disabled={loading}>
           {loading ? 'Creating account...' : 'Create account'}
         </button>
       </form>
 
-      {error && <p className='error'>{error}</p>}
-      {message && <p className='message'>{message}</p>}
+      {error && <p className="error">{error}</p>}
+      {message && <p className="message">{message}</p>}
     </div>
   )
 }

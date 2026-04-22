@@ -1,11 +1,16 @@
 import { useNavigate } from 'react-router-dom'
 import ExerciseCard from './ExerciseCard'
 
+/**
+ *
+ * @param root0
+ * @param root0.exercises
+ */
 export default function ExerciseList({ exercises }) {
   const navigate = useNavigate()
 
   return (
-    <div className='exercise-list'>
+    <div className="exercise-list">
       {exercises.map((e) => (
         <ExerciseCard
           key={e.id}

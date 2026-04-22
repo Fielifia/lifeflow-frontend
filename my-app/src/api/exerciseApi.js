@@ -3,7 +3,6 @@
  *
  * Handles fetching exercises with filters, pagination,
  * and authentication.
- *
  * @module api/exerciseApi
  */
 
@@ -11,14 +10,12 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000'
 
 /**
  * Fetch exercises with optional filters and pagination.
- *
- * @param {Object} params - Query parameters
+ * @param {object} params - Query parameters
  * @param {string} [params.category] - Filter by category
  * @param {string} [params.muscle] - Filter by muscle
  * @param {string} [params.search] - Search by name
- * @param {number} [params.page=1] - Page number
- * @param {number} [params.limit=20] - Items per page
- *
+ * @param {number} [params.page] - Page number
+ * @param {number} [params.limit] - Items per page
  * @returns {Promise<{
  *   results: Array,
  *   total: number,

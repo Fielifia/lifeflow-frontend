@@ -1,3 +1,7 @@
+/**
+ *
+ * @param str
+ */
 export function formatName(str) {
   return str
     .split(' ')
@@ -5,6 +9,10 @@ export function formatName(str) {
     .join(' ')
 }
 
+/**
+ *
+ * @param str
+ */
 export function formatLabel(str) {
   if (!str) return ''
 

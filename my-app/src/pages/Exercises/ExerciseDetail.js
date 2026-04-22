@@ -4,6 +4,9 @@ import { getExerciseById } from '../../api/exerciseApi'
 import { normalizeExercise } from '../../utils/exerciseAdapter'
 import { formatLabel } from '../../utils/format'
 
+/**
+ *
+ */
 export default function ExerciseDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -32,22 +35,22 @@ export default function ExerciseDetail() {
     return () => clearInterval(interval)
   }, [exercise])
 
-  if (!exercise) return <p className='center'>Loading...</p>
+  if (!exercise) return <p className="center">Loading...</p>
 
   const imageSrc = exercise.images?.[currentImage] || '/placeholder.png'
 
   return (
-    <div className='app'>
+    <div className="app">
       {/* Header */}
-      <button onClick={() => navigate(-1)} className='back-btn'>
+      <button onClick={() => navigate(-1)} className="back-btn">
         ← Back
       </button>
 
       {/* Title */}
-      <div className='section'>
+      <div className="section">
         <h2>{exercise.name}</h2>
 
-        <p className='muted'>
+        <p className="muted">
           {formatLabel(exercise.bodyPart)}
           {exercise.muscle && exercise.muscle !== exercise.bodyPart && (
             <> • {formatLabel(exercise.muscle)}</>
@@ -58,19 +61,19 @@ export default function ExerciseDetail() {
       </div>
 
       {/* Image */}
-      <div className='container'>
+      <div className="container">
         <img
           src={imageSrc}
           alt={exercise.name}
           onError={(e) => {
             e.target.src = '/placeholder.png'
           }}
-          className='detail-img'
+          className="detail-img"
         />
 
         {/* dots indicator */}
         {exercise.images?.length > 1 && (
-          <div className='dots'>
+          <div className="dots">
             {exercise.images.map((_, i) => (
               <span
                 key={i}
@@ -82,26 +85,26 @@ export default function ExerciseDetail() {
       </div>
 
       {/* Info cards */}
-      <div className='section exercise-overview'>
-        <div className='card-base'>
-          <p className='stat-label'>Muscle</p>
+      <div className="section exercise-overview">
+        <div className="card-base">
+          <p className="stat-label">Muscle</p>
           <p>{exercise.muscle}</p>
         </div>
 
-        <div className='card-base'>
-          <p className='stat-label'>Equipment</p>
+        <div className="card-base">
+          <p className="stat-label">Equipment</p>
           <p>{exercise.equipment}</p>
         </div>
       </div>
 
       {/* Instructions */}
-      <div className='section'>
+      <div className="section">
         <h3>Instructions</h3>
 
-        <div className='container'>
+        <div className="container">
           {exercise.instructions?.map((step, i) => (
-            <div key={i} className='instruction-step'>
-              <span className='step-number'>{i + 1}</span>
+            <div key={i} className="instruction-step">
+              <span className="step-number">{i + 1}</span>
               <p>{step}</p>
             </div>
           ))}

@@ -21,18 +21,18 @@ function App() {
 
   if (!user) {
     return (
-      <div className='app'>
+      <div className="app">
         {showRegister ? (
           <>
             <Register />
-            <p className='message' onClick={() => setShowRegister(false)}>
+            <p className="message" onClick={() => setShowRegister(false)}>
               Already have an account? Login
             </p>
           </>
         ) : (
           <>
             <Login setUser={setUser} />
-            <p className='message' onClick={() => setShowRegister(true)}>
+            <p className="message" onClick={() => setShowRegister(true)}>
               Create account
             </p>
           </>
@@ -43,38 +43,38 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div className='app'>
+      <div className="app">
         {/* Header */}
         <Header setUser={setUser} />
         <Routes>
-          <Route path='/' element={<Dashboard setUser={setUser} />} />
-          <Route path='/exercises' element={<Exercises />} />
-          <Route path='/exercises/:category' element={<ExerciseBodyPart />} />
+          <Route path="/" element={<Dashboard setUser={setUser} />} />
+          <Route path="/exercises" element={<Exercises />} />
+          <Route path="/exercises/:category" element={<ExerciseBodyPart />} />
           <Route
-            path='/exercises/:category/:muscle'
+            path="/exercises/:category/:muscle"
             element={<ExerciseMuscle />}
           />
-          <Route path='/exercise/:id' element={<ExerciseDetail />} />
+          <Route path="/exercise/:id" element={<ExerciseDetail />} />
 
           <Route
-            path='/workout'
-            element={<div className='card'>Workout (coming soon)</div>}
+            path="/workout"
+            element={<div className="card">Workout (coming soon)</div>}
           />
           <Route
-            path='/history'
-            element={<div className='card'>History (coming soon)</div>}
+            path="/history"
+            element={<div className="card">History (coming soon)</div>}
           />
           <Route
-            path='/stats'
-            element={<div className='card'>Stats (coming soon)</div>}
+            path="/stats"
+            element={<div className="card">Stats (coming soon)</div>}
           />
           <Route
-            path='/calendar'
-            element={<div className='card'>Calendar (coming soon)</div>}
+            path="/calendar"
+            element={<div className="card">Calendar (coming soon)</div>}
           />
 
           {/* fallback */}
-          <Route path='*' element={<Navigate to='/' />} />
+          <Route path="*" element={<Navigate to="/" />} />
         </Routes>
 
         <Navbar />

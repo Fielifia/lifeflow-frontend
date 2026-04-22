@@ -3,7 +3,6 @@
  *
  * Handles user input, sends login request to backend,
  * stores authentication data (JWT + user), and updates app state.
- *
  * @module components/Login
  */
 
@@ -12,7 +11,6 @@ import API from '../../api/api'
 
 /**
  * Login component allows users to authenticate and access the dashboard.
- *
  * @param {{ setUser: (value: boolean) => void }} props
  * @returns {JSX.Element}
  */
@@ -24,7 +22,6 @@ export default function Login({ setUser }) {
 
   /**
    * Sends login request and handles authentication flow.
-   *
    * @async
    * @function handleLogin
    * @returns {Promise<void>}
@@ -61,7 +58,7 @@ export default function Login({ setUser }) {
   }
 
   return (
-    <div className='container'>
+    <div className="container">
       <h2>Login</h2>
       <form
         onSubmit={(e) => {
@@ -70,8 +67,8 @@ export default function Login({ setUser }) {
         }}
       >
         <input
-          className='input'
-          placeholder='Email'
+          className="input"
+          placeholder="Email"
           value={email}
           onChange={(e) => {
             setEmail(e.target.value)
@@ -83,9 +80,9 @@ export default function Login({ setUser }) {
         />
 
         <input
-          className='input'
-          type='password'
-          placeholder='Password'
+          className="input"
+          type="password"
+          placeholder="Password"
           value={password}
           onChange={(e) => {
             setPassword(e.target.value)
@@ -96,12 +93,12 @@ export default function Login({ setUser }) {
           }}
         />
 
-        <button type='submit' className='primary-btn' disabled={loading}>
+        <button type="submit" className="primary-btn" disabled={loading}>
           {loading ? 'Logging in...' : 'Login'}
         </button>
       </form>
 
-      {error && <p className='error'>{error}</p>}
+      {error && <p className="error">{error}</p>}
     </div>
   )
 }

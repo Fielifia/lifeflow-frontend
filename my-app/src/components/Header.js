@@ -1,6 +1,5 @@
 /**
  * Header component displaying app title and logout action.
- *
  * @module components/Header
  */
 
@@ -20,10 +19,10 @@ export default function Header({ setUser }) {
   }
 
   return (
-    <div className='header'>
-      <h2 className='logo'>LifeFlow Fitness</h2>
+    <div className="header">
+      <h2 className="logo">LifeFlow Fitness</h2>
 
-      <button className='logout-btn' onClick={handleLogout}>
+      <button className="logout-btn" onClick={handleLogout}>
         Logout
       </button>
     </div>

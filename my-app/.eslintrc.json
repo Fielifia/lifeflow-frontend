@@ -1,0 +1,16 @@
+{
+  "extends": [
+    "react-app",
+    "react-app/jest",
+    "plugin:jsdoc/recommended",
+    "prettier"
+  ],
+  "plugins": ["jsdoc"],
+  "rules": {
+    "no-unused-vars": "warn",
+    "no-console": "warn",
+    "jsdoc/require-jsdoc": "warn",
+    "react/react-in-jsx-scope": "off",
+    "react/prop-types": "off"
+  }
+}

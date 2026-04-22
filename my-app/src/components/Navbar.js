@@ -9,37 +9,37 @@ import { NavLink } from 'react-router-dom'
  */
 export default function Navbar() {
   return (
-    <div className='navbar'>
+    <div className="navbar">
       <NavLink
-        to='/'
+        to="/"
         className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
       >
         Home
       </NavLink>
 
       <NavLink
-        to='/workout'
+        to="/workout"
         className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
       >
         Workout
       </NavLink>
 
       <NavLink
-        to='/history'
+        to="/history"
         className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
       >
         History
       </NavLink>
 
       <NavLink
-        to='/stats'
+        to="/stats"
         className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
       >
         Stats
       </NavLink>
 
       <NavLink
-        to='/exercises'
+        to="/exercises"
         className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
       >
         Exercises

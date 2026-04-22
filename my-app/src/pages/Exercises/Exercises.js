@@ -10,6 +10,9 @@ import { CATEGORIES, CATEGORY_ORDER } from '../../utils/exerciseCategories'
 const BASE_CATEGORIES = CATEGORY_ORDER
 const SPECIAL = CATEGORIES.SPECIAL
 
+/**
+ *
+ */
 export default function Exercises() {
   const navigate = useNavigate()
 
@@ -72,17 +75,17 @@ export default function Exercises() {
   const visibleExercises = filtered.slice(0, visibleCount)
 
   return (
-    <div className='app'>
-      <button onClick={() => navigate(-1)} className='back-btn'>
+    <div className="app">
+      <button onClick={() => navigate(-1)} className="back-btn">
         ← Back
       </button>
 
-      <div className='section'>
+      <div className="section">
         <h2>Exercise Library</h2>
 
         <input
-          className='search'
-          placeholder='Search exercises...'
+          className="search"
+          placeholder="Search exercises..."
           value={search}
           onChange={(e) => {
             setSearch(e.target.value)
@@ -119,7 +122,7 @@ export default function Exercises() {
 
         {visibleCount < filtered.length && (
           <button
-            className='primary'
+            className="primary"
             onClick={() => setVisibleCount((prev) => prev + 20)}
           >
             Show more ({filtered.length - visibleCount} left)
