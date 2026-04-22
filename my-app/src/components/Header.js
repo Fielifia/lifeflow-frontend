@@ -4,7 +4,6 @@
  * @returns {import('react').ReactElement} Header UI
  */
 export default function Header({ setUser }) {
-
   const handleLogout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')

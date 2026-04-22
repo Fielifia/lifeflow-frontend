@@ -15,7 +15,6 @@ const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000'
  * }>} API response with paginated exercises
  */
 export const getExercises = async (params = {}) => {
-
   const query = new URLSearchParams(params).toString()
 
   const storedUser = JSON.parse(localStorage.getItem('user'))
