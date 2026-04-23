@@ -58,7 +58,7 @@ export default function Exercises() {
   }, [])
 
   // ===== TOGGLE SELECT =====
-  
+
   const toggleSelect = (exercise) => {
     setSelectedExercises((prev) => {
       const exists = prev.find((e) => e.id === exercise.id)

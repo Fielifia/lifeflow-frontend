@@ -14,7 +14,8 @@
  */
 export default function ExerciseCard({ exercise, onClick, selected }) {
   return (
-    <div className={`card-base exercise-card ${selected ? 'is-selected' : ''}`}
+    <div
+      className={`card-base exercise-card ${selected ? 'is-selected' : ''}`}
       onClick={onClick}
     >
       {selected && <span className="selected-badge">✓</span>}
