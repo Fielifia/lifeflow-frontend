@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
+import { Pencil } from 'lucide-react'
 
 /**
  * Workout page for creating and saving a workout session.
@@ -21,10 +22,12 @@ export default function Workout() {
   const [error, setError] = useState('')
 
   const [workout, setWorkout] = useState({
-    name: '',
     exercises: [],
     notes: '',
   })
+
+  const [customName, setCustomName] = useState('')
+  const [isEditingName, setIsEditingName] = useState(false)
 
   useEffect(() => {
     const selected = location.state?.selectedExercises
@@ -34,17 +37,24 @@ export default function Workout() {
     if (!selected) return
 
     const newExercises = selected.map((ex) => {
-      const previous = lastWorkout?.exercises?.find((e) => e.name === ex.name)
+      const previous = lastWorkout?.exercises?.find(
+        (e) => e.exerciseId === ex.id,
+      )
 
       return {
         exerciseId: ex.id,
         name: ex.name,
+        image: ex.image,
         sets: previous
           ? previous.sets.map((s) => ({
             reps: s.reps,
             weight: s.weight,
+            completed: false,
           }))
-          : [{ reps: '', weight: '' }],
+          : [
+            { reps: 8, weight: 0 },
+            { reps: 8, weight: 0 },
+          ],
       }
     })
 
@@ -64,15 +74,18 @@ export default function Workout() {
     })
   }
 
-  const updateExerciseName = (index, value) => {
-    const updated = [...workout.exercises]
-    updated[index].name = value
-    setWorkout({ ...workout, exercises: updated })
-  }
-
   const addSet = (index) => {
     const updated = [...workout.exercises]
-    updated[index].sets.push({ reps: '', weight: '' })
+
+    const sets = updated[index].sets
+    const lastSet = sets[sets.length - 1]
+
+    const newSet = lastSet
+      ? { ...lastSet, completed: false }
+      : { reps: 8, weight: 0, completed: false }
+
+    sets.push(newSet)
+
     setWorkout({ ...workout, exercises: updated })
   }
 
@@ -115,7 +128,6 @@ export default function Workout() {
 
       const token = JSON.parse(localStorage.getItem('user'))?.token
 
-      // Save last workout for autofill
       localStorage.setItem('lastWorkout', JSON.stringify(workout))
 
       const res = await fetch('http://localhost:5000/workouts', {
@@ -124,7 +136,10 @@ export default function Workout() {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(workout),
+        body: JSON.stringify({
+          ...workout,
+          name: title,
+        }),
       })
 
       if (!res.ok) throw new Error('Failed to save')
@@ -143,65 +158,140 @@ export default function Workout() {
     }
   }
 
+  const getAutoTitle = () => {
+    if (workout.exercises.length === 0) return 'Workout'
+
+    const counts = {}
+
+    workout.exercises.forEach((ex) => {
+      const key = ex.name.toLowerCase()
+
+      if (key.includes('squat') || key.includes('leg')) {
+        counts.legs = (counts.legs || 0) + 1
+      } else if (key.includes('bench') || key.includes('chest')) {
+        counts.chest = (counts.chest || 0) + 1
+      } else if (key.includes('row') || key.includes('pull')) {
+        counts.back = (counts.back || 0) + 1
+      } else if (key.includes('shoulder')) {
+        counts.shoulders = (counts.shoulders || 0) + 1
+      } else {
+        counts.other = (counts.other || 0) + 1
+      }
+    })
+
+    const top = Object.entries(counts).sort((a, b) => b[1] - a[1])[0]?.[0]
+
+    switch (top) {
+    case 'legs':
+      return 'Leg day'
+    case 'chest':
+      return 'Chest day'
+    case 'back':
+      return 'Back day'
+    case 'shoulders':
+      return 'Shoulder day'
+    default:
+      return 'Workout'
+    }
+  }
+
+  const title = customName || getAutoTitle()
+
   return (
     <div className="card-base card-workout">
-      <h2>Workout</h2>
-
-      <input
-        className="input-base"
-        placeholder="Workout name..."
-        value={workout.name}
-        onChange={(e) => setWorkout({ ...workout, name: e.target.value })}
-      />
+      <div className="workout-header">
+        {isEditingName ? (
+          <input
+            className="input-base"
+            value={customName}
+            autoFocus
+            placeholder="Workout name..."
+            onChange={(e) => setCustomName(e.target.value)}
+            onBlur={() => setIsEditingName(false)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') setIsEditingName(false)
+            }}
+          />
+        ) : (
+          <h2 className="workout-title" onClick={() => setIsEditingName(true)}>
+            {title} <Pencil className="icon-small" />
+          </h2>
+        )}
+      </div>
 
       <button className="btn btn-secondary" onClick={openLibrary}>
         Add exercise
       </button>
 
       {workout.exercises.map((ex, i) => (
-        <div key={ex.exerciseId} className="exercise">
-          <button
-            className="btn btn-secondary"
-            onClick={() => removeExercise(i)}
-          >
-            Remove Exercise
-          </button>
+        <div key={ex.exerciseId} className="workout-exercise">
+          <div className="exercise-header">
+            <img src={ex.image} alt={ex.name} className="exercise-img-small" />
 
-          <input
-            className="input-base"
-            value={ex.name}
-            onChange={(e) => updateExerciseName(i, e.target.value)}
-            placeholder="Exercise name"
-          />
+            <div className="exercise-header-info">
+              <h3 className="exercise-title">{ex.name}</h3>
+            </div>
 
+            <button
+              className="btn btn-secondary btn-small"
+              onClick={() => removeExercise(i)}
+            >
+              Remove
+            </button>
+          </div>
+
+          {/* SET HEADER */}
+          <div className="set-header">
+            <span>Set</span>
+            <span>Weight (kg)</span>
+            <span>Reps</span>
+          </div>
+
+          {/* SET LIST */}
           {ex.sets.map((set, j) => (
             <div key={j} className="set-row">
+              <input type="checkbox" className="checkbox set-done" />
               <input
                 className="input-base"
                 type="number"
-                placeholder="Reps"
-                value={set.reps}
-                onChange={(e) => updateSet(i, j, 'reps', e.target.value)}
+                value={set.weight ?? ''}
+                onChange={(e) =>
+                  updateSet(
+                    i,
+                    j,
+                    'weight',
+                    e.target.value === '' ? '' : Number(e.target.value),
+                  )
+                }
               />
 
               <input
                 className="input-base"
                 type="number"
-                placeholder="Weight"
-                value={set.weight}
-                onChange={(e) => updateSet(i, j, 'weight', e.target.value)}
+                value={set.reps ?? ''}
+                onChange={(e) =>
+                  updateSet(
+                    i,
+                    j,
+                    'reps',
+                    e.target.value === '' ? '' : Number(e.target.value),
+                  )
+                }
               />
 
               <button
-                className="btn btn-secondary"
+                className="btn btn-secondary btn-small"
                 onClick={() => removeSet(i, j)}
               >
-                Remove Set
+                Remove
               </button>
             </div>
           ))}
 
-          <button className="btn btn-secondary" onClick={() => addSet(i)}>
+          <button
+            className="btn btn-secondary btn-small"
+            onClick={() => addSet(i)}
+          >
             Add set
           </button>
         </div>

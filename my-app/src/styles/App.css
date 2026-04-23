@@ -49,9 +49,26 @@ h3 {
   font-size: 12px;
 }
 
+.muted {
+  color: var(--muted);
+}
+
+.small {
+  font-size: 11px;
+}
+
+.center {
+  text-align: center;
+}
+
 .error,
 .message {
   text-align: center;
+}
+
+.icon-small {
+  height: 12px;
+  width: 12px;
 }
 
 /* ============================= */
@@ -110,6 +127,7 @@ h3 {
   border-radius: 10px;
   font-size: 13px;
   padding: 10px;
+  margin: 8px 0;
 }
 
 .btn-primary {
@@ -151,7 +169,7 @@ h3 {
 
 .input-base {
   width: 100%;
-  padding: 12px;
+  padding: 4px 12px;
   margin-bottom: 12px;
   border-radius: 12px;
   border: 1px solid var(--border);
@@ -281,18 +299,67 @@ h3 {
 /* ========== WORKOUT ========== */
 /* ============================= */
 
-.exercise {
+.workout-exercise {
   border: 1px solid var(--border);
   border-radius: 14px;
   padding: 12px;
   margin-bottom: 12px;
 }
 
+.exercise-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.exercise-img-small {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.exercise-header-info {
+  flex: 1;
+}
+
+.exercise-title {
+  margin: 0;
+  font-size: 16px;
+}
+
+.btn-small {
+  padding: 6px 8px;
+  font-size: 11px;
+}
+
+.set-header,
 .set-row {
   display: grid;
-  grid-template-columns: 1fr 1fr auto;
+  grid-template-columns: 24px 1fr 1fr 70px;
   gap: 8px;
-  margin-bottom: 8px;
+  align-items: center;
+}
+
+.set-header {
+  font-size: 12px;
+  color: var(--muted);
+  padding: 0 4px;
+}
+
+.set-row input {
+  margin-bottom: 0;
+}
+
+.set-row .checkbox {
+  margin: 0 auto;
+}
+
+.set-row button {
+  height: 32px;
+  padding: 4px 6px;
+  font-size: 11px;
 }
 
 /* ============================= */
@@ -306,6 +373,7 @@ h3 {
 }
 
 .exercise-card {
+  position: relative;
   display: flex;
   gap: 12px;
   align-items: center;
