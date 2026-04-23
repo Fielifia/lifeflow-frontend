@@ -1,4 +1,7 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 
 /**
  * Workout page for creating and saving a workout session.
@@ -11,26 +14,42 @@ import { useState } from 'react'
  * @returns {import('react').ReactElement} Workout UI
  */
 export default function Workout() {
+  const navigate = useNavigate()
+  const location = useLocation()
+
   const [workout, setWorkout] = useState({
     exercises: [],
     notes: '',
   })
 
-  const addExercise = () => {
-    setWorkout((prev) => ({
-      ...prev,
-      exercises: [
-        ...prev.exercises,
-        {
-          exerciseId: Date.now().toString(),
-          name: 'New Exercise',
-          sets: [{ reps: '', weight: '' }],
-          notes: '',
-        },
-      ],
-    }))
-  }
+  useEffect(() => {
+    const selected = location.state?.selectedExercises
+    const existing = location.state?.currentExercises || []
 
+    if (!selected) return
+
+    setWorkout({
+      exercises: [
+        ...existing,
+        ...selected.map((ex) => ({
+          exerciseId: ex.id,
+          name: ex.name,
+          sets: [{ reps: '', weight: '' }],
+        })),
+      ],
+      notes: '',
+    })
+
+    window.history.replaceState({}, '')
+  }, [location.state])
+
+  const openLibrary = () => {
+    navigate('/exercises?select=true', {
+      state: {
+        currentExercises: workout.exercises,
+      },
+    })
+  }
   const updateExerciseName = (index, value) => {
     const updated = [...workout.exercises]
     updated[index].name = value
@@ -67,15 +86,17 @@ export default function Workout() {
   }
 
   return (
-    <div className="card">
+    <div className="card-base card-workout">
       <h2>Workout</h2>
 
-      <button onClick={addExercise}>Add exercise</button>
+      <button className="btn btn-secondary" onClick={openLibrary}>
+        Add exercise
+      </button>
 
       {workout.exercises.map((ex, i) => (
         <div key={ex.exerciseId} className="exercise">
           <input
-            className="input"
+            className="input-base"
             value={ex.name}
             onChange={(e) => updateExerciseName(i, e.target.value)}
             placeholder="Exercise name"
@@ -84,7 +105,7 @@ export default function Workout() {
           {ex.sets.map((set, j) => (
             <div key={j} className="set-row">
               <input
-                className="input"
+                className="input-base"
                 type="number"
                 placeholder="Reps"
                 value={set.reps}
@@ -92,7 +113,7 @@ export default function Workout() {
               />
 
               <input
-                className="input"
+                className="input-base"
                 type="number"
                 placeholder="Weight"
                 value={set.weight}
@@ -101,18 +122,20 @@ export default function Workout() {
             </div>
           ))}
 
-          <button onClick={() => addSet(i)}>Add set</button>
+          <button className="btn btn-secondary" onClick={() => addSet(i)}>
+            Add set
+          </button>
         </div>
       ))}
 
       <textarea
-        className="input"
+        className="input-base"
         placeholder="Workout notes..."
         value={workout.notes}
         onChange={(e) => updateWorkoutNotes(e.target.value)}
       />
 
-      <button className="primary" onClick={saveWorkout}>
+      <button className="btn btn-primary" onClick={saveWorkout}>
         Save workout
       </button>
     </div>

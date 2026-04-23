@@ -3,334 +3,417 @@
  *
  * This file defines CSS variables for consistent theming and styles for common components such as cards, buttons, and layout.
  *
- * @file index.css
  */
-:root {
-  --primary: #19686a;
-  --primary-light: #478688;
 
-  --bg: #101d23;
-  --card: #17242a;
-  --card-2: #232f35;
-  --text: #fff;
-  --muted: #b0b8bb;
-  --border: rgba(255, 255, 255, 0.05);
-}
+ /* ============================= */
+ /* ========== VARIABLES ========= */
+ /* ============================= */
 
-* {
-  box-sizing: border-box;
-}
+ :root {
+   --primary: #19686a;
+   --primary-light: #478688;
 
-body {
-  margin: 0;
-  font-family:
-    system-ui,
-    -apple-system,
-    sans-serif;
-  background: var(--bg);
-  color: var(--text);
-}
+   --bg: #101d23;
+   --card: #17242a;
+   --card-2: #1c2a33;
 
-h2 {
-  font-size: 18px;
-  margin: 16px 0;
-}
+   --text: #fff;
+   --muted: #b0b8bb;
+   --border: rgba(255, 255, 255, 0.05);
+ }
 
-h3 {
-  font-size: 12px;
-}
+ /* ============================= */
+ /* ========== RESET ============ */
+ /* ============================= */
 
-.error,
-.message {
-  text-align: center;
-}
+ * {
+   box-sizing: border-box;
+ }
 
-.app {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 12px 12px 36px;
-}
+ body {
+   margin: 0;
+   font-family: system-ui, -apple-system, sans-serif;
+   background: var(--bg);
+   color: var(--text);
+ }
 
-.section {
-  margin-bottom: 20px;
-  gap: 12px;
-}
+ h2 {
+   font-size: 18px;
+   margin: 16px 0;
+ }
 
-.container {
-  background: var(--card);
-  padding: 16px;
-  border-radius: 18px;
-}
+ h3 {
+   font-size: 12px;
+ }
 
-.grid-base {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 20px;
-}
+ .error,
+ .message {
+   text-align: center;
+ }
 
-.back-btn {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--text);
-  padding: 6px 10px;
-  border-radius: 10px;
-  font-size: 12px;
+ /* ============================= */
+ /* ========== LAYOUT =========== */
+ /* ============================= */
+
+ .app,
+ .page {
+   max-width: 480px;
+   margin: 0 auto;
+   padding: 12px 12px 36px;
+ }
+
+ .section {
+   margin-bottom: 20px;
+ }
+
+ .grid-base {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   gap: 12px;
+ }
+
+ /* ============================= */
+ /* ========== CARD ============= */
+ /* ============================= */
+
+ .card-base {
+   background: var(--card);
+   border-radius: 14px;
+   padding: 16px;
+   border: 1px solid var(--border);
+ }
+
+ .card-workout {}
+
+ .card-auth {}
+
+ .card-stat {}
+
+ .container {
+   background: var(--card);
+   padding: 16px;
+   border-radius: 18px;
+ }
+
+ /* ============================= */
+ /* ========== BUTTONS ========== */
+ /* ============================= */
+
+ .btn {
+   cursor: pointer;
+   border-radius: 10px;
+   font-size: 13px;
+   padding: 10px;
+ }
+
+ .btn-primary {
+   width: 100%;
+   padding: 14px;
+   border-radius: 14px;
+   border: none;
+   background: var(--primary);
+   color: #fff;
+   font-weight: 600;
+ }
+
+ .btn-primary:hover {
+   background: var(--primary-light);
+ }
+
+ .btn-secondary {
+   background: var(--card-2);
+   border: 1px solid var(--border);
+   color: var(--text);
+ }
+
+ .btn-secondary:hover {
+   border-color: var(--primary);
+ }
+
+ .back-btn {
+   background: transparent;
+   border: 1px solid var(--border);
+   color: var(--text);
+   padding: 6px 10px;
+   border-radius: 10px;
+   font-size: 12px;
+ }
+
+ /* ============================= */
+ /* ========== INPUTS =========== */
+ /* ============================= */
+
+ .input-base {
+   width: 100%;
+   padding: 12px;
+   margin-bottom: 12px;
+   border-radius: 12px;
+   border: 1px solid var(--border);
+   background: var(--card-2);
+   color: var(--text);
+ }
+
+ .checkbox {
+   width: 18px;
+   height: 18px;
+ }
+
+ /* ============================= */
+ /* ========== SELECT =========== */
+ /* ============================= */
+
+ .select-base {
+   width: 100%;
+   padding: 10px 36px 10px 12px;
+   border-radius: 12px;
+   border: 1px solid var(--border);
+   background: var(--card-2);
+   color: var(--text);
+   font-size: 13px;
+   appearance: none;
+   cursor: pointer;
+ }
+
+ .filters {
+   display: grid;
+   grid-template-columns: 1fr 1fr 1fr;
+   gap: 8px;
+   margin-bottom: 12px;
+ }
+
+ .select-wrapper {
+   position: relative;
+ }
+
+ .select-wrapper::after {
+   content: '▾';
+   position: absolute;
+   right: 10px;
+   top: 50%;
+   transform: translateY(-50%);
+   font-size: 12px;
+   color: var(--muted);
+  /* pointer-events: none; */
+ }
+
+ /* ============================= */
+ /* ========== NAVBAR =========== */
+ /* ============================= */
+
+ .navbar {
+   display: flex;
+   justify-content: space-around;
+   align-items: center;
+
+   padding: 8px 4px;
+   background: rgba(23, 36, 42, 0.95);
+   backdrop-filter: blur(10px);
+
+   border-top: 1px solid var(--border);
+
+   max-width: 480px;
+   margin: 0 auto;
+
+   position: fixed;
+   bottom: 0;
+   left: 0;
+   right: 0;
+
+   z-index: 100;
+ }
+
+ .nav-item {
+   display: flex;
+   flex-direction: column;
+   align-items: center;
+   font-size: 12px;
+   text-decoration: none;
+   color: var(--text);
+   gap: 4px;
+ }
+
+ .nav-item.active {
+   color: var(--primary);
+   font-weight: 600;
+ }
+
+ .nav-icon {
+   width: 20px;
+ }
+
+ /* ============================= */
+ /* ========== HEADER =========== */
+ /* ============================= */
+
+ .header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+ }
+
+ .logo {
+   font-size: 18px;
+   font-weight: 600;
+ }
+
+ .logout-btn {
+   background: transparent;
+   color: var(--text);
+   border: 1px solid var(--border);
+   padding: 6px 10px;
+   border-radius: 10px;
   cursor: pointer;
+ }
+
+ .logout-btn:hover {
+   border-color: var(--primary);
+   color: var(--primary);
+ }
+
+ /* ============================= */
+ /* ========== WORKOUT ========== */
+ /* ============================= */
+
+ .exercise {
+   border: 1px solid var(--border);
+   border-radius: 14px;
+   padding: 12px;
+   margin-bottom: 12px;
+ }
+
+ .set-row {
+   display: grid;
+   grid-template-columns: 1fr 1fr auto;
+   gap: 8px;
+   margin-bottom: 8px;
+ }
+
+ /* ============================= */
+ /* ===== EXERCISE LIBRARY ====== */
+ /* ============================= */
+
+ .exercise-list {
+   display: flex;
+   flex-direction: column;
+   gap: 10px;
+ }
+
+ .exercise-card {
+   display: flex;
+   gap: 12px;
+   align-items: center;
+ }
+
+ .exercise-img {
+   width: 60px;
+   height: 60px;
+   border-radius: 10px;
+   object-fit: cover;
+ }
+
+ .exercise-info h3 {
+   font-size: 16px;
+   margin: 0;
+ }
+
+ .exercise-info p {
+   font-size: 13px;
+   opacity: 0.7;
+ }
+
+ .exercise-card.is-selected {
+   outline: 2px solid var(--primary);
+ }
+
+ .selected-badge {
+   position: absolute;
+   right: 10px;
+   top: 10px;
+ }
+
+ /* ============================= */
+ /* ===== EXERCISE DETAIL ======= */
+ /* ============================= */
+
+ .detail-img {
+   width: 100%;
+   border-radius: 12px;
+  margin-bottom: 10px;
+ }
+
+ .dots {
+   display: flex;
+   justify-content: center;
+   gap: 6px;
+ }
+
+ .dot {
+   width: 6px;
+   height: 6px;
+   background: var(--muted);
+   border-radius: 50%;
+  opacity: 0.5;
+ }
+
+ .dot.active {
+  opacity: 1;
+   background: var(--primary);
+ }
+ 
+ .exercise-overview {
+   display: grid;
+   grid-template-columns: 1fr 1fr;
+   gap: 12px;
+   margin: 12px 0;
+  }
+
+  .instruction-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 12px;
+  }
+
+  .instruction-step p {
+    font-size: 14px;
+    color: var(--text);
+    margin: 0 0 10px;
 }
 
-/* --- CARD BASE (shared style) --- */
-.card-base {
-  background: var(--card);
-  border-radius: 14px;
-  padding: 16px;
-  border: 1px solid var(--border);
-}
-
-.card {
-  margin-bottom: 16px;
-}
-
-.primary-btn {
-  width: 100%;
-  padding: 14px;
-  border-radius: 14px;
-  border: none;
+.step-number {
+  min-width: 24px;
+  height: 24px;
   background: var(--primary);
-  color: #fff;
-  font-weight: 600;
-}
-
-.primary-btn:hover {
-  background: var(--primary-light);
-}
-
-.muted {
-  color: var(--muted);
-}
-
-/* --- HEADER --- */
-
-.header {
+  border-radius: 6px;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  font-size: 18px;
-  font-weight: 600;
-  color: var(--text);
-}
-
-.logout-btn {
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--text);
-  padding: 6px 10px;
-  border-radius: 10px;
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.logout-btn:hover {
-  border-color: var(--primary);
-  color: var(--primary);
-}
-
-/* --- NAVBAR --- */
-.navbar {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-
-  padding: 8px 4px;
-  background: rgba(23, 36, 42, 0.95);
-  backdrop-filter: blur(10px);
-
-  border-top: 1px solid var(--border);
-
-  max-width: 480px;
-  margin: 0 auto;
-
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-
-  z-index: 100;
-}
-
-/* --- NAV ITEM --- */
-.nav-item {
-  position: relative;
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-
   font-size: 12px;
-  text-transform: uppercase;
-  text-decoration: none;
-  color: var(--text);
-
-  gap: 4px;
-
-  transition: all 0.2s ease;
 }
+ /* ============================= */
+ /* ========== DASHBOARD ======== */
+ /* ============================= */
 
-.nav-item:hover {
-  color: var(--text);
-}
+ .welcome {
+   color: var(--muted);
+ }
 
-/* --- ACTIVE STATE --- */
-.nav-item.active {
-  color: var(--primary);
-  font-weight: 600;
-}
+ .quote {
+   margin-top: 6px;
+ }
 
-.nav-icon {
-  width: 20px;
-  line-height: 1;
-}
-
-/* --- DASHBOARD --- */
-.welcome {
-  color: var(--muted);
-  font-size: 14px;
-}
-
-.quote {
-  font-size: 16px;
-  margin-top: 6px;
-}
-
-/* --- WORKOUT CARD --- */
-.exercise {
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 12px;
-  margin-bottom: 12px;
-}
-
-.exercise-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-.exercise-name {
-  font-weight: 600;
-}
-
-.rest-timer {
-  font-size: 12px;
-  color: var(--muted);
-}
-
-/* --- SETS --- */
-.set-row {
-  display: grid;
-  grid-template-columns: 30px 1fr 1fr 40px;
-  gap: 6px;
-  margin-bottom: 6px;
-  align-items: center;
-}
-
-.set-number {
-  font-size: 13px;
-  color: var(--muted);
-}
-
-.input {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 12px;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  background: var(--card-2);
-  color: var(--text);
-}
-
-.checkbox {
-  width: 18px;
-  height: 18px;
-}
-
-/* --- PB --- */
-.pb-badge {
-  background: gold;
-  color: black;
-  font-size: 10px;
-  padding: 2px 6px;
-  border-radius: 6px;
-  margin-left: 6px;
-}
-
-/* --- REST TIMER --- */
-.rest-floating {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--primary);
-  color: white;
-  padding: 12px 20px;
-  border-radius: 999px;
-  font-weight: 600;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-}
-
-/* --- ADD EXERCISE --- */
-.add-exercise {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 16px;
-  background: white;
-  border-top: 1px solid var(--border);
-}
-
-.add-exercise button {
-  width: 100%;
-  padding: 14px;
-  border-radius: 12px;
-  border: none;
-  background: var(--primary);
-  color: white;
-  font-weight: 600;
-}
-
-/* --- NOTES --- */
-.notes {
-  margin-top: 8px;
-}
-
-.notes textarea {
-  width: 100%;
-  border-radius: 10px;
-  border: 1px solid var(--border);
-  padding: 10px;
-  font-size: 13px;
-  resize: none;
-}
-
-/* --- STATS --- */
-
-.stat-value {
-  font-size: 22px;
-  font-weight: 600;
+ .stat-value {
+   font-size: 22px;
+   font-weight: 600;
   margin: 0;
-}
+ }
 
-.stat-label {
-  font-size: 12px;
-  color: var(--muted);
-}
+ .stat-label {
+   font-size: 12px;
+   color: var(--muted);
+ }
 
-/* --- WEEKLY ACTIVITY CHART --- */
+ /* ========== WEEKLY ACTIVITY CHART ======== */ 
 .chart {
   display: grid;
   grid-template-columns: 20px 1fr;
@@ -362,7 +445,6 @@ h3 {
   justify-content: flex-end;
   align-items: center;
   height: 140px;
-  /* 120 + plats för labels */
 }
 
 .bar {
@@ -405,7 +487,7 @@ h3 {
   height: 45px;
 }
 
-/* --- QUICK LABELS --- */
+/* ========== QUICK LINK LABELS ======== */
 .quick-label {
   font-size: 16px;
   font-weight: 600;
@@ -413,7 +495,7 @@ h3 {
   text-decoration: none;
 }
 
-/* --- MONTHLY GOAL --- */
+/* ========== MONTHLY GOAL ======== */
 .progress-bar {
   height: 8px;
   background: var(--card-2);
@@ -428,7 +510,7 @@ h3 {
   border-radius: 999px;
 }
 
-/* --- RECENT ACHIEVEMENTS --- */
+/* ========== RECENT ACHIEVEMENTS ======== */
 .achievements-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -453,179 +535,4 @@ h3 {
 .achievement-title {
   font-size: 13px;
   font-weight: 600;
-}
-
-.small {
-  font-size: 11px;
-}
-
-.center {
-  text-align: center;
-}
-
-/* --- SETS --- */
-
-/* --- EXERCISES --- */
-
-/* --- EXERCISE SEARCH & FILTERS --- */
-.page {
-  padding: 16px;
-  color: white;
-  background: linear-gradient(#0f2027, #0b1a22);
-}
-
-.search {
-  width: 100%;
-  padding: 12px;
-  border-radius: 12px;
-  background: #1c2a33;
-  color: white;
-  border: none;
-  margin-bottom: 12px;
-}
-
-.primary {
-  width: 100%;
-  padding: 14px;
-  border-radius: 14px;
-  background: #2f8f9d;
-  border: none;
-  margin-top: 16px;
-}
-
-/* --- FILTERS (SELECT) --- */
-.filters {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.select-wrapper {
-  position: relative;
-}
-
-.filters select {
-  width: 100%;
-  padding: 10px 36px 10px 12px;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  background: var(--card-2);
-  color: var(--text);
-  font-size: 13px;
-  appearance: none;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.filters select:hover {
-  border-color: rgba(255, 255, 255, 0.15);
-}
-
-.filters select:focus {
-  outline: none;
-  border-color: var(--primary);
-}
-
-.select-wrapper::after {
-  content: '▾';
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-
-  font-size: 12px;
-  color: var(--muted);
-  pointer-events: none;
-}
-
-/* --- EXERCISE LIST --- */
-.exercise-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-/* --- EXERCISE CARD --- */
-.exercise-row {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-.exercise-img {
-  width: 60px;
-  height: 60px;
-  border-radius: 10px;
-  object-fit: cover;
-}
-
-.exercise-info h3 {
-  font-size: 16px;
-  margin: 0;
-}
-
-.exercise-info p {
-  font-size: 13px;
-  opacity: 0.7;
-}
-
-/* --- EXERCISE DETAIL --- */
-
-.detail-img {
-  width: 100%;
-  border-radius: 12px;
-  margin-bottom: 10px;
-}
-
-.dots {
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-}
-
-.dot {
-  width: 6px;
-  height: 6px;
-  background: var(--muted);
-  border-radius: 50%;
-  opacity: 0.5;
-}
-
-.dot.active {
-  opacity: 1;
-  background: var(--primary);
-}
-
-.exercise-overview {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin: 12px 0;
-}
-
-.instruction-step {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  margin-bottom: 12px;
-}
-
-.instruction-step p {
-  font-size: 14px;
-  color: var(--text);
-  margin: 0 0 10px;
-}
-
-.step-number {
-  min-width: 24px;
-  height: 24px;
-  background: var(--primary);
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
 }

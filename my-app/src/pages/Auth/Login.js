@@ -50,7 +50,7 @@ export default function Login({ setUser }) {
   }
 
   return (
-    <div className="container">
+    <div className="card-base card-auth">
       <h2>Login</h2>
       <form
         onSubmit={(e) => {
@@ -59,7 +59,7 @@ export default function Login({ setUser }) {
         }}
       >
         <input
-          className="input"
+          className="input-base"
           placeholder="Email"
           value={email}
           onChange={(e) => {
@@ -72,7 +72,7 @@ export default function Login({ setUser }) {
         />
 
         <input
-          className="input"
+          className="input-base"
           type="password"
           placeholder="Password"
           value={password}
@@ -85,7 +85,7 @@ export default function Login({ setUser }) {
           }}
         />
 
-        <button type="submit" className="primary-btn" disabled={loading}>
+        <button type="submit" className="btn primary-btn" disabled={loading}>
           {loading ? 'Logging in...' : 'Login'}
         </button>
       </form>

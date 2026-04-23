@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useSearchParams, useNavigate, useLocation } from 'react-router-dom'
 import { getExercises } from '../../api/exerciseApi'
 import ExerciseList from './ExerciseList'
 import { normalizeExercise } from '../../utils/exerciseAdapter'
@@ -14,6 +14,10 @@ const SPECIAL = CATEGORIES.SPECIAL
  */
 export default function Exercises() {
   const navigate = useNavigate()
+  const location = useLocation()
+  const [params] = useSearchParams()
+
+  const isSelectMode = params.get('select') === 'true'
 
   const [exercises, setExercises] = useState([])
   const [search, setSearch] = useState('')
@@ -21,6 +25,8 @@ export default function Exercises() {
   const [muscleGroup, setMuscleGroup] = useState(null)
   const [equipment, setEquipment] = useState(null)
   const [visibleCount, setVisibleCount] = useState(20)
+
+  const [selectedExercises, setSelectedExercises] = useState([])
 
   // FETCH ALL EXERCISES
   useEffect(() => {
@@ -50,6 +56,20 @@ export default function Exercises() {
 
     fetchExercises()
   }, [])
+
+  // ===== TOGGLE SELECT =====
+  
+  const toggleSelect = (exercise) => {
+    setSelectedExercises((prev) => {
+      const exists = prev.find((e) => e.id === exercise.id)
+
+      if (exists) {
+        return prev.filter((e) => e.id !== exercise.id)
+      }
+
+      return [...prev, exercise]
+    })
+  }
 
   // ===== OPTIONS =====
 
@@ -126,16 +146,21 @@ export default function Exercises() {
 
   return (
     <div className="app">
-      <button onClick={() => navigate(-1)} className="back-btn">
+      <button onClick={() => navigate(-1)} className="btn primary-btn">
         ← Back
       </button>
 
       <div className="section">
-        <h2>Exercise Library</h2>
+        <h2>{isSelectMode ? 'Select exercise' : 'Exercise Library'}</h2>
+        {isSelectMode && (
+          <p className="muted small">
+            Choose an exercise to add to your workout
+          </p>
+        )}
 
         {/* SEARCH */}
         <input
-          className="search"
+          className="input-base"
           placeholder="Search exercises..."
           value={search}
           onChange={(e) => {
@@ -148,6 +173,7 @@ export default function Exercises() {
         <div className="filters">
           {/* BODY PART */}
           <select
+            className="select-base"
             value={bodyPart || ''}
             onChange={(e) => {
               const val = e.target.value || null
@@ -167,6 +193,7 @@ export default function Exercises() {
 
           {/* MUSCLE */}
           <select
+            className="select-base"
             value={muscleGroup || ''}
             onChange={(e) => {
               const val = e.target.value || null
@@ -185,6 +212,7 @@ export default function Exercises() {
 
           {/* EQUIPMENT */}
           <select
+            className="select-base"
             value={equipment || ''}
             onChange={(e) => {
               const val = e.target.value || null
@@ -202,12 +230,32 @@ export default function Exercises() {
         </div>
 
         {/* LIST */}
-        <ExerciseList exercises={visibleExercises} />
+        <ExerciseList
+          exercises={visibleExercises}
+          onSelect={isSelectMode ? toggleSelect : undefined}
+          selectedExercises={selectedExercises}
+        />
+
+        {isSelectMode && selectedExercises.length > 0 && (
+          <button
+            className="btn btn-primary"
+            onClick={() =>
+              navigate('/workout', {
+                state: {
+                  selectedExercises,
+                  currentExercises: location.state?.currentExercises || [],
+                },
+              })
+            }
+          >
+            Add {selectedExercises.length} exercises
+          </button>
+        )}
 
         {/* LOAD MORE */}
         {visibleCount < filtered.length && (
           <button
-            className="primary"
+            className="btn btn-primary"
             onClick={() => setVisibleCount((prev) => prev + 20)}
           >
             Show more ({filtered.length - visibleCount} left)

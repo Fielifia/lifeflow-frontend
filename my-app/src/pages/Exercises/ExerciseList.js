@@ -10,18 +10,33 @@ import ExerciseCard from './ExerciseCard'
  * }} props - List of exercises to display
  * @returns {import('react').ReactElement} Exercise list UI
  */
-export default function ExerciseList({ exercises }) {
+export default function ExerciseList({
+  exercises,
+  onSelect,
+  selectedExercises = [],
+}) {
   const navigate = useNavigate()
 
   return (
     <div className="exercise-list">
-      {exercises.map((e) => (
-        <ExerciseCard
-          key={e.id}
-          exercise={e}
-          onClick={() => navigate(`/exercise/${e.id}`)}
-        />
-      ))}
+      {exercises.map((e) => {
+        const isSelected = selectedExercises.some((ex) => ex.id === e.id)
+
+        return (
+          <ExerciseCard
+            key={e.id}
+            exercise={e}
+            selected={isSelected}
+            onClick={() => {
+              if (onSelect) {
+                onSelect(e)
+              } else {
+                navigate(`/exercise/${e.id}`)
+              }
+            }}
+          />
+        )
+      })}
     </div>
   )
 }
