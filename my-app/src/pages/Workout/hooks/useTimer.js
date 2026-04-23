@@ -2,6 +2,12 @@ import { useState, useEffect } from 'react'
 
 /**
  * Hook for workout timer (elapsed time + start/pause)
+ * @returns {{
+ *   status: string,
+ *   elapsed: number,
+ *   handleStartPause: () => void,
+ *   reset: () => void
+ * }} Timer state and controls
  */
 export function useTimer() {
   const [status, setStatus] = useState('idle')

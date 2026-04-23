@@ -3,42 +3,10 @@ import { useTimer } from './useTimer'
 import { useRestTimer } from './useRestTimer'
 
 /**
- * Handles all workout logic (state, timers, actions).
- * @param {Function} navigate - React Router navigate
- * @param {object} location - React Router location
- * @returns {{
- *   workout: Object,
- *   saving: boolean,
- *   success: boolean,
- *   error: string,
- *
- *   status: string,
- *   elapsed: number,
- *
- *   restTime: number,
- *   setRestTime: Function,
- *   restRemaining: number,
- *   isResting: boolean,
- *   skipRest: Function,
- *
- *   customName: string,
- *   setCustomName: Function,
- *   isEditingName: boolean,
- *   setIsEditingName: Function,
- *
- *   handleStartPause: Function,
- *   adjustRest: Function,
- *
- *   openLibrary: Function,
- *   addSet: Function,
- *   updateSet: Function,
- *   removeExercise: Function,
- *   removeSet: Function,
- *   toggleSetComplete: Function,
- *   updateWorkoutNotes: Function,
- *
- *   saveWorkout: Function
- * }}
+ * Handles workout state, timers and actions.
+ * @param {(path: string, options?: object) => void} navigate - React Router navigate
+ * @param {{ state?: object }} location - React Router location
+ * @returns {object} Workout logic and handlers
  */
 export function useWorkoutLogic(navigate, location) {
   const [saving, setSaving] = useState(false)

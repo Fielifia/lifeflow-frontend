@@ -11,7 +11,7 @@ import ExerciseItem from './ExerciseItem'
  * Workout page for creating and tracking a workout session.
  *
  * Handles rendering only. All logic is managed in useWorkoutLogic.
- * @returns {import('react').ReactElement}
+ * @returns {import('react').ReactElement} Workout page UI
  */
 export default function Workout() {
   const navigate = useNavigate()

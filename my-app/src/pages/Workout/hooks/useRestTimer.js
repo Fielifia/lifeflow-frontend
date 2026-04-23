@@ -6,6 +6,16 @@ import { useState, useEffect } from 'react'
  * Handles:
  * - Countdown timer
  * - Start / skip / adjust rest
+ * @returns {{
+ *   restTime: number,
+ *   setRestTime: (value: number) => void,
+ *   restRemaining: number,
+ *   isResting: boolean,
+ *   startRest: () => void,
+ *   adjust: (amount: number) => void,
+ *   skip: () => void,
+ *   reset: () => void
+ * }} Rest timer state and controls
  */
 export function useRestTimer() {
   const [restTime, setRestTime] = useState(120)
@@ -48,7 +58,7 @@ export function useRestTimer() {
 
   /**
    * Adjust remaining rest time (+/- seconds)
-   * @param {number} amount
+   * @param {number} amount - Seconds to add or subtract
    */
   const adjust = (amount) => {
     setRestRemaining((prev) => Math.max(0, prev + amount))
