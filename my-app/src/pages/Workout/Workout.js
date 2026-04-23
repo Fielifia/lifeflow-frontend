@@ -21,20 +21,27 @@ export default function Workout() {
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
 
-  const [workout, setWorkout] = useState({
-    exercises: [],
-    notes: '',
+  const [workout, setWorkout] = useState(() => {
+    return (
+      JSON.parse(localStorage.getItem('draftWorkout')) || {
+        exercises: [],
+        notes: '',
+      }
+    )
   })
 
   const [customName, setCustomName] = useState('')
   const [isEditingName, setIsEditingName] = useState(false)
 
   useEffect(() => {
+    localStorage.setItem('draftWorkout', JSON.stringify(workout))
+  }, [workout])
+
+  useEffect(() => {
     const selected = location.state?.selectedExercises
-    const existing = location.state?.currentExercises || []
     const lastWorkout = JSON.parse(localStorage.getItem('lastWorkout'))
 
-    if (!selected) return
+    if (!selected || selected.length === 0) return
 
     const newExercises = selected.map((ex) => {
       const previous = lastWorkout?.exercises?.find(
@@ -60,7 +67,12 @@ export default function Workout() {
 
     setWorkout((prev) => ({
       ...prev,
-      exercises: [...existing, ...newExercises],
+      exercises: [
+        ...prev.exercises,
+        ...newExercises.filter(
+          (ex) => !prev.exercises.some((e) => e.exerciseId === ex.exerciseId),
+        ),
+      ],
     }))
 
     window.history.replaceState({}, '')
@@ -225,8 +237,19 @@ export default function Workout() {
 
       {workout.exercises.map((ex, i) => (
         <div key={ex.exerciseId} className="workout-exercise">
-          <div className="exercise-header">
-            <img src={ex.image} alt={ex.name} className="exercise-img-small" />
+          <div
+            className="exercise-header clickable"
+            onClick={() =>
+              navigate(`/exercise/${ex.exerciseId}`, {
+                state: { from: '/workout' },
+              })
+            }
+          >
+            <img
+              src={ex.image || '/placeholder.png'}
+              alt={ex.name}
+              className="exercise-img-small"
+            />
 
             <div className="exercise-header-info">
               <h3 className="exercise-title">{ex.name}</h3>
@@ -234,7 +257,10 @@ export default function Workout() {
 
             <button
               className="btn btn-secondary btn-small"
-              onClick={() => removeExercise(i)}
+              onClick={(e) => {
+                e.stopPropagation()
+                removeExercise(i)
+              }}
             >
               Remove
             </button>

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { getExerciseById } from '../../api/exerciseApi'
 import { normalizeExercise } from '../../utils/exerciseAdapter'
 import { formatLabel } from '../../utils/format'
@@ -13,6 +13,7 @@ import { formatLabel } from '../../utils/format'
 export default function ExerciseDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
+  const location = useLocation()
 
   const [exercise, setExercise] = useState(null)
   const [currentImage, setCurrentImage] = useState(0)
@@ -51,10 +52,13 @@ export default function ExerciseDetail() {
   return (
     <div className="app">
       {/* Header */}
-      <button onClick={() => navigate(-1)} className="back-btn">
+
+      <button
+        onClick={() => navigate(location.state?.from || -1)}
+        className="back-btn"
+      >
         ← Back
       </button>
-
       {/* Title */}
       <div className="section">
         <h2>{exercise.name}</h2>
@@ -68,7 +72,6 @@ export default function ExerciseDetail() {
           {formatLabel(exercise.equipment)}
         </p>
       </div>
-
       {/* Image */}
       <div className="container">
         <img
@@ -92,7 +95,6 @@ export default function ExerciseDetail() {
           </div>
         )}
       </div>
-
       {/* Info cards */}
       <div className="section exercise-overview">
         <div className="card-base">
@@ -105,7 +107,6 @@ export default function ExerciseDetail() {
           <p>{exercise.equipment}</p>
         </div>
       </div>
-
       {/* Instructions */}
       <div className="section">
         <h3>Instructions</h3>
