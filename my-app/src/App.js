@@ -8,6 +8,7 @@ import Register from './pages/Auth/Register'
 import Dashboard from './pages/Dashboard/Dashboard'
 import ExerciseDetail from './pages/Exercises/ExerciseDetail'
 import Exercises from './pages/Exercises/Exercises'
+import Workout from './pages/Workout/Workout'
 
 /**
  * Root application component handling authentication and routing.
@@ -51,10 +52,7 @@ function App() {
           <Route path="/exercises" element={<Exercises />} />
           <Route path="/exercise/:id" element={<ExerciseDetail />} />
 
-          <Route
-            path="/workout"
-            element={<div className="card">Workout (coming soon)</div>}
-          />
+          <Route path="/workout" element={<Workout></Workout>} />
           <Route
             path="/history"
             element={<div className="card">History (coming soon)</div>}
