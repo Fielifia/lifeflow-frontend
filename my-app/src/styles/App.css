@@ -306,6 +306,17 @@ textarea {
   margin-bottom: 12px;
 }
 
+.workout-exercise .btn-small {
+  margin-left: auto;
+  width: 70px;
+}
+
+.btn-small-full {
+  width: 100%;
+  padding: 6px 8px;
+  font-size: 11px;
+}
+
 .exercise-header {
   gap: 10px;
   margin-bottom: 10px;
@@ -342,6 +353,15 @@ textarea {
   opacity: 0.85;
 }
 
+.workout-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.workout-controls .btn {
+  flex: 1;
+}
+
 .btn-small {
   padding: 6px 8px;
   font-size: 11px;
@@ -371,6 +391,10 @@ textarea {
 
 .set-row .checkbox {
   margin: 0 auto;
+}
+
+.set-row.completed {
+  opacity: 0.7;
 }
 
 .set-row button {

@@ -1,0 +1,143 @@
+import { useRef } from 'react'
+/**
+ * Exercise item in workout.
+ *
+ * @param {Object} props
+ * @param {{ exerciseId: string, name: string, image?: string, sets: Array }} props.ex
+ * @param {number} props.i
+ * @param {(path: string) => void} props.navigate
+ * @param {(i: number) => void} props.addSet
+ * @param {(i: number, j: number, field: string, value: number | '') => void} props.updateSet
+ * @param {(i: number) => void} props.removeExercise
+ * @param {(i: number, j: number) => void} props.removeSet
+ * @param {(i: number, j: number) => void} props.toggleSetComplete
+ * @param {number} props.restTime
+ * @param {(value: number) => void} props.setRestTime
+ */
+export default function ExerciseItem({
+  ex,
+  i,
+  navigate,
+  addSet,
+  updateSet,
+  removeExercise,
+  removeSet,
+  toggleSetComplete,
+  restTime,
+  setRestTime,
+  status,
+  handleStartPause,
+}) {
+  const inputRefs = useRef([])
+
+  const handleCheck = (j, checked) => {
+    toggleSetComplete(i, j, checked)
+
+    if (checked && status === 'idle') {
+      handleStartPause()
+    }
+  }
+
+  return (
+    <div className="workout-exercise">
+      {/* HEADER */}
+      <div className="exercise-header-main">
+        <img
+          src={ex.image || '/placeholder.png'}
+          alt=""
+          className="exercise-img-small"
+          onClick={() => navigate(`/exercise/${ex.exerciseId}`)}
+        />
+
+        <h2>{ex.name}</h2>
+
+        <button
+          className="btn btn-secondary btn-small"
+          onClick={(e) => {
+            e.stopPropagation()
+            removeExercise(i)
+          }}
+        >
+          Remove
+        </button>
+      </div>
+
+      {/* SET HEADER */}
+      <div className="set-header">
+        <span>Set</span>
+        <span>Weight</span>
+        <span>Reps</span>
+      </div>
+
+      {/* SETS */}
+      {ex.sets.map((set, j) => (
+        <div key={j} className={`set-row ${set.completed ? 'completed' : ''}`}>
+          <input
+            type="checkbox"
+            className="checkbox"
+            checked={set.completed}
+            onChange={(e) => handleCheck(j, e.target.checked)}
+          />
+
+          <input
+            ref={(el) => (inputRefs.current[j] = el)}
+            className="input-base"
+            type="number"
+            value={set.weight ?? ''}
+            onChange={(e) =>
+              updateSet(
+                i,
+                j,
+                'weight',
+                e.target.value === '' ? '' : Number(e.target.value),
+              )
+            }
+          />
+
+          <input
+            className="input-base"
+            type="number"
+            value={set.reps ?? ''}
+            onChange={(e) =>
+              updateSet(
+                i,
+                j,
+                'reps',
+                e.target.value === '' ? '' : Number(e.target.value),
+              )
+            }
+          />
+
+          <button
+            className="btn btn-secondary btn-small"
+            onClick={() => removeSet(i, j)}
+          >
+            Delete
+          </button>
+        </div>
+      ))}
+
+      {/* ADD SET */}
+      <button
+        className="btn btn-secondary btn-small-full"
+        onClick={() => addSet(i)}
+      >
+        Add set
+      </button>
+
+      {/* REST TIME */}
+      <span
+        className="rest-label muted"
+        onClick={(e) => {
+          e.stopPropagation()
+          const val = prompt('Rest time (seconds)', restTime)
+          if (val !== null && !isNaN(val)) {
+            setRestTime(Number(val))
+          }
+        }}
+      >
+        Rest: {restTime}s
+      </span>
+    </div>
+  )
+}
