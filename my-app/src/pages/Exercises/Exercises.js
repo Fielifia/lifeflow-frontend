@@ -37,7 +37,7 @@ export default function Exercises() {
         let hasMore = true
 
         while (hasMore) {
-          const data = await getExercises({ limit: 100, page })
+          const data = await getExercises({ limit: 1000, page })
           all.push(...data.results)
 
           if (data.results.length < 100) {
@@ -146,7 +146,7 @@ export default function Exercises() {
 
   return (
     <div className="app">
-      <button onClick={() => navigate(-1)} className="btn primary-btn">
+      <button onClick={() => navigate(-1)} className="btn back-btn">
         ← Back
       </button>
 

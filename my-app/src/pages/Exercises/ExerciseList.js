@@ -22,6 +22,7 @@ export default function ExerciseList({
       {exercises.map((e) => {
         const isSelected = selectedExercises.some((ex) => ex.id === e.id)
 
+        console.log(e)
         return (
           <ExerciseCard
             key={e.id}

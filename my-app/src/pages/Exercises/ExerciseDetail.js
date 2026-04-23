@@ -17,6 +17,7 @@ export default function ExerciseDetail() {
   const [exercise, setExercise] = useState(null)
   const [currentImage, setCurrentImage] = useState(0)
 
+  console.log('PARAM ID:', id)
   useEffect(() => {
     if (!id) return
     const fetchData = async () => {

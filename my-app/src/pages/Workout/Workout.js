@@ -1,6 +1,5 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { useEffect } from 'react'
 
 /**
@@ -17,7 +16,12 @@ export default function Workout() {
   const navigate = useNavigate()
   const location = useLocation()
 
+  const [saving, setSaving] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState('')
+
   const [workout, setWorkout] = useState({
+    name: '',
     exercises: [],
     notes: '',
   })
@@ -25,20 +29,29 @@ export default function Workout() {
   useEffect(() => {
     const selected = location.state?.selectedExercises
     const existing = location.state?.currentExercises || []
+    const lastWorkout = JSON.parse(localStorage.getItem('lastWorkout'))
 
     if (!selected) return
 
-    setWorkout({
-      exercises: [
-        ...existing,
-        ...selected.map((ex) => ({
-          exerciseId: ex.id,
-          name: ex.name,
-          sets: [{ reps: '', weight: '' }],
-        })),
-      ],
-      notes: '',
+    const newExercises = selected.map((ex) => {
+      const previous = lastWorkout?.exercises?.find((e) => e.name === ex.name)
+
+      return {
+        exerciseId: ex.id,
+        name: ex.name,
+        sets: previous
+          ? previous.sets.map((s) => ({
+            reps: s.reps,
+            weight: s.weight,
+          }))
+          : [{ reps: '', weight: '' }],
+      }
     })
+
+    setWorkout((prev) => ({
+      ...prev,
+      exercises: [...existing, ...newExercises],
+    }))
 
     window.history.replaceState({}, '')
   }, [location.state])
@@ -50,6 +63,7 @@ export default function Workout() {
       },
     })
   }
+
   const updateExerciseName = (index, value) => {
     const updated = [...workout.exercises]
     updated[index].name = value
@@ -72,22 +86,73 @@ export default function Workout() {
     setWorkout({ ...workout, notes: value })
   }
 
-  const saveWorkout = async () => {
-    const token = JSON.parse(localStorage.getItem('user'))?.token
+  const removeExercise = (index) => {
+    const updated = workout.exercises.filter((_, i) => i !== index)
+    setWorkout({ ...workout, exercises: updated })
+  }
 
-    await fetch('http://localhost:5000/workouts', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(workout),
-    })
+  const removeSet = (exIndex, setIndex) => {
+    const updated = [...workout.exercises]
+    if (updated[exIndex].sets.length === 1) return
+
+    updated[exIndex].sets = updated[exIndex].sets.filter(
+      (_, i) => i !== setIndex,
+    )
+
+    setWorkout({ ...workout, exercises: updated })
+  }
+
+  const saveWorkout = async () => {
+    try {
+      setSaving(true)
+      setError('')
+      setSuccess(false)
+
+      if (workout.exercises.length === 0) {
+        setError('Add at least one exercise')
+        return
+      }
+
+      const token = JSON.parse(localStorage.getItem('user'))?.token
+
+      // Save last workout for autofill
+      localStorage.setItem('lastWorkout', JSON.stringify(workout))
+
+      const res = await fetch('http://localhost:5000/workouts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(workout),
+      })
+
+      if (!res.ok) throw new Error('Failed to save')
+
+      setSuccess(true)
+
+      setWorkout({
+        name: '',
+        exercises: [],
+        notes: '',
+      })
+    } catch (err) {
+      setError('Could not save workout')
+    } finally {
+      setSaving(false)
+    }
   }
 
   return (
     <div className="card-base card-workout">
       <h2>Workout</h2>
+
+      <input
+        className="input-base"
+        placeholder="Workout name..."
+        value={workout.name}
+        onChange={(e) => setWorkout({ ...workout, name: e.target.value })}
+      />
 
       <button className="btn btn-secondary" onClick={openLibrary}>
         Add exercise
@@ -95,6 +160,13 @@ export default function Workout() {
 
       {workout.exercises.map((ex, i) => (
         <div key={ex.exerciseId} className="exercise">
+          <button
+            className="btn btn-secondary"
+            onClick={() => removeExercise(i)}
+          >
+            Remove Exercise
+          </button>
+
           <input
             className="input-base"
             value={ex.name}
@@ -119,6 +191,13 @@ export default function Workout() {
                 value={set.weight}
                 onChange={(e) => updateSet(i, j, 'weight', e.target.value)}
               />
+
+              <button
+                className="btn btn-secondary"
+                onClick={() => removeSet(i, j)}
+              >
+                Remove Set
+              </button>
             </div>
           ))}
 
@@ -135,9 +214,16 @@ export default function Workout() {
         onChange={(e) => updateWorkoutNotes(e.target.value)}
       />
 
-      <button className="btn btn-primary" onClick={saveWorkout}>
-        Save workout
+      <button
+        className="btn btn-primary"
+        onClick={saveWorkout}
+        disabled={saving}
+      >
+        {saving ? 'Saving...' : 'Save workout'}
       </button>
+
+      {success && <p className="muted">Workout saved ✔</p>}
+      {error && <p className="error">{error}</p>}
     </div>
   )
 }

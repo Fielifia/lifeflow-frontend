@@ -28,7 +28,7 @@ export function normalizeExercise(e) {
   const bodyPart = mapBodyPart(e.bodyPart)
 
   return {
-    id: e.id,
+    id: e._id,
     name: formatName(e.name),
     bodyPart: formatName(bodyPart),
     muscle: formatName(getMuscle(e, bodyPart)),
