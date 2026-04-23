@@ -21,6 +21,10 @@ export default function Workout() {
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
 
+  const [restTime, setRestTime] = useState(120)
+  const [restRemaining, setRestRemaining] = useState(0)
+  const [isResting, setIsResting] = useState(false)
+
   const [workout, setWorkout] = useState(() => {
     return (
       JSON.parse(localStorage.getItem('draftWorkout')) || {
@@ -127,6 +131,44 @@ export default function Workout() {
     setWorkout({ ...workout, exercises: updated })
   }
 
+  const toggleSetComplete = (exIndex, setIndex) => {
+    const updated = [...workout.exercises]
+    const set = updated[exIndex].sets[setIndex]
+
+    set.completed = !set.completed
+
+    setWorkout({ ...workout, exercises: updated })
+
+    if (set.completed) {
+      setRestRemaining(restTime)
+      setIsResting(true)
+    }
+  }
+
+  useEffect(() => {
+    let interval
+
+    if (isResting) {
+      interval = setInterval(() => {
+        setRestRemaining((prev) => {
+          if (prev <= 1) {
+            setIsResting(false)
+            return 0
+          }
+          return prev - 1
+        })
+      }, 1000)
+    }
+
+    return () => {
+      if (interval) clearInterval(interval)
+    }
+  }, [isResting])
+
+  const adjustRest = (amount) => {
+    setRestRemaining((prev) => Math.max(0, prev + amount))
+  }
+
   const saveWorkout = async () => {
     try {
       setSaving(true)
@@ -142,6 +184,13 @@ export default function Workout() {
 
       localStorage.setItem('lastWorkout', JSON.stringify(workout))
 
+      const cleanedExercises = workout.exercises
+        .map((ex) => ({
+          ...ex,
+          sets: ex.sets.filter((s) => s.completed),
+        }))
+        .filter((ex) => ex.sets.length > 0)
+
       const res = await fetch('http://localhost:5000/workouts', {
         method: 'POST',
         headers: {
@@ -150,6 +199,7 @@ export default function Workout() {
         },
         body: JSON.stringify({
           ...workout,
+          exercises: cleanedExercises,
           name: title,
         }),
       })
@@ -231,39 +281,63 @@ export default function Workout() {
         )}
       </div>
 
+      {isResting && (
+        <div className="rest-timer-floating">
+          <button onClick={() => adjustRest(-15)}>-</button>
+
+          <span>{restRemaining}s</span>
+
+          <button onClick={() => adjustRest(15)}>+</button>
+        </div>
+      )}
+
       <button className="btn btn-secondary" onClick={openLibrary}>
         Add exercise
       </button>
 
       {workout.exercises.map((ex, i) => (
         <div key={ex.exerciseId} className="workout-exercise">
-          <div
-            className="exercise-header clickable"
-            onClick={() =>
-              navigate(`/exercise/${ex.exerciseId}`, {
-                state: { from: '/workout' },
-              })
-            }
-          >
-            <img
-              src={ex.image || '/placeholder.png'}
-              alt={ex.name}
-              className="exercise-img-small"
-            />
+          <div className="exercise-header">
+            <div
+              className="exercise-header-main clickable"
+              onClick={() =>
+                navigate(`/exercise/${ex.exerciseId}`, {
+                  state: { from: '/workout' },
+                })
+              }
+            >
+              <img
+                src={ex.image || '/placeholder.png'}
+                alt={ex.name}
+                className="exercise-img-small"
+              />
 
-            <div className="exercise-header-info">
-              <h3 className="exercise-title">{ex.name}</h3>
+              <div className="exercise-header-info">
+                <h3 className="exercise-title">{ex.name}</h3>
+              </div>
+
+              <button
+                className="btn btn-secondary btn-small"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  removeExercise(i)
+                }}
+              >
+                Remove
+              </button>
+
             </div>
-
-            <button
-              className="btn btn-secondary btn-small"
+            <span
+              className="rest-label muted"
               onClick={(e) => {
                 e.stopPropagation()
-                removeExercise(i)
+
+                const val = prompt('Rest time (seconds)', restTime)
+                if (val !== null) setRestTime(Number(val))
               }}
             >
-              Remove
-            </button>
+              Rest: {restTime}s
+            </span>
           </div>
 
           {/* SET HEADER */}
@@ -276,7 +350,11 @@ export default function Workout() {
           {/* SET LIST */}
           {ex.sets.map((set, j) => (
             <div key={j} className="set-row">
-              <input type="checkbox" className="checkbox set-done" />
+              <input
+                type="checkbox"
+                className="checkbox set-done"
+                onChange={() => toggleSetComplete(i, j)}
+              />
               <input
                 className="input-base"
                 type="number"
