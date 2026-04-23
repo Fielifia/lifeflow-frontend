@@ -99,17 +99,8 @@ h3 {
 .card-base {
   background: var(--card);
   border-radius: 14px;
-  padding: 16px;
+  padding: 12px;
   border: 1px solid var(--border);
-}
-
-.card-workout {
-}
-
-.card-auth {
-}
-
-.card-stat {
 }
 
 .container {
@@ -280,12 +271,14 @@ textarea {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 12px;
+  padding: 12px;
 }
 
 .logo {
   font-size: 18px;
   font-weight: 600;
+  text-decoration: none;
+  color: var(--text);
 }
 
 .logout-btn {
