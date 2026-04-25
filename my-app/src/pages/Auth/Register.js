@@ -68,7 +68,7 @@ export default function Register() {
         }}
       >
         <input
-          className="input-base"
+          className="input-base input-auth"
           placeholder="Email"
           value={email}
           onChange={(e) => {
@@ -78,7 +78,7 @@ export default function Register() {
         />
 
         <input
-          className="input-base"
+          className="input-base input-auth"
           placeholder="Username"
           value={username}
           onChange={(e) => {
@@ -88,7 +88,7 @@ export default function Register() {
         />
 
         <input
-          className="input-base"
+          className="input-base input-auth"
           type="password"
           placeholder="Password"
           value={password}
@@ -99,7 +99,7 @@ export default function Register() {
         />
 
         <input
-          className="input-base"
+          className="input-base input-auth"
           type="password"
           placeholder="Confirm Password"
           value={confirmPassword}

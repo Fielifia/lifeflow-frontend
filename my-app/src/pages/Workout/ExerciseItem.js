@@ -1,4 +1,6 @@
 import { useRef } from 'react'
+import { Timer } from 'lucide-react'
+
 /**
  * Exercise item in workout.
  * @param {object} props - Component props
@@ -67,7 +69,7 @@ export default function ExerciseItem({
       {/* SET HEADER */}
       <div className="set-header">
         <span>Set</span>
-        <span>Weight</span>
+        <span>Weight (kg)</span>
         <span>Reps</span>
       </div>
 
@@ -96,19 +98,35 @@ export default function ExerciseItem({
             }
           />
 
-          <input
-            className="input-base"
-            type="number"
-            value={set.reps ?? ''}
-            onChange={(e) =>
-              updateSet(
-                i,
-                j,
-                'reps',
-                e.target.value === '' ? '' : Number(e.target.value),
-              )
-            }
-          />
+          <div className="number-input">
+            <button
+              onClick={() =>
+                updateSet(i, j, 'reps', Math.max(0, (set.reps || 0) - 1))
+              }
+            >
+              -
+            </button>
+
+            <input
+              className="input-base"
+              type="number"
+              value={set.reps ?? ''}
+              onChange={(e) =>
+                updateSet(
+                  i,
+                  j,
+                  'reps',
+                  e.target.value === '' ? '' : Number(e.target.value),
+                )
+              }
+            />
+
+            <button
+              onClick={() => updateSet(i, j, 'reps', (set.reps || 0) + 1)}
+            >
+              +
+            </button>
+          </div>
 
           <button
             className="btn btn-secondary btn-small"
@@ -128,8 +146,8 @@ export default function ExerciseItem({
       </button>
 
       {/* REST TIME */}
-      <span
-        className="rest-label muted"
+      <div
+        className="rest-label"
         onClick={(e) => {
           e.stopPropagation()
           const val = prompt('Rest time (seconds)', restTime)
@@ -138,8 +156,8 @@ export default function ExerciseItem({
           }
         }}
       >
-        Rest: {restTime}s
-      </span>
+        <Timer className="icon-small"/> Set Rest Timer: {restTime}s
+      </div>
     </div>
   )
 }

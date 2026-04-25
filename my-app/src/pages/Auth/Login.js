@@ -59,7 +59,7 @@ export default function Login({ setUser }) {
         }}
       >
         <input
-          className="input-base"
+          className="input-base input-auth"
           placeholder="Email"
           value={email}
           onChange={(e) => {
@@ -72,7 +72,7 @@ export default function Login({ setUser }) {
         />
 
         <input
-          className="input-base"
+          className="input-base input-auth"
           type="password"
           placeholder="Password"
           value={password}

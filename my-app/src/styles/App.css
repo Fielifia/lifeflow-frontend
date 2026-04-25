@@ -66,17 +66,8 @@ h3 {
   text-align: center;
 }
 
-.message {
-  color: #4caf50;
-}
-
 .error {
   color: #ff6b6b;
-}
-
-.icon-small {
-  height: 12px;
-  width: 12px;
 }
 
 /* ============================= */
@@ -86,7 +77,7 @@ h3 {
 .app,
 .page {
   max-width: 480px;
-  margin: 0 auto;
+  margin: 20px auto;
   padding: 12px 12px 36px;
 }
 
@@ -166,6 +157,36 @@ h3 {
 /* ========== INPUTS =========== */
 /* ============================= */
 
+/* Chrome, Safari, Edge */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+input:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px var(--card-2) inset;
+  -webkit-text-fill-color: var(--text);
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+input:-webkit-autofill:focus {
+  -webkit-box-shadow:
+    0 0 0px 1000px var(--card-2) inset,
+    0 0 0 1px rgba(25, 104, 106, 0.4);
+}
+
+.input-base:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 1px rgba(25, 104, 106, 0.4);
+}
+
 .input-base {
   width: 100%;
   padding: 4px 12px;
@@ -176,6 +197,10 @@ h3 {
   color: var(--text);
 }
 
+.input-auth {
+  padding: 12px;
+}
+
 textarea {
   resize: vertical;
   min-height: 30px;
@@ -183,10 +208,6 @@ textarea {
   max-height: 150px;
 }
 
-.checkbox {
-  width: 18px;
-  height: 18px;
-}
 
 /* ============================= */
 /* ========== SELECT =========== */
@@ -310,7 +331,7 @@ textarea {
 .workout-exercise {
   border: 1px solid var(--border);
   border-radius: 14px;
-  padding: 12px;
+  padding: 4px 12px;
   margin-bottom: 12px;
 }
 
@@ -321,13 +342,18 @@ textarea {
 
 .btn-small-full {
   width: 100%;
-  padding: 6px 8px;
   font-size: 11px;
 }
 
-.exercise-header {
-  gap: 10px;
+.workout-header {
   margin-bottom: 10px;
+}
+
+.workout-header .icon-small {
+  height: 12px;
+  width: 12px;
+  margin-left: 4px;
+  cursor: pointer;
 }
 
 .exercise-header-main {
@@ -371,12 +397,19 @@ textarea {
 }
 
 .btn-small {
-  padding: 6px 8px;
   font-size: 11px;
 }
 
 .rest-label {
+  display: flex;
+  gap: 4px;
+  align-items: center;
   font-size: 12px;
+  cursor: pointer;
+}
+
+.rest-label .icon-small {
+  height: 18px;
 }
 
 .set-header,
@@ -393,12 +426,26 @@ textarea {
   padding: 0 4px;
 }
 
-.set-row input {
-  margin-bottom: 0;
+.set-row {
+  height: 36px;
+  margin: 10px 0;
+}
+
+.set-row .input-base {
+  height: 100%;
+  margin: 0;
 }
 
 .set-row .checkbox {
-  margin: 0 auto;
+  width: 20px;
+  height: 20px;
+  align-self: center;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+.set-row .checkbox:checked {
+  filter: brightness(1.1);
 }
 
 .set-row.completed {
@@ -406,9 +453,32 @@ textarea {
 }
 
 .set-row button {
-  height: 32px;
-  padding: 4px 6px;
+  height: 100%;
   font-size: 11px;
+  margin: 0;
+}
+
+.number-input {
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  height: 100%;
+  gap: 4px;
+}
+
+.number-input button {
+  background: var(--card-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 10px;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.number-input input {
+  width: 100%;
+  height: 100%;
+  text-align: center;
 }
 
 /* ============================= */
