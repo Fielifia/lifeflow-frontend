@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useTimer } from './useTimer'
 import { useRestTimer } from './useRestTimer'
+import API from '../../../api/api'
 
 /**
  * Handles workout state, timers and actions.
@@ -169,8 +170,6 @@ export function useWorkoutLogic(navigate, location) {
       setError('')
       setSuccess(false)
 
-      const token = JSON.parse(localStorage.getItem('user'))?.token
-
       const cleaned = workout.exercises
         .map((ex) => ({
           ...ex,
@@ -185,20 +184,11 @@ export function useWorkoutLogic(navigate, location) {
 
       localStorage.setItem('lastWorkout', JSON.stringify(workout))
 
-      const res = await fetch('http://localhost:5000/workouts', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          ...workout,
-          exercises: cleaned,
-          duration: elapsed,
-        }),
+      await API.post('/workouts', {
+        ...workout,
+        exercises: cleaned,
+        duration: elapsed,
       })
-
-      if (!res.ok) throw new Error()
 
       setSuccess(true)
 
@@ -210,8 +200,9 @@ export function useWorkoutLogic(navigate, location) {
       setIsEditingName(false)
 
       localStorage.removeItem('draftWorkout')
-    } catch {
-      setError('Could not save workout')
+    } catch (err) {
+      const msg = err.response?.data?.error || 'Could not save workout'
+      setError(msg)
     } finally {
       setSaving(false)
     }
