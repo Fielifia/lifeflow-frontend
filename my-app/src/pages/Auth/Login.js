@@ -85,7 +85,7 @@ export default function Login({ setUser }) {
           }}
         />
 
-        <button type="submit" className="btn primary-btn" disabled={loading}>
+        <button type="submit" className="btn btn-primary" disabled={loading}>
           {loading ? 'Logging in...' : 'Login'}
         </button>
       </form>
