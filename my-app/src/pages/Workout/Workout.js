@@ -113,17 +113,19 @@ export default function Workout() {
       />
 
       {/* BOTTOM CONTROLS */}
-      <WorkoutControls
-        status={status}
-        handleStartPause={handleStartPause}
-        saveWorkout={saveWorkout}
-        saving={saving}
-        hasExercises={workout.exercises.length > 0}
-      />
+      {workout.exercises.length > 0 && (
+        <WorkoutControls
+          status={status}
+          handleStartPause={handleStartPause}
+          saveWorkout={saveWorkout}
+          saving={saving}
+          hasExercises={true}
+        />
+      )}
 
       {/* FEEDBACK */}
-      {success && <p className="muted">Workout saved ✔</p>}
-      {error && <p className="error">{error}</p>}
+      {success && <p className="muted center">Workout saved ✔</p>}
+      {error && <p className="error center">{error}</p>}
     </div>
   )
 }
