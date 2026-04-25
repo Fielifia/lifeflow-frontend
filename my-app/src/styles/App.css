@@ -266,6 +266,14 @@ input:-webkit-autofill {
   cursor: pointer;
 }
 
+.textarea {
+  resize: vertical;
+  min-height: 30px;
+  height: 60px;
+  max-height: 150px;
+  margin: 8px 0;
+}
+
 /* ============================= */
 /* ===== NUMBER INPUT FIX ====== */
 /* ============================= */
@@ -463,6 +471,7 @@ input:-webkit-autofill {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  margin: 8px 0;
 }
 
 .filters {

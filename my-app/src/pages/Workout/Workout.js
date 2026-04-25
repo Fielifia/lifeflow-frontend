@@ -106,7 +106,7 @@ export default function Workout() {
 
       {/* NOTES */}
       <textarea
-        className="input-base"
+        className="input-base textarea"
         value={workout.notes}
         placeholder="Notes..."
         onChange={(e) => updateWorkoutNotes(e.target.value)}

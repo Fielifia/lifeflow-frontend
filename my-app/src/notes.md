@@ -38,4 +38,4 @@ Goal Crusher – klarat ett personligt mål
 Locked In – håller sig till plan X dagar
 → <Lock />
 Ealy Bird – Pass innan 08.00
-→
+→ <AlarmClock />
