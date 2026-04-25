@@ -1,14 +1,23 @@
 export const CATEGORIES = {
-  BASE: ['Chest', 'Back', 'Arms', 'Legs', 'Shoulders'],
-  SPECIAL: ['Bodyweight', 'Mobility'],
+  BASE: ['Chest', 'Core', 'Back', 'Arms', 'Legs', 'Shoulders'],
+  SPECIAL: ['Mobility'],
 }
 
 export const CATEGORY_ORDER = [
-  'Chest',
-  'Back',
   'Arms',
+  'Back',
+  'Chest',
+  'Core',
   'Legs',
   'Shoulders',
-  'Bodyweight',
   'Mobility',
+]
+
+export const equipmentList = [
+  'Bands',
+  'Body weight',
+  'Barbell',
+  'Dumbbell',
+  'Machine',
+  'Other',
 ]

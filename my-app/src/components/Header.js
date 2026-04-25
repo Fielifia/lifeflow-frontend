@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'
+
 /**
  * Header component displaying app title and logout action.
  * @param {{ setUser: (value: boolean) => void }} props - Component props
@@ -12,7 +14,9 @@ export default function Header({ setUser }) {
 
   return (
     <div className="header">
-      <h2 className="logo">LifeFlow Fitness</h2>
+      <Link to="/" className="logo">
+        LifeFlow Fitness
+      </Link>
 
       <button className="logout-btn" onClick={handleLogout}>
         Logout

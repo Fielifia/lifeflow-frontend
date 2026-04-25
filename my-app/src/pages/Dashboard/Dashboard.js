@@ -124,7 +124,6 @@ export default function Dashboard() {
           )}
         </div>
       </div>
-      <Link to="/exercises">Exercises</Link>
     </div>
   )
 }

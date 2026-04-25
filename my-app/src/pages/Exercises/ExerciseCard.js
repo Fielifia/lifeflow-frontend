@@ -12,14 +12,18 @@
  * }} props - Component props
  * @returns {import('react').ReactElement} Exercise card UI
  */
-export default function ExerciseCard({ exercise, onClick }) {
+export default function ExerciseCard({ exercise, onClick, selected }) {
   return (
-    <div className="card-base exercise-row" onClick={onClick}>
+    <div
+      className={`card-base exercise-card ${selected ? 'is-selected' : ''}`}
+      onClick={onClick}
+    >
+      {selected && <span className="selected-badge">✓</span>}
+
       <img src={exercise.image} alt={exercise.name} className="exercise-img" />
 
       <div className="exercise-info">
         <h3>{exercise.name}</h3>
-
         <p>
           {exercise.equipment} • {exercise.muscle}
         </p>
