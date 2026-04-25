@@ -98,7 +98,7 @@ a {
 .app,
 .page {
   max-width: 480px;
-  margin: 20px auto;
+  margin: 0 auto;
   padding: 12px 12px 36px;
 }
 
@@ -121,6 +121,10 @@ a {
   border-radius: 14px;
   padding: 12px;
   border: 1px solid var(--border);
+}
+
+.card-base .card-auth {
+  margin: 200px auto;
 }
 
 .container {
@@ -210,7 +214,7 @@ input:-webkit-autofill:focus {
 
 .input-base {
   width: 100%;
-  padding: 4px 12px;
+  padding: 12px;
   margin-bottom: 12px;
   border-radius: 12px;
   border: 1px solid var(--border);
@@ -236,12 +240,12 @@ textarea {
 
 .select-base {
   width: 100%;
-  padding: 10px 36px 10px 12px;
+  padding: 10px 12px;
   border-radius: 12px;
   border: 1px solid var(--border);
   background: var(--card-2);
   color: var(--text);
-  font-size: 11px;
+  font-size: 14px;
   appearance: none;
   cursor: pointer;
 }
@@ -352,7 +356,7 @@ textarea {
 .workout-exercise {
   border: 1px solid var(--border);
   border-radius: 14px;
-  padding: 4px 12px;
+  padding: 4px 12px 12px;
   margin-bottom: 12px;
 }
 
@@ -424,6 +428,7 @@ textarea {
 .rest-label {
   display: flex;
   gap: 4px;
+  margin: 8px 0;
   align-items: center;
   font-size: 12px;
   cursor: pointer;
@@ -455,6 +460,7 @@ textarea {
 .set-row .input-base {
   height: 100%;
   margin: 0;
+  padding: 8px 12px;
 }
 
 .set-row .checkbox {
