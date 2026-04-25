@@ -245,7 +245,7 @@ textarea {
   border: 1px solid var(--border);
   background: var(--card-2);
   color: var(--text);
-  font-size: 14px;
+  font-size: 12px;
   appearance: none;
   cursor: pointer;
 }
