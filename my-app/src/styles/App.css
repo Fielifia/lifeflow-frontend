@@ -54,6 +54,22 @@ a {
   color: inherit;
 }
 
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:visited,
+a:active {
+  text-decoration: none;
+  color: inherit;
+}
+
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
 .muted {
   color: var(--muted);
 }
