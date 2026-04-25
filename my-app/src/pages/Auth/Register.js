@@ -58,7 +58,7 @@ export default function Register() {
   }
 
   return (
-    <div className="container">
+    <div className="card-base card-auth">
       <h2>Create account</h2>
 
       <form
@@ -68,7 +68,7 @@ export default function Register() {
         }}
       >
         <input
-          className="input"
+          className="input-base"
           placeholder="Email"
           value={email}
           onChange={(e) => {
@@ -78,7 +78,7 @@ export default function Register() {
         />
 
         <input
-          className="input"
+          className="input-base"
           placeholder="Username"
           value={username}
           onChange={(e) => {
@@ -88,7 +88,7 @@ export default function Register() {
         />
 
         <input
-          className="input"
+          className="input-base"
           type="password"
           placeholder="Password"
           value={password}
@@ -99,7 +99,7 @@ export default function Register() {
         />
 
         <input
-          className="input"
+          className="input-base"
           type="password"
           placeholder="Confirm Password"
           value={confirmPassword}

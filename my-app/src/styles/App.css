@@ -66,6 +66,14 @@ h3 {
   text-align: center;
 }
 
+.message {
+  color: #4caf50;
+}
+
+.error {
+  color: #ff6b6b;
+}
+
 .icon-small {
   height: 12px;
   width: 12px;
