@@ -686,17 +686,19 @@ input:-webkit-autofill {
   text-align: center;
 }
 
-.icon {
+.achievement-card .icon {
+  color: var(--primary);
   width: 22px;
   height: 22px;
-  background: var(--primary);
+  background: none;
   border-radius: 50%;
   margin: 0 auto 8px;
 }
 
+
 .achievement-title {
-  font-size: 13px;
-  font-weight: 600;
+  font-size: 12px;
+  margin: 0;
 }
 
 /* ============================= */

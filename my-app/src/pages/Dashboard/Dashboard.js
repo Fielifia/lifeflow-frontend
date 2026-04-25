@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import {Play, CalendarCheck2, Trophy, Activity} from 'lucide-react'
 
 /**
  * Dashboard view displaying user statistics and quick navigation.
@@ -16,6 +17,20 @@ export default function Dashboard() {
     { day: 'Fri', value: 70 },
     { day: 'Sat', value: 110 },
     { day: 'Sun', value: 80 },
+  ]
+
+  const ACHIEVEMENT_ICONS = {
+    FIRST_WORKOUT: Play,
+    CONSISTENCY_10: CalendarCheck2,
+    NEW_PR: Trophy,
+    GOAL_CRUSHER: Activity,
+  }
+  
+  const achievements = [
+    { type: 'FIRST_WORKOUT', title: 'First Workout' },
+    { type: 'CONSISTENCY_10', title: 'Consistency Beginner' },
+    { type: 'NEW_PR', title: 'New PR' },
+    { type: 'GOAL_CRUSHER', title: 'Goal Crusher' },
   ]
 
   return (
@@ -113,15 +128,16 @@ export default function Dashboard() {
         <h3>Recent Achievements</h3>
 
         <div className="grid-base achievements-grid">
-          {['First Workout', '7 Day Streak', '100kg Club', 'Early Bird'].map(
-            (title) => (
-              <div key={title} className="card-base achievement-card">
-                <div className="icon"></div>
-                <p className="achievement-title">{title}</p>
-                <p className="muted small">Achievement unlocked</p>
+          {achievements.map((a) => {
+            const Icon = ACHIEVEMENT_ICONS[a.type]
+
+            return (
+              <div key={a.type} className="card-base achievement-card">
+                <div className="icon">{Icon && <Icon size={20} />}</div>
+                <p className="achievement-title">{a.title}</p>
               </div>
-            ),
-          )}
+            )
+          })}
         </div>
       </div>
     </div>
