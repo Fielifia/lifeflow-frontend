@@ -56,7 +56,7 @@ export default function ExerciseItem({
         <h2>{ex.name}</h2>
 
         <button
-          className="btn btn-secondary btn-small"
+          className="btn btn-secondary btn-small btn-right"
           onClick={(e) => {
             e.stopPropagation()
             removeExercise(i)
@@ -139,7 +139,7 @@ export default function ExerciseItem({
 
       {/* ADD SET */}
       <button
-        className="btn btn-secondary btn-small-full"
+        className="btn btn-secondary btn-full"
         onClick={() => addSet(i)}
       >
         Add set

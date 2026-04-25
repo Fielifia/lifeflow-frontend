@@ -18,7 +18,7 @@ export default function Header({ setUser }) {
         LifeFlow Fitness
       </Link>
 
-      <button className="logout-btn" onClick={handleLogout}>
+      <button className="btn btn-secondary btn-right" onClick={handleLogout}>
         Logout
       </button>
     </div>

@@ -115,7 +115,7 @@ export default function Dashboard() {
         <div className="grid-base achievements-grid">
           {['First Workout', '7 Day Streak', '100kg Club', 'Early Bird'].map(
             (title) => (
-              <div key={title} className="achievement-card">
+              <div key={title} className="card-base achievement-card">
                 <div className="icon"></div>
                 <p className="achievement-title">{title}</p>
                 <p className="muted small">Achievement unlocked</p>

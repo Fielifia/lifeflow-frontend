@@ -1,8 +1,5 @@
 /**
  * Global styles for the LifeFlow frontend application.
- *
- * This file defines CSS variables for consistent theming and styles for common components such as cards, buttons, and layout.
- *
  */
 
 /* ============================= */
@@ -32,13 +29,14 @@
 
 body {
   margin: 0;
-  font-family:
-    system-ui,
-    -apple-system,
-    sans-serif;
+  font-family: system-ui, -apple-system, sans-serif;
   background: var(--bg);
   color: var(--text);
 }
+
+/* ============================= */
+/* ========== TYPO ============= */
+/* ============================= */
 
 h2 {
   font-size: 18px;
@@ -47,27 +45,6 @@ h2 {
 
 h3 {
   font-size: 12px;
-}
-
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-a:focus,
-a:active {
-  outline: none;
-}
-
-a,
-a:visited,
-a:active {
-  text-decoration: none;
-  color: inherit;
-}
-
-a {
-  -webkit-tap-highlight-color: transparent;
 }
 
 .muted {
@@ -92,6 +69,62 @@ a {
 }
 
 /* ============================= */
+/* ========== HEADER ============ */
+/* ============================= */
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+}
+
+.logo {
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--text);
+}
+
+/* ============================= */
+/* ========== LINKS ============ */
+/* ============================= */
+
+a {
+  text-decoration: none;
+  color: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+/* ============================= */
+/* ===== CLICKABLE SYSTEM ====== */
+/* ============================= */
+
+.clickable {
+  cursor: pointer;
+  transition: transform 0.08s ease, opacity 0.08s ease;
+}
+
+.clickable:active {
+  transform: scale(0.97);
+  opacity: 0.85;
+}
+
+.card-clickable {
+  cursor: pointer;
+  transition: transform 0.08s ease;
+}
+
+.card-clickable:active {
+  transform: scale(0.98);
+}
+
+/* ============================= */
 /* ========== LAYOUT =========== */
 /* ============================= */
 
@@ -104,6 +137,7 @@ a {
 
 .section {
   margin-bottom: 20px;
+  gap: 12px;
 }
 
 .grid-base {
@@ -123,10 +157,6 @@ a {
   border: 1px solid var(--border);
 }
 
-.card-base .card-auth {
-  margin: 200px auto;
-}
-
 .container {
   background: var(--card);
   padding: 16px;
@@ -136,6 +166,10 @@ a {
 /* ============================= */
 /* ========== BUTTONS ========== */
 /* ============================= */
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
 
 .btn {
   cursor: pointer;
@@ -148,11 +182,10 @@ a {
 .btn-primary {
   width: 100%;
   padding: 14px;
-  border-radius: 14px;
+  border-radius: 10px;
   border: none;
   background: var(--primary);
   color: #fff;
-  font-weight: 600;
 }
 
 .btn-primary:hover {
@@ -169,6 +202,14 @@ a {
   border-color: var(--primary);
 }
 
+.btn-right {
+  margin-left: auto;
+}
+
+.btn-full {
+  width: 100%;
+}
+
 .back-btn {
   background: transparent;
   border: 1px solid var(--border);
@@ -182,57 +223,76 @@ a {
 /* ========== INPUTS =========== */
 /* ============================= */
 
-/* Chrome, Safari, Edge */
+/* remove native number arrows */
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
 
-/* Firefox */
 input[type='number'] {
   -moz-appearance: textfield;
 }
 
+/* autofill fix */
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px var(--card-2) inset;
   -webkit-text-fill-color: var(--text);
-  transition: background-color 9999s ease-in-out 0s;
 }
 
-input:-webkit-autofill:focus {
-  -webkit-box-shadow:
-    0 0 0px 1000px var(--card-2) inset,
-    0 0 0 1px rgba(25, 104, 106, 0.4);
-}
-
+/* focus */
 .input-base:focus {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 1px rgba(25, 104, 106, 0.4);
 }
 
+/* base input */
 .input-base {
   width: 100%;
-  padding: 12px;
-  margin-bottom: 12px;
+  padding: 10px 12px;
   border-radius: 12px;
   border: 1px solid var(--border);
   background: var(--card-2);
   color: var(--text);
 }
 
-.input-auth {
-  padding: 12px;
+/* checkbox (slightly bigger but stable) */
+.checkbox {
+  width: 20px;
+  height: 20px;
+  align-self: center;
+  accent-color: var(--primary);
+  cursor: pointer;
 }
 
-textarea {
-  resize: vertical;
-  min-height: 30px;
-  height: 60px;
-  max-height: 150px;
+/* ============================= */
+/* ===== NUMBER INPUT FIX ====== */
+/* ============================= */
+
+.number-input {
+  display: grid;
+  grid-template-columns: 32px 1fr 32px;
+  height: 100%;
+  gap: 4px;
 }
 
+.number-input button {
+  width: 32px;
+  height: 100%;
+  background: var(--card-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.number-input input {
+  height: 100%;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+}
 
 /* ============================= */
 /* ========== SELECT =========== */
@@ -250,13 +310,6 @@ textarea {
   cursor: pointer;
 }
 
-.filters {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
 .select-wrapper {
   position: relative;
 }
@@ -267,9 +320,7 @@ textarea {
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 12px;
   color: var(--muted);
-  /* pointer-events: none; */
 }
 
 /* ============================= */
@@ -280,21 +331,16 @@ textarea {
   display: flex;
   justify-content: space-around;
   align-items: center;
-
   padding: 8px 4px;
   background: rgba(23, 36, 42, 0.95);
   backdrop-filter: blur(10px);
-
   border-top: 1px solid var(--border);
-
   max-width: 480px;
   margin: 0 auto;
-
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-
   z-index: 100;
 }
 
@@ -303,7 +349,6 @@ textarea {
   flex-direction: column;
   align-items: center;
   font-size: 12px;
-  text-decoration: none;
   color: var(--text);
   gap: 4px;
 }
@@ -313,65 +358,25 @@ textarea {
   font-weight: 600;
 }
 
-.nav-icon {
-  width: 20px;
-}
-
-/* ============================= */
-/* ========== HEADER =========== */
-/* ============================= */
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px;
-}
-
-.logo {
-  font-size: 18px;
-  font-weight: 600;
-  text-decoration: none;
-  color: var(--text);
-}
-
-.logout-btn {
-  background: transparent;
-  color: var(--text);
-  border: 1px solid var(--border);
-  padding: 6px 10px;
-  border-radius: 10px;
-  cursor: pointer;
-}
-
-.logout-btn:hover {
-  border-color: var(--primary);
-  color: var(--primary);
-}
-
 /* ============================= */
 /* ========== WORKOUT ========== */
 /* ============================= */
+
+.workout-controls {
+  display: flex;
+  gap: 8px;
+  margin: 12px 0 0;
+}
+
+.workout-controls .btn {
+  flex: 1;
+}
 
 .workout-exercise {
   border: 1px solid var(--border);
   border-radius: 14px;
   padding: 4px 12px 12px;
-  margin-bottom: 12px;
-}
-
-.workout-exercise .btn-small {
-  margin-left: auto;
-  width: 70px;
-}
-
-.btn-small-full {
-  width: 100%;
-  font-size: 11px;
-}
-
-.workout-header {
-  margin-bottom: 10px;
+  margin: 12px 0;
 }
 
 .workout-header .icon-small {
@@ -392,56 +397,12 @@ textarea {
   width: 40px;
   height: 40px;
   border-radius: 8px;
-  object-fit: cover;
-}
-
-.exercise-header-info {
-  flex: 1;
-}
-
-.exercise-title {
-  margin: 0;
-  font-size: 16px;
-}
-
-.clickable {
-  cursor: pointer;
-}
-
-.clickable:hover {
-  opacity: 0.85;
-}
-
-.workout-controls {
-  display: flex;
-  gap: 8px;
-}
-
-.workout-controls .btn {
-  flex: 1;
-}
-
-.btn-small {
-  font-size: 11px;
-}
-
-.rest-label {
-  display: flex;
-  gap: 4px;
-  margin: 8px 0;
-  align-items: center;
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.rest-label .icon-small {
-  height: 18px;
 }
 
 .set-header,
 .set-row {
   display: grid;
-  grid-template-columns: 24px 1fr 1fr 70px;
+  grid-template-columns: 32px 1fr 1fr 70px;
   gap: 8px;
   align-items: center;
 }
@@ -449,7 +410,6 @@ textarea {
 .set-header {
   font-size: 12px;
   color: var(--muted);
-  padding: 0 4px;
 }
 
 .set-row {
@@ -459,20 +419,7 @@ textarea {
 
 .set-row .input-base {
   height: 100%;
-  margin: 0;
-  padding: 8px 12px;
-}
-
-.set-row .checkbox {
-  width: 20px;
-  height: 20px;
-  align-self: center;
-  accent-color: var(--primary);
-  cursor: pointer;
-}
-
-.set-row .checkbox:checked {
-  filter: brightness(1.1);
+  padding: 0 10px;
 }
 
 .set-row.completed {
@@ -481,31 +428,31 @@ textarea {
 
 .set-row button {
   height: 100%;
-  font-size: 11px;
   margin: 0;
 }
 
-.number-input {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  height: 100%;
-  gap: 4px;
+
+/* ============================= */
+/* ========== DASHBOARD ======== */
+/* ============================= */
+
+.welcome {
+  color: var(--muted);
 }
 
-.number-input button {
-  background: var(--card-2);
-  border: 1px solid var(--border);
-  color: var(--text);
-  border-radius: 10px;
-  width: 100%;
-  height: 100%;
-  cursor: pointer;
+.quote {
+  margin-top: 6px;
 }
 
-.number-input input {
-  width: 100%;
-  height: 100%;
-  text-align: center;
+.stat-value {
+  font-size: 22px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--muted);
 }
 
 /* ============================= */
@@ -516,6 +463,13 @@ textarea {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  margin: 12px 0;
 }
 
 .exercise-card {
@@ -610,28 +564,6 @@ textarea {
   align-items: center;
   justify-content: center;
   font-size: 12px;
-}
-/* ============================= */
-/* ========== DASHBOARD ======== */
-/* ============================= */
-
-.welcome {
-  color: var(--muted);
-}
-
-.quote {
-  margin-top: 6px;
-}
-
-.stat-value {
-  font-size: 22px;
-  font-weight: 600;
-  margin: 0;
-}
-
-.stat-label {
-  font-size: 12px;
-  color: var(--muted);
 }
 
 /* ========== WEEKLY ACTIVITY CHART ======== */
@@ -746,8 +678,8 @@ textarea {
 }
 
 .icon {
-  width: 40px;
-  height: 40px;
+  width: 22px;
+  height: 22px;
   background: var(--primary);
   border-radius: 50%;
   margin: 0 auto 8px;
@@ -759,25 +691,34 @@ textarea {
 }
 
 /* ============================= */
-/* ========== REST TIMER ======== */
+/* ========== REST TIMER ======= */
 /* ============================= */
+
+.rest-label {
+  display: flex;
+  gap: 4px;
+  margin: 8px 0;
+  align-items: center;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.rest-label .icon-small {
+  height: 18px;
+}
 
 .rest-timer-floating {
   position: fixed;
   top: 60px;
   left: 50%;
   transform: translateX(-50%);
-
   background: var(--primary);
   color: white;
-
   padding: 10px 16px;
   border-radius: 999px;
-
   display: flex;
   align-items: center;
   gap: 12px;
-
   z-index: 999;
 }
 

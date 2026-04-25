@@ -83,7 +83,7 @@ export default function Workout() {
       />
 
       {/* ADD EXERCISE */}
-      <button className="btn btn-secondary" onClick={openLibrary}>
+      <button className="btn btn-secondary btn-full" onClick={openLibrary}>
         Add exercise
       </button>
 
