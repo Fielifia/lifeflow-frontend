@@ -9,6 +9,7 @@ import Dashboard from './pages/Dashboard/Dashboard'
 import ExerciseDetail from './pages/Exercises/ExerciseDetail'
 import Exercises from './pages/Exercises/Exercises'
 import Workout from './pages/Workout/Workout'
+import WorkoutStartPage from './pages/Workout/WorkoutStartPage'
 
 /**
  * Root application component handling authentication and routing.
@@ -46,9 +47,12 @@ function App() {
           <>
             <Routes>
               <Route path="/" element={<Dashboard setUser={setUser} />} />
+
               <Route path="/exercises" element={<Exercises />} />
               <Route path="/exercise/:id" element={<ExerciseDetail />} />
-              <Route path="/workout" element={<Workout />} />
+              
+              <Route path="/workout" element={<WorkoutStartPage />} />
+              <Route path="/workout/run" element={<Workout />} />
 
               <Route
                 path="/history"

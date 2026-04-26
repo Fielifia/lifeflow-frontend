@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
-import { useParams, useNavigate, useLocation } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { getExerciseById } from '../../api/exerciseApi'
+import BackButton from '../../components/ui/BackButton'
 import { normalizeExercise } from '../../utils/exerciseAdapter'
 import { formatLabel } from '../../utils/format'
 
@@ -12,8 +13,6 @@ import { formatLabel } from '../../utils/format'
  */
 export default function ExerciseDetail() {
   const { id } = useParams()
-  const navigate = useNavigate()
-  const location = useLocation()
 
   const [exercise, setExercise] = useState(null)
   const [currentImage, setCurrentImage] = useState(0)
@@ -53,12 +52,7 @@ export default function ExerciseDetail() {
     <div className="app">
       {/* Header */}
 
-      <button
-        onClick={() => navigate(location.state?.from || -1)}
-        className="back-btn"
-      >
-        ← Back
-      </button>
+      <BackButton />
       {/* Title */}
       <div className="section">
         <h2>{exercise.name}</h2>

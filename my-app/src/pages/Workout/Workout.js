@@ -1,11 +1,12 @@
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useWorkoutLogic } from './hooks/useWorkoutLogic'
 
-import WorkoutHeader from './WorkoutHeader'
-import WorkoutControls from './WorkoutControls'
-import RestTimer from './RestTimer'
-import ExerciseItem from './ExerciseItem'
+import BackButton from '../../components/ui/BackButton'
+import RestTimer from './components/RestTimer'
+import ExerciseItem from './components/ExerciseItem'
+import WorkoutControls from './components/WorkoutControls'
+import WorkoutHeader from './components/WorkoutHeader'
 
 /**
  * Workout page for creating and tracking a workout session.
@@ -55,6 +56,7 @@ export default function Workout() {
 
   return (
     <div className="card-base card-workout">
+      <BackButton />
       {/* HEADER */}
       <WorkoutHeader
         title={title}
