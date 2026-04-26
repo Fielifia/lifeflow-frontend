@@ -223,7 +223,6 @@ button {
 /* ========== INPUTS =========== */
 /* ============================= */
 
-/* remove native number arrows */
 input[type='number']::-webkit-inner-spin-button,
 input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
@@ -234,20 +233,17 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
-/* autofill fix */
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px var(--card-2) inset;
   -webkit-text-fill-color: var(--text);
 }
 
-/* focus */
 .input-base:focus {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 1px rgba(25, 104, 106, 0.4);
 }
 
-/* base input */
 .input-base {
   width: 100%;
   padding: 10px 12px;
@@ -257,7 +253,6 @@ input:-webkit-autofill {
   color: var(--text);
 }
 
-/* checkbox (slightly bigger but stable) */
 .checkbox {
   width: 20px;
   height: 20px;
@@ -364,6 +359,16 @@ input:-webkit-autofill {
 .nav-item.active {
   color: var(--primary);
   font-weight: 600;
+}
+
+/* ============================= */
+/* ========== AUTH ========== */
+/* ============================= */
+
+.card-base.card-auth form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 /* ============================= */

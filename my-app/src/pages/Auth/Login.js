@@ -51,7 +51,7 @@ export default function Login({ setUser }) {
 
   return (
     <div className="card-base card-auth">
-      <h2>Login</h2>
+      <h2 className="center">Login</h2>
       <form
         onSubmit={(e) => {
           e.preventDefault()

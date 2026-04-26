@@ -20,57 +20,55 @@ function App() {
   )
   const [showRegister, setShowRegister] = useState(false)
 
-  if (!user) {
-    return (
-      <div className="app">
-        {showRegister ? (
-          <>
-            <Register />
-            <p className="message" onClick={() => setShowRegister(false)}>
-              Already have an account? Login
-            </p>
-          </>
-        ) : (
-          <>
-            <Login setUser={setUser} />
-            <p className="message" onClick={() => setShowRegister(true)}>
-              Create account
-            </p>
-          </>
-        )}
-      </div>
-    )
-  }
-
   return (
     <BrowserRouter>
       <div className="app">
-        {/* Header */}
-        <Header setUser={setUser} />
-        <Routes>
-          <Route path="/" element={<Dashboard setUser={setUser} />} />
-          <Route path="/exercises" element={<Exercises />} />
-          <Route path="/exercise/:id" element={<ExerciseDetail />} />
+        {/* Header fungerar nu alltid */}
+        <Header user={user} setUser={setUser} />
 
-          <Route path="/workout" element={<Workout></Workout>} />
-          <Route
-            path="/history"
-            element={<div className="card">History (coming soon)</div>}
-          />
-          <Route
-            path="/stats"
-            element={<div className="card">Stats (coming soon)</div>}
-          />
-          <Route
-            path="/calendar"
-            element={<div className="card">Calendar (coming soon)</div>}
-          />
+        {!user ? (
+          showRegister ? (
+            <>
+              <Register />
+              <p className="message" onClick={() => setShowRegister(false)}>
+                Already have an account? Login
+              </p>
+            </>
+          ) : (
+            <>
+              <Login setUser={setUser} />
+              <p className="message" onClick={() => setShowRegister(true)}>
+                Create account
+              </p>
+            </>
+          )
+        ) : (
+          <>
+            <Routes>
+              <Route path="/" element={<Dashboard setUser={setUser} />} />
+              <Route path="/exercises" element={<Exercises />} />
+              <Route path="/exercise/:id" element={<ExerciseDetail />} />
+              <Route path="/workout" element={<Workout />} />
 
-          {/* fallback */}
-          <Route path="*" element={<Navigate to="/" />} />
-        </Routes>
+              <Route
+                path="/history"
+                element={<div className="card">History (coming soon)</div>}
+              />
+              <Route
+                path="/stats"
+                element={<div className="card">Stats (coming soon)</div>}
+              />
+              <Route
+                path="/calendar"
+                element={<div className="card">Calendar (coming soon)</div>}
+              />
 
-        <Navbar />
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
+
+            <Navbar />
+          </>
+        )}
       </div>
     </BrowserRouter>
   )

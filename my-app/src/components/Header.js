@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
  * @param {{ setUser: (value: boolean) => void }} props - Component props
  * @returns {import('react').ReactElement} Header UI
  */
-export default function Header({ setUser }) {
+export default function Header({ user, setUser }) {
   const handleLogout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
@@ -18,9 +18,11 @@ export default function Header({ setUser }) {
         LifeFlow Fitness
       </Link>
 
-      <button className="btn btn-secondary btn-right" onClick={handleLogout}>
-        Logout
-      </button>
+      {user && (
+        <button className="btn btn-secondary btn-right" onClick={handleLogout}>
+          Logout
+        </button>
+      )}
     </div>
   )
 }

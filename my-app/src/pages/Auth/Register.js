@@ -59,7 +59,7 @@ export default function Register() {
 
   return (
     <div className="card-base card-auth">
-      <h2>Create account</h2>
+      <h2 className="center">Create account</h2>
 
       <form
         onSubmit={(e) => {
