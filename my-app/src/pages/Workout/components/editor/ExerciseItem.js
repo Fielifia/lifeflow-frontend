@@ -6,6 +6,7 @@ import { Timer } from 'lucide-react'
  * @param {object} props - Component props
  * @param {{ exerciseId: string, name: string, image?: string, sets: Array }} props.ex - Exercise data
  * @param {number} props.i - Exercise index
+ * @param props.mode
  * @param {(path: string) => void} props.navigate - Navigate to detail
  * @param {(i: number) => void} props.addSet - Add new set
  * @param {(i: number, j: number, field: string, value: number | '') => void} props.updateSet - Update set values
@@ -21,23 +22,26 @@ import { Timer } from 'lucide-react'
 export default function ExerciseItem({
   ex,
   i,
+  mode,
   navigate,
   addSet,
   updateSet,
   removeExercise,
   removeSet,
   toggleSetComplete,
-  restTime,
   setRestTime,
   status,
   handleStartPause,
 }) {
   const inputRefs = useRef([])
+  const isWorkout = mode === 'workout'
 
   const handleCheck = (j, checked) => {
+    if (!toggleSetComplete) return
+
     toggleSetComplete(i, j, checked)
 
-    if (checked && status === 'idle') {
+    if (checked && status === 'idle' && handleStartPause) {
       handleStartPause()
     }
   }
@@ -76,13 +80,18 @@ export default function ExerciseItem({
       {/* SETS */}
       {ex.sets.map((set, j) => (
         <div key={j} className={`set-row ${set.completed ? 'completed' : ''}`}>
-          <input
-            type="checkbox"
-            className="checkbox"
-            checked={set.completed}
-            onChange={(e) => handleCheck(j, e.target.checked)}
-          />
+          {/* CHECKBOX / LABEL */}
+          {isWorkout ? (
+            <input
+              type="checkbox"
+              checked={set.completed || false}
+              onChange={(e) => handleCheck(j, e.target.checked)}
+            />
+          ) : (
+            <span>{j + 1}.</span>
+          )}
 
+          {/* WEIGHT */}
           <input
             ref={(el) => (inputRefs.current[j] = el)}
             className="input-base"
@@ -98,6 +107,7 @@ export default function ExerciseItem({
             }
           />
 
+          {/* REPS */}
           <div className="number-input">
             <button
               onClick={() =>
@@ -128,6 +138,7 @@ export default function ExerciseItem({
             </button>
           </div>
 
+          {/* REMOVE SET */}
           <button
             className="btn btn-secondary btn-small"
             onClick={() => removeSet(i, j)}
@@ -138,26 +149,25 @@ export default function ExerciseItem({
       ))}
 
       {/* ADD SET */}
-      <button
-        className="btn btn-secondary btn-full"
-        onClick={() => addSet(i)}
-      >
+      <button className="btn btn-secondary btn-full" onClick={() => addSet(i)}>
         Add set
       </button>
 
       {/* REST TIME */}
-      <div
-        className="rest-label"
-        onClick={(e) => {
-          e.stopPropagation()
-          const val = prompt('Rest time (seconds)', restTime)
-          if (val !== null && !isNaN(val)) {
-            setRestTime(Number(val))
-          }
-        }}
-      >
-        <Timer className="icon-small"/> Set Rest Timer: {restTime}s
-      </div>
+      {isWorkout && (
+        <div
+          className="rest-label"
+          onClick={(e) => {
+            e.stopPropagation()
+            const val = prompt('Rest time (seconds)', ex.restTime || 120)
+            if (val !== null && !isNaN(val)) {
+              setRestTime(Number(val))
+            }
+          }}
+        >
+          <Timer className="icon-small" /> Rest: {ex.restTime || 120}s
+        </div>
+      )}
     </div>
   )
 }

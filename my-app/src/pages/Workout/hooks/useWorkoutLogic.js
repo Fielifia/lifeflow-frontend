@@ -1,15 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useTimer } from './useTimer'
 import { useRestTimer } from './useRestTimer'
-import API from '../../../api/api'
+import { createWorkout } from '../../../api/workoutApi'
 
 /**
- * Handles workout state, timers and actions.
- * @param {(path: string, options?: object) => void} navigate - React Router navigate
- * @param {{ state?: object }} location - React Router location
- * @returns {object} Workout logic and handlers
+ *
+ * @param root0
+ * @param root0.workout
+ * @param root0.setWorkout
+ * @param root0.navigate
+ * @param root0.location
  */
-export function useWorkoutLogic(navigate, location) {
+export function useWorkoutLogic({ workout, setWorkout, navigate, location }) {
   const [saving, setSaving] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
@@ -27,123 +29,23 @@ export function useWorkoutLogic(navigate, location) {
     startRest,
   } = useRestTimer()
 
-  const [workout, setWorkout] = useState(() => {
-    return (
-      JSON.parse(localStorage.getItem('draftWorkout')) || {
-        exercises: [],
-        notes: '',
-      }
-    )
-  })
-
-  const [customName, setCustomName] = useState('')
-  const [isEditingName, setIsEditingName] = useState(false)
-
-  // ===== SAVE DRAFT =====
-  useEffect(() => {
-    localStorage.setItem('draftWorkout', JSON.stringify(workout))
-  }, [workout])
-
-  // ===== ADD EXERCISES =====
-  useEffect(() => {
-    const selected = location.state?.selectedExercises
-    const lastWorkout = JSON.parse(localStorage.getItem('lastWorkout'))
-
-    if (!selected || selected.length === 0) return
-
-    const newExercises = selected.map((ex) => {
-      const previous = lastWorkout?.exercises?.find(
-        (e) => e.exerciseId === ex.id,
-      )
-
-      return {
-        exerciseId: ex.id,
-        name: ex.name,
-        image: ex.image,
-        sets: previous
-          ? previous.sets.map((s) => ({
-            reps: s.reps,
-            weight: s.weight,
-            completed: false,
-          }))
-          : [
-            { reps: 8, weight: 0, completed: false },
-            { reps: 8, weight: 0, completed: false },
-          ],
-      }
-    })
-
-    setWorkout((prev) => ({
-      ...prev,
-      exercises: [
-        ...prev.exercises,
-        ...newExercises.filter(
-          (ex) => !prev.exercises.some((e) => e.exerciseId === ex.exerciseId),
-        ),
-      ],
-    }))
-
-    window.history.replaceState({}, '')
-  }, [location.state])
-
-  const formatTime = (s) => {
-    const m = Math.floor(s / 60)
-    const sec = s % 60
-    return `${m}:${sec.toString().padStart(2, '0')}`
-  }
-
+  // ===== SAFE START =====
   const safeStartPause = () => {
-    if (workout.exercises.length === 0) return
+    if (!workout?.exercises?.length) return
     handleStartPause()
   }
 
+  // ===== NAVIGATE TO LIBRARY =====
   const openLibrary = () => {
     navigate('/exercises?select=true', {
-      state: { currentExercises: workout.exercises },
+      state: {
+        currentExercises: workout.exercises,
+        from: location.pathname,
+      },
     })
   }
 
-  const addSet = (index) => {
-    const updated = [...workout.exercises]
-    const last = updated[index].sets.slice(-1)[0]
-
-    updated[index].sets.push(
-      last
-        ? { ...last, completed: false }
-        : { reps: 8, weight: 0, completed: false },
-    )
-
-    setWorkout({ ...workout, exercises: updated })
-  }
-
-  const updateSet = (exIndex, setIndex, field, value) => {
-    const updated = [...workout.exercises]
-    updated[exIndex].sets[setIndex][field] = value
-    setWorkout({ ...workout, exercises: updated })
-  }
-
-  const updateWorkoutNotes = (value) => {
-    setWorkout({ ...workout, notes: value })
-  }
-
-  const removeExercise = (index) => {
-    setWorkout({
-      ...workout,
-      exercises: workout.exercises.filter((_, i) => i !== index),
-    })
-  }
-
-  const removeSet = (exIndex, setIndex) => {
-    const updated = [...workout.exercises]
-    if (updated[exIndex].sets.length === 1) return
-
-    updated[exIndex].sets = updated[exIndex].sets.filter(
-      (_, i) => i !== setIndex,
-    )
-
-    setWorkout({ ...workout, exercises: updated })
-  }
-
+  // ===== TOGGLE SET =====
   const toggleSetComplete = (exIndex, setIndex, checked) => {
     setWorkout((prev) => {
       const updated = [...prev.exercises]
@@ -154,7 +56,8 @@ export function useWorkoutLogic(navigate, location) {
       }
 
       if (checked) {
-        startRest()
+        const rest = workout.exercises[exIndex].restTime || 120
+        startRest(rest)
       }
 
       return {
@@ -164,6 +67,7 @@ export function useWorkoutLogic(navigate, location) {
     })
   }
 
+  // ===== SAVE WORKOUT =====
   const saveWorkout = async () => {
     try {
       setSaving(true)
@@ -173,7 +77,7 @@ export function useWorkoutLogic(navigate, location) {
       const cleaned = workout.exercises
         .map((ex) => ({
           ...ex,
-          sets: ex.sets.filter((s) => s.completed),
+          sets: (ex.sets || []).filter((s) => s.completed),
         }))
         .filter((ex) => ex.sets.length > 0)
 
@@ -182,26 +86,29 @@ export function useWorkoutLogic(navigate, location) {
         return
       }
 
-      localStorage.setItem('lastWorkout', JSON.stringify(workout))
-
-      await API.post('/workouts', {
+      const payload = {
         ...workout,
         exercises: cleaned,
         duration: elapsed,
-      })
+        name: workout.name?.trim() || 'Workout',
+      }
+
+      localStorage.setItem('lastWorkout', JSON.stringify(workout))
+
+      await createWorkout(payload)
 
       setSuccess(true)
 
-      setWorkout({ exercises: [], notes: '' })
+      // reset state
+      setWorkout({ name: 'Workout', exercises: [], notes: '' })
       resetTimer()
       resetRest()
 
-      setCustomName('')
-      setIsEditingName(false)
-
       localStorage.removeItem('draftWorkout')
     } catch (err) {
-      const msg = err.response?.data?.error || 'Could not save workout'
+      const msg =
+        err.response?.data?.error || err.message || 'Could not save workout'
+
       setError(msg)
     } finally {
       setSaving(false)
@@ -209,7 +116,6 @@ export function useWorkoutLogic(navigate, location) {
   }
 
   return {
-    workout,
     saving,
     success,
     error,
@@ -217,29 +123,17 @@ export function useWorkoutLogic(navigate, location) {
     status,
     elapsed,
 
+    toggleSetComplete,
+
     restTime,
     setRestTime,
     restRemaining,
     isResting,
     skipRest: skip,
 
-    customName,
-    setCustomName,
-    isEditingName,
-    setIsEditingName,
-
     handleStartPause: safeStartPause,
     adjustRest: adjust,
-
     openLibrary,
-    addSet,
-    updateSet,
-    removeExercise,
-    removeSet,
-    toggleSetComplete,
-    updateWorkoutNotes,
-
     saveWorkout,
-    formatTime,
   }
 }

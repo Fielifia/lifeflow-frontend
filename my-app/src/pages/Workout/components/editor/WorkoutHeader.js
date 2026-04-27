@@ -1,4 +1,5 @@
 import { Pencil } from 'lucide-react'
+import { useState } from 'react'
 
 /**
  * Header for workout page (title + duration).
@@ -8,40 +9,30 @@ import { Pencil } from 'lucide-react'
  * @param {(value: boolean) => void} props.setIsEditing - Toggle edit mode
  * @param {string} props.customName - Custom workout name
  * @param {(value: string) => void} props.setCustomName - Update name
+ * @param props.onChangeName
  * @param {number} props.elapsed - Workout duration in seconds
  * @returns {import('react').ReactElement} Workout Header UI
  */
-export default function WorkoutHeader({
-  title,
-  isEditing,
-  setIsEditing,
-  customName,
-  setCustomName,
-  elapsed,
-}) {
-  const formatTime = (s) => {
-    const m = Math.floor(s / 60)
-    const sec = s % 60
-    return `${m}:${sec.toString().padStart(2, '0')}`
-  }
+export default function WorkoutHeader({ title, onChangeName, elapsed }) {
+  const [isEditing, setIsEditing] = useState(false)
 
   return (
     <div className="workout-header">
       {isEditing ? (
         <input
           className="input-base"
-          value={customName}
-          autoFocus
-          onChange={(e) => setCustomName(e.target.value)}
+          value={title}
+          onChange={(e) => onChangeName(e.target.value)}
           onBlur={() => setIsEditing(false)}
+          autoFocus
         />
       ) : (
-        <h2 onClick={() => setIsEditing(true)}>
-          {title} <Pencil className="icon-small" />
-        </h2>
+        <h2 onClick={() => setIsEditing(true)}>{title} <Pencil className="icon-small" /></h2>
       )}
 
-      <span>Duration: {formatTime(elapsed)}</span>
+      {elapsed !== null && elapsed !== undefined && (
+        <p className="muted">{Math.floor(elapsed / 60)} min</p>
+      )}
     </div>
   )
 }

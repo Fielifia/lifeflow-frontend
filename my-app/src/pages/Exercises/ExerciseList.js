@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import ExerciseCard from './ExerciseCard'
+import ExerciseCard from './components/ExerciseCard'
 
 /**
  * Displays a list of exercise cards.

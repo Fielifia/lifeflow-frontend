@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { getExerciseById } from '../../api/exerciseApi'
-import BackButton from '../../components/ui/BackButton'
-import { normalizeExercise } from '../../utils/exerciseAdapter'
-import { formatLabel } from '../../utils/format'
+import { getExerciseById } from '../../../api/exerciseApi'
+import BackButton from '../../../components/ui/BackButton'
+import { normalizeExercise } from '../../../utils/exerciseAdapter'
+import { formatLabel } from '../../../utils/format'
 
 /**
  * Displays detailed information about a selected exercise.

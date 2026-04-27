@@ -46,12 +46,12 @@ export function useRestTimer() {
   /**
    * Start rest timer
    */
-  const startRest = () => {
+  const startRest = (time = restTime) => {
     setIsResting(false)
     setRestRemaining(0)
 
     setTimeout(() => {
-      setRestRemaining(restTime)
+      setRestRemaining(time)
       setIsResting(true)
     }, 0)
   }

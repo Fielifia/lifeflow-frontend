@@ -19,7 +19,6 @@ export default function Login({ setUser }) {
    * @returns {Promise<void>}
    */
   const handleLogin = async () => {
-    // Basic validation
     if (!email || !password) {
       setError('Please fill in all fields')
       return
@@ -30,7 +29,6 @@ export default function Login({ setUser }) {
 
       const res = await API.post('/auth/login', { email, password })
 
-      // Store auth data
       localStorage.setItem(
         'user',
         JSON.stringify({
@@ -39,7 +37,6 @@ export default function Login({ setUser }) {
         }),
       )
 
-      // Update app state
       setUser(res.data.user)
     } catch (err) {
       const message = err.response?.data?.error || 'Login failed'
@@ -51,7 +48,7 @@ export default function Login({ setUser }) {
 
   return (
     <div className="card-base card-auth">
-      <h2 className="center">Login</h2>
+      <h2>Login</h2>
       <form
         onSubmit={(e) => {
           e.preventDefault()

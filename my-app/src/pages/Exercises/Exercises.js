@@ -239,14 +239,17 @@ export default function Exercises() {
         {isSelectMode && selectedExercises.length > 0 && (
           <button
             className="btn btn-primary"
-            onClick={() =>
-              navigate('/workout', {
+            onClick={() => {
+              const fallback = location.pathname.includes('templates')
+                ? '/templates/create'
+                : '/workout/run'
+
+              navigate(location.state?.from || fallback, {
                 state: {
                   selectedExercises,
-                  currentExercises: location.state?.currentExercises || [],
                 },
               })
-            }
+            }}
           >
             Add {selectedExercises.length} exercises
           </button>

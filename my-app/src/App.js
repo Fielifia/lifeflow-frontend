@@ -6,10 +6,12 @@ import Navbar from './components/Navbar'
 import Login from './pages/Auth/Login'
 import Register from './pages/Auth/Register'
 import Dashboard from './pages/Dashboard/Dashboard'
-import ExerciseDetail from './pages/Exercises/ExerciseDetail'
+import ExerciseDetail from './pages/Exercises/components/ExerciseDetail'
 import Exercises from './pages/Exercises/Exercises'
-import Workout from './pages/Workout/Workout'
+import WorkoutEditor from './pages/Workout/WorkoutEditor'
 import WorkoutStartPage from './pages/Workout/WorkoutStartPage'
+import Templates from './pages/Template/Templates'
+import CreateTemplate from './pages/Template/CreateTemplate'
 
 /**
  * Root application component handling authentication and routing.
@@ -50,9 +52,14 @@ function App() {
 
               <Route path="/exercises" element={<Exercises />} />
               <Route path="/exercise/:id" element={<ExerciseDetail />} />
-              
-              <Route path="/workout" element={<WorkoutStartPage />} />
-              <Route path="/workout/run" element={<Workout />} />
+
+              <Route path="/workout">
+                <Route index element={<WorkoutStartPage />} />
+                <Route path="run" element={<WorkoutEditor />} />
+              </Route>
+
+              <Route path="/templates" element={<Templates />} />
+              <Route path="/templates/create" element={<CreateTemplate />} />
 
               <Route
                 path="/history"
