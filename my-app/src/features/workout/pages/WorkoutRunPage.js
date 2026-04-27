@@ -1,11 +1,11 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 
-import { useWorkoutLogic } from './hooks/useWorkoutLogic'
+import { useWorkoutLogic } from '../hooks/useWorkoutLogic'
 
-import WorkoutHeader from './WorkoutHeader'
-import WorkoutControls from './WorkoutControls'
-import RestTimer from './RestTimer'
-import ExerciseItem from './ExerciseItem'
+import WorkoutHeader from '../components/WorkoutHeader'
+import WorkoutControls from '../components/WorkoutControls'
+import RestTimer from '../components/RestTimer'
+import ExerciseItem from '../components/ExerciseItem'
 
 /**
  * Workout page for creating and tracking a workout session.

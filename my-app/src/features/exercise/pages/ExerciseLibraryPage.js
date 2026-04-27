@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react'
-import { useSearchParams, useNavigate, useLocation } from 'react-router-dom'
-import { getExercises } from '../../api/exerciseApi'
-import ExerciseList from './ExerciseList'
-import { normalizeExercise } from '../../utils/exerciseAdapter'
-import { CATEGORIES, CATEGORY_ORDER } from '../../utils/exerciseCategories'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { getExercises } from '../../../shared/api/exerciseApi'
+import { normalizeExercise } from '../utils/exerciseAdapter'
+import {
+  CATEGORIES,
+  CATEGORY_ORDER,
+} from '../utils/exerciseCategories'
+import ExerciseList from '../components/ExerciseList'
+import BackButton from '../../../shared/ui/BackButton'
 
 const BASE_CATEGORIES = CATEGORY_ORDER
 const SPECIAL = CATEGORIES.SPECIAL
@@ -146,9 +150,7 @@ export default function Exercises() {
 
   return (
     <div className="app">
-      <button onClick={() => navigate(-1)} className="btn back-btn">
-        ← Back
-      </button>
+      <BackButton />
 
       <div className="section">
         <h2>{isSelectMode ? 'Select exercise' : 'Exercise Library'}</h2>

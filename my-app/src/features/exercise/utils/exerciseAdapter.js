@@ -1,4 +1,4 @@
-import { formatName } from './format'
+import { formatName } from '../../../shared/utils/format'
 /**
  * Normalizes raw exercise data from the API into a consistent structure
  * used throughout the application.

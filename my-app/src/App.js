@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
-import Header from './components/Header'
-import Navbar from './components/Navbar'
-import Login from './pages/Auth/Login'
-import Register from './pages/Auth/Register'
-import Dashboard from './pages/Dashboard/Dashboard'
-import ExerciseDetail from './pages/Exercises/ExerciseDetail'
-import Exercises from './pages/Exercises/Exercises'
-import Workout from './pages/Workout/Workout'
+import Login from './features/auth/pages/LoginPage'
+import Register from './features/auth/pages/RegisterPage'
+import Dashboard from './features/dashboard/pages/Dashboard'
+import ExerciseDetail from './features/exercise/components/ExerciseDetail'
+import Exercises from './features/exercise/pages/ExerciseLibraryPage'
+import Workout from './features/workout/pages/WorkoutRunPage'
+import Header from './shared/ui/Header'
+import Navbar from './shared/ui/Navbar'
 
 /**
  * Root application component handling authentication and routing.

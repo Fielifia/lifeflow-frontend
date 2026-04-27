@@ -1,7 +1,7 @@
-import { useState, useEffect } from 'react'
-import { useTimer } from './useTimer'
+import { useEffect, useState } from 'react'
+import API from '../../../shared/api/api'
 import { useRestTimer } from './useRestTimer'
-import API from '../../../api/api'
+import { useTimer } from './useTimer'
 
 /**
  * Handles workout state, timers and actions.
@@ -99,7 +99,10 @@ export function useWorkoutLogic(navigate, location) {
 
   const openLibrary = () => {
     navigate('/exercises?select=true', {
-      state: { currentExercises: workout.exercises },
+      state: {
+        currentExercises: workout.exercises,
+        from: location.pathname,
+      },
     })
   }
 

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import API from '../../api/api'
+import API from '../../../shared/api/api'
 
 /**
  * Login component for user authentication.
