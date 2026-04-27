@@ -3,16 +3,12 @@ import API from '../../../shared/api/api'
 import { useRestTimer } from './useRestTimer'
 import { useTimer } from './useTimer'
 
-/**
- * Handles workout state, timers and actions.
- * @param {(path: string, options?: object) => void} navigate - React Router navigate
- * @param {{ state?: object }} location - React Router location
- * @returns {object} Workout logic and handlers
- */
 export function useWorkoutLogic(navigate, location) {
+  // ===== STATE =====
   const [saving, setSaving] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
+  const [isEditingName, setIsEditingName] = useState(false)
 
   const { status, elapsed, handleStartPause, reset: resetTimer } = useTimer()
 
@@ -27,29 +23,28 @@ export function useWorkoutLogic(navigate, location) {
     startRest,
   } = useRestTimer()
 
+  // ===== INIT WORKOUT =====
   const [workout, setWorkout] = useState(() => {
-    return (
-      JSON.parse(localStorage.getItem('draftWorkout')) || {
-        exercises: [],
-        notes: '',
-      }
-    )
-  })
+    const stored = JSON.parse(localStorage.getItem('draftWorkout'))
 
-  const [customName, setCustomName] = useState('')
-  const [isEditingName, setIsEditingName] = useState(false)
+    return {
+      name: stored?.name?.trim() || 'Workout',
+      exercises: stored?.exercises || [],
+      notes: stored?.notes || '',
+    }
+  })
 
   // ===== SAVE DRAFT =====
   useEffect(() => {
     localStorage.setItem('draftWorkout', JSON.stringify(workout))
   }, [workout])
 
-  // ===== ADD EXERCISES =====
+  // ===== ADD EXERCISES FROM LIBRARY =====
   useEffect(() => {
     const selected = location.state?.selectedExercises
-    const lastWorkout = JSON.parse(localStorage.getItem('lastWorkout'))
+    if (!selected?.length) return
 
-    if (!selected || selected.length === 0) return
+    const lastWorkout = JSON.parse(localStorage.getItem('lastWorkout'))
 
     const newExercises = selected.map((ex) => {
       const previous = lastWorkout?.exercises?.find(
@@ -86,14 +81,9 @@ export function useWorkoutLogic(navigate, location) {
     window.history.replaceState({}, '')
   }, [location.state])
 
-  const formatTime = (s) => {
-    const m = Math.floor(s / 60)
-    const sec = s % 60
-    return `${m}:${sec.toString().padStart(2, '0')}`
-  }
-
+  // ===== HELPERS =====
   const safeStartPause = () => {
-    if (workout.exercises.length === 0) return
+    if (!workout.exercises.length) return
     handleStartPause()
   }
 
@@ -106,67 +96,79 @@ export function useWorkoutLogic(navigate, location) {
     })
   }
 
+  // ===== MUTATIONS (RENARE) =====
+  const updateExercises = (updater) => {
+    setWorkout((prev) => ({
+      ...prev,
+      exercises: updater(prev.exercises),
+    }))
+  }
+
   const addSet = (index) => {
-    const updated = [...workout.exercises]
-    const last = updated[index].sets.slice(-1)[0]
+    updateExercises((exercises) => {
+      const updated = [...exercises]
+      const last = updated[index].sets.at(-1)
 
-    updated[index].sets.push(
-      last
-        ? { ...last, completed: false }
-        : { reps: 8, weight: 0, completed: false },
-    )
+      updated[index].sets = [
+        ...updated[index].sets,
+        last
+          ? { ...last, completed: false }
+          : { reps: 8, weight: 0, completed: false },
+      ]
 
-    setWorkout({ ...workout, exercises: updated })
-  }
-
-  const updateSet = (exIndex, setIndex, field, value) => {
-    const updated = [...workout.exercises]
-    updated[exIndex].sets[setIndex][field] = value
-    setWorkout({ ...workout, exercises: updated })
-  }
-
-  const updateWorkoutNotes = (value) => {
-    setWorkout({ ...workout, notes: value })
-  }
-
-  const removeExercise = (index) => {
-    setWorkout({
-      ...workout,
-      exercises: workout.exercises.filter((_, i) => i !== index),
+      return updated
     })
   }
 
+  const updateSet = (exIndex, setIndex, field, value) => {
+    updateExercises((exercises) => {
+      const updated = [...exercises]
+      updated[exIndex].sets[setIndex] = {
+        ...updated[exIndex].sets[setIndex],
+        [field]: value,
+      }
+      return updated
+    })
+  }
+
+  const removeExercise = (index) => {
+    updateExercises((exercises) => exercises.filter((_, i) => i !== index))
+  }
+
   const removeSet = (exIndex, setIndex) => {
-    const updated = [...workout.exercises]
-    if (updated[exIndex].sets.length === 1) return
+    updateExercises((exercises) => {
+      const updated = [...exercises]
 
-    updated[exIndex].sets = updated[exIndex].sets.filter(
-      (_, i) => i !== setIndex,
-    )
+      if (updated[exIndex].sets.length === 1) return updated
 
-    setWorkout({ ...workout, exercises: updated })
+      updated[exIndex].sets = updated[exIndex].sets.filter(
+        (_, i) => i !== setIndex,
+      )
+
+      return updated
+    })
   }
 
   const toggleSetComplete = (exIndex, setIndex, checked) => {
-    setWorkout((prev) => {
-      const updated = [...prev.exercises]
+    updateExercises((exercises) => {
+      const updated = [...exercises]
 
       updated[exIndex].sets[setIndex] = {
         ...updated[exIndex].sets[setIndex],
         completed: checked,
       }
 
-      if (checked) {
-        startRest()
-      }
+      if (checked) startRest()
 
-      return {
-        ...prev,
-        exercises: updated,
-      }
+      return updated
     })
   }
 
+  const updateWorkoutNotes = (notes) => {
+    setWorkout((prev) => ({ ...prev, notes }))
+  }
+
+  // ===== SAVE =====
   const saveWorkout = async () => {
     try {
       setSaving(true)
@@ -180,7 +182,7 @@ export function useWorkoutLogic(navigate, location) {
         }))
         .filter((ex) => ex.sets.length > 0)
 
-      if (cleaned.length === 0) {
+      if (!cleaned.length) {
         setError('Complete at least one set')
         return
       }
@@ -189,23 +191,27 @@ export function useWorkoutLogic(navigate, location) {
 
       await API.post('/workouts', {
         ...workout,
+        name: workout.name?.trim() || 'Workout',
         exercises: cleaned,
         duration: elapsed,
       })
 
       setSuccess(true)
 
-      setWorkout({ exercises: [], notes: '' })
+      // RESET
+      setWorkout({
+        name: 'Workout',
+        exercises: [],
+        notes: '',
+      })
+
       resetTimer()
       resetRest()
-
-      setCustomName('')
       setIsEditingName(false)
 
       localStorage.removeItem('draftWorkout')
     } catch (err) {
-      const msg = err.response?.data?.error || 'Could not save workout'
-      setError(msg)
+      setError(err.response?.data?.error || 'Could not save workout')
     } finally {
       setSaving(false)
     }
@@ -213,6 +219,8 @@ export function useWorkoutLogic(navigate, location) {
 
   return {
     workout,
+    setWorkout,
+
     saving,
     success,
     error,
@@ -226,8 +234,6 @@ export function useWorkoutLogic(navigate, location) {
     isResting,
     skipRest: skip,
 
-    customName,
-    setCustomName,
     isEditingName,
     setIsEditingName,
 
@@ -243,6 +249,5 @@ export function useWorkoutLogic(navigate, location) {
     updateWorkoutNotes,
 
     saveWorkout,
-    formatTime,
   }
 }

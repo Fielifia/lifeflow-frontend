@@ -242,7 +242,7 @@ export default function Exercises() {
           <button
             className="btn btn-primary"
             onClick={() =>
-              navigate('/workout', {
+              navigate('/workout/run', {
                 state: {
                   selectedExercises,
                   currentExercises: location.state?.currentExercises || [],

@@ -1,6 +1,8 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 
 import { useWorkoutLogic } from '../hooks/useWorkoutLogic'
+import { workoutToTemplate } from '../../template/utils/templateAdapter'
+import { createTemplate } from '../../../shared/api/templateApi'
 
 import WorkoutHeader from '../components/WorkoutHeader'
 import WorkoutControls from '../components/WorkoutControls'
@@ -23,6 +25,7 @@ export default function WorkoutRunPage() {
     saving,
     success,
     error,
+    setWorkout,
 
     status,
     elapsed,
@@ -33,8 +36,6 @@ export default function WorkoutRunPage() {
     isResting,
     skipRest,
 
-    customName,
-    setCustomName,
     isEditingName,
     setIsEditingName,
 
@@ -52,18 +53,27 @@ export default function WorkoutRunPage() {
     saveWorkout,
   } = useWorkoutLogic(navigate, location)
 
-  const title = customName || 'Workout'
+  const handleSaveTemplate = async () => {
+    try {
+      const template = workoutToTemplate(workout)
+      await createTemplate(template)
+      alert('Template saved!')
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   return (
     <div className="card-base card-workout">
-      <BackButton />
+      <BackButton fallback="/workout" />
       {/* HEADER */}
       <WorkoutHeader
-        title={title}
+        name={workout.name}
         isEditing={isEditingName}
         setIsEditing={setIsEditingName}
-        customName={customName}
-        setCustomName={setCustomName}
+        onChangeName={(value) =>
+          setWorkout((prev) => ({ ...prev, name: value }))
+        }
         elapsed={elapsed}
       />
 
@@ -72,6 +82,7 @@ export default function WorkoutRunPage() {
         status={status}
         handleStartPause={handleStartPause}
         saveWorkout={saveWorkout}
+        onSaveTemplate={handleSaveTemplate}
         saving={saving}
         hasExercises={workout.exercises.length > 0}
       />

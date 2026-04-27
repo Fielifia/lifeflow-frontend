@@ -3,8 +3,8 @@ import { Pencil } from 'lucide-react'
 /**
  * Header for workout page (title + duration).
  * @param {object} props - 
- * @param {string} props.title - Workout name
- * @param {boolean} props.isEditing - If title is being edited
+ * @param {string} props.name - Workout name
+ * @param {boolean} props.isEditing - If name is being edited
  * @param {(value: boolean) => void} props.setIsEditing - Toggle edit mode
  * @param {string} props.customName - Custom workout name
  * @param {(value: string) => void} props.setCustomName - Update name
@@ -12,11 +12,10 @@ import { Pencil } from 'lucide-react'
  * @returns {import('react').ReactElement} Workout Header UI
  */
 export default function WorkoutHeader({
-  title,
+  name,
   isEditing,
   setIsEditing,
-  customName,
-  setCustomName,
+  onChangeName,
   elapsed,
 }) {
   const formatTime = (s) => {
@@ -30,14 +29,14 @@ export default function WorkoutHeader({
       {isEditing ? (
         <input
           className="input-base"
-          value={customName}
+          value={name}
+          onChange={(e) => onChangeName(e.target.value)}
           autoFocus
-          onChange={(e) => setCustomName(e.target.value)}
           onBlur={() => setIsEditing(false)}
         />
       ) : (
         <h2 onClick={() => setIsEditing(true)}>
-          {title} <Pencil className="icon-small" />
+          {name} <Pencil className="icon-small" />
         </h2>
       )}
 

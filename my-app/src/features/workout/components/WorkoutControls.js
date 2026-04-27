@@ -12,9 +12,12 @@ export default function WorkoutControls({
   status,
   handleStartPause,
   saveWorkout,
+  onSaveTemplate,
   saving,
   hasExercises,
 }) {
+  const isStarted = status != 'idle'
+  
   return (
     <div className="workout-controls">
       <button
@@ -31,10 +34,14 @@ export default function WorkoutControls({
 
       <button
         className="btn btn-primary"
-        onClick={saveWorkout}
-        disabled={saving}
+        onClick={isStarted ? saveWorkout : onSaveTemplate}
+        disabled={saving || !hasExercises}
       >
-        {saving ? 'Saving...' : status !== 'idle' ? 'Finish & Save' : 'Save'}
+        {saving
+          ? 'Saving...'
+          : isStarted
+            ? 'Finish & Save'
+            : 'Save as Template'}
       </button>
     </div>
   )

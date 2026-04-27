@@ -7,45 +7,68 @@ export default function TemplateDetail() {
 
   const template = location.state?.template
 
-  if (!template) return <p>No template</p>
+  if (!template) return <p className="center">No template found</p>
 
   return (
-    <div className="section">
+    <div className="app">
       <BackButton />
-      <div className="card-base">
-        <h2>{template.name}</h2>
 
+      {/* HEADER */}
+      <div className="section">
+        <h2>{template.name || 'Untitled template'}</h2>
+        <p className="muted">{template.exercises?.length || 0} exercises</p>
+      </div>
+
+      {/* EXERCISES */}
+      <div className="section">
         {template.exercises.map((ex, i) => (
-          <div key={i}>
-            <h4>{ex.name}</h4>
-            {ex.sets.map((s, j) => (
-              <p key={j}>
-                Set {j + 1}: {s.reps} reps @ {s.weight}kg
-              </p>
-            ))}
+          <div key={i} className="card-base mb">
+            <div className="exercise-header">
+              <h3>{ex.name}</h3>
+              <span className="muted small">{ex.sets?.length || 0} sets</span>
+            </div>
+
+            <div className="set-list">
+              {ex.sets.map((s, j) => (
+                <div key={j} className="set-row compact">
+                  <span className="muted small">Set {j + 1}</span>
+                  <span>{s.weight} kg</span>
+                  <span>{s.reps} reps</span>
+                </div>
+              ))}
+            </div>
           </div>
         ))}
+      </div>
+
+      {/* ACTIONS */}
+      <div className="section">
+        <button
+          className="btn btn-primary btn-full"
+          onClick={() =>
+            navigate('/workout/run', {
+              state: {
+                workout: template,
+                from: location.pathname,
+              },
+            })
+          }
+        >
+          Start workout
+        </button>
 
         <button
           className="btn btn-secondary btn-full"
           onClick={() =>
             navigate('/templates/edit', {
-              state: { workout: template },
+              state: {
+                template,
+                from: location.pathname,
+              },
             })
           }
         >
           Edit template
-        </button>
-
-        <button
-          className="btn btn-primary btn-full"
-          onClick={() =>
-            navigate('/workout/run', {
-              state: { workout: template },
-            })
-          }
-        >
-          Start workout
         </button>
       </div>
     </div>
