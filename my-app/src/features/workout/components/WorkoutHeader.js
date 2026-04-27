@@ -1,16 +1,14 @@
 import { Pencil } from 'lucide-react'
 
 /**
- * Header for workout page (title + duration).
- * @param {object} props - 
+ * Header for workout page.
+ * @param {object} props - Component props
  * @param {string} props.name - Workout name
- * @param {boolean} props.isEditing - If name is being edited
+ * @param {boolean} props.isEditing - Edit mode state
  * @param {(value: boolean) => void} props.setIsEditing - Toggle edit mode
- * @param {string} props.customName - Custom workout name
- * @param {(value: string) => void} props.setCustomName - Update name
- * @param props.onChangeName
- * @param {number} props.elapsed - Workout duration in seconds
- * @returns {import('react').ReactElement} Workout Header UI
+ * @param {(value: string) => void} props.onChangeName - Update name
+ * @param {number} props.elapsed - Duration in seconds
+ * @returns {import('react').ReactElement} Header UI
  */
 export default function WorkoutHeader({
   name,

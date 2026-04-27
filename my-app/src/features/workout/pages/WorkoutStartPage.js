@@ -2,7 +2,8 @@ import { useNavigate } from 'react-router-dom'
 import TemplateList from '../../template/components/TemplateList'
 
 /**
- *
+ * Entry page for starting workouts.
+ * @returns {import('react').ReactElement} Workout start page UI
  */
 export default function WorkoutStart() {
   const navigate = useNavigate()

@@ -2,6 +2,10 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { Timer } from 'lucide-react'
 import BackButton from '../../../shared/ui/BackButton'
 
+/**
+ * Displays detailed view of a template.
+ * @returns {import('react').ReactElement} Template detail UI
+ */
 export default function TemplateDetail() {
   const navigate = useNavigate()
   const location = useLocation()

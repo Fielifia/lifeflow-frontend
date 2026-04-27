@@ -3,6 +3,7 @@ import { register } from '../../../shared/api/authApi'
 
 /**
  * Register component for creating a new user account.
+ * @param {{ setUser: (user: object) => void }} props - Component props
  * @returns {import('react').ReactElement} Registration form UI
  */
 export default function Register( { setUser } ) {
