@@ -3,6 +3,10 @@ import BackButton from '../../../shared/ui/BackButton'
 import TemplateList from '../components/TemplateList'
 import { getTemplates } from '../../../shared/api/templateApi'
 
+/**
+ * Page for browsing templates with search and pagination.
+ * @returns {import('react').ReactElement} Template list page UI
+ */
 export default function TemplateListPage() {
   const [templates, setTemplates] = useState([])
   const [search, setSearch] = useState('')
@@ -11,7 +15,7 @@ export default function TemplateListPage() {
   useEffect(() => {
     const fetchTemplates = async () => {
       try {
-        const data = await getTemplates({ limit: 100 }) // hämta fler än 10
+        const data = await getTemplates({ limit: 100 })
         setTemplates(data.results || [])
       } catch (err) {
         console.error(err)

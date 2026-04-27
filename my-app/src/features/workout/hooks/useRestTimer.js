@@ -2,19 +2,15 @@ import { useState, useEffect } from 'react'
 
 /**
  * Hook for rest timer between sets.
- *
- * Handles:
- * - Countdown timer
- * - Start / skip / adjust rest
  * @returns {{
- *   restTime: number,
- *   setRestTime: (value: number) => void,
- *   restRemaining: number,
- *   isResting: boolean,
- *   startRest: () => void,
- *   adjust: (amount: number) => void,
- *   skip: () => void,
- *   reset: () => void
+ *  restTime: number,
+ *  setRestTime: (value: number) => void,
+ *  restRemaining: number,
+ *  isResting: boolean,
+ *  startRest: (time?: number) => void,
+ *  adjust: (amount: number) => void,
+ *  skip: () => void,
+ *  reset: () => void
  * }} Rest timer state and controls
  */
 export function useRestTimer() {
@@ -45,6 +41,7 @@ export function useRestTimer() {
 
   /**
    * Start rest timer
+   * @param {number} [time] - Optional rest duration override
    */
   const startRest = (time) => {
     const duration = time ?? restTime

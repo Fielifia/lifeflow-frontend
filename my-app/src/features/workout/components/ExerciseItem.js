@@ -6,16 +6,16 @@ import { Timer } from 'lucide-react'
  * @param {object} props - Component props
  * @param {{ exerciseId: string, name: string, image?: string, sets: Array }} props.ex - Exercise data
  * @param {number} props.i - Exercise index
- * @param {(path: string) => void} props.navigate - Navigate to detail
- * @param {(i: number) => void} props.addSet - Add new set
- * @param {(i: number, j: number, field: string, value: number | '') => void} props.updateSet - Update set values
- * @param {(i: number) => void} props.removeExercise - Remove exercise
- * @param {(i: number, j: number) => void} props.removeSet - Remove set
- * @param {(i: number, j: number, checked: boolean) => void} props.toggleSetComplete - Toggle set completion
- * @param {number} props.restTime - Current rest time
- * @param {(value: number) => void} props.setRestTime - Update rest time
- * @param {string} props.status - Workout status (idle/running/paused)
- * @param {() => void} props.handleStartPause - Start or pause workout
+ * @param {(path: string) => void} props.navigate - Navigation function
+ * @param {(i: number) => void} props.addSet - Adds a new set
+ * @param {(i: number, j: number, field: string, value: number | '') => void} props.updateSet - Updates set values
+ * @param {(i: number) => void} props.removeExercise - Removes exercise
+ * @param {(i: number, j: number) => void} props.removeSet - Removes a set
+ * @param {(i: number, j: number, checked: boolean) => void} props.toggleSetComplete - Toggles set completion
+ * @param {number} props.restTime - Rest time in seconds
+ * @param {(value: number) => void} props.onChangeRestTime - Updates rest time
+ * @param {'idle' | 'running' | 'paused'} props.status - Workout status
+ * @param {() => void} props.handleStartPause - Starts or pauses workout
  * @returns {import('react').ReactElement} Exercise item UI
  */
 export default function ExerciseItem({

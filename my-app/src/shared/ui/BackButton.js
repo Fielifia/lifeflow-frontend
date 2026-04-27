@@ -2,8 +2,8 @@ import { useNavigate, useLocation } from 'react-router-dom'
 
 /**
  * Reusable back button.
- *
- * Uses location.state.from if available, otherwise goes back.
+ * @param {{ fallback?: string }} props - Fallback route
+ * @returns {import('react').ReactElement} Back button UI
  */
 export default function BackButton({ fallback = '/' }) {
   const navigate = useNavigate()

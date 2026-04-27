@@ -1,12 +1,13 @@
 /**
- * Workout control buttons for starting/pausing and saving a workout.
+ * Workout control buttons.
  * @param {object} props - Component props
- * @param {'idle' | 'running' | 'paused'} props.status - Current workout status
- * @param {() => void} props.handleStartPause - Toggles start/pause/resume
- * @param {() => void} props.saveWorkout - Saves the workout
- * @param {boolean} props.saving - Indicates if save is in progress
- * @param {boolean} props.hasExercises - Whether workout has at least one exercise
- * @returns {import('react').ReactElement} Workout controls UI
+ * @param {'idle' | 'running' | 'paused'} props.status - Workout status
+ * @param {() => void} props.handleStartPause - Start/pause toggle
+ * @param {() => void} props.saveWorkout - Save workout handler
+ * @param {() => void} props.onSaveTemplate - Save template handler
+ * @param {boolean} props.saving - Saving state
+ * @param {boolean} props.hasExercises - If exercises exist
+ * @returns {import('react').ReactElement} Controls UI
  */
 export default function WorkoutControls({
   status,
@@ -16,8 +17,9 @@ export default function WorkoutControls({
   saving,
   hasExercises,
 }) {
-  const isStarted = status != 'idle'
   
+  const isStarted = status !== 'idle'
+
   return (
     <div className="workout-controls">
       <button

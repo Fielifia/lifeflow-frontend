@@ -1,5 +1,20 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 
+/**
+ * Template preview card.
+ * @param {{
+ *  template: {
+ *    _id: string,
+ *    name?: string,
+ *    exercises?: Array<{
+ *      name: string,
+ *      image?: string,
+ *      sets?: Array
+ *    }>
+ *  }
+ * }} props - Template data
+ * @returns {import('react').ReactElement} Template card UI
+ */
 export default function TemplateItem({ template }) {
   const navigate = useNavigate()
   const location = useLocation()
@@ -33,7 +48,7 @@ export default function TemplateItem({ template }) {
         </div>
       </div>
 
-      {/* PREVIEW (max 2 övningar) */}
+      {/* PREVIEW */}
       <div className="template-preview">
         {exercises.slice(0, 2).map((ex, i) => (
           <div key={i} className="template-preview-row">

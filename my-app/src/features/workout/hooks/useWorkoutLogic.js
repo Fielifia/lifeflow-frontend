@@ -3,6 +3,38 @@ import API from '../../../shared/api/api'
 import { useRestTimer } from './useRestTimer'
 import { useTimer } from './useTimer'
 
+/**
+ * Handles workout state, timers and actions.
+ * @param {(path: string, options?: object) => void} navigate - Navigation function
+ * @param {{ state?: object, pathname: string }} location - Current route info
+ * @returns {{
+ *  workout: object,
+ * setWorkout: (updater: (prev: object) => object) => void,
+ *  saving: boolean,
+ *  success: boolean,
+ *  error: string,
+ *  status: string,
+ *  elapsed: number,
+ *  restTime: number,
+ *  setRestTime: (value: number) => void,
+ *  restRemaining: number,
+ *  isResting: boolean,
+ *  skipRest: () => void,
+ *  updateExerciseRest: (index: number, value: number) => void,
+ *  isEditingName: boolean,
+ *  setIsEditingName: (value: boolean) => void,
+ *  handleStartPause: () => void,
+ *  adjustRest: (amount: number) => void,
+ *  openLibrary: () => void,
+ *  addSet: (index: number) => void,
+ *  updateSet: (exIndex: number, setIndex: number, field: string, value: number | '') => void,
+ *  removeExercise: (index: number) => void,
+ *  removeSet: (exIndex: number, setIndex: number) => void,
+ *  toggleSetComplete: (exIndex: number, setIndex: number, checked: boolean) => void,
+ *  updateWorkoutNotes: (notes: string) => void,
+ *  saveWorkout: () => Promise<void>
+ * }} Workout logic API
+ */
 export function useWorkoutLogic(navigate, location) {
   // ===== STATE =====
   const [saving, setSaving] = useState(false)
