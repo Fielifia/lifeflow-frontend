@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 /**
  *
@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom'
  */
 export default function TemplateItem({ template }) {
   const navigate = useNavigate()
-
+  const location = useLocation()
   const exerciseCount = template.exercises?.length || 0
 
   const workoutFromTemplate = {
@@ -26,7 +26,10 @@ export default function TemplateItem({ template }) {
       className="card-base clickable"
       onClick={() =>
         navigate(`/templates/${template._id}`, {
-          state: { template },
+          state: {
+            template,
+            from: location.pathname,
+          },
         })
       }
     >

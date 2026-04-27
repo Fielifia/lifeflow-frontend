@@ -6,6 +6,7 @@ import WorkoutHeader from '../components/WorkoutHeader'
 import WorkoutControls from '../components/WorkoutControls'
 import RestTimer from '../components/RestTimer'
 import ExerciseItem from '../components/ExerciseItem'
+import BackButton from '../../../shared/ui/BackButton'
 
 /**
  * Workout page for creating and tracking a workout session.
@@ -13,7 +14,7 @@ import ExerciseItem from '../components/ExerciseItem'
  * Handles rendering only. All logic is managed in useWorkoutLogic.
  * @returns {import('react').ReactElement} Workout page UI
  */
-export default function Workout() {
+export default function WorkoutRunPage() {
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -55,6 +56,7 @@ export default function Workout() {
 
   return (
     <div className="card-base card-workout">
+      <BackButton />
       {/* HEADER */}
       <WorkoutHeader
         title={title}

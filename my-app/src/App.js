@@ -7,6 +7,9 @@ import Dashboard from './features/dashboard/pages/Dashboard'
 import ExerciseDetail from './features/exercise/components/ExerciseDetail'
 import Exercises from './features/exercise/pages/ExerciseLibraryPage'
 import WorkoutStartPage from './features/workout/pages/WorkoutStartPage'
+import WorkoutRunPage from './features/workout/pages/WorkoutRunPage'
+import TemplateDetailPage from './features/template/pages/TemplateDetailPage'
+import TemplateListPage from './features/template/pages/TemplateListPage'
 import Header from './shared/ui/Header'
 import Navbar from './shared/ui/Navbar'
 
@@ -53,6 +56,11 @@ function App() {
           <Route path="/exercise/:id" element={<ExerciseDetail />} />
 
           <Route path="/workout" element={<WorkoutStartPage />} />
+          <Route path="/workout/run" element={<WorkoutRunPage />} />
+
+          <Route path="/templates/:id" element={<TemplateDetailPage />} />
+          <Route path="/templates/" element={<TemplateListPage />} />
+
           <Route
             path="/history"
             element={<div className="card">History (coming soon)</div>}
