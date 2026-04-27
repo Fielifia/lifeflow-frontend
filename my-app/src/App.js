@@ -6,7 +6,7 @@ import Register from './features/auth/pages/RegisterPage'
 import Dashboard from './features/dashboard/pages/Dashboard'
 import ExerciseDetail from './features/exercise/components/ExerciseDetail'
 import Exercises from './features/exercise/pages/ExerciseLibraryPage'
-import Workout from './features/workout/pages/WorkoutRunPage'
+import WorkoutStartPage from './features/workout/pages/WorkoutStartPage'
 import Header from './shared/ui/Header'
 import Navbar from './shared/ui/Navbar'
 
@@ -52,7 +52,7 @@ function App() {
           <Route path="/exercises" element={<Exercises />} />
           <Route path="/exercise/:id" element={<ExerciseDetail />} />
 
-          <Route path="/workout" element={<Workout></Workout>} />
+          <Route path="/workout" element={<WorkoutStartPage />} />
           <Route
             path="/history"
             element={<div className="card">History (coming soon)</div>}
