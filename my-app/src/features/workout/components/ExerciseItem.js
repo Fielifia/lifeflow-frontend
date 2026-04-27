@@ -28,7 +28,7 @@ export default function ExerciseItem({
   removeSet,
   toggleSetComplete,
   restTime,
-  setRestTime,
+  onChangeRestTime,
   status,
   handleStartPause,
 }) {
@@ -138,10 +138,7 @@ export default function ExerciseItem({
       ))}
 
       {/* ADD SET */}
-      <button
-        className="btn btn-secondary btn-full"
-        onClick={() => addSet(i)}
-      >
+      <button className="btn btn-secondary btn-full" onClick={() => addSet(i)}>
         Add set
       </button>
 
@@ -152,11 +149,11 @@ export default function ExerciseItem({
           e.stopPropagation()
           const val = prompt('Rest time (seconds)', restTime)
           if (val !== null && !isNaN(val)) {
-            setRestTime(Number(val))
+            onChangeRestTime(Number(val))
           }
         }}
       >
-        <Timer className="icon-small"/> Set Rest Timer: {restTime}s
+        <Timer className="icon-small" /> Set Rest Timer: {restTime ?? 60}s
       </div>
     </div>
   )

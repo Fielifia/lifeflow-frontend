@@ -55,6 +55,7 @@ export function useWorkoutLogic(navigate, location) {
         exerciseId: ex.id,
         name: ex.name,
         image: ex.image,
+        restTime: previous?.restTime ?? 60,
         sets: previous
           ? previous.sets.map((s) => ({
             reps: s.reps,
@@ -158,8 +159,22 @@ export function useWorkoutLogic(navigate, location) {
         completed: checked,
       }
 
-      if (checked) startRest()
+      if (checked) {
+        const rest = updated[exIndex].restTime ?? restTime
+        startRest(rest)
+      }
 
+      return updated
+    })
+  }
+
+  const updateExerciseRest = (index, value) => {
+    updateExercises((exercises) => {
+      const updated = [...exercises]
+      updated[index] = {
+        ...updated[index],
+        restTime: value,
+      }
       return updated
     })
   }
@@ -233,6 +248,7 @@ export function useWorkoutLogic(navigate, location) {
     restRemaining,
     isResting,
     skipRest: skip,
+    updateExerciseRest,
 
     isEditingName,
     setIsEditingName,

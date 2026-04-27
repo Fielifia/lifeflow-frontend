@@ -8,6 +8,7 @@ import { Pencil } from 'lucide-react'
  * @param {(value: boolean) => void} props.setIsEditing - Toggle edit mode
  * @param {string} props.customName - Custom workout name
  * @param {(value: string) => void} props.setCustomName - Update name
+ * @param props.onChangeName
  * @param {number} props.elapsed - Workout duration in seconds
  * @returns {import('react').ReactElement} Workout Header UI
  */
