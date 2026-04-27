@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import API from '../../../shared/api/api'
+import { login } from '../../../shared/api/authApi'
 
 /**
  * Login component for user authentication.
@@ -18,29 +18,14 @@ export default function Login({ setUser }) {
    * @function handleLogin
    * @returns {Promise<void>}
    */
-  const handleLogin = async () => {
-    // Basic validation
-    if (!email || !password) {
-      setError('Please fill in all fields')
-      return
-    }
 
+  const handleLogin = async () => {
     try {
       setLoading(true)
-
-      const res = await API.post('/auth/login', { email, password })
-
-      // Store auth data
-      localStorage.setItem(
-        'user',
-        JSON.stringify({
-          ...res.data.user,
-          token: res.data.token,
-        }),
-      )
-
-      // Update app state
-      setUser(res.data.user)
+  
+      const user = await login({ email, password })
+      setUser(user)
+  
     } catch (err) {
       const message = err.response?.data?.error || 'Login failed'
       setError(message)

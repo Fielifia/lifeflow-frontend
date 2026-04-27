@@ -1,29 +1,15 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 
-/**
- *
- * @param root0
- * @param root0.template
- */
 export default function TemplateItem({ template }) {
   const navigate = useNavigate()
   const location = useLocation()
-  const exerciseCount = template.exercises?.length || 0
 
-  const workoutFromTemplate = {
-    name: template.name || 'Untitled template',
-    exercises: (template.exercises || []).map((ex) => ({
-      ...ex,
-      sets: (ex.sets || []).map((set) => ({
-        ...set,
-        completed: false,
-      })),
-    })),
-  }
+  const exercises = template.exercises || []
+  const firstExercise = exercises[0]
 
   return (
     <div
-      className="card-base clickable"
+      className="card-base clickable template-card"
       onClick={() =>
         navigate(`/templates/${template._id}`, {
           state: {
@@ -33,9 +19,34 @@ export default function TemplateItem({ template }) {
         })
       }
     >
-      <p className="template-title">{workoutFromTemplate.name}</p>
+      {/* HEADER */}
+      <div className="exercise-header-main">
+        <img
+          src={firstExercise?.image || '/placeholder.png'}
+          alt=""
+          className="exercise-img-small"
+        />
 
-      <p className="muted small">{exerciseCount} exercises</p>
+        <div>
+          <h3>{template.name || 'Untitled template'}</h3>
+          <p className="muted small">{exercises.length} exercises</p>
+        </div>
+      </div>
+
+      {/* PREVIEW (max 2 övningar) */}
+      <div className="template-preview">
+        {exercises.slice(0, 2).map((ex, i) => (
+          <div key={i} className="template-preview-row">
+            <span className="muted small">{ex.name}</span>
+
+            <span className="muted small">{ex.sets?.length || 0} sets</span>
+          </div>
+        ))}
+
+        {exercises.length > 2 && (
+          <p className="muted small">+{exercises.length - 2} more</p>
+        )}
+      </div>
     </div>
   )
 }

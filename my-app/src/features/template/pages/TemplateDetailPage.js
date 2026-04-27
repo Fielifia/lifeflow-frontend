@@ -1,4 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom'
+import { Timer } from 'lucide-react'
 import BackButton from '../../../shared/ui/BackButton'
 
 export default function TemplateDetail() {
@@ -10,36 +11,58 @@ export default function TemplateDetail() {
   if (!template) return <p className="center">No template found</p>
 
   return (
-    <div className="app">
-      <BackButton />
+    <div className="card-base card-workout">
+      <BackButton fallback="/templates" />
 
       {/* HEADER */}
-      <div className="section">
+      <div className="workout-header">
         <h2>{template.name || 'Untitled template'}</h2>
-        <p className="muted">{template.exercises?.length || 0} exercises</p>
+        <span>{template.exercises?.length || 0} exercises</span>
       </div>
 
       {/* EXERCISES */}
-      <div className="section">
-        {template.exercises.map((ex, i) => (
-          <div key={i} className="card-base mb">
-            <div className="exercise-header">
-              <h3>{ex.name}</h3>
-              <span className="muted small">{ex.sets?.length || 0} sets</span>
-            </div>
+      {template.exercises.map((ex, i) => (
+        <div key={i} className="workout-exercise">
+          {/* HEADER  */}
+          <div className="exercise-header-main">
+            <img
+              src={ex.image || '/placeholder.png'}
+              alt=""
+              className="exercise-img-small"
+              onClick={() => navigate(`/exercise/${ex.exerciseId}`)}
+            />
 
-            <div className="set-list">
-              {ex.sets.map((s, j) => (
-                <div key={j} className="set-row compact">
-                  <span className="muted small">Set {j + 1}</span>
-                  <span>{s.weight} kg</span>
-                  <span>{s.reps} reps</span>
-                </div>
-              ))}
-            </div>
+            <h2>{ex.name}</h2>
           </div>
-        ))}
-      </div>
+
+          {/* SET HEADER */}
+          <div className="set-header">
+            <span>Set</span>
+            <span>Weight (kg)</span>
+            <span>Reps</span>
+          </div>
+
+          {/* SETS */}
+          {ex.sets.map((set, j) => (
+            <div key={j} className="set-row">
+              <span className="set-number">{j + 1}</span>
+
+              <span>{set.weight ?? '-'}</span>
+              <span>{set.reps ?? '-'}</span>
+            </div>
+          ))}
+
+          {/* REST TIMER (read only) */}
+          {ex.restTime && (
+            <div className="rest-label">
+              <Timer className="icon-small" /> Rest: {ex.restTime}s
+            </div>
+          )}
+
+          {/* NOTES */}
+          {ex.notes && <p className="muted small">{ex.notes}</p>}
+        </div>
+      ))}
 
       {/* ACTIONS */}
       <div className="section">

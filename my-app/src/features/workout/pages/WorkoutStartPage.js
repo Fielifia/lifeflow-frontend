@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import TemplateList from '../../template/pages/TemplateListPage'
+import TemplateList from '../../template/components/TemplateList'
 
 /**
  *
@@ -45,8 +45,6 @@ export default function WorkoutStart() {
 
       {/* TEMPLATES */}
       <div className="section">
-        <h3>Templates</h3>
-
         <TemplateList />
 
         <p className="link center" onClick={() => navigate('/templates')}>

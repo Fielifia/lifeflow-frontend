@@ -15,12 +15,19 @@ const API = axios.create({
 API.interceptors.request.use((config) => {
   const storedUser = JSON.parse(localStorage.getItem('user'))
   const token = storedUser?.token
-
+  
   if (token) {
     config.headers.Authorization = `Bearer ${token}`
   }
-
+  
   return config
 })
 
+// Fallback to local API if REACT_APP_API_URL for testing
+const LOCAL_API_URL = 'http://localhost:5000'
+const LOCAL_API = axios.create({
+  baseURL: LOCAL_API_URL,
+})
+
 export default API
+export { LOCAL_API }

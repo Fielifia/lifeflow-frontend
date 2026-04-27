@@ -28,7 +28,7 @@ function App() {
       <div className="app">
         {showRegister ? (
           <>
-            <Register />
+            <Register setUser={setUser} />
             <p className="message" onClick={() => setShowRegister(false)}>
               Already have an account? Login
             </p>

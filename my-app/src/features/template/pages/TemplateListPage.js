@@ -1,44 +1,63 @@
 import { useEffect, useState } from 'react'
+import BackButton from '../../../shared/ui/BackButton'
+import TemplateList from '../components/TemplateList'
 import { getTemplates } from '../../../shared/api/templateApi'
-import TemplateItem from '../components/TemplateItem'
 
-/**
- *
- * @param root0
- * @param root0.limit
- * @param root0.title
- */
-export default function TemplateList({ limit = 5, title = 'Templates' }) {
+export default function TemplateListPage() {
   const [templates, setTemplates] = useState([])
-  const [loading, setLoading] = useState(true)
+  const [search, setSearch] = useState('')
+  const [visibleCount, setVisibleCount] = useState(10)
 
   useEffect(() => {
     const fetchTemplates = async () => {
       try {
-        const data = await getTemplates({ page: 1, limit })
-        setTemplates(data?.results || [])
+        const data = await getTemplates({ limit: 100 }) // hämta fler än 10
+        setTemplates(data.results || [])
       } catch (err) {
         console.error(err)
-        setTemplates([])
-      } finally {
-        setLoading(false)
       }
     }
 
     fetchTemplates()
-  }, [limit])
+  }, [])
 
-  if (loading) return <p>Loading...</p>
+  // ===== FILTER =====
+  const filtered = templates.filter((t) =>
+    t.name?.toLowerCase().includes(search.toLowerCase()),
+  )
+
+  const visibleTemplates = filtered.slice(0, visibleCount)
 
   return (
-    <div className="section">
-      <h2>{title}</h2>
+    <div className="app">
+      <BackButton fallback="/workout" />
 
-      {templates.length === 0 ? (
-        <p className="muted">No templates yet</p>
-      ) : (
-        templates.map((t) => <TemplateItem key={t._id} template={t} />)
-      )}
+      <div className="section">
+
+        {/* SEARCH */}
+        <input
+          className="input-base"
+          placeholder="Search templates..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value)
+            setVisibleCount(10)
+          }}
+        />
+
+        {/* LIST */}
+        <TemplateList templates={visibleTemplates} />
+
+        {/* LOAD MORE */}
+        {visibleCount < filtered.length && (
+          <button
+            className="btn btn-primary"
+            onClick={() => setVisibleCount((prev) => prev + 10)}
+          >
+            Show more ({filtered.length - visibleCount} left)
+          </button>
+        )}
+      </div>
     </div>
   )
 }

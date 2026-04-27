@@ -1,11 +1,11 @@
 import { useState } from 'react'
-import API from '../../../shared/api/api'
+import { register } from '../../../shared/api/authApi'
 
 /**
  * Register component for creating a new user account.
  * @returns {import('react').ReactElement} Registration form UI
  */
-export default function Register() {
+export default function Register( { setUser } ) {
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -24,7 +24,6 @@ export default function Register() {
    * @returns {Promise<void>}
    */
   const handleRegister = async () => {
-    // Basic validation
     if (!email || !username || !password || !confirmPassword) {
       setError('Please fill in all fields')
       return
@@ -40,15 +39,17 @@ export default function Register() {
       setError('')
       setMessage('')
 
-      await API.post('/auth/register', { email, password, username })
+      const user = await register({ email, username, password })
 
-      setMessage('Account created successfully 🎉')
+      console.log('USER:', user)
+      console.log('SETUSER:', setUser)
 
-      // Optional: reset fields
+      setUser(user)
       setEmail('')
       setUsername('')
       setPassword('')
       setConfirmPassword('')
+      
     } catch (err) {
       const msg = err.response?.data?.error || 'Registration failed'
       setError(msg)
