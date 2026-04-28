@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react'
+
 /**
  * Floating rest timer shown after completing a set.
  * @param {object} props - Component props
@@ -13,6 +15,16 @@ export default function RestTimer({
   adjustRest,
   skipRest,
 }) {
+  const wasResting = useRef(false)
+
+  useEffect(() => {
+    if (wasResting.current && !isResting && restRemaining === 0) {
+      alert('Dags för nästa set')
+    }
+
+    wasResting.current = isResting
+  }, [isResting, restRemaining])
+
   if (!isResting) return null
 
   return (

@@ -30,6 +30,8 @@ export default function WorkoutRunPage() {
     status,
     elapsed,
 
+    restTime,
+    setRestTime,
     restRemaining,
     isResting,
     skipRest,
@@ -46,7 +48,6 @@ export default function WorkoutRunPage() {
     removeExercise,
     removeSet,
     toggleSetComplete,
-    updateExerciseRest,
     updateWorkoutNotes,
 
     saveWorkout,
@@ -111,8 +112,8 @@ export default function WorkoutRunPage() {
           removeExercise={removeExercise}
           removeSet={removeSet}
           toggleSetComplete={toggleSetComplete}
-          restTime={ex.restTime}
-          onChangeRestTime={(value) => updateExerciseRest(i, value)}
+          restTime={restTime}
+          setRestTime={setRestTime}
         />
       ))}
 
