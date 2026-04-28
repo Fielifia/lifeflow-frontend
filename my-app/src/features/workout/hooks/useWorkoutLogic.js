@@ -74,7 +74,9 @@ export function useWorkoutLogic(navigate, location) {
   // ===== ADD EXERCISES FROM LIBRARY =====
   useEffect(() => {
     const selected = location.state?.selectedExercises
-    if (!selected?.length) return
+    const mode = location.state?.mode
+
+    if (!selected?.length || mode !== 'workout') return
 
     const lastWorkout = JSON.parse(localStorage.getItem('lastWorkout'))
 
@@ -114,6 +116,28 @@ export function useWorkoutLogic(navigate, location) {
     window.history.replaceState({}, '')
   }, [location.state])
 
+  // ===== LOAD WORKOUT FROM TEMPLATE =====
+  useEffect(() => {
+    const template = location.state?.template
+    if (!template) return
+
+    const workoutFromTemplate = {
+      name: template.name,
+      notes: '',
+      exercises: template.exercises.map((ex) => ({
+        ...ex,
+        sets: ex.sets.map((s) => ({
+          ...s,
+          completed: false,
+        })),
+      })),
+    }
+
+    setWorkout(workoutFromTemplate)
+
+    window.history.replaceState({}, '')
+  }, [location.state])
+
   // ===== HELPERS =====
   const safeStartPause = () => {
     if (!workout.exercises.length) return
@@ -125,11 +149,12 @@ export function useWorkoutLogic(navigate, location) {
       state: {
         currentExercises: workout.exercises,
         from: location.pathname,
+        mode: 'workout'
       },
     })
   }
 
-  // ===== MUTATIONS (RENARE) =====
+  // ===== MUTATIONS =====
   const updateExercises = (updater) => {
     setWorkout((prev) => ({
       ...prev,

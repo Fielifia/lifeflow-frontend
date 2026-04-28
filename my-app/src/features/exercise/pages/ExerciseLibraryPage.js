@@ -156,7 +156,7 @@ export default function Exercises() {
         <h2>{isSelectMode ? 'Select exercise' : 'Exercise Library'}</h2>
         {isSelectMode && (
           <p className="muted small">
-            Choose an exercise to add to your workout
+            Choose an exercises to add to your workout
           </p>
         )}
 
@@ -241,14 +241,17 @@ export default function Exercises() {
         {isSelectMode && selectedExercises.length > 0 && (
           <button
             className="btn btn-primary"
-            onClick={() =>
-              navigate('/workout/run', {
+            onClick={() => {
+              const from = location.state?.from || '/workout/run'
+
+              navigate(from, {
                 state: {
                   selectedExercises,
                   currentExercises: location.state?.currentExercises || [],
+                  mode: location.state?.mode,
                 },
               })
-            }
+            }}
           >
             Add {selectedExercises.length} exercises
           </button>

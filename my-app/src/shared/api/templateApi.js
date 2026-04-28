@@ -17,3 +17,8 @@ export const getTemplateById = async (id) => {
   const res = await API.get(`/templates/${id}`)
   return res.data
 }
+
+export const updateTemplate = async (id, data) => {
+  const res = await API.put(`/templates/${id}`, data)
+  return res.data
+}

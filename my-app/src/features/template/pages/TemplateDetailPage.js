@@ -14,6 +14,14 @@ export default function TemplateDetail() {
 
   if (!template) return <p className="center">No template found</p>
 
+  const handleStartWorkout = () => {
+    navigate('/workout/run', {
+      state: {
+        template,
+      },
+    })
+  }
+
   return (
     <div className="card-base card-workout">
       <BackButton fallback="/templates" />
@@ -72,14 +80,7 @@ export default function TemplateDetail() {
       <div className="section">
         <button
           className="btn btn-primary btn-full"
-          onClick={() =>
-            navigate('/workout/run', {
-              state: {
-                workout: template,
-                from: location.pathname,
-              },
-            })
-          }
+          onClick={handleStartWorkout}
         >
           Start workout
         </button>
