@@ -282,6 +282,8 @@ export function useWorkoutLogic(navigate, location) {
       setIsEditingName(false)
 
       localStorage.removeItem('draftWorkout')
+
+      navigate('/workouts')
     } catch (err) {
       setError(err.response?.data?.error || 'Could not save workout')
     } finally {

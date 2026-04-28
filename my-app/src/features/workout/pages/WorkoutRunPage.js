@@ -101,7 +101,7 @@ export default function WorkoutRunPage() {
 
       {/* EXERCISES */}
       {workout.exercises.map((ex, i) => (
-        <ExerciseItem
+        <ExerciseItem showCheckbox
           key={ex.exerciseId}
           ex={ex}
           i={i}

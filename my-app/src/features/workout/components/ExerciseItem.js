@@ -31,6 +31,7 @@ export default function ExerciseItem({
   onChangeRestTime,
   status,
   handleStartPause,
+  showCheckbox = true,
 }) {
   const inputRefs = useRef([])
 
@@ -76,12 +77,16 @@ export default function ExerciseItem({
       {/* SETS */}
       {ex.sets.map((set, j) => (
         <div key={j} className={`set-row ${set.completed ? 'completed' : ''}`}>
-          <input
-            type="checkbox"
-            className="checkbox"
-            checked={set.completed}
-            onChange={(e) => handleCheck(j, e.target.checked)}
-          />
+          {showCheckbox ? (
+            <input
+              type="checkbox"
+              className="checkbox"
+              checked={set.completed}
+              onChange={(e) => handleCheck(j, e.target.checked)}
+            />
+          ) : (
+            <span className="set-number">{j + 1}</span>
+          )}
 
           <input
             ref={(el) => (inputRefs.current[j] = el)}

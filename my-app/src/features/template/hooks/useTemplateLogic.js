@@ -2,20 +2,44 @@ import { useEffect, useState } from 'react'
 import {
   createTemplate,
   updateTemplate,
-  getTemplate,
+  getTemplateById,
 } from '../../../shared/api/templateApi'
 
 export function useTemplateLogic(navigate, location, id) {
   const isCreate = !id
+  const [loading, setLoading] = useState(!isCreate)
 
-  const [template, setTemplate] = useState({
-    name: '',
-    exercises: [],
+  const [saving, setSaving] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState('')
+  const [isEditingName, setIsEditingName] = useState(false)
+
+  useEffect(() => {
+    if (isCreate) return
+
+    const fetchTemplate = async () => {
+      const data = await getTemplateById(id)
+      setTemplate(data)
+    }
+
+    fetchTemplate()
+  }, [id])
+
+  // ===== INIT TEMPLATE =====
+  const [template, setTemplate] = useState(() => {
+    const stored = JSON.parse(localStorage.getItem('draftTemplate'))
+
+    return {
+      name: stored?.name?.trim() || 'Template',
+      exercises: stored?.exercises || [],
+      notes: stored?.notes || '',
+    }
   })
 
-  const [loading, setLoading] = useState(!isCreate)
-  const [saving, setSaving] = useState(false)
-  const [error, setError] = useState('')
+  // ===== SAVE DRAFT =====
+  useEffect(() => {
+    localStorage.setItem('draftTemplate', JSON.stringify(template))
+  }, [template])
 
   // ===== LOAD (edit) =====
   useEffect(() => {
@@ -23,7 +47,7 @@ export function useTemplateLogic(navigate, location, id) {
 
     const fetch = async () => {
       try {
-        const data = await getTemplate(id)
+        const data = await getTemplateById(id)
         setTemplate(data)
       } catch {
         setError('Could not load template')
@@ -42,16 +66,30 @@ export function useTemplateLogic(navigate, location, id) {
 
     if (!selected?.length || mode !== 'template') return
 
-    const newExercises = selected.map((ex) => ({
-      exerciseId: ex.id,
-      name: ex.name,
-      image: ex.image,
-      restTime: 60,
-      sets: [
-        { reps: 8, weight: 0 },
-        { reps: 8, weight: 0 },
-      ],
-    }))
+    const lastWorkout = JSON.parse(localStorage.getItem('lastWorkout'))
+
+    const newExercises = selected.map((ex) => {
+      const previous = lastWorkout?.exercises?.find(
+        (e) => e.exerciseId === ex.id,
+      )
+
+      return {
+        exerciseId: ex.id,
+        name: ex.name,
+        image: ex.image,
+        restTime: previous?.restTime ?? 60,
+        sets: previous
+          ? previous.sets.map((s) => ({
+            reps: s.reps,
+            weight: s.weight,
+            completed: false,
+          }))
+          : [
+            { reps: 8, weight: 0, completed: false },
+            { reps: 8, weight: 0, completed: false },
+          ],
+      }
+    })
 
     setTemplate((prev) => ({
       ...prev,
@@ -77,54 +115,76 @@ export function useTemplateLogic(navigate, location, id) {
     })
   }
 
-  const updateExercise = (index, updater) => {
-    setTemplate((prev) => {
-      const updated = [...prev.exercises]
-      updated[index] = updater(updated[index])
-      return { ...prev, exercises: updated }
-    })
-  }
-
-  const addSet = (i) => {
-    updateExercise(i, (ex) => ({
-      ...ex,
-      sets: [...ex.sets, { reps: 8, weight: 0 }],
-    }))
-  }
-
-  const updateSet = (i, j, field, value) => {
-    updateExercise(i, (ex) => {
-      const sets = [...ex.sets]
-      sets[j] = { ...sets[j], [field]: value }
-      return { ...ex, sets }
-    })
-  }
-
-  const removeExercise = (i) => {
+  // ===== MUTATIONS =====
+  const updateExercises = (updater) => {
     setTemplate((prev) => ({
       ...prev,
-      exercises: prev.exercises.filter((_, idx) => idx !== i),
+      exercises: updater(prev.exercises),
     }))
   }
 
-  const removeSet = (i, j) => {
-    updateExercise(i, (ex) => ({
-      ...ex,
-      sets: ex.sets.filter((_, idx) => idx !== j),
-    }))
+  const addSet = (index) => {
+    updateExercises((exercises) => {
+      const updated = [...exercises]
+      const last = updated[index].sets.at(-1)
+
+      updated[index].sets = [
+        ...updated[index].sets,
+        last
+          ? { ...last, completed: false }
+          : { reps: 8, weight: 0, completed: false },
+      ]
+
+      return updated
+    })
   }
 
-  const updateRest = (i, value) => {
-    updateExercise(i, (ex) => ({
-      ...ex,
-      restTime: value,
-    }))
+  const updateSet = (exIndex, setIndex, field, value) => {
+    updateExercises((exercises) => {
+      const updated = [...exercises]
+      updated[exIndex].sets[setIndex] = {
+        ...updated[exIndex].sets[setIndex],
+        [field]: value,
+      }
+      return updated
+    })
   }
 
-  const save = async () => {
+  const removeExercise = (index) => {
+    updateExercises((exercises) => exercises.filter((_, i) => i !== index))
+  }
+
+  const removeSet = (exIndex, setIndex) => {
+    updateExercises((exercises) => {
+      const updated = [...exercises]
+
+      if (updated[exIndex].sets.length === 1) return updated
+
+      updated[exIndex].sets = updated[exIndex].sets.filter(
+        (_, i) => i !== setIndex,
+      )
+
+      return updated
+    })
+  }
+
+  const updateExerciseRest = (index, value) => {
+    updateExercises((exercises) => {
+      const updated = [...exercises]
+      updated[index] = {
+        ...updated[index],
+        restTime: value,
+      }
+      return updated
+    })
+  }
+
+  const saveTemplate = async () => {
     try {
+      setLoading(true)
       setSaving(true)
       setError('')
+      setSuccess(false)
 
       if (!template.name.trim()) {
         setError('Template needs a name')
@@ -136,15 +196,53 @@ export function useTemplateLogic(navigate, location, id) {
         return
       }
 
-      if (isCreate) {
-        await createTemplate(template)
-      } else {
-        await updateTemplate(id, template)
+      const cleaned = template.exercises.map((ex) => ({
+        ...ex,
+        sets: ex.sets.filter(
+          (s) =>
+            s.reps !== '' &&
+            s.weight !== '' &&
+            s.reps != null &&
+            s.weight != null,
+        ),
+      }))
+
+      const validExercises = cleaned.filter((ex) => ex.sets.length > 0)
+
+      if (!validExercises.length) {
+        setError('Each exercise needs at least one set')
+        return
       }
 
+      if (isCreate) {
+        await createTemplate({
+          ...template,
+          name: template.name.trim(),
+          exercises: validExercises,
+        })
+      } else {
+        await updateTemplate(id, {
+          ...template,
+          name: template.name.trim(),
+          exercises: validExercises,
+        })
+      }
+
+      setSuccess(true)
+      setError('')
+
+      setTemplate({
+        name: 'Template',
+        exercises: [],
+      })
+
+      setIsEditingName(false)
+
+      localStorage.removeItem('draftTemplate')
+
       navigate('/templates')
-    } catch {
-      setError('Could not save template')
+    } catch (err) {
+      setError(err.response?.data?.error || 'Could not save template')
     } finally {
       setSaving(false)
     }
@@ -156,14 +254,18 @@ export function useTemplateLogic(navigate, location, id) {
     loading,
     saving,
     error,
+    success,
+
+    isEditingName,
+    setIsEditingName,
 
     openLibrary,
     addSet,
     updateSet,
     removeExercise,
     removeSet,
-    updateRest,
+    updateExerciseRest,
 
-    save,
+    saveTemplate,
   }
 }
