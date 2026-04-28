@@ -9,6 +9,43 @@ import {
 } from '../../../shared/api/templateApi'
 import BackButton from '../../../shared/ui/BackButton'
 
+/**
+ * Page for creating and editing workout templates.
+ *
+ * Supports both:
+ * - Create mode (no id in route)
+ * - Edit mode (template id in route)
+ *
+ * Features:
+ * - Load existing template when editing
+ * - Add exercises from Exercise Library (select mode)
+ * - Manage sets (reps, weight)
+ * - Update rest time per exercise
+ * - Remove exercises and sets
+ * - Save template (create or update)
+ *
+ * Navigation flow:
+ * - Opens Exercise Library in select mode
+ * - Receives selected exercises via location.state
+ * - Returns to originating route using `from` and `mode`
+ *
+ * State structure:
+ * template = {
+ *   name: string,
+ *   exercises: [
+ *     {
+ *       exerciseId: string,
+ *       name: string,
+ *       image?: string,
+ *       restTime: number,
+ *       sets: [
+ *         { reps: number, weight: number }
+ *       ]
+ *     }
+ *   ]
+ * }
+ * @returns {import('react').ReactElement} Template edit/create page UI
+ */
 export default function TemplateEditPage() {
   const navigate = useNavigate()
   const { id } = useParams()

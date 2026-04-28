@@ -5,6 +5,47 @@ import {
   getTemplate,
 } from '../../../shared/api/templateApi'
 
+/**
+ * Hook for managing template creation and editing logic.
+ *
+ * Handles:
+ * - Loading existing template (edit mode)
+ * - Creating new template (create mode)
+ * - Adding exercises from Exercise Library (via navigation state)
+ * - Managing exercises, sets, and rest times
+ * - Saving template (create or update)
+ *
+ * Supports navigation flow:
+ * - Opens Exercise Library in select mode
+ * - Receives selected exercises via location.state
+ * - Filters by mode to avoid conflicts with workout flow
+ * @param {(path: string, options?: object) => void} navigate - Navigation function from react-router
+ * @param {{ state?: object, pathname: string }} location - Current route location object
+ * @param {string | undefined} id - Template ID (undefined in create mode)
+ * @returns {{
+ *  template: {
+ *    name: string,
+ *    exercises: Array<{
+ *      exerciseId: string,
+ *      name: string,
+ *      image?: string,
+ *      restTime: number,
+ *      sets: Array<{ reps: number, weight: number }>
+ *    }>
+ *  },
+ *  setTemplate: (updater: (prev: object) => object) => void,
+ *  loading: boolean,
+ *  saving: boolean,
+ *  error: string,
+ *  openLibrary: () => void,
+ *  addSet: (index: number) => void,
+ *  updateSet: (exIndex: number, setIndex: number, field: string, value: number) => void,
+ *  removeExercise: (index: number) => void,
+ *  removeSet: (exIndex: number, setIndex: number) => void,
+ *  updateRest: (index: number, value: number) => void,
+ *  save: () => Promise<void>
+ * }} Template state and actions
+ */
 export function useTemplateLogic(navigate, location, id) {
   const isCreate = !id
 
