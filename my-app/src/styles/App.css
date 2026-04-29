@@ -296,6 +296,11 @@ input[type="checkbox"]:checked::after {
   font-size: 14px;
 }
 
+input[type="checkbox"]:hover {
+  background-color: var(--primary);
+  opacity: 0.5;
+}
+
 .textarea {
   resize: vertical;
   min-height: 30px;
