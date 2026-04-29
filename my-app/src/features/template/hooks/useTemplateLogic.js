@@ -55,20 +55,12 @@ export function useTemplateLogic(navigate, location, id) {
   const [error, setError] = useState('')
   const [isEditingName, setIsEditingName] = useState(false)
 
-  useEffect(() => {
-    if (isCreate) return
-
-    const fetchTemplate = async () => {
-      const data = await getTemplateById(id)
-      setTemplate(data)
-    }
-
-    fetchTemplate()
-  }, [id])
-
   // ===== INIT TEMPLATE =====
   const [template, setTemplate] = useState(() => {
-    const stored = JSON.parse(localStorage.getItem('draftTemplate'))
+    let stored = null
+    try {
+      stored = JSON.parse(localStorage.getItem('draftWorkout'))
+    } catch {}
 
     return {
       name: stored?.name?.trim() || 'Template',
@@ -79,6 +71,7 @@ export function useTemplateLogic(navigate, location, id) {
 
   // ===== SAVE DRAFT =====
   useEffect(() => {
+    if (!isCreate) return
     localStorage.setItem('draftTemplate', JSON.stringify(template))
   }, [template])
 
@@ -123,11 +116,10 @@ export function useTemplateLogic(navigate, location, id) {
           ? previous.sets.map((s) => ({
             reps: s.reps,
             weight: s.weight,
-            completed: false,
           }))
           : [
-            { reps: 8, weight: 0, completed: false },
-            { reps: 8, weight: 0, completed: false },
+            { reps: 8, weight: 0 },
+            { reps: 8, weight: 0 },
           ],
       }
     })
@@ -142,8 +134,8 @@ export function useTemplateLogic(navigate, location, id) {
       ],
     }))
 
-    window.history.replaceState({}, '')
-  }, [location.state])
+    navigate(location.pathname, { replace: true, state: null })
+  }, [location.state?.selectedExercises])
 
   // ===== ACTIONS =====
   const openLibrary = () => {
@@ -155,8 +147,6 @@ export function useTemplateLogic(navigate, location, id) {
       },
     })
   }
-
-  // ===== MUTATIONS =====
 
   const addSet = (index) => {
     setTemplate((prev) => ({
@@ -171,8 +161,8 @@ export function useTemplateLogic(navigate, location, id) {
           sets: [
             ...ex.sets,
             last
-              ? { ...last, completed: false }
-              : { reps: 8, weight: 0, completed: false },
+              ? { reps: last.reps, weight: last.weight }
+              : { reps: 8, weight: 0 },
           ],
         }
       }),
@@ -239,7 +229,6 @@ export function useTemplateLogic(navigate, location, id) {
 
   const saveTemplate = async () => {
     try {
-      setLoading(true)
       setSaving(true)
       setError('')
       setSuccess(false)

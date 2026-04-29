@@ -57,7 +57,10 @@ export function useWorkoutLogic(navigate, location) {
 
   // ===== INIT WORKOUT =====
   const [workout, setWorkout] = useState(() => {
-    const stored = JSON.parse(localStorage.getItem('draftWorkout'))
+    let stored = null
+    try {
+      stored = JSON.parse(localStorage.getItem('draftWorkout'))
+    } catch {}
 
     return {
       name: stored?.name?.trim() || 'Workout',
@@ -113,7 +116,7 @@ export function useWorkoutLogic(navigate, location) {
       ],
     }))
 
-    window.history.replaceState({}, '')
+    navigate(location.pathname, { replace: true, state: null })
   }, [location.state])
 
   // ===== LOAD WORKOUT FROM TEMPLATE =====
@@ -135,8 +138,8 @@ export function useWorkoutLogic(navigate, location) {
 
     setWorkout(workoutFromTemplate)
 
-    window.history.replaceState({}, '')
-  }, [location.state])
+    navigate(location.pathname, { replace: true, state: null })
+  }, [location.state?.template])
 
   // ===== HELPERS =====
   const safeStartPause = () => {
