@@ -16,6 +16,17 @@ import { Timer } from 'lucide-react'
  * @param {(value: number) => void} props.onChangeRestTime - Updates rest time
  * @param {'idle' | 'running' | 'paused'} props.status - Workout status
  * @param {() => void} props.handleStartPause - Starts or pauses workout
+ * @param props.showCheckbox - Whether to show completion checkbox (default: true)
+ * @description
+ * Displays an exercise with its sets, allowing users to:
+ * - View exercise details (name, image)
+ * - Add, update, and remove sets (weight and reps)
+ * - Mark sets as completed
+ * - Set rest time for the exercise
+ *
+ * Integrates with workout logic to manage state and navigation:
+ * - Navigates to Exercise Library for selecting exercises
+ * - Updates workout state with exercises and sets
  * @returns {import('react').ReactElement} Exercise item UI
  */
 export default function ExerciseItem({

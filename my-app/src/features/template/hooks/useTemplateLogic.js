@@ -59,8 +59,8 @@ export function useTemplateLogic(navigate, location, id) {
   const [template, setTemplate] = useState(() => {
     let stored = null
     try {
-      stored = JSON.parse(localStorage.getItem('draftWorkout'))
-    } catch {}
+      stored = JSON.parse(localStorage.getItem('draftTemplate'))
+    } catch { }
 
     return {
       name: stored?.name?.trim() || 'Template',
@@ -73,7 +73,7 @@ export function useTemplateLogic(navigate, location, id) {
   useEffect(() => {
     if (!isCreate) return
     localStorage.setItem('draftTemplate', JSON.stringify(template))
-  }, [template])
+  }, [template, isCreate])
 
   // ===== LOAD (edit) =====
   useEffect(() => {
@@ -135,7 +135,12 @@ export function useTemplateLogic(navigate, location, id) {
     }))
 
     navigate(location.pathname, { replace: true, state: null })
-  }, [location.state?.selectedExercises])
+  }, [
+    location.state?.selectedExercises,
+    location.state?.mode,
+    location.pathname,
+    navigate,
+  ])
 
   // ===== ACTIONS =====
   const openLibrary = () => {

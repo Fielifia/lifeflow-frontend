@@ -60,7 +60,7 @@ export function useWorkoutLogic(navigate, location) {
     let stored = null
     try {
       stored = JSON.parse(localStorage.getItem('draftWorkout'))
-    } catch {}
+    } catch { }
 
     return {
       name: stored?.name?.trim() || 'Workout',
@@ -117,7 +117,12 @@ export function useWorkoutLogic(navigate, location) {
     }))
 
     navigate(location.pathname, { replace: true, state: null })
-  }, [location.state])
+  }, [
+    location.state?.selectedExercises,
+    location.state?.mode,
+    location.pathname,
+    navigate,
+  ])
 
   // ===== LOAD WORKOUT FROM TEMPLATE =====
   useEffect(() => {
@@ -139,7 +144,7 @@ export function useWorkoutLogic(navigate, location) {
     setWorkout(workoutFromTemplate)
 
     navigate(location.pathname, { replace: true, state: null })
-  }, [location.state?.template])
+  }, [location.state?.template, location.pathname, navigate])
 
   // ===== HELPERS =====
   const safeStartPause = () => {
