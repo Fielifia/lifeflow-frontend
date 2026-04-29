@@ -101,7 +101,8 @@ export default function WorkoutRunPage() {
 
       {/* EXERCISES */}
       {workout.exercises.map((ex, i) => (
-        <ExerciseItem showCheckbox
+        <ExerciseItem
+          showCheckbox
           key={ex.exerciseId}
           ex={ex}
           i={i}
@@ -130,8 +131,9 @@ export default function WorkoutRunPage() {
           status={status}
           handleStartPause={handleStartPause}
           saveWorkout={saveWorkout}
+          onSaveTemplate={handleSaveTemplate}
           saving={saving}
-          hasExercises={true}
+          hasExercises={workout.exercises.length > 0}
         />
       )}
 

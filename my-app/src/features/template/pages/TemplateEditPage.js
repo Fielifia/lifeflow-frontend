@@ -88,24 +88,6 @@ export default function TemplateEditPage() {
         }
       />
 
-      {/* TOP CONTROLS 
-        <WorkoutControls
-          status={status}
-          handleStartPause={handleStartPause}
-          saveWorkout={saveWorkout}
-          onSaveTemplate={handleSaveTemplate}
-          saving={saving}
-          hasExercises={workout.exercises.length > 0}
-        />*/}
-
-      {/* REST TIMER 
-        <RestTimer
-          isResting={isResting}
-          restRemaining={restRemaining}
-          adjustRest={adjustRest}
-          skipRest={skipRest}
-        />*/}
-
       {/* ADD EXERCISE */}
       <button className="btn btn-secondary btn-full" onClick={openLibrary}>
         Add exercise
@@ -131,17 +113,6 @@ export default function TemplateEditPage() {
       <button className="btn btn-primary btn-full" onClick={saveTemplate}>
         {saving ? 'Saving...' : 'Save Template'}
       </button>
-
-      {/* BOTTOM CONTROLS
-        {workout.exercises.length > 0 && (
-          <WorkoutControls
-            status={status}
-            handleStartPause={handleStartPause}
-            saveWorkout={saveWorkout}
-            saving={saving}
-            hasExercises={true}
-          />
-        )} */}
 
       {/* FEEDBACK */}
       {success && <p className="muted center">Template saved ✔</p>}

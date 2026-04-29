@@ -157,67 +157,84 @@ export function useTemplateLogic(navigate, location, id) {
   }
 
   // ===== MUTATIONS =====
-  const updateExercises = (updater) => {
+
+  const addSet = (index) => {
     setTemplate((prev) => ({
       ...prev,
-      exercises: updater(prev.exercises),
+      exercises: prev.exercises.map((ex, i) => {
+        if (i !== index) return ex
+
+        const last = ex.sets.at(-1)
+
+        return {
+          ...ex,
+          sets: [
+            ...ex.sets,
+            last
+              ? { ...last, completed: false }
+              : { reps: 8, weight: 0, completed: false },
+          ],
+        }
+      }),
     }))
   }
 
-  const addSet = (index) => {
-    updateExercises((exercises) => {
-      const updated = [...exercises]
-      const last = updated[index].sets.at(-1)
-
-      updated[index].sets = [
-        ...updated[index].sets,
-        last
-          ? { ...last, completed: false }
-          : { reps: 8, weight: 0, completed: false },
-      ]
-
-      return updated
-    })
-  }
-
   const updateSet = (exIndex, setIndex, field, value) => {
-    updateExercises((exercises) => {
-      const updated = [...exercises]
-      updated[exIndex].sets[setIndex] = {
-        ...updated[exIndex].sets[setIndex],
-        [field]: value,
-      }
-      return updated
-    })
+    setTemplate((prev) => ({
+      ...prev,
+      exercises: prev.exercises.map((ex, i) => {
+        if (i !== exIndex) return ex
+
+        return {
+          ...ex,
+          sets: ex.sets.map((set, j) => {
+            if (j !== setIndex) return set
+
+            return {
+              ...set,
+              [field]: value,
+            }
+          }),
+        }
+      }),
+    }))
   }
 
   const removeExercise = (index) => {
-    updateExercises((exercises) => exercises.filter((_, i) => i !== index))
+    setTemplate((prev) => ({
+      ...prev,
+      exercises: prev.exercises.filter((_, i) => i !== index),
+    }))
   }
 
   const removeSet = (exIndex, setIndex) => {
-    updateExercises((exercises) => {
-      const updated = [...exercises]
+    setTemplate((prev) => ({
+      ...prev,
+      exercises: prev.exercises.map((ex, i) => {
+        if (i !== exIndex) return ex
 
-      if (updated[exIndex].sets.length === 1) return updated
+        if (ex.sets.length === 1) return ex
 
-      updated[exIndex].sets = updated[exIndex].sets.filter(
-        (_, i) => i !== setIndex,
-      )
-
-      return updated
-    })
+        return {
+          ...ex,
+          sets: ex.sets.filter((_, j) => j !== setIndex),
+        }
+      }),
+    }))
   }
 
   const updateExerciseRest = (index, value) => {
-    updateExercises((exercises) => {
-      const updated = [...exercises]
-      updated[index] = {
-        ...updated[index],
-        restTime: value,
-      }
-      return updated
-    })
+    setTemplate((prev) => ({
+      ...prev,
+      exercises: prev.exercises.map((ex, i) => {
+        if (i !== index) return ex
+
+        return {
+          ...ex,
+          restTime: value,
+        }
+      }),
+    }))
   }
 
   const saveTemplate = async () => {
