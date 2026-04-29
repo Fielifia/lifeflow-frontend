@@ -16,6 +16,7 @@ import { Timer } from 'lucide-react'
  * @param {(value: number) => void} props.onChangeRestTime - Updates rest time
  * @param {'idle' | 'running' | 'paused'} props.status - Workout status
  * @param {() => void} props.handleStartPause - Starts or pauses workout
+ * @param {(index: number, notes: string) => void} props.updateExerciseNotes - Updates exercise notes
  * @param props.showCheckbox - Whether to show completion checkbox (default: true)
  * @description
  * Displays an exercise with its sets, allowing users to:

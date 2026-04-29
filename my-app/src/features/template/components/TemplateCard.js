@@ -1,5 +1,12 @@
 import { useNavigate } from 'react-router-dom'
 
+/**
+ * Displays a preview card for a template.
+ * @param {object} props - Component props
+ * @param {object} props.template - Template data
+ * @param {() => void} props.onClick - Click handler for opening template
+ * @returns {import('react').ReactElement} Template card UI
+ */
 export default function TemplateCard({ template, onClick }) {
   const exercises = template.exercises || []
   const navigate = useNavigate()
