@@ -63,6 +63,7 @@ function App() {
           <Route path="/templates/:id" element={<TemplateDetailPage />} />
           <Route path="/templates/create" element={<TemplateEditPage />} />
 
+
           <Route
             path="/history"
             element={<div className="card">History (coming soon)</div>}

@@ -1,7 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom'
-
 import { useWorkoutLogic } from '../hooks/useWorkoutLogic'
-import { workoutToTemplate } from '../../template/utils/templateAdapter'
 import { createTemplate } from '../../../shared/api/templateApi'
 
 import WorkoutHeader from '../components/WorkoutHeader'
@@ -50,6 +48,7 @@ export default function WorkoutRunPage() {
     updateWorkoutNotes,
 
     saveWorkout,
+    workoutToTemplate,
   } = useWorkoutLogic(navigate, location)
 
   const handleSaveTemplate = async () => {

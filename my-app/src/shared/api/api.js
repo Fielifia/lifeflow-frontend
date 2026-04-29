@@ -6,7 +6,15 @@
  */
 import axios from 'axios'
 
-const API_URL = process.env.REACT_APP_API_URL
+// const API_URL = process.env.REACT_APP_API_URL
+
+// const API = axios.create({
+//   baseURL: API_URL,
+// })
+
+
+// Fallback to local API if REACT_APP_API_URL for testing
+const API_URL = 'http://localhost:5000'
 
 const API = axios.create({
   baseURL: API_URL,
@@ -23,11 +31,4 @@ API.interceptors.request.use((config) => {
   return config
 })
 
-// Fallback to local API if REACT_APP_API_URL for testing
-const LOCAL_API_URL = 'http://localhost:5000'
-const LOCAL_API = axios.create({
-  baseURL: LOCAL_API_URL,
-})
-
 export default API
-export { LOCAL_API }

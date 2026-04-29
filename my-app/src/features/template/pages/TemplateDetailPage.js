@@ -14,6 +14,14 @@ export default function TemplateDetail() {
 
   if (!template) return <p className="center">No template found</p>
 
+  const normalizedExercises = (template.exercises || []).map((ex) => ({
+    ...ex,
+    image: ex.image || ex.images?.[0] || '',
+    images: ex.images || (ex.image ? [ex.image] : []),
+    restTime: ex.restTime ?? ex.rest ?? 0,
+    notes: ex.notes ?? '',
+  }))
+
   const handleStartWorkout = () => {
     navigate('/workout/run', {
       state: {
@@ -33,7 +41,7 @@ export default function TemplateDetail() {
       </div>
 
       {/* EXERCISES */}
-      {template.exercises.map((ex, i) => (
+      {normalizedExercises.map((ex, i) => (
         <div key={i} className="workout-exercise">
           {/* HEADER  */}
           <div className="exercise-header-main">

@@ -261,6 +261,11 @@ input:-webkit-autofill {
   color: var(--text);
 }
 
+.input-base .input-exercise-notes {
+  padding: 8px 12px;
+  font-size: 12px;
+}
+
 /* checkbox (slightly bigger but stable) */
 .checkbox {
   width: 20px;
@@ -403,6 +408,13 @@ input:-webkit-autofill {
   align-items: center;
   gap: 10px;
   margin-bottom: 10px;
+}
+
+.exercise-notes {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin: 12px 0;
 }
 
 .exercise-img-small {

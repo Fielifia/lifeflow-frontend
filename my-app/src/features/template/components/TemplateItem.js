@@ -9,13 +9,13 @@ import { useNavigate, useLocation } from 'react-router-dom'
  *    exercises?: Array<{
  *      name: string,
  *      image?: string,
- *      sets?: Array
+ *      sets?: Array<{ reps: number, weight: number }>
  *    }>
  *  }
  * }} props - Template data
  * @returns {import('react').ReactElement} Template card UI
  */
-export default function TemplateItem({ template }) {
+export default function TemplateItem({ template, ex }) {
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -35,7 +35,7 @@ export default function TemplateItem({ template }) {
       }
     >
       {/* HEADER */}
-      <div className="exercise-header-main">
+      {/* <div className="exercise-header-main">
         <img
           src={firstExercise?.image || '/placeholder.png'}
           alt=""
@@ -46,6 +46,18 @@ export default function TemplateItem({ template }) {
           <h3>{template.name || 'Untitled template'}</h3>
           <p className="muted small">{exercises.length} exercises</p>
         </div>
+      </div> */}
+
+      <div className="exercise-header-main">
+        <img
+          src={firstExercise?.image || '/placeholder.png'}
+          alt=""
+          className="exercise-img-small"
+          onClick={() => navigate(`/exercise/${ex.exerciseId}`)}
+        />
+
+        <h2>{template.name}</h2>
+        <p className="muted small">{exercises.length} exercises</p>
       </div>
 
       {/* PREVIEW */}

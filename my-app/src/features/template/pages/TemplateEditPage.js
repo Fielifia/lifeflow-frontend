@@ -3,6 +3,7 @@ import ExerciseItem from '../../workout/components/ExerciseItem'
 import { useTemplateLogic } from '../hooks/useTemplateLogic'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
+import TemplateHeader from '../components/TemplateHeader'
 
 /**
  * Page for creating and editing workout templates.
@@ -65,6 +66,7 @@ export default function TemplateEditPage() {
     removeExercise,
     removeSet,
     updateExerciseRest,
+    updateExerciseNotes,
 
     saveTemplate,
   } = useTemplateLogic(navigate, location, id)
@@ -78,9 +80,9 @@ export default function TemplateEditPage() {
       {/* HEADER */}
       <h2>{isCreate ? 'Create Template' : 'Edit Template'}</h2>
 
-      <input
-        className="input-base"
-        value={template.name}
+      {/* HEADER */}
+      <TemplateHeader
+        name={template.name}
         isEditing={isEditingName}
         setIsEditing={setIsEditingName}
         onChangeName={(value) =>
@@ -103,6 +105,7 @@ export default function TemplateEditPage() {
           navigate={navigate}
           addSet={addSet}
           updateSet={updateSet}
+          updateExerciseNotes={updateExerciseNotes}
           removeExercise={removeExercise}
           removeSet={removeSet}
           restTime={ex.restTime}

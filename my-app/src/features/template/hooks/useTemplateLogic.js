@@ -28,7 +28,7 @@ import {
  *    exercises: Array<{
  *      exerciseId: string,
  *      name: string,
- *      image?: string,
+ *      images: string[],
  *      restTime: number,
  *      sets: Array<{ reps: number, weight: number }>
  *    }>
@@ -82,7 +82,19 @@ export function useTemplateLogic(navigate, location, id) {
     const fetch = async () => {
       try {
         const data = await getTemplateById(id)
-        setTemplate(data)
+
+        const normalized = {
+          ...data,
+          exercises: data.exercises.map((ex) => ({
+            ...ex,
+            image: ex.images?.[0] || '',
+            images: ex.images || [],
+            restTime: ex.rest ?? 120,
+            notes: ex.notes ?? '',
+          })),
+        }
+
+        setTemplate(normalized)
       } catch {
         setError('Could not load template')
       } finally {
@@ -111,7 +123,9 @@ export function useTemplateLogic(navigate, location, id) {
         exerciseId: ex.id,
         name: ex.name,
         image: ex.image,
-        restTime: previous?.restTime ?? 60,
+        images: ex.images || (ex.image ? [ex.image] : []),
+        restTime: previous?.restTime ?? 120,
+        notes: previous?.notes ?? '',
         sets: previous
           ? previous.sets.map((s) => ({
             reps: s.reps,
@@ -151,6 +165,15 @@ export function useTemplateLogic(navigate, location, id) {
         mode: 'template',
       },
     })
+  }
+
+  const updateExerciseNotes = (index, notes) => {
+    setTemplate((prev) => ({
+      ...prev,
+      exercises: prev.exercises.map((ex, i) =>
+        i === index ? { ...ex, notes } : ex,
+      ),
+    }))
   }
 
   const addSet = (index) => {
@@ -249,7 +272,15 @@ export function useTemplateLogic(navigate, location, id) {
       }
 
       const cleaned = template.exercises.map((ex) => ({
-        ...ex,
+        exerciseId: ex.exerciseId,
+        name: ex.name,
+        images: ex.images?.length
+          ? ex.images
+          : ex.image
+            ? [ex.image]
+            : [],
+        notes: ex.notes || '',
+        rest: ex.restTime || 0,
         sets: ex.sets.filter(
           (s) =>
             s.reps !== '' &&
@@ -317,7 +348,7 @@ export function useTemplateLogic(navigate, location, id) {
     removeExercise,
     removeSet,
     updateExerciseRest,
-
+    updateExerciseNotes,
     saveTemplate,
   }
 }

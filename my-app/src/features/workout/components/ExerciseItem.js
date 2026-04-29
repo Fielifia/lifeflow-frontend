@@ -42,6 +42,7 @@ export default function ExerciseItem({
   onChangeRestTime,
   status,
   handleStartPause,
+  updateExerciseNotes,
   showCheckbox = true,
 }) {
   const inputRefs = useRef([])
@@ -54,12 +55,16 @@ export default function ExerciseItem({
     }
   }
 
+  const addExerciseNotes = (notes) => {
+    updateExerciseNotes(i, notes)
+  }
+
   return (
     <div className="workout-exercise">
       {/* HEADER */}
       <div className="exercise-header-main">
         <img
-          src={ex.image || '/placeholder.png'}
+          src={ex.image || ex.images?.[0] || '/placeholder.png'}
           alt=""
           className="exercise-img-small"
           onClick={() => navigate(`/exercise/${ex.exerciseId}`)}
@@ -77,6 +82,17 @@ export default function ExerciseItem({
           Remove
         </button>
       </div>
+
+      <span>Notes:</span>
+      <form className="exercise-notes" onSubmit={(e) => e.preventDefault()}>
+        <input
+          className="input-base input-exercise-notes"
+          type="text"
+          placeholder="Notes..."
+          value={ex.notes || ''}
+          onChange={(e) => addExerciseNotes(e.target.value)}
+        />
+      </form>
 
       {/* SET HEADER */}
       <div className="set-header">

@@ -146,6 +146,25 @@ export function useWorkoutLogic(navigate, location) {
     navigate(location.pathname, { replace: true, state: null })
   }, [location.state?.template, location.pathname, navigate])
 
+
+  const workoutToTemplate = (workout) => ({
+    name: workout.name || 'Template',
+    exercises: workout.exercises.map((ex) => ({
+      exerciseId: ex.exerciseId,
+      name: ex.name,
+
+      images: ex.images?.length ? ex.images : ex.image ? [ex.image] : [],
+
+      notes: ex.notes || '',
+      rest: ex.restTime ?? ex.rest ?? 120,
+
+      sets: ex.sets.map((s) => ({
+        reps: s.reps,
+        weight: s.weight,
+      })),
+    })),
+  })
+
   // ===== HELPERS =====
   const safeStartPause = () => {
     if (!workout.exercises.length) return
@@ -358,5 +377,6 @@ export function useWorkoutLogic(navigate, location) {
     updateWorkoutNotes,
 
     saveWorkout,
+    workoutToTemplate,
   }
 }

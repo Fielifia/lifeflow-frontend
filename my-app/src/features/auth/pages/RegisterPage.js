@@ -42,9 +42,6 @@ export default function Register( { setUser } ) {
 
       const user = await register({ email, username, password })
 
-      console.log('USER:', user)
-      console.log('SETUSER:', setUser)
-
       setUser(user)
       setEmail('')
       setUsername('')

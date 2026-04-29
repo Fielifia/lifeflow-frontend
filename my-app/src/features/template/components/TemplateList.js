@@ -1,4 +1,5 @@
-import TemplateItem from './TemplateItem'
+import TemplateCard from './TemplateCard'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 /**
  * Displays a list of templates.
@@ -6,14 +7,28 @@ import TemplateItem from './TemplateItem'
  * @returns {import('react').ReactElement} Template list UI
  */
 export default function TemplateList({ templates = [] }) {
+  const navigate = useNavigate()
+  const location = useLocation()
+
   if (templates.length === 0) {
     return <p className="muted">No templates yet</p>
   }
 
   return (
     <div className="template-list">
-      {templates.map((t) => (
-        <TemplateItem key={t._id} template={t} />
+      {templates.map((template) => (
+        <TemplateCard
+          key={template._id}
+          template={template}
+          onClick={() =>
+            navigate(`/templates/${template._id}`, {
+              state: {
+                template,
+                from: location.pathname,
+              },
+            })
+          }
+        />
       ))}
     </div>
   )
