@@ -147,23 +147,28 @@ export function useWorkoutLogic(navigate, location) {
   }, [location.state?.template, location.pathname, navigate])
 
 
-  const workoutToTemplate = (workout) => ({
-    name: workout.name || 'Template',
-    exercises: workout.exercises.map((ex) => ({
-      exerciseId: ex.exerciseId,
-      name: ex.name,
+  const workoutToTemplate = (workout) => {
+    if (!workout || !workout.exercises) return null
+  
+    return {
+      name: workout.name || 'Template',
+      exercises: workout.exercises.map((ex) => ({
+        exerciseId: ex.exerciseId,
+        name: ex.name,
 
-      images: ex.images?.length ? ex.images : ex.image ? [ex.image] : [],
+        images: ex.images?.length ? ex.images : ex.image ? [ex.image] : [],
 
-      notes: ex.notes || '',
-      rest: ex.restTime ?? ex.rest ?? 120,
+        notes: ex.notes || '',
+        rest: ex.restTime ?? ex.rest ?? 120,
 
-      sets: ex.sets.map((s) => ({
-        reps: s.reps,
-        weight: s.weight,
+        sets: ex.sets.map((s) => ({
+          reps: s.reps,
+          weight: s.weight,
+        })),
       })),
-    })),
-  })
+    }
+  }
+  
 
   // ===== HELPERS =====
   const safeStartPause = () => {
