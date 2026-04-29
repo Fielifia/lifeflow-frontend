@@ -84,12 +84,11 @@ export default function ExerciseItem({
         </button>
       </div>
 
-      <span>Notes:</span>
       <form className="exercise-notes" onSubmit={(e) => e.preventDefault()}>
         <input
           className="input-base input-exercise-notes"
           type="text"
-          placeholder="Notes..."
+          placeholder="Exercise Notes..."
           value={ex.notes || ''}
           onChange={(e) => addExerciseNotes(e.target.value)}
         />
@@ -186,7 +185,7 @@ export default function ExerciseItem({
           }
         }}
       >
-        <Timer className="icon-small" /> Set Rest Timer: {restTime ?? 60}s
+        <Timer className="icon-small muted" /> Rest Timer: {restTime ?? 60}s
       </div>
     </div>
   )
