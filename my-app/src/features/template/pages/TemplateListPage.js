@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import BackButton from '../../../shared/ui/BackButton'
 import TemplateList from '../components/TemplateList'
 import { getTemplates } from '../../../shared/api/templateApi'
@@ -11,6 +12,7 @@ export default function TemplateListPage() {
   const [templates, setTemplates] = useState([])
   const [search, setSearch] = useState('')
   const [visibleCount, setVisibleCount] = useState(10)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchTemplates = async () => {
@@ -37,6 +39,12 @@ export default function TemplateListPage() {
       <BackButton fallback="/workout" />
 
       <div className="section">
+        <button
+          className="btn btn-secondary btn-full"
+          onClick={() => navigate('/templates/create')}
+        >
+          Create template
+        </button>
 
         {/* SEARCH */}
         <input
