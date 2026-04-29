@@ -1,5 +1,16 @@
+import { useNavigate } from 'react-router-dom'
+
 export default function TemplateCard({ template, onClick }) {
   const exercises = template.exercises || []
+  const navigate = useNavigate()
+
+  const handleStartWorkout = () => {
+    navigate('/workout/run', {
+      state: {
+        template,
+      },
+    })
+  }
 
   return (
     <div className="card-base template-card" onClick={onClick}>
@@ -23,14 +34,13 @@ export default function TemplateCard({ template, onClick }) {
       </div>
 
       {/* ACTION */}
-      <button
-        className="btn-primary"
-        onClick={(e) => {
-          e.stopPropagation()
-        }}
-      >
+      <button className="btn btn-primary btn-full" onClick={(e) => {
+        e.stopPropagation()
+        handleStartWorkout()
+      }}>
         Start workout
       </button>
+
     </div>
   )
 }
