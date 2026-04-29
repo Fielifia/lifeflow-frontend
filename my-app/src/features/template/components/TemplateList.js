@@ -11,7 +11,7 @@ export default function TemplateList({ templates = [] }) {
   const location = useLocation()
 
   if (templates.length === 0) {
-    return <p className="muted">No templates yet</p>
+    return <p className="muted center">No templates yet</p>
   }
 
   return (

@@ -101,6 +101,10 @@ a:active {
   outline: none;
 }
 
+.link {
+  cursor: pointer;
+}
+
 /* ============================= */
 /* ===== CLICKABLE SYSTEM ====== */
 /* ============================= */
@@ -179,14 +183,12 @@ button {
   cursor: pointer;
   border-radius: 10px;
   font-size: 13px;
-  padding: 10px;
+  padding: 14px;
   margin: 8px 0;
 }
 
 .btn-primary {
   width: 100%;
-  padding: 14px;
-  border-radius: 10px;
   border: none;
   background: var(--primary);
   color: #fff;
@@ -761,10 +763,12 @@ input:-webkit-autofill {
 /* ========== TEMPLATE ======= */
 /* ============================= */
 
+
 .template-card {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
+  margin: 12px 0;
 }
 
 .template-preview-row {

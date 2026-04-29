@@ -1,4 +1,6 @@
 import { useNavigate } from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { getTemplates } from '../../../shared/api/templateApi'
 import TemplateList from '../../template/components/TemplateList'
 
 /**
@@ -7,6 +9,21 @@ import TemplateList from '../../template/components/TemplateList'
  */
 export default function WorkoutStart() {
   const navigate = useNavigate()
+
+  const [templates, setTemplates] = useState([])
+
+  useEffect(() => {
+    const fetchTemplates = async () => {
+      try {
+        const data = await getTemplates({ limit: 5 }) // t.ex bara några
+        setTemplates(data.results || [])
+      } catch (err) {
+        console.error(err)
+      }
+    }
+
+    fetchTemplates()
+  }, [])
 
   return (
     <div className="card-base">
@@ -46,7 +63,7 @@ export default function WorkoutStart() {
 
       {/* TEMPLATES */}
       <div className="section">
-        <TemplateList />
+        <TemplateList templates={templates.slice(0, 3)} />
 
         <p className="link center" onClick={() => navigate('/templates')}>
           View all templates →

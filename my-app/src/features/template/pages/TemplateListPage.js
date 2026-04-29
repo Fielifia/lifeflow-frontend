@@ -40,7 +40,7 @@ export default function TemplateListPage() {
 
       <div className="section">
         <button
-          className="btn btn-secondary btn-full"
+          className="btn btn-primary btn-full"
           onClick={() => navigate('/templates/create')}
         >
           Create template
@@ -56,6 +56,8 @@ export default function TemplateListPage() {
             setVisibleCount(10)
           }}
         />
+
+        <h2>Saved Templates</h2>
 
         {/* LIST */}
         <TemplateList templates={visibleTemplates} />
