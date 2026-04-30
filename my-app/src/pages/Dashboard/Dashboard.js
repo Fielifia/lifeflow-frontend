@@ -67,17 +67,25 @@ export default function Dashboard() {
           </div>
 
           <div className="graph">
-            {data.map((d) => (
-              <div key={d.day} className="column">
-                <div
-                  className="bar"
-                  style={{
-                    height: `${(d.value / maxValue) * 120}px`,
-                  }}
-                ></div>
-                <span className="label">{d.day}</span>
+            {data.length === 0 ? (
+              <div className="empty-state">
+                <div className="empty-icon">📊</div>
+                <p className="empty-title">No activity yet</p>
+                <p className="empty-sub">Start a workout to see your stats here</p>
               </div>
-            ))}
+            ) : (
+              data.map((d) => (
+                <div key={d.day} className="column">
+                  <div
+                    className="bar"
+                    style={{
+                      height: `${(d.value / maxValue) * 120}px`,
+                    }}
+                  ></div>
+                  <span className="label">{d.day}</span>
+                </div>
+              ))
+            )}
           </div>
         </div>
 
@@ -113,14 +121,22 @@ export default function Dashboard() {
         <h3>Recent Achievements</h3>
 
         <div className="grid-base achievements-grid">
-          {['First Workout', '7 Day Streak', '100kg Club', 'Early Bird'].map(
-            (title) => (
-              <div key={title} className="achievement-card">
-                <div className="icon"></div>
-                <p className="achievement-title">{title}</p>
-                <p className="muted small">Achievement unlocked</p>
-              </div>
-            ),
+          {[].length === 0 ? (
+            <div className="empty-state">
+              <div className="empty-icon">🏆</div>
+              <p className="empty-title">No achievements yet</p>
+              <p className="empty-sub">Complete workouts to unlock achievements</p>
+            </div>
+          ) : (
+            ['First Workout', '7 Day Streak', '100kg Club', 'Early Bird'].map(
+              (title) => (
+                <div key={title} className="achievement-card">
+                  <div className="icon"></div>
+                  <p className="achievement-title">{title}</p>
+                  <p className="muted small">Achievement unlocked</p>
+                </div>
+              ),
+            )
           )}
         </div>
       </div>
