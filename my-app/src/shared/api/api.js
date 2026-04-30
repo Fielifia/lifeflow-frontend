@@ -6,19 +6,19 @@
  */
 import axios from 'axios'
 
-const API_URL = process.env.REACT_APP_API_URL
-
-const API = axios.create({
-  baseURL: API_URL,
-})
-
-
-// Fallback to local API if REACT_APP_API_URL for testing
-// const API_URL = 'http://localhost:5000'
+// const API_URL = process.env.REACT_APP_API_URL
 
 // const API = axios.create({
 //   baseURL: API_URL,
 // })
+
+
+// Fallback to local API if REACT_APP_API_URL for testing
+const API_URL = 'http://localhost:5000'
+
+const API = axios.create({
+  baseURL: API_URL,
+})
 
 API.interceptors.request.use((config) => {
   const storedUser = JSON.parse(localStorage.getItem('user'))

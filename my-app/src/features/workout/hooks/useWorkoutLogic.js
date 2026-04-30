@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import API from '../../../shared/api/api'
 import { useRestTimer } from './useRestTimer'
 import { useTimer } from './useTimer'
+import { mapExerciseToWorkout } from '../../exercise/utils/exerciseMapper'
 
 /**
  * Handles workout state, timers and actions.
@@ -88,22 +89,7 @@ export function useWorkoutLogic(navigate, location) {
         (e) => e.exerciseId === ex.id,
       )
 
-      return {
-        exerciseId: ex.id,
-        name: ex.name,
-        image: ex.image,
-        restTime: previous?.restTime ?? 60,
-        sets: previous
-          ? previous.sets.map((s) => ({
-            reps: s.reps,
-            weight: s.weight,
-            completed: false,
-          }))
-          : [
-            { reps: 8, weight: 0, completed: false },
-            { reps: 8, weight: 0, completed: false },
-          ],
-      }
+      return mapExerciseToWorkout(ex, previous)
     })
 
     setWorkout((prev) => ({
