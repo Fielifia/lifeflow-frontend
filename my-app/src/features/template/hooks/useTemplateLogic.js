@@ -4,6 +4,7 @@ import {
   updateTemplate,
   getTemplateById,
 } from '../../../shared/api/templateApi'
+import { mapExerciseToTemplate } from '../../exercise/utils/exerciseMapper'
 
 /**
  * Hook for managing template creation and editing logic.
@@ -119,23 +120,7 @@ export function useTemplateLogic(navigate, location, id) {
         (e) => e.exerciseId === ex.id,
       )
 
-      return {
-        exerciseId: ex.id,
-        name: ex.name,
-        image: ex.image,
-        images: ex.images || (ex.image ? [ex.image] : []),
-        restTime: previous?.restTime ?? 120,
-        notes: previous?.notes ?? '',
-        sets: previous
-          ? previous.sets.map((s) => ({
-            reps: s.reps,
-            weight: s.weight,
-          }))
-          : [
-            { reps: 8, weight: 0 },
-            { reps: 8, weight: 0 },
-          ],
-      }
+      return mapExerciseToTemplate(ex, previous)
     })
 
     setTemplate((prev) => ({
