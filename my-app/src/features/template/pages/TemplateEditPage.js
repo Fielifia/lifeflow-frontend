@@ -1,9 +1,9 @@
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import BackButton from '../../../shared/ui/BackButton'
+import LoadingButton from '../../../shared/ui/LoadingButton'
 import ExerciseItem from '../../workout/components/ExerciseItem'
-import { useTemplateLogic } from '../hooks/useTemplateLogic'
-import { useNavigate, useLocation } from 'react-router-dom'
-import { useParams } from 'react-router-dom'
 import TemplateHeader from '../components/TemplateHeader'
+import { useTemplateLogic } from '../hooks/useTemplateLogic'
 
 /**
  * Page for creating and editing workout templates.
@@ -113,9 +113,9 @@ export default function TemplateEditPage() {
         />
       ))}
 
-      <button className="btn btn-primary btn-full" onClick={saveTemplate}>
-        {saving ? 'Saving...' : 'Save Template'}
-      </button>
+      <LoadingButton className="btn btn-primary" loading={loading} saving={saving}loadingText="Saving..." onClick={saveTemplate}>
+        Save Template
+      </LoadingButton>
 
       {/* FEEDBACK */}
       {success && <p className="muted center">Template saved ✔</p>}

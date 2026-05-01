@@ -192,6 +192,9 @@ a:active {
 
 button {
   -webkit-tap-highlight-color: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .btn {

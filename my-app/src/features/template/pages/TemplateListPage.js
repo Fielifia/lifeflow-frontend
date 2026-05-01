@@ -45,7 +45,7 @@ export default function TemplateListPage() {
   const visibleTemplates = filtered.slice(0, visibleCount)
 
   return (
-    <div className="app">
+    <div className="card-base">
       <BackButton fallback="/workout" />
 
       <div className="section">

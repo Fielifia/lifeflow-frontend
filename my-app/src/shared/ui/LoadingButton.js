@@ -5,8 +5,9 @@
  */
 export default function LoadingButton({ loading, children, ...props }) {
   return (
-    <button {...props} disabled={loading}>
-      {loading ? <span className="spinner"></span> : children}
+    <button {...props} disabled={loading || props.disabled}>
+      {loading && <span className="spinner"></span>}
+      <span>{children}</span>
     </button>
   )
 }

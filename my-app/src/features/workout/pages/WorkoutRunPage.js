@@ -84,6 +84,8 @@ export default function WorkoutRunPage() {
         saving={saving}
         hasExercises={workout.exercises.length > 0}
       />
+      {success && <p className="muted center">Workout saved ✔</p>}
+      {error && <p className="error center">{error}</p>}
 
       {/* REST TIMER */}
       <RestTimer

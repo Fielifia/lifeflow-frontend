@@ -1,3 +1,4 @@
+import LoadingButton from '../../../shared/ui/LoadingButton'
 /**
  * Workout control buttons.
  * @param {object} props - Component props
@@ -34,17 +35,13 @@ export default function WorkoutControls({
             : 'Start'}
       </button>
 
-      <button
+      <LoadingButton
         className="btn btn-primary"
+        saving={saving}
         onClick={isStarted ? saveWorkout : onSaveTemplate}
-        disabled={saving || !hasExercises}
       >
-        {saving
-          ? 'Saving...'
-          : isStarted
-            ? 'Finish & Save'
-            : 'Save as Template'}
-      </button>
+        {isStarted ? 'Finish & Save' : 'Save as Template'}
+      </LoadingButton>
     </div>
   )
 }

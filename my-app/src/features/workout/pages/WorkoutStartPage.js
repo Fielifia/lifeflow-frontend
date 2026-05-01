@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { getTemplates } from '../../../shared/api/templateApi'
 import TemplateList from '../../template/components/TemplateList'
 import DataState from '../../../shared/ui/DataState'
+import BackButton from '../../../shared/ui/BackButton'
 
 /**
  * Entry page for starting workouts.
@@ -36,6 +37,7 @@ export default function WorkoutStart() {
 
   return (
     <div className="card-base">
+      <BackButton fallback="/home" />
       <h2>Start Workout</h2>
 
       <button
