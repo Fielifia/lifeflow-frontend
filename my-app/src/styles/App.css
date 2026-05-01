@@ -262,6 +262,10 @@ button {
   height: 266px;
 }
 
+.empty-state {
+  padding: 12px;
+}
+
 .skeleton-row {
   height: 40px;
 }
