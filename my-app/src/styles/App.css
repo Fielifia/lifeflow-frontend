@@ -225,6 +225,22 @@ button {
   font-size: 12px;
 }
 
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ccc;
+  border-top: 2px solid #19686a;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* ============================= */
 /* ========== INPUTS =========== */
 /* ============================= */
