@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import BackButton from '../../../shared/ui/BackButton'
 import TemplateList from '../components/TemplateList'
 import { getTemplates } from '../../../shared/api/templateApi'
+import DataState from '../../../shared/ui/DataState'
 
 /**
  * Page for browsing templates with search and pagination.
@@ -14,13 +15,22 @@ export default function TemplateListPage() {
   const [visibleCount, setVisibleCount] = useState(10)
   const navigate = useNavigate()
 
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
   useEffect(() => {
+
     const fetchTemplates = async () => {
       try {
+        setLoading(true)
+        setError(null)
         const data = await getTemplates({ limit: 100 })
         setTemplates(data.results || [])
       } catch (err) {
         console.error(err)
+        setError(err)
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -60,7 +70,16 @@ export default function TemplateListPage() {
         <h2>Saved Templates</h2>
 
         {/* LIST */}
-        <TemplateList templates={visibleTemplates} />
+        <DataState
+          loading={loading}
+          error={error}
+          data={filtered}
+          variant="card-template"
+          emptyText="No templates found"
+          count={4}
+        >
+          <TemplateList templates={visibleTemplates} />
+        </DataState>
 
         {/* LOAD MORE */}
         {visibleCount < filtered.length && (

@@ -148,6 +148,10 @@ a:active {
   gap: 12px;
 }
 
+.section.template {
+  padding: 6px 0 0;
+}
+
 .grid-base {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -163,6 +167,17 @@ a:active {
   border-radius: 14px;
   padding: 12px;
   border: 1px solid var(--border);
+}
+
+.card-base.card-auth, .card-base.card-auth form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+.card-base.card-auth h2 {
+  text-align: center;
 }
 
 .container {
@@ -223,6 +238,52 @@ button {
   padding: 6px 10px;
   border-radius: 10px;
   font-size: 12px;
+}
+
+/* ============================= */
+/* ========== LOADING ========== */
+/* ============================= */
+
+.skeleton {
+  background: linear-gradient(90deg,
+      #232f35 25%,
+      #2e3a40 50%,
+      #232f35 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+  border-radius: 12px;
+}
+
+.skeleton-card-exercise {
+  height: 90px;
+}
+
+.skeleton-card-template {
+  height: 266px;
+}
+
+.skeleton-row {
+  height: 40px;
+}
+
+.skeleton-text {
+  height: 16px;
+  width: 60%;
+}
+
+.skeleton-container {
+  display: grid;
+  gap: 12px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0
+  }
+
+  100% {
+    background-position: -200% 0
+  }
 }
 
 .spinner {
@@ -530,8 +591,7 @@ input[type="checkbox"]:hover {
 .exercise-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin: 8px 0;
+  gap: 12px;
 }
 
 .filters {
@@ -810,7 +870,6 @@ input[type="checkbox"]:hover {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin: 12px 0;
 }
 
 .template-preview-row {
