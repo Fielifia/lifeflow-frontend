@@ -3,6 +3,7 @@ import API from '../../../shared/api/api'
 import { useRestTimer } from './useRestTimer'
 import { useTimer } from './useTimer'
 import { mapExerciseToWorkout } from '../../exercise/utils/exerciseMapper'
+import { mapWorkoutToTemplate } from '../../template/utils/mapWorkoutToTemplate'
 
 /**
  * Handles workout state, timers and actions.
@@ -131,29 +132,6 @@ export function useWorkoutLogic(navigate, location) {
 
     navigate(location.pathname, { replace: true, state: null })
   }, [location.state?.template, location.pathname, navigate])
-
-
-  const workoutToTemplate = (workout) => {
-    if (!workout || !workout.exercises) return null
-  
-    return {
-      name: workout.name || 'Template',
-      exercises: workout.exercises.map((ex) => ({
-        exerciseId: ex.exerciseId,
-        name: ex.name,
-
-        images: ex.images?.length ? ex.images : ex.image ? [ex.image] : [],
-
-        notes: ex.notes || '',
-        rest: ex.restTime ?? ex.rest ?? 120,
-
-        sets: ex.sets.map((s) => ({
-          reps: s.reps,
-          weight: s.weight,
-        })),
-      })),
-    }
-  }
   
 
   // ===== HELPERS =====
@@ -335,6 +313,19 @@ export function useWorkoutLogic(navigate, location) {
     }
   }
 
+
+  const saveAsTemplate = async () => {
+    try {
+      const template = mapWorkoutToTemplate(workout)
+
+      await API.post('/templates', template)
+
+      setSuccess(true)
+    } catch (err) {
+      setError(err.response?.data?.error || 'Could not save template')
+    }
+  }
+
   return {
     workout,
     setWorkout,
@@ -368,6 +359,6 @@ export function useWorkoutLogic(navigate, location) {
     updateWorkoutNotes,
 
     saveWorkout,
-    workoutToTemplate,
+    saveAsTemplate
   }
 }

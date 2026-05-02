@@ -1,6 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useWorkoutLogic } from '../hooks/useWorkoutLogic'
-import { createTemplate } from '../../../shared/api/templateApi'
 
 import WorkoutHeader from '../components/WorkoutHeader'
 import WorkoutControls from '../components/WorkoutControls'
@@ -48,18 +47,10 @@ export default function WorkoutRunPage() {
     updateWorkoutNotes,
 
     saveWorkout,
-    workoutToTemplate,
+    saveAsTemplate
   } = useWorkoutLogic(navigate, location)
 
-  const handleSaveTemplate = async () => {
-    try {
-      const template = workoutToTemplate(workout)
-      await createTemplate(template)
-      alert('Template saved!')
-    } catch (err) {
-      console.error(err)
-    }
-  }
+
 
   return (
     <div className="card-base card-workout">
@@ -80,7 +71,7 @@ export default function WorkoutRunPage() {
         status={status}
         handleStartPause={handleStartPause}
         saveWorkout={saveWorkout}
-        onSaveTemplate={handleSaveTemplate}
+        onSaveTemplate={saveAsTemplate}
         saving={saving}
         hasExercises={workout.exercises.length > 0}
       />
@@ -132,7 +123,7 @@ export default function WorkoutRunPage() {
           status={status}
           handleStartPause={handleStartPause}
           saveWorkout={saveWorkout}
-          onSaveTemplate={handleSaveTemplate}
+          onSaveTemplate={saveAsTemplate}
           saving={saving}
           hasExercises={workout.exercises.length > 0}
         />
