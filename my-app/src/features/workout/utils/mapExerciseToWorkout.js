@@ -2,14 +2,20 @@
  * Maps an exercise to a workout format.
  * @param {object} ex - Exercise object
  * @param {object} previous - Previous workout exercise data (optional)
- * @returns {object} Workout exercise object with structure:
+ * @returns {object} Workout exercise object
  */
 export function mapExerciseToWorkout(ex, previous) {
   return {
     exerciseId: ex.id,
     name: ex.name,
 
-    images: ex.images?.length ? ex.images : ex.image ? [ex.image] : [],
+    images: ex.images?.length
+      ? ex.images
+      : ex.image
+        ? [ex.image]
+        : previous?.images?.length
+          ? previous.images
+          : [],
 
     restTime: previous?.restTime ?? 60,
 
@@ -20,6 +26,7 @@ export function mapExerciseToWorkout(ex, previous) {
         completed: false,
       }))
       : [
+        { reps: 8, weight: 0, completed: false },
         { reps: 8, weight: 0, completed: false },
         { reps: 8, weight: 0, completed: false },
       ],

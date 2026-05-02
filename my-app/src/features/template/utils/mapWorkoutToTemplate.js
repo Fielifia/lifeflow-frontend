@@ -1,3 +1,8 @@
+/**
+ * Maps a workout to template format.
+ * @param {object} workout  - Workout object
+ * @returns {object} Template exercise object
+ */
 export const mapWorkoutToTemplate = (workout) => {
   if (!workout) return null
 
@@ -9,7 +14,6 @@ export const mapWorkoutToTemplate = (workout) => {
         exerciseId: ex.exerciseId,
         name: ex.name,
 
-        // håll konsistent med resten av din app
         images: ex.images?.length ? ex.images : ex.image ? [ex.image] : [],
 
         sets:

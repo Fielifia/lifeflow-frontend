@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import API from '../../../shared/api/api'
+import { mapWorkoutToTemplate } from '../../template/utils/mapWorkoutToTemplate'
+import { cleanWorkoutForSave } from '../utils/cleanWorkoutForSave.js'
+import { mapExerciseToWorkout } from '../utils/mapExerciseToWorkout.js'
 import { useRestTimer } from './useRestTimer'
 import { useTimer } from './useTimer'
-import { mapExerciseToWorkout } from '../../exercise/utils/exerciseMapper'
-import { mapWorkoutToTemplate } from '../../template/utils/mapWorkoutToTemplate'
 
 /**
  * Handles workout state, timers and actions.
@@ -62,7 +63,7 @@ export function useWorkoutLogic(navigate, location) {
     let stored = null
     try {
       stored = JSON.parse(localStorage.getItem('draftWorkout'))
-    } catch { }
+    } catch {}
 
     return {
       name: stored?.name?.trim() || 'Workout',
@@ -132,7 +133,6 @@ export function useWorkoutLogic(navigate, location) {
 
     navigate(location.pathname, { replace: true, state: null })
   }, [location.state?.template, location.pathname, navigate])
-  
 
   // ===== HELPERS =====
   const safeStartPause = () => {
@@ -269,12 +269,8 @@ export function useWorkoutLogic(navigate, location) {
       setError('')
       setSuccess(false)
 
-      const cleaned = workout.exercises
-        .map((ex) => ({
-          ...ex,
-          sets: ex.sets.filter((s) => s.completed),
-        }))
-        .filter((ex) => ex.sets.length > 0)
+      const cleaned = cleanWorkoutForSave(workout)
+      console.log(cleaned)
 
       if (!cleaned.length) {
         setError('Complete at least one set')
@@ -312,7 +308,6 @@ export function useWorkoutLogic(navigate, location) {
       setSaving(false)
     }
   }
-
 
   const saveAsTemplate = async () => {
     try {
@@ -359,6 +354,6 @@ export function useWorkoutLogic(navigate, location) {
     updateWorkoutNotes,
 
     saveWorkout,
-    saveAsTemplate
+    saveAsTemplate,
   }
 }
