@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react'
 import API from '../../../shared/api/api'
 import { mapWorkoutToTemplate } from '../../template/utils/mapWorkoutToTemplate'
-import { cleanWorkoutForSave } from '../utils/cleanWorkoutForSave.js'
-import { mapExerciseToWorkout } from '../utils/mapExerciseToWorkout.js'
+import { cleanWorkoutForSave } from '../utils/cleanWorkoutForSave'
+import { mapExerciseToWorkout } from '../utils/mapExerciseToWorkout'
+import { workoutMutation } from '../utils/workoutMutations'
 import { useRestTimer } from './useRestTimer'
 import { useTimer } from './useTimer'
 
@@ -58,17 +59,17 @@ export function useWorkoutLogic(navigate, location) {
     startRest,
   } = useRestTimer()
 
-  // ===== INIT WORKOUT =====
+  // ===== INIT =====
   const [workout, setWorkout] = useState(() => {
-    let stored = null
     try {
-      stored = JSON.parse(localStorage.getItem('draftWorkout'))
-    } catch {}
-
-    return {
-      name: stored?.name?.trim() || 'Workout',
-      exercises: stored?.exercises || [],
-      notes: stored?.notes || '',
+      const stored = JSON.parse(localStorage.getItem('draftWorkout'))
+      return {
+        name: stored?.name?.trim() || 'Workout',
+        exercises: stored?.exercises || [],
+        notes: stored?.notes || '',
+      }
+    } catch {
+      return { name: 'Workout', exercises: [], notes: '' }
     }
   })
 
@@ -77,7 +78,7 @@ export function useWorkoutLogic(navigate, location) {
     localStorage.setItem('draftWorkout', JSON.stringify(workout))
   }, [workout])
 
-  // ===== ADD EXERCISES FROM LIBRARY =====
+  // ===== ADD FROM LIBRARY =====
   useEffect(() => {
     const selected = location.state?.selectedExercises
     const mode = location.state?.mode
@@ -90,7 +91,6 @@ export function useWorkoutLogic(navigate, location) {
       const previous = lastWorkout?.exercises?.find(
         (e) => e.exerciseId === ex.id,
       )
-
       return mapExerciseToWorkout(ex, previous)
     })
 
@@ -105,34 +105,63 @@ export function useWorkoutLogic(navigate, location) {
     }))
 
     navigate(location.pathname, { replace: true, state: null })
-  }, [
-    location.state?.selectedExercises,
-    location.state?.mode,
-    location.pathname,
-    navigate,
-  ])
+  }, [location.state, navigate, location.pathname])
 
-  // ===== LOAD WORKOUT FROM TEMPLATE =====
+  // ===== LOAD TEMPLATE =====
   useEffect(() => {
     const template = location.state?.template
     if (!template) return
 
-    const workoutFromTemplate = {
+    setWorkout({
       name: template.name,
       notes: '',
       exercises: template.exercises.map((ex) => ({
         ...ex,
-        sets: ex.sets.map((s) => ({
-          ...s,
-          completed: false,
-        })),
+        sets: ex.sets.map((s) => ({ ...s, completed: false })),
       })),
-    }
-
-    setWorkout(workoutFromTemplate)
+    })
 
     navigate(location.pathname, { replace: true, state: null })
-  }, [location.state?.template, location.pathname, navigate])
+  }, [location.state, navigate, location.pathname])
+
+  // ===== MUTATION WRAPPERS =====
+  const addSet = (index) =>
+    setWorkout((prev) => workoutMutation.addSet(prev, index))
+
+  const updateSet = (exIndex, setIndex, field, value) =>
+    setWorkout((prev) =>
+      workoutMutation.updateSet(prev, exIndex, setIndex, field, value),
+    )
+
+  const removeSet = (exIndex, setIndex) =>
+    setWorkout((prev) => workoutMutation.removeSet(prev, exIndex, setIndex))
+
+  const removeExercise = (index) =>
+    setWorkout((prev) => workoutMutation.removeExercise(prev, index))
+
+  const updateExerciseRest = (index, value) =>
+    setWorkout((prev) => workoutMutation.updateExerciseRest(prev, index, value))
+
+  const toggleSetComplete = (exIndex, setIndex, checked) => {
+    setWorkout((prev) => {
+      const updated = workoutMutation.toggleSetComplete(
+        prev,
+        exIndex,
+        setIndex,
+        checked,
+      )
+
+      if (checked) {
+        const rest = updated.exercises[exIndex].restTime ?? restTime
+        startRest(rest)
+      }
+
+      return updated
+    })
+  }
+
+  const updateWorkoutNotes = (notes) =>
+    setWorkout((prev) => ({ ...prev, notes }))
 
   // ===== HELPERS =====
   const safeStartPause = () => {
@@ -150,118 +179,6 @@ export function useWorkoutLogic(navigate, location) {
     })
   }
 
-  const addSet = (index) => {
-    setWorkout((prev) => ({
-      ...prev,
-      exercises: prev.exercises.map((ex, i) => {
-        if (i !== index) return ex
-
-        const last = ex.sets.at(-1)
-
-        const newSet = last
-          ? { ...last, completed: false }
-          : { reps: 8, weight: 0, completed: false }
-
-        return {
-          ...ex,
-          sets: [...ex.sets, newSet],
-        }
-      }),
-    }))
-  }
-
-  const updateSet = (exIndex, setIndex, field, value) => {
-    setWorkout((prev) => ({
-      ...prev,
-      exercises: prev.exercises.map((ex, i) => {
-        if (i !== exIndex) return ex
-
-        return {
-          ...ex,
-          sets: ex.sets.map((set, j) => {
-            if (j !== setIndex) return set
-
-            return {
-              ...set,
-              [field]: value,
-            }
-          }),
-        }
-      }),
-    }))
-  }
-
-  const removeExercise = (index) => {
-    setWorkout((prev) => ({
-      ...prev,
-      exercises: prev.exercises.filter((_, i) => i !== index),
-    }))
-  }
-
-  const removeSet = (exIndex, setIndex) => {
-    setWorkout((prev) => ({
-      ...prev,
-      exercises: prev.exercises.map((ex, i) => {
-        if (i !== exIndex) return ex
-
-        if (ex.sets.length === 1) return ex
-
-        return {
-          ...ex,
-          sets: ex.sets.filter((_, j) => j !== setIndex),
-        }
-      }),
-    }))
-  }
-
-  const toggleSetComplete = (exIndex, setIndex, checked) => {
-    setWorkout((prev) => {
-      const exercises = prev.exercises.map((ex, i) => {
-        if (i !== exIndex) return ex
-
-        return {
-          ...ex,
-          sets: ex.sets.map((set, j) => {
-            if (j !== setIndex) return set
-
-            return {
-              ...set,
-              completed: checked,
-            }
-          }),
-        }
-      })
-
-      if (checked) {
-        const rest = exercises[exIndex].restTime ?? restTime
-        startRest(rest)
-      }
-
-      return {
-        ...prev,
-        exercises,
-      }
-    })
-  }
-
-  const updateExerciseRest = (index, value) => {
-    setWorkout((prev) => ({
-      ...prev,
-      exercises: prev.exercises.map((ex, i) => {
-        if (i !== index) return ex
-
-        return {
-          ...ex,
-          restTime: value,
-        }
-      }),
-    }))
-  }
-
-  const updateWorkoutNotes = (notes) => {
-    setWorkout((prev) => ({ ...prev, notes }))
-  }
-
   // ===== SAVE =====
   const saveWorkout = async () => {
     try {
@@ -270,7 +187,6 @@ export function useWorkoutLogic(navigate, location) {
       setSuccess(false)
 
       const cleaned = cleanWorkoutForSave(workout)
-      console.log(cleaned)
 
       if (!cleaned.length) {
         setError('Complete at least one set')
@@ -288,19 +204,12 @@ export function useWorkoutLogic(navigate, location) {
 
       setSuccess(true)
 
-      // RESET
-      setWorkout({
-        name: 'Workout',
-        exercises: [],
-        notes: '',
-      })
-
+      setWorkout({ name: 'Workout', exercises: [], notes: '' })
       resetTimer()
       resetRest()
       setIsEditingName(false)
 
       localStorage.removeItem('draftWorkout')
-
       navigate('/workouts')
     } catch (err) {
       setError(err.response?.data?.error || 'Could not save workout')
@@ -312,9 +221,7 @@ export function useWorkoutLogic(navigate, location) {
   const saveAsTemplate = async () => {
     try {
       const template = mapWorkoutToTemplate(workout)
-
       await API.post('/templates', template)
-
       setSuccess(true)
     } catch (err) {
       setError(err.response?.data?.error || 'Could not save template')
