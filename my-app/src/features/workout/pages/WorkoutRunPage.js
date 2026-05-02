@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useWorkoutLogic } from '../hooks/useWorkoutLogic'
 
+
 import WorkoutHeader from '../components/WorkoutHeader'
 import WorkoutControls from '../components/WorkoutControls'
 import RestTimer from '../components/RestTimer'
@@ -23,6 +24,7 @@ export default function WorkoutRunPage() {
     success,
     error,
     setWorkout,
+    pbs,
 
     status,
     elapsed,
@@ -49,7 +51,6 @@ export default function WorkoutRunPage() {
     saveWorkout,
     saveAsTemplate
   } = useWorkoutLogic(navigate, location)
-
 
 
   return (
@@ -104,6 +105,7 @@ export default function WorkoutRunPage() {
           removeExercise={removeExercise}
           removeSet={removeSet}
           toggleSetComplete={toggleSetComplete}
+          pb={pbs?.[String(ex.exerciseId)]}
           restTime={ex.restTime}
           onChangeRestTime={(value) => updateExerciseRest(i, value)}
         />

@@ -6,6 +6,7 @@ import { mapExerciseToWorkout } from '../utils/mapExerciseToWorkout'
 import { workoutMutation } from '../utils/workoutMutations'
 import { useRestTimer } from './useRestTimer'
 import { useTimer } from './useTimer'
+import { detectPersonalBest } from '../utils/detectPersonalBest'
 
 /**
  * Handles workout state, timers and actions.
@@ -47,6 +48,8 @@ export function useWorkoutLogic(navigate, location) {
   const [isEditingName, setIsEditingName] = useState(false)
 
   const { status, elapsed, handleStartPause, reset: resetTimer } = useTimer()
+
+  const [pbs, setPbs] = useState({})
 
   const {
     restTime,
@@ -144,20 +147,29 @@ export function useWorkoutLogic(navigate, location) {
 
   const toggleSetComplete = (exIndex, setIndex, checked) => {
     setWorkout((prev) => {
-      const updated = workoutMutation.toggleSetComplete(
-        prev,
-        exIndex,
-        setIndex,
-        checked,
-      )
+      const exercises = prev.exercises.map((ex, i) => {
+        if (i !== exIndex) return ex
 
-      if (checked) {
-        const rest = updated.exercises[exIndex].restTime ?? restTime
-        startRest(rest)
-      }
+        return {
+          ...ex,
+          sets: ex.sets.map((set, j) => {
+            if (j !== setIndex) return set
+            return { ...set, completed: checked }
+          }),
+        }
+      })
 
-      return updated
+      const updatedWorkout = { ...prev, exercises }
+
+      setPbs(detectPersonalBest(updatedWorkout))
+
+      return updatedWorkout
     })
+
+    if (checked) {
+      const rest = workout.exercises[exIndex].restTime ?? restTime
+      startRest(rest)
+    }
   }
 
   const updateWorkoutNotes = (notes) =>
@@ -245,6 +257,7 @@ export function useWorkoutLogic(navigate, location) {
     isResting,
     skipRest: skip,
     updateExerciseRest,
+    pbs,
 
     isEditingName,
     setIsEditingName,

@@ -1,11 +1,13 @@
 import { useRef } from 'react'
-import { Timer } from 'lucide-react'
+import { useState } from 'react'
+import { Timer, Weight, Trophy } from 'lucide-react'
 
 /**
  * Exercise item in workout.
  * @param {object} props - Component props
  * @param {{ exerciseId: string, name: string, image?: string, sets: Array }} props.ex - Exercise data
  * @param {number} props.i - Exercise index
+ * @param props.pb - Personal best
  * @param {(path: string) => void} props.navigate - Navigation function
  * @param {(i: number) => void} props.addSet - Adds a new set
  * @param {(i: number, j: number, field: string, value: number | '') => void} props.updateSet - Updates set values
@@ -33,6 +35,7 @@ import { Timer } from 'lucide-react'
 export default function ExerciseItem({
   ex,
   i,
+  pb,
   navigate,
   addSet,
   updateSet,
@@ -48,12 +51,61 @@ export default function ExerciseItem({
 }) {
   const inputRefs = useRef([])
 
+  const getBestSetIndex = () => {
+    if (!pb?.bestSet) return -1
+
+    return ex.sets.findIndex(
+      (s) =>
+        Number(s.weight) === pb.bestSet.weight &&
+        Number(s.reps) === pb.bestSet.reps,
+    )
+  }
+
+  const bestIndex = getBestSetIndex()
+
   const handleCheck = (j, checked) => {
     toggleSetComplete(i, j, checked)
 
     if (checked && status === 'idle') {
       handleStartPause()
     }
+  }
+
+  const [holdingSet, setHoldingSet] = useState(null)
+  const [progress, setProgress] = useState(0)
+  const timerRef = useRef(null)
+
+  const HOLD_DURATION = 600
+
+  const startHold = (j, e) => {
+    if (['INPUT', 'BUTTON'].includes(e.target.tagName)) return
+    setHoldingSet(j)
+    setProgress(0)
+
+    const start = Date.now()
+
+    timerRef.current = setInterval(() => {
+      const elapsed = Date.now() - start
+      const p = Math.min(elapsed / HOLD_DURATION, 1)
+
+      setProgress(p)
+
+      if (p === 1) {
+        clearInterval(timerRef.current)
+        removeSet(i, j)
+        resetHold()
+      }
+    }, 16)
+  }
+
+  const cancelHold = () => {
+    clearInterval(timerRef.current)
+    resetHold()
+  }
+
+  const resetHold = () => {
+    setHoldingSet(null)
+    setProgress(0)
   }
 
   const addExerciseNotes = (notes) => {
@@ -97,23 +149,46 @@ export default function ExerciseItem({
       {/* SET HEADER */}
       <div className="set-header">
         <span>Set</span>
-        <span>Weight (kg)</span>
+        <span>Previous</span>
+        <span>
+          <Weight className="icon-small" />
+          kg
+        </span>
         <span>Reps</span>
+        <span>✔</span>
       </div>
 
       {/* SETS */}
       {ex.sets.map((set, j) => (
-        <div key={j} className={`set-row ${set.completed ? 'completed' : ''}`}>
-          {showCheckbox ? (
-            <input
-              type="checkbox"
-              className="checkbox"
-              checked={set.completed}
-              onChange={(e) => handleCheck(j, e.target.checked)}
-            />
-          ) : (
-            <span className="set-number">{j + 1}</span>
+        <div
+          key={j}
+          onMouseDown={(e) => startHold(j, e)}
+          onMouseUp={cancelHold}
+          onMouseLeave={cancelHold}
+          onTouchStart={(e) => startHold(j, e)}
+          onTouchEnd={cancelHold}
+          className={`set-row 
+  ${set.completed ? 'completed' : ''} 
+  ${set.bestIndex ? 'best-set' : ''}
+`}
+        >
+          {holdingSet === j && (
+            <div className="hold-indicator">
+              <div
+                className="hold-progress"
+                style={{ transform: `scaleX(${progress})` }}
+              />
+            </div>
           )}
+          <span className={`set-number ${j === bestIndex ? 'pb' : ''}`}>
+            {j === bestIndex ? <Trophy className="icon-small" /> : j + 1}
+          </span>
+
+          <span className="previous muted">
+            {set.prevWeight && set.prevReps
+              ? `${set.prevWeight}×${set.prevReps}`
+              : '–'}
+          </span>
 
           <input
             ref={(el) => (inputRefs.current[j] = el)}
@@ -132,11 +207,12 @@ export default function ExerciseItem({
 
           <div className="number-input">
             <button
+              className="btn-clean"
               onClick={() =>
                 updateSet(i, j, 'reps', Math.max(0, (set.reps || 0) - 1))
               }
             >
-              -
+              −
             </button>
 
             <input
@@ -154,18 +230,23 @@ export default function ExerciseItem({
             />
 
             <button
+              className="btn-clean"
               onClick={() => updateSet(i, j, 'reps', (set.reps || 0) + 1)}
             >
               +
             </button>
           </div>
 
-          <button
-            className="btn btn-secondary btn-small"
-            onClick={() => removeSet(i, j)}
-          >
-            Delete
-          </button>
+          {showCheckbox ? (
+            <input
+              type="checkbox"
+              className="checkbox"
+              checked={set.completed}
+              onChange={(e) => handleCheck(j, e.target.checked)}
+            />
+          ) : (
+            <span className="set-number">{j + 1}</span>
+          )}
         </div>
       ))}
 
