@@ -32,6 +32,12 @@ export default function WorkoutHeader({
           onChange={(e) => onChangeName(e.target.value)}
           autoFocus
           onBlur={() => setIsEditing(false)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') {
+              e.preventDefault()
+              e.target.blur()
+            }
+          }}
         />
       ) : (
         <h2 onClick={() => setIsEditing(true)}>
