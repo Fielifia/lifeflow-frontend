@@ -31,7 +31,10 @@ export default function WorkoutHeader({
           value={name}
           onChange={(e) => onChangeName(e.target.value)}
           autoFocus
-          onBlur={() => setIsEditing(false)}
+          onBlur={() => {
+            onChangeName(name.trim() || 'Workout')
+            setIsEditing(false)
+          }}
           onKeyDown={(e) => {
             if (e.key === 'Enter') {
               e.preventDefault()
