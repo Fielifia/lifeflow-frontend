@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react'
 
-import App from './App'
+jest.mock('../App', () => () => <div>App</div>)
 
-jest.mock('./App', () => () => <div>App</div>)
+import App from '../App'
 
 test('renders app', () => {
   render(<App />)
