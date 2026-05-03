@@ -1,0 +1,31 @@
+stages:
+  - install
+  - lint
+  - test
+  - build
+
+image: node:18
+
+cache:
+  paths:
+    - node_modules/
+
+install:
+  stage: install
+  script:
+    - npm install
+
+lint:
+  stage: lint
+  script:
+    - npm run lint
+
+test:
+  stage: test
+  script:
+    - npm test -- --coverage --watchAll=false
+
+build:
+  stage: build
+  script:
+    - npm run build
