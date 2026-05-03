@@ -6,29 +6,34 @@ stages:
 
 image: node:22
 
-cache:
-  paths:
-    - my-app/node_modules/
-
 before_script:
   - cd my-app
 
 install:
   stage: install
   script:
-    - npm install
+    - npm ci
+  artifacts:
+    paths:
+      - my-app/node_modules/
 
 lint:
   stage: lint
+  dependencies:
+    - install
   script:
     - npm run lint
 
 test:
   stage: test
+  dependencies:
+    - install
   script:
     - npm test -- --watchAll=false
 
 build:
   stage: build
+  dependencies:
+    - install
   script:
     - npm run build

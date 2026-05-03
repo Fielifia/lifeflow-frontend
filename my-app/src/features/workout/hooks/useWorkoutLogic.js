@@ -91,7 +91,7 @@ export function useWorkoutLogic(navigate, location) {
     if (status === 'idle') {
       start()
     }
-  }, [])
+  }, [status, start])
 
   // ===== SAVE DRAFT =====
   useEffect(() => {
@@ -149,6 +149,7 @@ export function useWorkoutLogic(navigate, location) {
     }
 
     run()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.state])
 
   // ===== LOAD TEMPLATE =====
