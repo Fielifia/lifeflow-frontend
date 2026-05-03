@@ -48,7 +48,7 @@ export function useWorkoutLogic(navigate, location) {
   const [error, setError] = useState('')
   const [isEditingName, setIsEditingName] = useState(false)
 
-  const { status, elapsed, handleStartPause, reset: resetTimer } = useTimer()
+  const { status, elapsed, handleStartPause, reset: resetTimer, start } = useTimer()
 
   const [pbs, setPbs] = useState({})
 
@@ -86,6 +86,12 @@ export function useWorkoutLogic(navigate, location) {
       return { name: 'Workout', exercises: [], notes: '' }
     }
   })
+
+  useEffect(() => {
+    if (status === 'idle') {
+      start()
+    }
+  }, [])
 
   // ===== SAVE DRAFT =====
   useEffect(() => {

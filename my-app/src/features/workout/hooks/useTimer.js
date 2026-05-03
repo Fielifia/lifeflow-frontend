@@ -12,6 +12,7 @@ import { useState, useEffect } from 'react'
 export function useTimer() {
   const [status, setStatus] = useState('idle')
   const [elapsed, setElapsed] = useState(0)
+  const start = () => setStatus('running')
 
   useEffect(() => {
     let interval
@@ -43,5 +44,6 @@ export function useTimer() {
     elapsed,
     handleStartPause,
     reset,
+    start,
   }
 }
