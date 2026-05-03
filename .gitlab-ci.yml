@@ -8,6 +8,7 @@ image: node:22
 
 before_script:
   - cd my-app
+  - npm ci
 
 install:
   stage: install
@@ -37,3 +38,9 @@ build:
     - install
   script:
     - npm run build
+
+deploy:
+  stage: build
+  script:
+    - echo "Deploy step"
+  when: manual
