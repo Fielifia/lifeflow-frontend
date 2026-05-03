@@ -1,12 +1,17 @@
 import { render, screen } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
 import App from './App'
 
-test('renders learn react link', () => {
-  render(<App />)
-  const linkElement = screen.getByText(/learn react/i)
-  expect(linkElement).toBeInTheDocument()
+beforeEach(() => {
+  localStorage.setItem('user', JSON.stringify({ username: 'Sofia' }))
 })
 
-test('renders app', () => {
-  expect(true).toBe(true)
+test('renders dashboard content when logged in', () => {
+  render(
+    <MemoryRouter>
+      <App />
+    </MemoryRouter>,
+  )
+
+  expect(screen.getByText(/weekly activity/i)).toBeInTheDocument()
 })
