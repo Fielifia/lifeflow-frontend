@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
+import { useRef } from 'react'
 import API from '../../../shared/api/api'
 import { mapWorkoutToTemplate } from '../../template/utils/mapWorkoutToTemplate'
 import { cleanWorkoutForSave } from '../utils/cleanWorkoutForSave'
-import { mapExerciseToWorkout } from '../utils/mapExerciseToWorkout'
+import { detectPersonalBest } from '../utils/detectPersonalBest'
 import { workoutMutation } from '../utils/workoutMutations'
 import { useRestTimer } from './useRestTimer'
 import { useTimer } from './useTimer'
-import { detectPersonalBest } from '../utils/detectPersonalBest'
+import { usePreviousExercise } from './usePreviousExercise'
 
 /**
  * Handles workout state, timers and actions.
@@ -51,6 +52,14 @@ export function useWorkoutLogic(navigate, location) {
 
   const [pbs, setPbs] = useState({})
 
+  const hasAddedRef = useRef(false)
+
+  const DEFAULT_SETS = [
+    { reps: 8, weight: 0, completed: false },
+    { reps: 8, weight: 0, completed: false },
+    { reps: 8, weight: 0, completed: false },
+  ]
+
   const {
     restTime,
     setRestTime,
@@ -61,6 +70,8 @@ export function useWorkoutLogic(navigate, location) {
     reset: resetRest,
     startRest,
   } = useRestTimer()
+
+  const { getPreviousSets } = usePreviousExercise()
 
   // ===== INIT =====
   const [workout, setWorkout] = useState(() => {
@@ -86,29 +97,53 @@ export function useWorkoutLogic(navigate, location) {
     const selected = location.state?.selectedExercises
     const mode = location.state?.mode
 
-    if (!selected?.length || mode !== 'workout') return
+    if (!selected?.length || mode !== 'workout' || hasAddedRef.current) return
 
-    const lastWorkout = JSON.parse(localStorage.getItem('lastWorkout'))
+    hasAddedRef.current = true
 
-    const newExercises = selected.map((ex) => {
-      const previous = lastWorkout?.exercises?.find(
-        (e) => e.exerciseId === ex.id,
+    const run = async () => {
+      const results = await Promise.all(
+        selected.map(async (ex) => {
+          let sets = DEFAULT_SETS.map((s) => ({ ...s }))
+
+          const prev = await getPreviousSets(ex.id || ex.exerciseId)
+
+          if (prev) {
+            sets = prev.map((s) => ({
+              reps: s.reps,
+              weight: s.weight,
+              completed: false,
+              prevReps: s.reps,
+              prevWeight: s.weight,
+            }))
+          }
+
+          return {
+            ...ex,
+            exerciseId: ex.id || ex.exerciseId,
+            sets,
+          }
+        }),
       )
-      return mapExerciseToWorkout(ex, previous)
-    })
 
-    setWorkout((prev) => ({
-      ...prev,
-      exercises: [
-        ...prev.exercises,
-        ...newExercises.filter(
-          (ex) => !prev.exercises.some((e) => e.exerciseId === ex.exerciseId),
-        ),
-      ],
-    }))
+      setWorkout((prev) => ({
+        ...prev,
+        exercises: [
+          ...prev.exercises,
+          ...results.filter(
+            (newEx) =>
+              !prev.exercises.some(
+                (existing) => existing.exerciseId === newEx.exerciseId,
+              ),
+          ),
+        ],
+      }))
 
-    navigate(location.pathname, { replace: true, state: null })
-  }, [location.state, navigate, location.pathname])
+      navigate(location.pathname, { replace: true, state: null })
+    }
+
+    run()
+  }, [location.state])
 
   // ===== LOAD TEMPLATE =====
   useEffect(() => {
@@ -126,6 +161,36 @@ export function useWorkoutLogic(navigate, location) {
 
     navigate(location.pathname, { replace: true, state: null })
   }, [location.state, navigate, location.pathname])
+
+  const handleAddExercise = async (exercise) => {
+    let sets = DEFAULT_SETS.map((s) => ({ ...s }))
+
+    const previousSets = await getPreviousSets(
+      exercise.id || exercise.exerciseId,
+    )
+
+    if (previousSets) {
+      sets = previousSets.map((s) => ({
+        reps: s.reps,
+        weight: s.weight,
+        completed: false,
+        prevReps: s.reps,
+        prevWeight: s.weight,
+      }))
+    }
+
+    setWorkout((prev) => ({
+      ...prev,
+      exercises: [
+        ...prev.exercises,
+        {
+          ...exercise,
+          exerciseId: exercise.id || exercise.exerciseId,
+          sets,
+        },
+      ],
+    }))
+  }
 
   // ===== MUTATION WRAPPERS =====
   const addSet = (index) =>
@@ -257,6 +322,7 @@ export function useWorkoutLogic(navigate, location) {
     isResting,
     skipRest: skip,
     updateExerciseRest,
+    handleAddExercise,
     pbs,
 
     isEditingName,

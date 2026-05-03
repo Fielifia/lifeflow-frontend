@@ -185,7 +185,7 @@ export default function ExerciseItem({
           </span>
 
           <span className="previous muted">
-            {set.prevWeight && set.prevReps
+            {set.prevWeight != null && set.prevReps != null
               ? `${set.prevWeight}×${set.prevReps}`
               : '–'}
           </span>
