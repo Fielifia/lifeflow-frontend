@@ -8,7 +8,10 @@ image: node:18
 
 cache:
   paths:
-    - node_modules/
+    - my-app/node_modules/
+
+before_script:
+  - cd my-app
 
 install:
   stage: install
@@ -23,7 +26,7 @@ lint:
 test:
   stage: test
   script:
-    - npm test -- --coverage --watchAll=false
+    - npm test -- --watchAll=false
 
 build:
   stage: build
