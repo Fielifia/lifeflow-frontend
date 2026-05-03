@@ -916,6 +916,25 @@ input[type="checkbox"]:hover {
   cursor: pointer;
 }
 
+.flash {
+  animation: flash-bg 0.25s ease-in-out 3;
+  animation-fill-mode: none;
+}
+
+@keyframes flash-bg {
+  0% {
+    background: transparent;
+  }
+
+  50% {
+    background: #47868848;
+  }
+
+  100% {
+    background: transparent;
+  }
+}
+
 /* ============================= */
 /* ========== TEMPLATE ======= */
 /* ============================= */
