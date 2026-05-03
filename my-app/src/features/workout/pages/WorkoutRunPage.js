@@ -1,12 +1,12 @@
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useWorkoutLogic } from '../hooks/useWorkoutLogic'
-import { createTemplate } from '../../../shared/api/templateApi'
 
-import WorkoutHeader from '../components/WorkoutHeader'
-import WorkoutControls from '../components/WorkoutControls'
-import RestTimer from '../components/RestTimer'
-import ExerciseItem from '../components/ExerciseItem'
 import BackButton from '../../../shared/ui/BackButton'
+import ExerciseItem from '../components/ExerciseItem'
+import RestTimer from '../components/RestTimer'
+import WorkoutControls from '../components/WorkoutControls'
+import WorkoutHeader from '../components/WorkoutHeader'
 
 /**
  * Workout page for creating and tracking a workout session.
@@ -17,6 +17,7 @@ import BackButton from '../../../shared/ui/BackButton'
 export default function WorkoutRunPage() {
   const navigate = useNavigate()
   const location = useLocation()
+  const [flash, setFlash] = useState(false)
 
   const {
     workout,
@@ -24,6 +25,7 @@ export default function WorkoutRunPage() {
     success,
     error,
     setWorkout,
+    pbs,
 
     status,
     elapsed,
@@ -48,21 +50,12 @@ export default function WorkoutRunPage() {
     updateWorkoutNotes,
 
     saveWorkout,
-    workoutToTemplate,
+    saveAsTemplate
   } = useWorkoutLogic(navigate, location)
 
-  const handleSaveTemplate = async () => {
-    try {
-      const template = workoutToTemplate(workout)
-      await createTemplate(template)
-      alert('Template saved!')
-    } catch (err) {
-      console.error(err)
-    }
-  }
 
   return (
-    <div className="card-base card-workout">
+    <div className={`card-base card-workout ${flash ? 'flash' : ''}`}>
       <BackButton fallback="/workout" />
       {/* HEADER */}
       <WorkoutHeader
@@ -80,10 +73,12 @@ export default function WorkoutRunPage() {
         status={status}
         handleStartPause={handleStartPause}
         saveWorkout={saveWorkout}
-        onSaveTemplate={handleSaveTemplate}
+        onSaveTemplate={saveAsTemplate}
         saving={saving}
         hasExercises={workout.exercises.length > 0}
       />
+      {success && <p className="muted center">Workout saved ✔</p>}
+      {error && <p className="error center">{error}</p>}
 
       {/* REST TIMER */}
       <RestTimer
@@ -91,6 +86,7 @@ export default function WorkoutRunPage() {
         restRemaining={restRemaining}
         adjustRest={adjustRest}
         skipRest={skipRest}
+        setFlash={setFlash}
       />
 
       {/* ADD EXERCISE */}
@@ -111,6 +107,7 @@ export default function WorkoutRunPage() {
           removeExercise={removeExercise}
           removeSet={removeSet}
           toggleSetComplete={toggleSetComplete}
+          pb={pbs?.[String(ex.exerciseId)]}
           restTime={ex.restTime}
           onChangeRestTime={(value) => updateExerciseRest(i, value)}
         />
@@ -130,7 +127,7 @@ export default function WorkoutRunPage() {
           status={status}
           handleStartPause={handleStartPause}
           saveWorkout={saveWorkout}
-          onSaveTemplate={handleSaveTemplate}
+          onSaveTemplate={saveAsTemplate}
           saving={saving}
           hasExercises={workout.exercises.length > 0}
         />

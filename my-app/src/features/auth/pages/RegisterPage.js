@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { register } from '../../../shared/api/authApi'
+import LoadingButton from '../../../shared/ui/LoadingButton'
 
 /**
  * Register component for creating a new user account.
@@ -108,9 +109,9 @@ export default function Register( { setUser } ) {
           }}
         />
 
-        <button type="submit" className="btn btn-primary" disabled={loading}>
-          {loading ? 'Creating account...' : 'Create account'}
-        </button>
+        <LoadingButton className="btn btn-primary" loading={loading} onClick={handleRegister}>
+          Create account
+        </LoadingButton>
       </form>
 
       {error && <p className="error">{error}</p>}

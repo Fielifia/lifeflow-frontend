@@ -148,6 +148,10 @@ a:active {
   gap: 12px;
 }
 
+.section.template {
+  padding: 6px 0 0;
+}
+
 .grid-base {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -165,6 +169,17 @@ a:active {
   border: 1px solid var(--border);
 }
 
+.card-base.card-auth, .card-base.card-auth form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 16px;
+}
+
+.card-base.card-auth h2 {
+  text-align: center;
+}
+
 .container {
   background: var(--card);
   padding: 16px;
@@ -177,6 +192,9 @@ a:active {
 
 button {
   -webkit-tap-highlight-color: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .btn {
@@ -225,6 +243,81 @@ button {
   font-size: 12px;
 }
 
+.btn-clean {
+  background: none;
+  border: none;
+  font-size: 18px;
+  color: var(--text);
+  justify-content: center;
+  cursor: pointer;
+}
+
+/* ============================= */
+/* ========== LOADING ========== */
+/* ============================= */
+
+.skeleton {
+  background: linear-gradient(90deg,
+      #232f35 25%,
+      #2e3a40 50%,
+      #232f35 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.2s infinite;
+  border-radius: 12px;
+}
+
+.skeleton-card-exercise {
+  height: 90px;
+}
+
+.skeleton-card-template {
+  height: 266px;
+}
+
+.empty-state {
+  padding: 12px;
+}
+
+.skeleton-row {
+  height: 40px;
+}
+
+.skeleton-text {
+  height: 16px;
+  width: 60%;
+}
+
+.skeleton-container {
+  display: grid;
+  gap: 12px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0
+  }
+
+  100% {
+    background-position: -200% 0
+  }
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #ccc;
+  border-top: 2px solid #19686a;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* ============================= */
 /* ========== INPUTS =========== */
 /* ============================= */
@@ -237,6 +330,7 @@ input[type='number']::-webkit-outer-spin-button {
 }
 
 input[type='number'] {
+  appearance: textfield;
   -moz-appearance: textfield;
 }
 
@@ -313,28 +407,14 @@ input[type="checkbox"]:hover {
 /* ===== NUMBER INPUT FIX ====== */
 /* ============================= */
 
-.number-input {
+.number-input, .reps-grid {
   display: grid;
-  grid-template-columns: 32px 1fr 32px;
+  grid-template-columns: 24px 1fr 24px;
   height: 100%;
-  gap: 4px;
-}
-
-.number-input button {
-  width: 32px;
-  height: 100%;
-  background: var(--card-2);
-  border: 1px solid var(--border);
-  color: var(--text);
-  border-radius: 10px;
-  cursor: pointer;
 }
 
 .number-input input {
-  height: 100%;
   text-align: center;
-  padding: 0;
-  margin: 0;
 }
 
 /* ============================= */
@@ -420,7 +500,7 @@ input[type="checkbox"]:hover {
   border-radius: 14px;
   padding: 4px 12px 12px;
   margin: 12px 0;
-  gap: 4px;
+  gap: 12px;
   display: flex;
   flex-direction: column;
 }
@@ -453,25 +533,64 @@ input[type="checkbox"]:hover {
 .set-header,
 .set-row {
   display: grid;
-  grid-template-columns: 32px 2fr 3fr 70px;
+  grid-template-columns: 30px 2fr 2fr 3fr 30px;
   gap: 8px;
   align-items: center;
+  text-align: center;
 }
 
-.set-header {
-  font-size: 12px;
-  color: var(--muted);
-  margin-top: 12px;
+.set-header span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
 }
 
 .set-row {
-  height: 32px;
-  margin: 10px 0;
+  position: relative;
+  transition: transform 0.2s ease;
+  overflow: hidden;
+}
+
+.hold-indicator {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 0, 0, 0.08);
+  pointer-events: none;
+}
+
+.hold-progress {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  background: rgba(255, 0, 0, 0.4);
+  transform-origin: left;
+  transform: scaleX(0);
+  transition: transform 0.05s linear;
+}
+
+.set-header {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.set-header .icon-small {
+  height: 14px;
+  width: auto;
+  margin: 0 8px 0 0;
+}
+
+.set-number {
+  font-size: 12px;
+  color: var(--muted);
 }
 
 .set-row .input-base {
   height: 100%;
-  padding: 0 10px;
+  text-align: center;
 }
 
 .set-row.completed {
@@ -482,6 +601,20 @@ input[type="checkbox"]:hover {
   height: 100%;
   margin: 0;
 }
+
+.previous {
+  font-size: 14px;
+}
+
+.set-number {
+  text-align: center;
+}
+.set-number.pb .icon-small {
+  color: var(--text);
+  width: 18px;
+}
+
+
 
 
 /* ============================= */
@@ -514,8 +647,7 @@ input[type="checkbox"]:hover {
 .exercise-list {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin: 8px 0;
+  gap: 12px;
 }
 
 .filters {
@@ -785,6 +917,25 @@ input[type="checkbox"]:hover {
   cursor: pointer;
 }
 
+.flash {
+  animation: flash-bg 0.25s ease-in-out 3;
+  animation-fill-mode: none;
+}
+
+@keyframes flash-bg {
+  0% {
+    background: transparent;
+  }
+
+  50% {
+    background: #47868848;
+  }
+
+  100% {
+    background: transparent;
+  }
+}
+
 /* ============================= */
 /* ========== TEMPLATE ======= */
 /* ============================= */
@@ -794,7 +945,6 @@ input[type="checkbox"]:hover {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin: 12px 0;
 }
 
 .template-preview-row {

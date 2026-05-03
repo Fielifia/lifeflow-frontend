@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { login } from '../../../shared/api/authApi'
+import LoadingButton from '../../../shared/ui/LoadingButton'
 
 /**
  * Login component for user authentication.
@@ -20,12 +21,13 @@ export default function Login({ setUser }) {
    */
 
   const handleLogin = async () => {
+    if (!email || !password) return
     try {
       setLoading(true)
-  
+
       const user = await login({ email, password })
       setUser(user)
-  
+
     } catch (err) {
       const message = err.response?.data?.error || 'Login failed'
       setError(message)
@@ -65,14 +67,11 @@ export default function Login({ setUser }) {
             setPassword(e.target.value)
             setError('')
           }}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') handleLogin()
-          }}
         />
 
-        <button type="submit" className="btn btn-primary" disabled={loading}>
-          {loading ? 'Logging in...' : 'Login'}
-        </button>
+        <LoadingButton className="btn btn-primary" loading={loading} onClick={handleLogin}>
+          Login
+        </LoadingButton>
       </form>
 
       {error && <p className="error">{error}</p>}

@@ -13,6 +13,7 @@ import TemplateListPage from './features/template/pages/TemplateListPage'
 import TemplateEditPage from './features/template/pages/TemplateEditPage'
 import Header from './shared/ui/Header'
 import Navbar from './shared/ui/Navbar'
+import DataState from './shared/ui/DataState'
 
 /**
  * Root application component handling authentication and routing.
@@ -63,18 +64,36 @@ function App() {
           <Route path="/templates/:id" element={<TemplateDetailPage />} />
           <Route path="/templates/create" element={<TemplateEditPage />} />
 
-
           <Route
             path="/history"
-            element={<div className="card">History (coming soon)</div>}
+            element={
+              <DataState
+                variant="card-empty"
+                emptyText="Coming soon"
+                count={1}
+              >
+              </DataState>
+            }
           />
           <Route
             path="/stats"
-            element={<div className="card">Stats (coming soon)</div>}
+            element={
+              <DataState
+                variant="card-empty"
+                emptyText="Coming soon"
+                count={1}
+              >
+              </DataState>}
           />
           <Route
             path="/calendar"
-            element={<div className="card">Calendar (coming soon)</div>}
+            element={
+              <DataState
+                variant="card-empty"
+                emptyText="Coming soon"
+                count={1}
+              >
+              </DataState>}
           />
 
           {/* fallback */}

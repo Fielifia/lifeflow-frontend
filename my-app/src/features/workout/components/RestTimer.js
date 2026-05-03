@@ -7,6 +7,7 @@ import { useEffect, useRef } from 'react'
  * @param {number} props.restRemaining - Seconds left
  * @param {(amount: number) => void} props.adjustRest - Adjust time (+/-)
  * @param {() => void} props.skipRest - Skip current rest
+ * @param props.setFlash - Flash when rest is over
  * @returns {import('react').ReactElement|null} Rest timer UI or null
  */
 export default function RestTimer({
@@ -14,27 +15,27 @@ export default function RestTimer({
   restRemaining,
   adjustRest,
   skipRest,
+  setFlash,
 }) {
-  const wasResting = useRef(false)
+  const prevTime = useRef(restRemaining)
 
   useEffect(() => {
-    if (wasResting.current && !isResting && restRemaining === 0) {
-      alert('Dags för nästa set')
+    if (prevTime.current > 0 && restRemaining <= 0) {
+      setFlash(true)
+      setTimeout(() => setFlash(false), 300)
     }
 
-    wasResting.current = isResting
-  }, [isResting, restRemaining])
+    prevTime.current = restRemaining
+  }, [restRemaining, setFlash])
 
   if (!isResting) return null
+  
 
   return (
     <div className="rest-timer-floating">
       <button onClick={() => adjustRest(-15)}>-</button>
-
       <span>{Math.max(0, restRemaining)}s</span>
-
       <button onClick={() => adjustRest(15)}>+</button>
-
       <button onClick={skipRest}>Skip</button>
     </div>
   )

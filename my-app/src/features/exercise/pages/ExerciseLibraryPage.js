@@ -1,152 +1,60 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
-import { getExercises } from '../../../shared/api/exerciseApi'
-import { normalizeExercise } from '../utils/exerciseAdapter'
-import {
-  CATEGORIES,
-  CATEGORY_ORDER,
-} from '../utils/exerciseCategories'
+import useExercises from '../hooks/useExercises'
+import { CATEGORY_ORDER } from '../utils/exerciseCategories'
 import ExerciseList from '../components/ExerciseList'
 import BackButton from '../../../shared/ui/BackButton'
+import DataState from '../../../shared/ui/DataState'
 
 const BASE_CATEGORIES = CATEGORY_ORDER
-const SPECIAL = CATEGORIES.SPECIAL
 
 /**
  * Exercise library view with filtering, search, and pagination.
  * @returns {import('react').ReactElement} -
  */
-export default function Exercises() {
+export default function ExercisesLibraryPage() {
   const navigate = useNavigate()
   const location = useLocation()
   const [params] = useSearchParams()
 
   const isSelectMode = params.get('select') === 'true'
 
-  const [exercises, setExercises] = useState([])
+  // UI state
   const [search, setSearch] = useState('')
   const [bodyPart, setBodyPart] = useState(null)
   const [muscleGroup, setMuscleGroup] = useState(null)
   const [equipment, setEquipment] = useState(null)
   const [visibleCount, setVisibleCount] = useState(20)
-
   const [selectedExercises, setSelectedExercises] = useState([])
 
-  // FETCH ALL EXERCISES
-  useEffect(() => {
-    const fetchExercises = async () => {
-      try {
-        const all = []
-        let page = 1
-        let hasMore = true
-
-        while (hasMore) {
-          const data = await getExercises({ limit: 1000, page })
-          all.push(...data.results)
-
-          if (data.results.length < 100) {
-            hasMore = false
-          }
-
-          page++
-        }
-
-        const normalized = all.map(normalizeExercise)
-        setExercises(normalized)
-      } catch (err) {
-        console.error(err)
-      }
-    }
-
-    fetchExercises()
-  }, [])
-
-  // ===== TOGGLE SELECT =====
-
-  const toggleSelect = (exercise) => {
-    setSelectedExercises((prev) => {
-      const exists = prev.find((e) => e.id === exercise.id)
-
-      if (exists) {
-        return prev.filter((e) => e.id !== exercise.id)
-      }
-
-      return [...prev, exercise]
+  // Data logic from hook
+  const { loading, error, exercises, filtered, visibleExercises } =
+    useExercises({
+      search,
+      bodyPart,
+      muscleGroup,
+      equipment,
+      visibleCount,
     })
-  }
 
-  // ===== OPTIONS =====
-
-  const bodyParts = BASE_CATEGORIES
-
+  // Derived dropdowns
   const muscles = [
-    ...new Set(
-      exercises
-        .filter((e) => {
-          if (!bodyPart) return true
-
-          if (SPECIAL.includes(bodyPart)) {
-            return e.category === bodyPart
-          }
-
-          return e.bodyPart === bodyPart
-        })
-        .map((e) => e.muscle)
-        .filter(Boolean),
-    ),
+    ...new Set(exercises.map((e) => e.muscle).filter(Boolean)),
   ].sort((a, b) => a.localeCompare(b))
 
   const equipments = [
-    ...new Set(
-      exercises
-        .filter((e) => {
-          if (bodyPart) {
-            if (SPECIAL.includes(bodyPart)) {
-              if (e.category !== bodyPart) return false
-            } else if (e.bodyPart !== bodyPart) return false
-          }
-
-          if (muscleGroup) {
-            if (SPECIAL.includes(bodyPart)) {
-              if (e.bodyPart !== muscleGroup) return false
-            } else if (e.muscle !== muscleGroup) return false
-          }
-
-          return true
-        })
-        .map((e) => e.equipment)
-        .filter(Boolean),
-    ),
+    ...new Set(exercises.map((e) => e.equipment).filter(Boolean)),
   ].sort((a, b) => a.localeCompare(b))
 
-  // ===== FILTERED RESULT =====
-
-  const filtered = exercises
-    .filter((e) => {
-      if (!bodyPart) return true
-
-      if (SPECIAL.includes(bodyPart)) {
-        return e.category === bodyPart
-      }
-
-      return e.bodyPart === bodyPart
+  // Actions
+  const toggleSelect = (exercise) => {
+    setSelectedExercises((prev) => {
+      const exists = prev.find((e) => e.id === exercise.id)
+      return exists
+        ? prev.filter((e) => e.id !== exercise.id)
+        : [...prev, exercise]
     })
-    .filter((e) => {
-      if (!muscleGroup) return true
-
-      if (SPECIAL.includes(bodyPart)) {
-        return e.bodyPart === muscleGroup
-      }
-
-      return e.muscle?.toLowerCase() === muscleGroup.toLowerCase()
-    })
-    .filter((e) => {
-      if (!equipment) return true
-      return e.equipment?.toLowerCase() === equipment.toLowerCase()
-    })
-    .filter((e) => e.name.toLowerCase().includes(search.toLowerCase()))
-
-  const visibleExercises = filtered.slice(0, visibleCount)
+  }
 
   return (
     <div className="app">
@@ -154,9 +62,10 @@ export default function Exercises() {
 
       <div className="section">
         <h2>{isSelectMode ? 'Select exercise' : 'Exercise Library'}</h2>
+
         {isSelectMode && (
           <p className="muted small">
-            Choose an exercises to add to your workout
+            Choose an exercise to add to your workout
           </p>
         )}
 
@@ -173,7 +82,6 @@ export default function Exercises() {
 
         {/* FILTERS */}
         <div className="filters">
-          {/* BODY PART */}
           <select
             className="select-base"
             value={bodyPart || ''}
@@ -186,14 +94,13 @@ export default function Exercises() {
             }}
           >
             <option value="">All body parts</option>
-            {bodyParts.map((bp) => (
+            {BASE_CATEGORIES.map((bp) => (
               <option key={bp} value={bp}>
                 {bp}
               </option>
             ))}
           </select>
 
-          {/* MUSCLE */}
           <select
             className="select-base"
             value={muscleGroup || ''}
@@ -212,7 +119,6 @@ export default function Exercises() {
             ))}
           </select>
 
-          {/* EQUIPMENT */}
           <select
             className="select-base"
             value={equipment || ''}
@@ -231,13 +137,23 @@ export default function Exercises() {
           </select>
         </div>
 
-        {/* LIST */}
-        <ExerciseList
-          exercises={visibleExercises}
-          onSelect={isSelectMode ? toggleSelect : undefined}
-          selectedExercises={selectedExercises}
-        />
+        {/* DATA STATE */}
+        <DataState
+          loading={loading}
+          error={error}
+          data={filtered}
+          variant="card-exercise"
+          emptyText="No exercises found"
+          count={12}
+        >
+          <ExerciseList
+            exercises={visibleExercises}
+            onSelect={isSelectMode ? toggleSelect : undefined}
+            selectedExercises={selectedExercises}
+          />
+        </DataState>
 
+        {/* SELECT BUTTON */}
         {isSelectMode && selectedExercises.length > 0 && (
           <button
             className="btn btn-primary"

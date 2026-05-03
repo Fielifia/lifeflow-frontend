@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import {
   createTemplate,
-  updateTemplate,
   getTemplateById,
+  updateTemplate,
 } from '../../../shared/api/templateApi'
-import { mapExerciseToTemplate } from '../../exercise/utils/exerciseMapper'
+import { mapExerciseToTemplate } from '../../workout/utils/mapExerciseToWorkout'
 
 /**
  * Hook for managing template creation and editing logic.
@@ -61,7 +61,7 @@ export function useTemplateLogic(navigate, location, id) {
     let stored = null
     try {
       stored = JSON.parse(localStorage.getItem('draftTemplate'))
-    } catch { }
+    } catch {}
 
     return {
       name: stored?.name?.trim() || 'Template',
@@ -259,11 +259,7 @@ export function useTemplateLogic(navigate, location, id) {
       const cleaned = template.exercises.map((ex) => ({
         exerciseId: ex.exerciseId,
         name: ex.name,
-        images: ex.images?.length
-          ? ex.images
-          : ex.image
-            ? [ex.image]
-            : [],
+        images: ex.images?.length ? ex.images : ex.image ? [ex.image] : [],
         notes: ex.notes || '',
         rest: ex.restTime || 0,
         sets: ex.sets.filter(

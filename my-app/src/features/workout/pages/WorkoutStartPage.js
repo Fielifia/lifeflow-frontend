@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getTemplates } from '../../../shared/api/templateApi'
 import TemplateList from '../../template/components/TemplateList'
+import DataState from '../../../shared/ui/DataState'
+import BackButton from '../../../shared/ui/BackButton'
 
 /**
  * Entry page for starting workouts.
@@ -10,15 +12,23 @@ import TemplateList from '../../template/components/TemplateList'
 export default function WorkoutStart() {
   const navigate = useNavigate()
 
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
   const [templates, setTemplates] = useState([])
 
   useEffect(() => {
     const fetchTemplates = async () => {
       try {
-        const data = await getTemplates({ limit: 5 }) // t.ex bara några
+        setLoading(true)
+        setError(null)
+
+        const data = await getTemplates({ limit: 5 })
         setTemplates(data.results || [])
       } catch (err) {
         console.error(err)
+        setError('Failed to load templates')
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -27,9 +37,9 @@ export default function WorkoutStart() {
 
   return (
     <div className="card-base">
+      <BackButton fallback="/home" />
       <h2>Start Workout</h2>
 
-      {/* ACTIONS */}
       <button
         className="btn btn-primary btn-full"
         onClick={() =>
@@ -61,9 +71,17 @@ export default function WorkoutStart() {
         Repeat previous
       </button>
 
-      {/* TEMPLATES */}
-      <div className="section">
-        <TemplateList templates={templates.slice(0, 3)} />
+      <div className="section template">
+        <DataState
+          loading={loading}
+          error={error}
+          data={templates}
+          variant="card-template"
+          emptyText="No templates found"
+          count={4}
+        >
+          <TemplateList templates={templates.slice(0, 3)} />
+        </DataState>
 
         <p className="link center" onClick={() => navigate('/templates')}>
           View all templates →
