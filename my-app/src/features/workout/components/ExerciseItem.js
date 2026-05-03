@@ -154,7 +154,11 @@ export default function ExerciseItem({
           <Weight className="icon-small" />
           kg
         </span>
-        <span>Reps</span>
+        <div className="reps-grid">
+          <span></span>
+          <span>Reps</span>
+          <span></span>
+        </div>
         <span>✔</span>
       </div>
 
@@ -184,7 +188,7 @@ export default function ExerciseItem({
             {j === bestIndex ? <Trophy className="icon-small" /> : j + 1}
           </span>
 
-          <span className="previous muted">
+          <span className="previous">
             {set.prevWeight != null && set.prevReps != null
               ? `${set.prevWeight}×${set.prevReps}`
               : '–'}
