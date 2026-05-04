@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import useExercises from '../hooks/useExercises'
 import { CATEGORY_ORDER } from '../utils/exerciseCategories'
 import ExerciseList from '../components/ExerciseList'
@@ -15,9 +15,10 @@ const BASE_CATEGORIES = CATEGORY_ORDER
 export default function ExercisesLibraryPage() {
   const navigate = useNavigate()
   const location = useLocation()
-  const [params] = useSearchParams()
 
-  const isSelectMode = params.get('select') === 'true'
+  const isSelectMode =
+    location.state?.mode === 'workout' ||
+    location.pathname.includes('/workout/')
 
   // UI state
   const [search, setSearch] = useState('')
@@ -25,7 +26,9 @@ export default function ExercisesLibraryPage() {
   const [muscleGroup, setMuscleGroup] = useState(null)
   const [equipment, setEquipment] = useState(null)
   const [visibleCount, setVisibleCount] = useState(20)
-  const [selectedExercises, setSelectedExercises] = useState([])
+  const [selectedExercises, setSelectedExercises] = useState(
+    location.state?.selectedExercises || [],
+  )
 
   // Data logic from hook
   const { loading, error, exercises, filtered, visibleExercises } =
@@ -50,9 +53,19 @@ export default function ExercisesLibraryPage() {
   const toggleSelect = (exercise) => {
     setSelectedExercises((prev) => {
       const exists = prev.find((e) => e.id === exercise.id)
-      return exists
+      const updated = exists
         ? prev.filter((e) => e.id !== exercise.id)
         : [...prev, exercise]
+
+      navigate(location.pathname, {
+        replace: true,
+        state: {
+          ...location.state,
+          selectedExercises: updated,
+        },
+      })
+
+      return updated
     })
   }
 
@@ -158,7 +171,7 @@ export default function ExercisesLibraryPage() {
           <button
             className="btn btn-primary"
             onClick={() => {
-              const from = location.state?.from || '/workout/run'
+              const from = location.state?.from || '/'
 
               navigate(from, {
                 state: {

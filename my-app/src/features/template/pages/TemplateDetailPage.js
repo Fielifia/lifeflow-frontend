@@ -23,10 +23,10 @@ export default function TemplateDetail() {
   }))
 
   const handleStartWorkout = () => {
-    navigate('/workout/run', {
-      state: {
-        template,
-      },
+    const workoutId = Date.now()
+
+    navigate(`/workout/${workoutId}`, {
+      state: { template },
     })
   }
 

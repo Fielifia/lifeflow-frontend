@@ -41,7 +41,7 @@ import { usePreviousExercise } from './usePreviousExercise'
  *  saveWorkout: () => Promise<void>
  * }} Workout logic API
  */
-export function useWorkoutLogic(navigate, location) {
+export function useWorkoutLogic(navigate, location, workoutId) {
   // ===== STATE =====
   const [saving, setSaving] = useState(false)
   const [success, setSuccess] = useState(false)
@@ -254,7 +254,7 @@ export function useWorkoutLogic(navigate, location) {
   }
 
   const openLibrary = () => {
-    navigate('/exercises?select=true', {
+    navigate(`/workout/${workoutId}/exercises`, {
       state: {
         currentExercises: workout.exercises,
         from: location.pathname,

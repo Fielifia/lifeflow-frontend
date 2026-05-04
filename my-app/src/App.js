@@ -8,6 +8,7 @@ import ExerciseDetail from './features/exercise/components/ExerciseDetail'
 import Exercises from './features/exercise/pages/ExerciseLibraryPage'
 import WorkoutStartPage from './features/workout/pages/WorkoutStartPage'
 import WorkoutRunPage from './features/workout/pages/WorkoutRunPage'
+import ExerciseLibraryPage from './features/exercise/pages/ExerciseLibraryPage'
 import TemplateDetailPage from './features/template/pages/TemplateDetailPage'
 import TemplateListPage from './features/template/pages/TemplateListPage'
 import TemplateEditPage from './features/template/pages/TemplateEditPage'
@@ -58,7 +59,11 @@ function App() {
           <Route path="/exercises/:id" element={<ExerciseDetail />} />
 
           <Route path="/workout" element={<WorkoutStartPage />} />
-          <Route path="/workout/run" element={<WorkoutRunPage />} />
+          <Route path="/workout/:id" element={<WorkoutRunPage />} />
+          <Route
+            path="/workout/:id/exercises"
+            element={<ExerciseLibraryPage />}
+          />
 
           <Route path="/templates/" element={<TemplateListPage />} />
           <Route path="/templates/:id" element={<TemplateDetailPage />} />
@@ -71,8 +76,7 @@ function App() {
                 variant="card-empty"
                 emptyText="Coming soon"
                 count={1}
-              >
-              </DataState>
+              ></DataState>
             }
           />
           <Route
@@ -82,8 +86,8 @@ function App() {
                 variant="card-empty"
                 emptyText="Coming soon"
                 count={1}
-              >
-              </DataState>}
+              ></DataState>
+            }
           />
           <Route
             path="/calendar"
@@ -92,8 +96,8 @@ function App() {
                 variant="card-empty"
                 emptyText="Coming soon"
                 count={1}
-              >
-              </DataState>}
+              ></DataState>
+            }
           />
 
           {/* fallback */}

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useWorkoutLogic } from '../hooks/useWorkoutLogic'
 
 import BackButton from '../../../shared/ui/BackButton'
@@ -17,6 +17,7 @@ import WorkoutHeader from '../components/WorkoutHeader'
 export default function WorkoutRunPage() {
   const navigate = useNavigate()
   const location = useLocation()
+  const { id: workoutId } = useParams()
   const [flash, setFlash] = useState(false)
 
   const {
@@ -51,8 +52,7 @@ export default function WorkoutRunPage() {
 
     saveWorkout,
     saveAsTemplate
-  } = useWorkoutLogic(navigate, location)
-
+  } = useWorkoutLogic(navigate, location, workoutId)
 
   return (
     <div className={`card-base card-workout ${flash ? 'flash' : ''}`}>

@@ -34,13 +34,20 @@ export default function ExerciseList({
                 onSelect(e)
               } else {
                 navigate(`/exercises/${e.id}`, {
-                  state: { from: location.pathname },
+                  state: {
+                    from: location.pathname,
+                    mode: location.state?.mode,
+                  },
                 })
               }
             }}
             onView={() => {
               navigate(`/exercises/${e.id}`, {
-                state: { from: location.pathname },
+                state: {
+                  from: location.pathname,
+                  mode: location.state?.mode,
+                  selectedExercises: location.state?.selectedExercises,
+                },
               })
             }}
           />

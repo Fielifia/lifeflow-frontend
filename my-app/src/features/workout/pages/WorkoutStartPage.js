@@ -43,7 +43,7 @@ export default function WorkoutStart() {
       <button
         className="btn btn-primary btn-full"
         onClick={() =>
-          navigate('/workout/run', {
+          navigate(`/workout/${Date.now()}`, {
             state: {
               workout: {
                 name: '',
