@@ -11,6 +11,8 @@ import WorkoutRunPage from './features/workout/pages/WorkoutRunPage'
 import ExerciseLibraryPage from './features/exercise/pages/ExerciseLibraryPage'
 import TemplateDetailPage from './features/template/pages/TemplateDetailPage'
 import TemplateEditPage from './features/template/pages/TemplateEditPage'
+import WorkoutHistoryPage from './features/history/pages/WorkoutHistoryPage'
+import WorkoutDetailPage from './features/history/pages/WorkoutDetailPage'
 import Header from './shared/ui/Header'
 import Navbar from './shared/ui/Navbar'
 import DataState from './shared/ui/DataState'
@@ -67,16 +69,9 @@ function App() {
           <Route path="/templates/:id" element={<TemplateDetailPage />} />
           <Route path="/templates/create" element={<TemplateEditPage />} />
 
-          <Route
-            path="/history"
-            element={
-              <DataState
-                variant="card-empty"
-                emptyText="Coming soon"
-                count={1}
-              ></DataState>
-            }
-          />
+          <Route path="/history" element={<WorkoutHistoryPage />} />
+          <Route path="/workouts/:id" element={<WorkoutDetailPage />} />
+
           <Route
             path="/stats"
             element={

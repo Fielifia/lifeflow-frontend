@@ -1,19 +1,35 @@
 import { useState, useEffect } from 'react'
 
 /**
- * Hook for workout timer (elapsed time + start/pause)
+ * Hook for managing workout timer state.
+ *
+ * Handles elapsed time, start/pause logic, and persistence via localStorage.
  * @returns {{
- *   status: string,
+ *   status: 'idle' | 'running' | 'paused',
  *   elapsed: number,
  *   handleStartPause: () => void,
  *   reset: () => void
- * }} Timer state and controls
+ * }} Timer state and control functions
  */
 export function useTimer() {
-  const [status, setStatus] = useState('idle')
-  const [elapsed, setElapsed] = useState(0)
-  const start = () => setStatus('running')
+  const [status, setStatus] = useState('running')
 
+  const [startTime, setStartTime] = useState(() => {
+    const saved = localStorage.getItem('workoutStart')
+    return saved ? Number(saved) : Date.now()
+  })
+
+  const [offset, setOffset] = useState(0)
+  const [pausedAt, setPausedAt] = useState(null)
+
+  const [elapsed, setElapsed] = useState(0)
+
+  // persist startTime
+  useEffect(() => {
+    localStorage.setItem('workoutStart', startTime)
+  }, [startTime])
+
+  // timer
   useEffect(() => {
     let interval
 
@@ -26,17 +42,35 @@ export function useTimer() {
     return () => {
       if (interval) clearInterval(interval)
     }
-  }, [status])
+  }, [status, startTime, offset])
 
+  // actions
   const handleStartPause = () => {
-    if (status === 'idle') setStatus('running')
-    else if (status === 'running') setStatus('paused')
-    else setStatus('running')
+    setStatus((prev) => {
+      if (prev === 'running') {
+        setPausedAt(Date.now())
+        return 'paused'
+      }
+
+      if (prev === 'paused') {
+        setOffset((prevOffset) => prevOffset + (Date.now() - pausedAt))
+        setPausedAt(null)
+        return 'running'
+      }
+
+      return 'running'
+    })
   }
 
   const reset = () => {
+
     setStatus('idle')
+    setStartTime()
+    setOffset(0)
+    setPausedAt(null)
     setElapsed(0)
+
+    localStorage.removeItem('workoutStart')
   }
 
   return {
@@ -44,6 +78,5 @@ export function useTimer() {
     elapsed,
     handleStartPause,
     reset,
-    start,
   }
 }

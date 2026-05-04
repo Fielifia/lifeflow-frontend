@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import { getTemplates } from '../../../shared/api/templateApi'
 import TemplateList from '../../template/components/TemplateList'
 import DataState from '../../../shared/ui/DataState'
-import BackButton from '../../../shared/ui/BackButton'
 
 /**
  * Entry page for starting workouts.
@@ -36,48 +35,48 @@ export default function WorkoutStart() {
   }, [])
 
   return (
-    <div className="page-section">
-      <BackButton fallback="/home" />
-
-      <div className="hero-actions">
-        <button
-          className="hero-btn hero-btn-primary"
-          onClick={() =>
-            navigate(`/workout/${Date.now()}`, {
-              state: {
-                workout: {
-                  name: '',
-                  exercises: [],
-                  notes: '',
+    <div className="app">
+      <div className="page-section">
+        <div className="hero-actions">
+          <button
+            className="hero-btn hero-btn-primary"
+            onClick={() =>
+              navigate(`/workout/${Date.now()}`, {
+                state: {
+                  workout: {
+                    name: '',
+                    exercises: [],
+                    notes: '',
+                  },
                 },
-              },
-            })
-          }
-        >
-          <span className="hero-icon">▷</span>
-          <span>Start Empty Workout</span>
-        </button>
+              })
+            }
+          >
+            <span className="hero-icon">▷</span>
+            <span>Start Empty Workout</span>
+          </button>
 
-        <button
-          className="hero-btn hero-btn-secondary"
-          onClick={() => navigate('/templates/create')}
-        >
-          <span className="hero-icon">+</span>
-          <span>Create New Workout</span>
-        </button>
-      </div>
+          <button
+            className="hero-btn hero-btn-secondary"
+            onClick={() => navigate('/templates/create')}
+          >
+            <span className="hero-icon">+</span>
+            <span>Create New Workout</span>
+          </button>
+        </div>
 
-      <div className="section template">
-        <DataState
-          loading={loading}
-          error={error}
-          data={templates}
-          variant="card-template"
-          emptyText="No templates found"
-          count={4}
-        >
-          <TemplateList templates={templates.slice(0, 3)} />
-        </DataState>
+        <div className="section template">
+          <DataState
+            loading={loading}
+            error={error}
+            data={templates}
+            variant="card-template"
+            emptyText="No templates found"
+            count={4}
+          >
+            <TemplateList templates={templates.slice(0, 3)} />
+          </DataState>
+        </div>
       </div>
     </div>
   )

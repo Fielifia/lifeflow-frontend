@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { getExerciseById } from '../../../shared/api/exerciseApi'
 import { normalizeExercise } from '../utils/exerciseAdapter'
 import { formatLabel } from '../../../shared/utils/format'
@@ -16,9 +16,6 @@ export default function ExerciseDetail() {
 
   const [exercise, setExercise] = useState(null)
   const [currentImage, setCurrentImage] = useState(0)
-
-  const location = useLocation()
-  console.log('FROM:', location.state)
 
   useEffect(() => {
     if (!id) return

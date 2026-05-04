@@ -29,10 +29,10 @@ export default function WorkoutControls({
         disabled={!hasExercises || saving}
       >
         {status === 'running'
-          ? 'Pause'
+          ? '⏸ Pause'
           : status === 'paused'
-            ? 'Resume'
-            : 'Start'}
+            ? '▶ Resume'
+            : '▶ Start'}
       </button>
 
       <LoadingButton

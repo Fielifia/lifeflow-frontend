@@ -89,10 +89,10 @@ export function useWorkoutLogic(navigate, location, workoutId) {
   })
 
   useEffect(() => {
-    if (status === 'idle') {
+    if (status === 'idle' && elapsed === 0) {
       start()
     }
-  }, [status, start])
+  }, [status, elapsed, start])
 
   // ===== SAVE DRAFT =====
   useEffect(() => {
@@ -248,11 +248,6 @@ export function useWorkoutLogic(navigate, location, workoutId) {
   const updateWorkoutNotes = (notes) =>
     setWorkout((prev) => ({ ...prev, notes }))
 
-  // ===== HELPERS =====
-  const safeStartPause = () => {
-    if (!workout.exercises.length) return
-    handleStartPause()
-  }
 
   const openLibrary = () => {
     navigate(`/workout/${workoutId}/exercises`, {
@@ -336,7 +331,7 @@ export function useWorkoutLogic(navigate, location, workoutId) {
     isEditingName,
     setIsEditingName,
 
-    handleStartPause: safeStartPause,
+    handleStartPause,
     adjustRest: adjust,
 
     openLibrary,
