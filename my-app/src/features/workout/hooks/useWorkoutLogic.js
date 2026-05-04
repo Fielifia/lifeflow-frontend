@@ -13,6 +13,7 @@ import { usePreviousExercise } from './usePreviousExercise'
  * Handles workout state, timers and actions.
  * @param {(path: string, options?: object) => void} navigate - Navigation function
  * @param {{ state?: object, pathname: string }} location - Current route info
+ * @param workoutId - Workout id
  * @returns {{
  *  workout: object,
  * setWorkout: (updater: (prev: object) => object) => void,
