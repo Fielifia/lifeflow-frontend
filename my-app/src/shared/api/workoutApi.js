@@ -16,6 +16,6 @@ export const getWorkoutById = async (id) => {
 }
 
 export const getPreviousExercise = async (exerciseId) => {
-  const res = await API.get(`/workouts/exercise/${exerciseId}/previous`)
+  const res = await API.get(`/workouts/exercises/${exerciseId}/previous`)
   return res.data
 }

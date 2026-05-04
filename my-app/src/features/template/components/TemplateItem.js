@@ -53,7 +53,7 @@ export default function TemplateItem({ template, ex }) {
           src={firstExercise?.image || '/placeholder.png'}
           alt=""
           className="exercise-img-small"
-          onClick={() => navigate(`/exercise/${ex.exerciseId}`)}
+          onClick={() => navigate(`/exercises/${ex.exerciseId}`)}
         />
 
         <h2>{template.name}</h2>

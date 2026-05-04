@@ -664,6 +664,10 @@ input[type="checkbox"]:hover {
   align-items: center;
 }
 
+.exercise-img-wrapper {
+  position: relative;
+}
+
 .exercise-img {
   width: 60px;
   height: 60px;
@@ -672,8 +676,9 @@ input[type="checkbox"]:hover {
 }
 
 .exercise-info h3 {
+  display: flex;
+  gap: 4px;
   font-size: 16px;
-  margin: 0;
 }
 
 .exercise-info p {
@@ -689,6 +694,18 @@ input[type="checkbox"]:hover {
   position: absolute;
   right: 10px;
   top: 10px;
+}
+
+.details-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text);
+}
+
+svg.lucide.lucide-eye.details-icon {
+  width: 18px;
+  height: auto;
 }
 
 /* ============================= */

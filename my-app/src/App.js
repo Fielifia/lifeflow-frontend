@@ -55,7 +55,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Dashboard setUser={setUser} />} />
           <Route path="/exercises" element={<Exercises />} />
-          <Route path="/exercise/:id" element={<ExerciseDetail />} />
+          <Route path="/exercises/:id" element={<ExerciseDetail />} />
 
           <Route path="/workout" element={<WorkoutStartPage />} />
           <Route path="/workout/run" element={<WorkoutRunPage />} />
