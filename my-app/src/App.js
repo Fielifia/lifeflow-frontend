@@ -10,7 +10,6 @@ import WorkoutStartPage from './features/workout/pages/WorkoutStartPage'
 import WorkoutRunPage from './features/workout/pages/WorkoutRunPage'
 import ExerciseLibraryPage from './features/exercise/pages/ExerciseLibraryPage'
 import TemplateDetailPage from './features/template/pages/TemplateDetailPage'
-import TemplateListPage from './features/template/pages/TemplateListPage'
 import TemplateEditPage from './features/template/pages/TemplateEditPage'
 import Header from './shared/ui/Header'
 import Navbar from './shared/ui/Navbar'
@@ -65,7 +64,6 @@ function App() {
             element={<ExerciseLibraryPage />}
           />
 
-          <Route path="/templates/" element={<TemplateListPage />} />
           <Route path="/templates/:id" element={<TemplateDetailPage />} />
           <Route path="/templates/create" element={<TemplateEditPage />} />
 

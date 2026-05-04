@@ -11,7 +11,8 @@ export default function TemplateCard({ template, onClick }) {
   const exercises = template.exercises || []
   const navigate = useNavigate()
 
-  const handleStartWorkout = () => {
+  const handleStartWorkout = (e) => {
+    e.stopPropagation()
     const workoutId = Date.now()
 
     navigate(`/workout/${workoutId}`, {
@@ -20,34 +21,33 @@ export default function TemplateCard({ template, onClick }) {
   }
 
   return (
-    <div className="card-base template-card" onClick={onClick}>
-      {/* TITLE */}
-      <h2>{template.name}</h2>
+    <div className="card-base template-card clickable" onClick={onClick}>
+      {/* HEADER */}
+      <div className="template-header">
+        <div>
+          <h3>{template.name}</h3>
+          <p className="muted small">
+            {exercises.length} exercises • Last: 2 days ago
+          </p>
+        </div>
 
-      {/* PREVIEW */}
-      <div className="template-preview">
-        {exercises.slice(0, 3).map((ex, i) => (
-          <div key={i} className="template-preview-row">
-            <span>{ex.name}</span>
-            <span>
-              {ex.sets?.[0]?.reps || 0} reps • {ex.sets?.length || 0} sets
-            </span>
-          </div>
-        ))}
-
-        {exercises.length > 3 && (
-          <p className="muted small">+{exercises.length - 3} more</p>
-        )}
+        <button className="btn-clean btn-dots">⋮</button>
       </div>
 
-      {/* ACTION */}
-      <button className="btn btn-primary btn-full" onClick={(e) => {
-        e.stopPropagation()
-        handleStartWorkout()
-      }}>
-        Start workout
-      </button>
+      {/* PREVIEW */}
+      <ul className="template-list">
+        {exercises.slice(0, 4).map((ex, i) => (
+          <li key={i}>{ex.name}</li>
+        ))}
+      </ul>
 
+      {/* ACTION */}
+      <button
+        className="btn btn-primary btn-full"
+        onClick={handleStartWorkout}
+      >
+        ▶ Start Workout
+      </button>
     </div>
   )
 }

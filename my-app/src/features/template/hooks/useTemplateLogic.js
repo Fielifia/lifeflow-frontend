@@ -64,7 +64,7 @@ export function useTemplateLogic(navigate, location, id) {
     } catch {}
 
     return {
-      name: stored?.name?.trim() || 'Template',
+      name: stored?.name?.trim() || 'My Template',
       exercises: stored?.exercises || [],
       notes: stored?.notes || '',
     }
@@ -296,7 +296,7 @@ export function useTemplateLogic(navigate, location, id) {
       setError('')
 
       setTemplate({
-        name: 'Template',
+        name: 'My Template',
         exercises: [],
       })
 

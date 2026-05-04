@@ -26,7 +26,7 @@ export default function TemplateDetail() {
     const workoutId = Date.now()
 
     navigate(`/workout/${workoutId}`, {
-      state: { template },
+      state: { template }
     })
   }
 

@@ -36,40 +36,36 @@ export default function WorkoutStart() {
   }, [])
 
   return (
-    <div className="card-base">
+    <div className="page-section">
       <BackButton fallback="/home" />
-      <h2>Start Workout</h2>
 
-      <button
-        className="btn btn-primary btn-full"
-        onClick={() =>
-          navigate(`/workout/${Date.now()}`, {
-            state: {
-              workout: {
-                name: '',
-                exercises: [],
-                notes: '',
+      <div className="hero-actions">
+        <button
+          className="hero-btn hero-btn-primary"
+          onClick={() =>
+            navigate(`/workout/${Date.now()}`, {
+              state: {
+                workout: {
+                  name: '',
+                  exercises: [],
+                  notes: '',
+                },
               },
-            },
-          })
-        }
-      >
-        Start new workout
-      </button>
+            })
+          }
+        >
+          <span className="hero-icon">▷</span>
+          <span>Start Empty Workout</span>
+        </button>
 
-      <button
-        className="btn btn-secondary btn-full"
-        onClick={() => navigate('/templates/create')}
-      >
-        Create template
-      </button>
-
-      <button
-        className="btn btn-secondary btn-full"
-        onClick={() => navigate('/history')}
-      >
-        Repeat previous
-      </button>
+        <button
+          className="hero-btn hero-btn-secondary"
+          onClick={() => navigate('/templates/create')}
+        >
+          <span className="hero-icon">+</span>
+          <span>Create New Workout</span>
+        </button>
+      </div>
 
       <div className="section template">
         <DataState
@@ -82,10 +78,6 @@ export default function WorkoutStart() {
         >
           <TemplateList templates={templates.slice(0, 3)} />
         </DataState>
-
-        <p className="link center" onClick={() => navigate('/templates')}>
-          View all templates →
-        </p>
       </div>
     </div>
   )

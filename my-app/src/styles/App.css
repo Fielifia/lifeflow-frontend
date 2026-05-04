@@ -40,11 +40,18 @@ body {
 
 h2 {
   font-size: 18px;
-  margin: 16px 0;
 }
 
 h3 {
-  font-size: 12px;
+  font-size: 16px;
+}
+
+h4 {
+  font-size: 14px;;
+}
+
+.close {
+  margin: 0;
 }
 
 .muted {
@@ -132,19 +139,21 @@ a:active {
 /* ========== LAYOUT =========== */
 /* ============================= */
 
-.app,
-.page {
-  max-width: 480px;
-  margin: 0 auto;
-  padding: 12px 12px 36px;
-}
 
 .app {
-  margin-bottom: 40px;
+  max-width: 480px;
+  margin: 0 auto 40px;
+  padding: 16px 12px 80px;
+}
+
+.page-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .section {
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   gap: 12px;
 }
 
@@ -172,8 +181,8 @@ a:active {
 .card-base.card-auth, .card-base.card-auth form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  padding: 16px;
+  gap: 12px;
+  padding: 12px;
 }
 
 .card-base.card-auth h2 {
@@ -194,6 +203,7 @@ button {
   -webkit-tap-highlight-color: transparent;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
 }
 
@@ -235,12 +245,10 @@ button {
 }
 
 .back-btn {
+  display: block;
   background: transparent;
   border: 1px solid var(--border);
   color: var(--text);
-  padding: 6px 10px;
-  border-radius: 10px;
-  font-size: 12px;
 }
 
 .btn-clean {
@@ -250,6 +258,65 @@ button {
   color: var(--text);
   justify-content: center;
   cursor: pointer;
+}
+
+.btn-dots {
+  font-size: 20px;
+  color: var(--muted);
+}
+
+/* WRAPPER */
+.hero-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+/* BASE */
+.hero-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  height: 90px;
+  border-radius: 14px;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  cursor: pointer;
+  transition: transform 0.08s ease, opacity 0.08s ease, border 0.2s ease;
+
+  border: 1px solid var(--border);
+  background: var(--card-2);
+  color: var(--text);
+}
+
+/* ACTIVE FEEDBACK */
+.hero-btn:active {
+  transform: scale(0.97);
+  opacity: 0.9;
+}
+
+/* PRIMARY */
+.hero-btn-primary {
+  background: var(--primary);
+  border: none;
+}
+
+/* SECONDARY */
+.hero-btn-secondary {
+  background: #1c292e;
+  border: 1px solid var(--border);
+}
+
+/* ICON */
+.hero-icon {
+  font-size: 22px;
+  line-height: 1;
 }
 
 /* ============================= */
@@ -964,7 +1031,44 @@ svg.lucide.lucide-eye.details-icon {
   gap: 12px;
 }
 
+.template-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.template-header h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.template-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.template-list li {
+  font-size: 13px;
+  color: var(--text);
+  position: relative;
+  padding-left: 12px;
+  line-height: 1.8;
+}
+
+.template-list li::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: var(--primary);
+}
+
+
 .template-preview-row {
   display: flex;
   justify-content: space-between;
+}
+
+.template-header {
+  gap: 0;
 }
