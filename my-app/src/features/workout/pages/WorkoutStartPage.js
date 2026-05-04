@@ -41,7 +41,7 @@ export default function WorkoutStart() {
           <button
             className="hero-btn hero-btn-primary"
             onClick={() =>
-              navigate(`/workout/${Date.now()}`, {
+              navigate(`/workouts/${Date.now()}/run`, {
                 state: {
                   workout: {
                     name: '',

@@ -49,7 +49,7 @@ export function useWorkoutLogic(navigate, location, workoutId) {
   const [error, setError] = useState('')
   const [isEditingName, setIsEditingName] = useState(false)
 
-  const { status, elapsed, handleStartPause, reset: resetTimer, start } = useTimer()
+  const { status, elapsed, handleStartPause, reset: resetTimer } = useTimer()
 
   const [pbs, setPbs] = useState({})
 
@@ -87,12 +87,6 @@ export function useWorkoutLogic(navigate, location, workoutId) {
       return { name: 'Workout', exercises: [], notes: '' }
     }
   })
-
-  useEffect(() => {
-    if (status === 'idle' && elapsed === 0) {
-      start()
-    }
-  }, [status, elapsed, start])
 
   // ===== SAVE DRAFT =====
   useEffect(() => {
@@ -250,7 +244,7 @@ export function useWorkoutLogic(navigate, location, workoutId) {
 
 
   const openLibrary = () => {
-    navigate(`/workout/${workoutId}/exercises`, {
+    navigate(`/workouts/${workoutId}/exercises`, {
       state: {
         currentExercises: workout.exercises,
         from: location.pathname,
@@ -273,9 +267,7 @@ export function useWorkoutLogic(navigate, location, workoutId) {
         return
       }
 
-      localStorage.setItem('lastWorkout', JSON.stringify(workout))
-
-      await API.post('/workouts', {
+      const saved = await API.post('/workouts', {
         ...workout,
         name: workout.name?.trim() || 'Workout',
         exercises: cleaned,
@@ -284,13 +276,14 @@ export function useWorkoutLogic(navigate, location, workoutId) {
 
       setSuccess(true)
 
+      navigate(`/workouts/${saved.data._id}`)
+
       setWorkout({ name: 'Workout', exercises: [], notes: '' })
       resetTimer()
       resetRest()
       setIsEditingName(false)
 
       localStorage.removeItem('draftWorkout')
-      navigate('/workouts')
     } catch (err) {
       setError(err.response?.data?.error || 'Could not save workout')
     } finally {

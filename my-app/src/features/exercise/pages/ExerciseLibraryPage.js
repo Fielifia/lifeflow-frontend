@@ -18,7 +18,7 @@ export default function ExercisesLibraryPage() {
 
   const isSelectMode =
     location.state?.mode === 'workout' ||
-    location.pathname.includes('/workout/')
+    location.pathname.includes('/workouts/')
 
   // UI state
   const [search, setSearch] = useState('')

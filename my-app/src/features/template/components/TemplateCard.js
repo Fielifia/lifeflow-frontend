@@ -15,7 +15,7 @@ export default function TemplateCard({ template, onClick }) {
     e.stopPropagation()
     const workoutId = Date.now()
 
-    navigate(`/workout/${workoutId}`, {
+    navigate(`/workouts/${workoutId}/run`, {
       state: { template },
     })
   }

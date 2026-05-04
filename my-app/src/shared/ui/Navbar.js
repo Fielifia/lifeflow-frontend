@@ -17,7 +17,7 @@ export default function Navbar() {
       </NavLink>
 
       <NavLink
-        to="/workout"
+        to="/workouts"
         className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
       >
         <Dumbbell className="nav-icon" />

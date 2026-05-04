@@ -76,7 +76,7 @@ export default function TemplateEditPage() {
 
   return (
     <div className="card-base card-workout">
-      <BackButton fallback="/workout" />
+      <BackButton fallback="/workouts" />
       {/* HEADER */}
       <h2>{isCreate ? 'Create Template' : 'Edit Template'}</h2>
 

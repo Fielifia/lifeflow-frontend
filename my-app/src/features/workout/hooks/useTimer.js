@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 /**
  * Hook for managing workout timer state.
  *
- * Handles elapsed time, start/pause logic, and persistence via localStorage.
+ * Uses a persistent start timestamp and offset to track elapsed time.
  * @returns {{
  *   status: 'idle' | 'running' | 'paused',
  *   elapsed: number,
@@ -19,10 +19,16 @@ export function useTimer() {
     return saved ? Number(saved) : Date.now()
   })
 
-  const [offset, setOffset] = useState(0)
   const [pausedAt, setPausedAt] = useState(null)
+  const [offset, setOffset] = useState(0)
+  const [elapsed, setElapsed] = useState(() => {
+    return Math.floor((Date.now() - startTime - offset) / 1000)
+  })
 
-  const [elapsed, setElapsed] = useState(0)
+  useEffect(() => {
+    const seconds = Math.floor((Date.now() - startTime - offset) / 1000)
+    setElapsed(seconds)
+  }, [startTime, offset])
 
   // persist startTime
   useEffect(() => {
@@ -35,16 +41,15 @@ export function useTimer() {
 
     if (status === 'running') {
       interval = setInterval(() => {
-        setElapsed((prev) => prev + 1)
+        const seconds = Math.floor((Date.now() - startTime - offset) / 1000)
+        setElapsed(seconds)
       }, 1000)
     }
 
-    return () => {
-      if (interval) clearInterval(interval)
-    }
+    return () => clearInterval(interval)
   }, [status, startTime, offset])
 
-  // actions
+  // pause/resume
   const handleStartPause = () => {
     setStatus((prev) => {
       if (prev === 'running') {
@@ -53,7 +58,8 @@ export function useTimer() {
       }
 
       if (prev === 'paused') {
-        setOffset((prevOffset) => prevOffset + (Date.now() - pausedAt))
+        const pauseDuration = Date.now() - pausedAt
+        setOffset((prevOffset) => prevOffset + pauseDuration)
         setPausedAt(null)
         return 'running'
       }
@@ -62,10 +68,12 @@ export function useTimer() {
     })
   }
 
+  // reset
   const reset = () => {
+    const now = Date.now()
 
     setStatus('idle')
-    setStartTime()
+    setStartTime(now)
     setOffset(0)
     setPausedAt(null)
     setElapsed(0)

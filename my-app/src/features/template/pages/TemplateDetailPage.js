@@ -25,7 +25,7 @@ export default function TemplateDetail() {
   const handleStartWorkout = () => {
     const workoutId = Date.now()
 
-    navigate(`/workout/${workoutId}`, {
+    navigate(`/workouts/${workoutId}/run`, {
       state: { template }
     })
   }

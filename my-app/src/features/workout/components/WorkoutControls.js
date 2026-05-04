@@ -7,6 +7,7 @@ import LoadingButton from '../../../shared/ui/LoadingButton'
  * @param {() => void} props.saveWorkout - Save workout handler
  * @param {() => void} props.onSaveTemplate - Save template handler
  * @param {boolean} props.saving - Saving state
+ * @param props.loading - Loading state
  * @param {boolean} props.hasExercises - If exercises exist
  * @returns {import('react').ReactElement} Controls UI
  */
@@ -16,6 +17,7 @@ export default function WorkoutControls({
   saveWorkout,
   onSaveTemplate,
   saving,
+  loading,
   hasExercises,
 }) {
   
@@ -37,6 +39,7 @@ export default function WorkoutControls({
 
       <LoadingButton
         className="btn btn-primary"
+        loading={loading}
         saving={saving}
         onClick={isStarted ? saveWorkout : onSaveTemplate}
       >

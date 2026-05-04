@@ -59,10 +59,10 @@ function App() {
           <Route path="/exercises" element={<Exercises />} />
           <Route path="/exercises/:id" element={<ExerciseDetail />} />
 
-          <Route path="/workout" element={<WorkoutStartPage />} />
-          <Route path="/workout/:id" element={<WorkoutRunPage />} />
+          <Route path="/workouts" element={<WorkoutStartPage />} />
+          <Route path="/workouts/:id/run" element={<WorkoutRunPage />} />
           <Route
-            path="/workout/:id/exercises"
+            path="/workouts/:id/exercises"
             element={<ExerciseLibraryPage />}
           />
 

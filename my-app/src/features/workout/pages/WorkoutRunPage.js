@@ -56,7 +56,7 @@ export default function WorkoutRunPage() {
 
   return (
     <div className={`card-base card-workout ${flash ? 'flash' : ''}`}>
-      <BackButton fallback="/workout" />
+      <BackButton fallback="/workouts" />
       {/* HEADER */}
       <WorkoutHeader
         name={workout.name}
