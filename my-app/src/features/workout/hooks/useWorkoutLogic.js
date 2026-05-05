@@ -58,7 +58,6 @@ export function useWorkoutLogic(navigate, location, workoutId) {
   const DEFAULT_SETS = [
     { reps: 8, weight: 0, completed: false },
     { reps: 8, weight: 0, completed: false },
-    { reps: 8, weight: 0, completed: false },
   ]
 
   const {
@@ -145,7 +144,7 @@ export function useWorkoutLogic(navigate, location, workoutId) {
 
     run()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.state])
+  }, [location.state?.selectedExercises])
 
   // ===== LOAD TEMPLATE =====
   useEffect(() => {

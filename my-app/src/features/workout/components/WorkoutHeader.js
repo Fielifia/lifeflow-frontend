@@ -17,9 +17,9 @@ export default function WorkoutHeader({
   onChangeName,
   elapsed,
 }) {
-  const formatTime = (s) => {
-    const m = Math.floor(s / 60)
-    const sec = s % 60
+  const formatTime = (elapsed) => {
+    const m = Math.floor(elapsed/ 60)
+    const sec = elapsed % 60
     return `${m}:${sec.toString().padStart(2, '0')}`
   }
 

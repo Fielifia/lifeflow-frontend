@@ -1,14 +1,28 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
+
+const MAX_DURATION = 180 * 60 // seconds
+const INACTIVITY_LIMIT = 10 * 60 * 1000 // ms
 
 /**
- * Hook for managing workout timer state.
+ * Hook for managing a workout timer with pause/resume, inactivity detection,
+ * persistence, and max duration handling.
  *
- * Uses a persistent start timestamp and offset to track elapsed time.
+ * The timer is based on a start timestamp and an accumulated offset
+ * (for paused time), which ensures accuracy across re-renders and reloads.
+ *
+ * Features:
+ * - Start / pause / resume / stop
+ * - Max duration cap (3 hours)
+ * - Inactivity detection (auto-pause)
+ * - Persistence via localStorage (startTime + offset)
+ *
  * @returns {{
- *   status: 'idle' | 'running' | 'paused',
+ *   status: 'idle' | 'running' | 'paused' | 'stopped',
  *   elapsed: number,
  *   handleStartPause: () => void,
- *   reset: () => void
+ *   reset: () => void,
+ *   stop: () => void,
+ *   registerActivity: () => void
  * }} Timer state and control functions
  */
 export function useTimer() {
@@ -19,37 +33,91 @@ export function useTimer() {
     return saved ? Number(saved) : Date.now()
   })
 
-  const [pausedAt, setPausedAt] = useState(null)
-  const [offset, setOffset] = useState(0)
-  const [elapsed, setElapsed] = useState(() => {
-    return Math.floor((Date.now() - startTime - offset) / 1000)
+  const [offset, setOffset] = useState(() => {
+    const saved = localStorage.getItem('workoutOffset')
+    return saved ? Number(saved) : 0
   })
 
+  const [pausedAt, setPausedAt] = useState(null)
+  const [elapsed, setElapsed] = useState(0)
+  const [lastActivity, setLastActivity] = useState(Date.now())
+
+  const intervalRef = useRef(null)
+  const inactivityRef = useRef(null)
+
+  /**
+   * Recalculate elapsed time when base timing values change.
+   */
   useEffect(() => {
     const seconds = Math.floor((Date.now() - startTime - offset) / 1000)
-    setElapsed(seconds)
+    setElapsed(Math.max(0, Math.min(seconds, MAX_DURATION)))
   }, [startTime, offset])
 
-  // persist startTime
+  /**
+   * Persist start timestamp.
+   */
   useEffect(() => {
     localStorage.setItem('workoutStart', startTime)
   }, [startTime])
 
-  // timer
+  /**
+   * Persist accumulated pause offset.
+   */
   useEffect(() => {
-    let interval
+    localStorage.setItem('workoutOffset', offset)
+  }, [offset])
 
+  /**
+   * Main timer loop (runs only when status is "running").
+   * Updates elapsed time every second and enforces max duration.
+   */
+  useEffect(() => {
     if (status === 'running') {
-      interval = setInterval(() => {
+      intervalRef.current = setInterval(() => {
         const seconds = Math.floor((Date.now() - startTime - offset) / 1000)
+
+        if (seconds >= MAX_DURATION) {
+          setElapsed(MAX_DURATION)
+          setStatus('stopped')
+          clearInterval(intervalRef.current)
+          alert('Workout reached 3 hours. Still active?')
+          return
+        }
+
         setElapsed(seconds)
       }, 1000)
+
+      return () => clearInterval(intervalRef.current)
     }
 
-    return () => clearInterval(interval)
+    return () => { }
   }, [status, startTime, offset])
 
-  // pause/resume
+  /**
+   * Detects inactivity and pauses the timer if no activity
+   * has been registered within the defined limit.
+   */
+  useEffect(() => {
+    if (status !== 'running') {
+      return () => { }
+    }
+
+    inactivityRef.current = setInterval(() => {
+      const inactiveFor = Date.now() - lastActivity
+
+      if (inactiveFor > INACTIVITY_LIMIT) {
+        setStatus('paused')
+        alert('No activity detected. Still working out?')
+      }
+    }, 60000)
+
+    return () => clearInterval(inactivityRef.current)
+  }, [status, lastActivity])
+
+  /**
+   * Toggles between running and paused states.
+   * Also handles restarting from idle/stopped state.
+   */
   const handleStartPause = () => {
     setStatus((prev) => {
       if (prev === 'running') {
@@ -57,18 +125,37 @@ export function useTimer() {
         return 'paused'
       }
 
-      if (prev === 'paused') {
+      if (prev === 'paused' && pausedAt) {
         const pauseDuration = Date.now() - pausedAt
         setOffset((prevOffset) => prevOffset + pauseDuration)
         setPausedAt(null)
         return 'running'
       }
 
-      return 'running'
+      if (prev === 'idle' || prev === 'stopped') {
+        const now = Date.now()
+        setStartTime(now)
+        setOffset(0)
+        setPausedAt(null)
+        setElapsed(0)
+        return 'running'
+      }
+
+      return prev
     })
   }
 
-  // reset
+  /**
+   * Registers user activity (e.g. completing a set),
+   * used for inactivity detection.
+   */
+  const registerActivity = () => {
+    setLastActivity(Date.now())
+  }
+
+  /**
+   * Resets the timer completely and clears persisted state.
+   */
   const reset = () => {
     const now = Date.now()
 
@@ -77,8 +164,20 @@ export function useTimer() {
     setOffset(0)
     setPausedAt(null)
     setElapsed(0)
+    setLastActivity(now)
 
     localStorage.removeItem('workoutStart')
+    localStorage.removeItem('workoutOffset')
+  }
+
+  /**
+   * Stops the timer without resetting values.
+   * Useful when saving or discarding a workout.
+   */
+  const stop = () => {
+    setStatus('stopped')
+    clearInterval(intervalRef.current)
+    clearInterval(inactivityRef.current)
   }
 
   return {
@@ -86,5 +185,7 @@ export function useTimer() {
     elapsed,
     handleStartPause,
     reset,
+    stop,
+    registerActivity,
   }
 }

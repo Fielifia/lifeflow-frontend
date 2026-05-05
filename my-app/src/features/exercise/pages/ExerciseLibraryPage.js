@@ -177,7 +177,7 @@ export default function ExercisesLibraryPage() {
                 state: {
                   selectedExercises,
                   currentExercises: location.state?.currentExercises || [],
-                  mode: location.state?.mode,
+                  mode: 'workout',
                 },
               })
             }}
