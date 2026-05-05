@@ -21,7 +21,7 @@ export default function WorkoutControls({
   hasExercises,
 }) {
   
-  const isStarted = status === 'running' || status === 'paused'
+  const isStarted = status !== 'idle'
 
   return (
     <div className="workout-controls">

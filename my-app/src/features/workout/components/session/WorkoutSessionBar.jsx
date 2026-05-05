@@ -18,8 +18,7 @@ export default function WorkoutSessionBar({
 }) {
   const { elapsed, status, activeWorkout } = useWorkoutContext()
 
-  const currentExercise = activeWorkout?.currentExercise
-  const workoutName = activeWorkout?.name
+  const workoutName = activeWorkout?.name || 'Workout'
 
   const minutes = Math.floor(elapsed / 60)
   const seconds = elapsed % 60
@@ -27,6 +26,11 @@ export default function WorkoutSessionBar({
   const formatted = `${String(minutes).padStart(2, '0')}:${String(
     seconds,
   ).padStart(2, '0')}`
+
+  const currentExercise =
+  activeWorkout?.exercises?.find((ex) =>
+    ex.sets?.some((s) => !s.completed)
+  )?.name || 'No exercise'
 
   return (
     <div

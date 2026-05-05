@@ -18,7 +18,7 @@ export default function TemplateDetail() {
     ...ex,
     image: ex.image || ex.images?.[0] || '',
     images: ex.images || (ex.image ? [ex.image] : []),
-    restTime: ex.restTime ?? ex.rest ?? 0,
+    restTime: ex.restTime ?? ex.rest ?? 120,
     notes: ex.notes ?? '',
   }))
 

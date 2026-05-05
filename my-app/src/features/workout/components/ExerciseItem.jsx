@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { useState } from 'react'
-import { Clock, Weight, Trophy } from 'lucide-react'
+import { Clock, Weight, Trash2, Trophy } from 'lucide-react'
 
 /**
  * Exercise item in workout.
@@ -44,8 +44,6 @@ export default function ExerciseItem({
   toggleSetComplete,
   restTime,
   onChangeRestTime,
-  status,
-  handleStartPause,
   updateExerciseNotes,
   showCheckbox = true,
 }) {
@@ -65,10 +63,6 @@ export default function ExerciseItem({
 
   const handleCheck = (j, checked) => {
     toggleSetComplete(i, j, checked)
-
-    if (checked && status === 'idle') {
-      handleStartPause()
-    }
   }
 
   const [holdingSet, setHoldingSet] = useState(null)
@@ -112,6 +106,10 @@ export default function ExerciseItem({
     updateExerciseNotes(i, notes)
   }
 
+  {/* REST TIME */ }
+  const [editingRest, setEditingRest] = useState(false)
+  const safeRest = restTime ?? 120
+
   return (
     <div className="workout-exercise">
       {/* HEADER */}
@@ -125,15 +123,54 @@ export default function ExerciseItem({
 
         <h2>{ex.name}</h2>
 
-        <button
-          className="btn btn-secondary btn-small btn-right"
-          onClick={(e) => {
-            e.stopPropagation()
-            removeExercise(i)
-          }}
-        >
-          Remove
-        </button>
+        <div className="exercise-header-main controls">
+          {/* REST TIME */}
+          <div
+            className="rest-label"
+            onClick={(e) => {
+              e.stopPropagation()
+              setEditingRest(true)
+            }}
+          >
+            <Clock className="icon-small" />
+
+            {editingRest ? (
+              <input
+                className="input-clean"
+                type="number"
+                autoFocus
+                defaultValue={safeRest}
+                onBlur={(e) => {
+                  const val = Number(e.target.value)
+                  if (!isNaN(val)) onChangeRestTime(val)
+                  setEditingRest(false)
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.target.blur()
+                  }
+                }}
+                onClick={(e) => e.stopPropagation()}
+              />
+            ) : (
+              <span className="rest-badge">
+                {restTime >= 60
+                  ? `${Math.floor(restTime / 60)} min`
+                  : `${safeRest}s`}
+              </span>
+            )}
+          </div>
+
+          <button
+            className="btn-secondary btn-small"
+            onClick={(e) => {
+              e.stopPropagation()
+              removeExercise(i)
+            }}
+          >
+            <Trash2 />
+          </button>
+        </div>
       </div>
 
       <form className="exercise-notes" onSubmit={(e) => e.preventDefault()}>
@@ -173,7 +210,7 @@ export default function ExerciseItem({
           onTouchEnd={cancelHold}
           className={`set-row 
   ${set.completed ? 'completed' : ''} 
-  ${set.bestIndex ? 'best-set' : ''}
+  ${j === bestIndex ? 'best-set' : ''}
 `}
         >
           {holdingSet === j && (
@@ -258,20 +295,6 @@ export default function ExerciseItem({
       <button className="btn btn-secondary btn-full" onClick={() => addSet(i)}>
         Add set
       </button>
-
-      {/* REST TIME */}
-      <div
-        className="rest-label"
-        onClick={(e) => {
-          e.stopPropagation()
-          const val = prompt('Rest time (seconds)', restTime)
-          if (val !== null && !isNaN(val)) {
-            onChangeRestTime(Number(val))
-          }
-        }}
-      >
-        <Clock className="icon-small muted" /> Rest Timer: {restTime ?? 60}s
-      </div>
     </div>
   )
 }

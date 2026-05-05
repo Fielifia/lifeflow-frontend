@@ -130,7 +130,7 @@ export default function WorkoutRunPage() {
       <textarea
         className="input-base textarea"
         value={workout.notes}
-        placeholder="Notes..."
+        placeholder="Workout Notes..."
         onChange={(e) => updateWorkoutNotes(e.target.value)}
       />
     </div>

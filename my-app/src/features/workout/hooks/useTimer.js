@@ -21,21 +21,13 @@ const INACTIVITY_LIMIT = 10 * 60 * 1000 // ms
  *   handleStartPause: () => void,
  *   reset: () => void,
  *   stop: () => void,
- *   registerActivity: () => void
  * }} Timer state and control functions
  */
 export function useTimer() {
   const [status, setStatus] = useState('running')
 
-  const [startTime, setStartTime] = useState(() => {
-    const saved = localStorage.getItem('workoutStart')
-    return saved ? Number(saved) : Date.now()
-  })
-
-  const [offset, setOffset] = useState(() => {
-    const saved = localStorage.getItem('workoutOffset')
-    return saved ? Number(saved) : 0
-  })
+  const [startTime, setStartTime] = useState(Date.now())
+  const [offset, setOffset] = useState(0)
 
   const [pausedAt, setPausedAt] = useState(null)
   const [elapsed, setElapsed] = useState(0)
@@ -44,6 +36,13 @@ export function useTimer() {
   const intervalRef = useRef(null)
   const inactivityRef = useRef(null)
 
+  useEffect(() => {
+    const now = Date.now()
+    setStartTime(now)
+    setOffset(0)
+    setElapsed(0)
+  }, [])
+  
   /**
    * Recalculate elapsed time when base timing values change.
    */
@@ -51,20 +50,6 @@ export function useTimer() {
     const seconds = Math.floor((Date.now() - startTime - offset) / 1000)
     setElapsed(Math.max(0, Math.min(seconds, MAX_DURATION)))
   }, [startTime, offset])
-
-  /**
-   * Persist start timestamp.
-   */
-  useEffect(() => {
-    localStorage.setItem('workoutStart', startTime)
-  }, [startTime])
-
-  /**
-   * Persist accumulated pause offset.
-   */
-  useEffect(() => {
-    localStorage.setItem('workoutOffset', offset)
-  }, [offset])
 
   /**
    * Main timer loop (runs only when status is "running").
@@ -113,6 +98,14 @@ export function useTimer() {
     return () => clearInterval(inactivityRef.current)
   }, [status, lastActivity])
 
+
+  /**
+   * Track activity
+   */
+  const registerActivity = () => {
+    setLastActivity(Date.now())
+  }
+
   /**
    * Toggles between running and paused states.
    * Also handles restarting from idle/stopped state.
@@ -145,14 +138,6 @@ export function useTimer() {
   }
 
   /**
-   * Registers user activity (e.g. completing a set),
-   * used for inactivity detection.
-   */
-  const registerActivity = () => {
-    setLastActivity(Date.now())
-  }
-
-  /**
    * Resets the timer completely and clears persisted state.
    */
   const reset = () => {
@@ -165,8 +150,6 @@ export function useTimer() {
     setElapsed(0)
     setLastActivity(now)
 
-    localStorage.removeItem('workoutStart')
-    localStorage.removeItem('workoutOffset')
   }
 
   /**

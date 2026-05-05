@@ -246,6 +246,14 @@ button {
   width: 100%;
 }
 
+.btn-small {
+  cursor: pointer;
+  border-radius: 10px;
+  font-size: 12px;
+  padding: 6px;
+  margin: 0;
+}
+
 .back-btn {
   display: block;
   background: transparent;
@@ -409,6 +417,10 @@ input:-webkit-autofill {
   -webkit-text-fill-color: var(--text);
 }
 
+input {
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
 /* focus */
 .input-base:focus {
   outline: none;
@@ -424,6 +436,26 @@ input:-webkit-autofill {
   border: 1px solid var(--border);
   background: var(--card-2);
   color: var(--text);
+}
+
+.input-clean {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%);
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: none;
+  background: transparent;
+  color: var(--text);
+}
+
+.input-clean:focus {
+  outline: none;
+  border: none;
+  font-size: 12px;
+  padding: 0;
 }
 
 .input-base .input-exercise-notes {
@@ -588,6 +620,16 @@ input[type="checkbox"]:hover {
   gap: 10px;
 }
 
+.exercise-header-main .controls {
+  margin-left: auto;
+}
+
+html body div#root div.app div.card-base.card-workout div.workout-exercise div.exercise-header-main button.btn-secondary.btn-small svg.lucide.lucide-trash2.lucide-trash-2 {
+  height: 17px;
+  width: 17px;
+  color: #ad5356;
+}
+
 .exercise-notes {
   display: block;
   font-size: 12px;
@@ -748,6 +790,7 @@ input[type="checkbox"]:hover {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  align-items: center;
 }
 
 .session-exercise-row {
@@ -1161,22 +1204,45 @@ svg.lucide.lucide-eye.details-icon {
 }
 
 /* ============================= */
-/* ========== FLOATING ==========*/
 /* ===========REST TIMER ======= */
 /* ============================= */
 
+/* ========== PER EXERCISE ==========*/
 .rest-label {
-  display: flex;
-  gap: 4px;
-  margin: 8px 0;
-  align-items: center;
+  position: relative;
+  padding: 6px 8px;
+  border-radius: 10px;
+  background: var(--card-2);
+  border: 1px solid var(--border);
   font-size: 12px;
+  width: 80px;
+  align-items: center;
   cursor: pointer;
 }
 
 .rest-label .icon-small {
-  height: 18px;
+  width: 12px;
+  height: 12px;
+  margin: 0 12px 0 0;
+  color: var(--primary);
 }
+
+.rest-badge {
+  text-align: center;
+}
+
+.rest-input {
+  width: 50px;
+  padding: 4px 6px;
+  border-radius: 10px;
+  border: 1px solid var(--primary);
+  background: var(--card-2);
+  color: var(--text);
+  font-size: 11px;
+  text-align: center;
+}
+
+/* ========== FLOATING ==========*/
 
 .rest-timer-floating {
   position: fixed;

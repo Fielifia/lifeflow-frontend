@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react'
 /**
  * Hook for rest timer between sets.
  * @returns {{
- *  restTime: number,
  *  setRestTime: (value: number) => void,
  *  restRemaining: number,
  *  isResting: boolean,
@@ -14,7 +13,6 @@ import { useState, useEffect } from 'react'
  * }} Rest timer state and controls
  */
 export function useRestTimer() {
-  const [restTime, setRestTime] = useState(120)
   const [restRemaining, setRestRemaining] = useState(0)
   const [isResting, setIsResting] = useState(false)
 
@@ -43,8 +41,8 @@ export function useRestTimer() {
    * Start rest timer
    * @param {number} [time] - Optional rest duration override
    */
-  const startRest = (time) => {
-    const duration = time ?? restTime
+  const startRest = (duration) => {
+    if (!duration) return
 
     setIsResting(false)
     setRestRemaining(0)
@@ -80,8 +78,6 @@ export function useRestTimer() {
   }
 
   return {
-    restTime,
-    setRestTime,
     restRemaining,
     isResting,
     startRest,

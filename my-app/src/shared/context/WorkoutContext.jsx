@@ -13,13 +13,15 @@ export function WorkoutProvider({ children }) {
   return (
     <WorkoutContext.Provider
       value={{
-        ...timer,
+        status: timer.status,
+        elapsed: timer.elapsed,
+        startTime: timer.startTime,
+        adjustStartTime: timer.adjustStartTime,
+        handleStartPause: timer.handleStartPause,
+        resetTimer: timer.reset,
 
-        restTime: rest.restTime,
-        setRestTime: rest.setRestTime,
         restRemaining: rest.restRemaining,
         isResting: rest.isResting,
-
         startRest: rest.startRest,
         adjustRest: rest.adjust,
         skipRest: rest.skip,
@@ -27,6 +29,7 @@ export function WorkoutProvider({ children }) {
 
         activeWorkout,
         setActiveWorkout,
+        registerActivity: timer.registerActivity,
       }}
     >
       {children}
