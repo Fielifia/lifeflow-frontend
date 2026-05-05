@@ -89,9 +89,8 @@ export function useTimer() {
     inactivityRef.current = setInterval(() => {
       const inactiveFor = Date.now() - lastActivity
 
-      if (inactiveFor > INACTIVITY_LIMIT) {
+      if (status === 'running' && inactiveFor > INACTIVITY_LIMIT) {
         setStatus('paused')
-        alert('No activity detected. Still working out?')
       }
     }, 60000)
 

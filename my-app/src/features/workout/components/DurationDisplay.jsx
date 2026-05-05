@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { ClipboardClock } from 'lucide-react'
 
 /**
  * Workout duration display
@@ -55,7 +56,7 @@ export default function DurationDisplay({
 
       <div className="muted small">
         Started at {start}{' '}
-        <button onClick={() => setEditing((v) => !v)}>Edit</button>
+        <button className="btn-clean muted small" onClick={() => setEditing((v) => !v)}><ClipboardClock className="icon-small"/></button>
       </div>
 
       {editing && (

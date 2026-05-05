@@ -264,7 +264,6 @@ button {
 .btn-clean {
   background: none;
   border: none;
-  font-size: 18px;
   color: var(--text);
   justify-content: center;
   cursor: pointer;
@@ -607,9 +606,13 @@ input[type="checkbox"]:hover {
   flex-direction: column;
 }
 
+.workout-header h2 {
+  cursor: pointer;
+}
+
 .workout-header .icon-small {
-  height: 12px;
-  width: 12px;
+  height: 14px;
+  width: 14px;
   margin-left: 4px;
   cursor: pointer;
 }
