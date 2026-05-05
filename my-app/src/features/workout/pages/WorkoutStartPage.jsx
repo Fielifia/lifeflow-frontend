@@ -61,7 +61,7 @@ export default function WorkoutStart() {
             onClick={() => navigate('/templates/create')}
           >
             <span className="hero-icon">+</span>
-            <span>Create New Workout</span>
+            <span>New Workout Template</span>
           </button>
         </div>
 

@@ -1,12 +1,10 @@
-import { useEffect, useState } from 'react'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import API from '../../../shared/api/api'
+import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 import { mapWorkoutToTemplate } from '../../template/utils/mapWorkoutToTemplate'
 import { cleanWorkoutForSave } from '../utils/cleanWorkoutForSave'
 import { detectPersonalBest } from '../utils/detectPersonalBest'
 import { workoutMutation } from '../utils/workoutMutations'
-import { useRestTimer } from './useRestTimer'
-import { useTimer } from './useTimer'
 import { usePreviousExercise } from './usePreviousExercise'
 
 /**
@@ -23,7 +21,6 @@ import { usePreviousExercise } from './usePreviousExercise'
  *  status: string,
  *  elapsed: number,
  *  restTime: number,
- *  setRestTime: (value: number) => void,
  *  restRemaining: number,
  *  isResting: boolean,
  *  skipRest: () => void,
@@ -49,6 +46,7 @@ export function useWorkoutLogic(navigate, location, workoutId) {
   const [error, setError] = useState('')
   const [isEditingName, setIsEditingName] = useState(false)
 
+  const { setActiveWorkout } = useWorkoutContext()
   const [pbs, setPbs] = useState({})
 
   const hasAddedRef = useRef(false)
@@ -65,18 +63,14 @@ export function useWorkoutLogic(navigate, location, workoutId) {
     adjustStartTime,
     handleStartPause,
     reset: resetTimer,
-  } = useTimer()
-
-  const {
     restTime,
-    setRestTime,
     restRemaining,
     isResting,
     adjust,
     skip,
     reset: resetRest,
     startRest,
-  } = useRestTimer()
+  } = useWorkoutContext()
 
   const { getPreviousSets } = usePreviousExercise()
 
@@ -170,6 +164,31 @@ export function useWorkoutLogic(navigate, location, workoutId) {
     navigate(location.pathname, { replace: true, state: null })
   }, [location.state, navigate, location.pathname])
 
+  const currentExercise =
+    workout.exercises.find((ex) => ex.sets?.some((s) => !s.completed))?.name ||
+    'No exercise'
+
+  useEffect(() => {
+    if (status === 'running' || status === 'paused') {
+      setActiveWorkout({
+        name: workout.name,
+        status,
+        elapsed,
+        startTime,
+        currentExercise,
+      })
+    } else {
+      setActiveWorkout(null)
+    }
+  }, [
+    status,
+    elapsed,
+    startTime,
+    workout.name,
+    currentExercise,
+    setActiveWorkout,
+  ])
+
   const handleAddExercise = async (exercise) => {
     let sets = DEFAULT_SETS.map((s) => ({ ...s }))
 
@@ -248,7 +267,6 @@ export function useWorkoutLogic(navigate, location, workoutId) {
   const updateWorkoutNotes = (notes) =>
     setWorkout((prev) => ({ ...prev, notes }))
 
-
   const openLibrary = () => {
     navigate(`/workouts/${workoutId}/exercises`, {
       state: {
@@ -290,6 +308,7 @@ export function useWorkoutLogic(navigate, location, workoutId) {
       resetTimer()
       resetRest()
       setIsEditingName(false)
+      setActiveWorkout(null)
 
       localStorage.removeItem('draftWorkout')
     } catch (err) {
@@ -313,29 +332,30 @@ export function useWorkoutLogic(navigate, location, workoutId) {
     workout,
     setWorkout,
 
+    // Timer
+    status,
+    elapsed,
+    startTime,
+    adjustStartTime,
+    handleStartPause,
+
+    // Rest
+    restTime,
+    restRemaining,
+    isResting,
+    adjustRest: adjust,
+    skipRest: skip,
+
     saving,
     success,
     error,
 
-    status,
-    elapsed,
-
-    restTime,
-    setRestTime,
-    restRemaining,
-    isResting,
-    skipRest: skip,
     updateExerciseRest,
     handleAddExercise,
     pbs,
 
     isEditingName,
     setIsEditingName,
-
-    startTime,
-    adjustStartTime,
-
-    handleStartPause,
     adjustRest: adjust,
 
     openLibrary,

@@ -1,3 +1,4 @@
+import { useWorkoutContext } from '../../../../shared/context/WorkoutContext'
 import { ChevronUp } from 'lucide-react'
 
 /**
@@ -9,12 +10,11 @@ import { ChevronUp } from 'lucide-react'
  * @param {() => void} props.onExpand
  */
 export default function WorkoutSessionBar({
-  elapsed,
-  status,
   workoutName,
   currentExercise,
   onExpand,
 }) {
+  const { elapsed, status } = useWorkoutContext()
   const minutes = Math.floor(elapsed / 60)
   const seconds = elapsed % 60
 

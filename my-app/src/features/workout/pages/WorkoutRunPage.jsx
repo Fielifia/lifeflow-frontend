@@ -7,7 +7,7 @@ import ExerciseItem from '../components/ExerciseItem'
 import RestTimer from '../components/RestTimer'
 import WorkoutControls from '../components/WorkoutControls'
 import WorkoutHeader from '../components/WorkoutHeader'
-import WorkoutSessionBar from '../components/WorkoutSessionBar'
+import WorkoutSessionBar from '../components/session/WorkoutSessionBar'
 
 /**
  * Workout page for creating and tracking a workout session.
