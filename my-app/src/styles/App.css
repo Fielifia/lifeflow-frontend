@@ -47,7 +47,8 @@ h3 {
 }
 
 h4 {
-  font-size: 14px;;
+  font-size: 14px;
+  ;
 }
 
 .close {
@@ -178,7 +179,8 @@ a:active {
   border: 1px solid var(--border);
 }
 
-.card-base.card-auth, .card-base.card-auth form {
+.card-base.card-auth,
+.card-base.card-auth form {
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -474,7 +476,8 @@ input[type="checkbox"]:hover {
 /* ===== NUMBER INPUT FIX ====== */
 /* ============================= */
 
-.number-input, .reps-grid {
+.number-input,
+.reps-grid {
   display: grid;
   grid-template-columns: 24px 1fr 24px;
   height: 100%;
@@ -676,15 +679,16 @@ input[type="checkbox"]:hover {
 .set-number {
   text-align: center;
 }
+
 .set-number.pb .icon-small {
   color: var(--text);
   width: 18px;
 }
 
 /* ============================= */
-/* ========== WORKOUT ========== */
-/* ======== SESSION BAR ======== */
+/* ===== WORKOUT SESSION BAR === */
 /* ============================= */
+
 .workout-session-bar {
   position: fixed;
   bottom: 70px;
@@ -697,22 +701,27 @@ input[type="checkbox"]:hover {
   grid-template-columns: auto 1fr auto;
   align-items: center;
 
-  padding: 10px 14px;
-  gap: 12px;
+  padding: 12px 24px;
+  gap: 24px;
 
-  background: #17242a2f;
-  backdrop-filter: blur(8px);
+  background: rgba(23, 36, 42, 0.75);
+  backdrop-filter: blur(6px);
 
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
   border-radius: 30px;
-  z-index: 1000;
 
+  z-index: 1000;
   cursor: pointer;
+
+  transition: all 0.2s ease;
 }
 
+/* LEFT */
 .session-left {
   display: flex;
   flex-direction: column;
+  line-height: 1.1;
+  align-items: center;
 }
 
 .session-time {
@@ -725,31 +734,153 @@ input[type="checkbox"]:hover {
   opacity: 0.6;
 }
 
+/* CENTER (default) */
 .session-center {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  gap: 12px;
   overflow: hidden;
+  transition: all 0.2s ease;
+}
+
+.session-center-left {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.session-exercise-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  align-items: center;
+}
+
+.session-exercise {
+  flex: 1;
+}
+
+.rest-controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  font-size: 12px;
 }
 
 .session-name {
   font-size: 16px;
   font-weight: 500;
-  white-space: nowrap;
+}
+
+.session-name,
+.session-exercise {
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .session-exercise {
   font-size: 11px;
   opacity: 0.6;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 
+/* RIGHT */
 .session-right {
-  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
   opacity: 0.7;
+}
+
+/* ============================= */
+/* ========= REST MODE ========= */
+/* ============================= */
+
+.workout-session-bar.rest-active {
+  background: linear-gradient(135deg,
+      var(--primary),
+      rgba(25, 104, 106, 0.85));
+
+  border: none;
+  color: white;
+
+  box-shadow: 0 4px 20px rgba(25, 104, 106, 0.4);
+  animation: subtle-pulse 2s ease-in-out infinite;
+}
+
+@keyframes subtle-pulse {
+
+  0%,
+  100% {
+    box-shadow: 0 4px 20px rgba(25, 104, 106, 0.4);
+  }
+
+  50% {
+    box-shadow: 0 6px 26px rgba(25, 104, 106, 0.6);
+  }
+}
+
+.workout-session-bar.rest-active .session-status,
+.workout-session-bar.rest-active .session-exercise {
+  opacity: 0.85;
+}
+
+/* REST CONTENT */
+.rest-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 13px;
+}
+
+.rest-time {
+  font-weight: 700;
+  min-width: 40px;
+  text-align: center;
+}
+
+/* buttons */
+.rest-controls button {
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+
+  font-size: 13px;
+  padding: 2px 4px;
+
+  transition: opacity 0.15s ease, transform 0.1s ease;
+}
+
+.rest-controls button:hover {
+  opacity: 0.7;
+}
+
+.rest-controls button:active {
+  transform: scale(0.9);
+}
+
+/* subtle hierarchy */
+.rest-controls .skip {
+  font-size: 11px;
+  opacity: 0.85;
+}
+
+/* ============================= */
+/* ===== OPTIONAL POLISH ======= */
+/* ============================= */
+
+/* hover effect */
+.workout-session-bar:hover {
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* subtle press */
+.workout-session-bar:active {
+  transform: scale(0.98);
 }
 
 
@@ -1024,14 +1155,14 @@ svg.lucide.lucide-eye.details-icon {
   margin: 0 auto 8px;
 }
 
-
 .achievement-title {
   font-size: 12px;
   margin: 0;
 }
 
 /* ============================= */
-/* ========== REST TIMER ======= */
+/* ========== FLOATING ==========*/
+/* ===========REST TIMER ======= */
 /* ============================= */
 
 .rest-label {
@@ -1068,6 +1199,10 @@ svg.lucide.lucide-eye.details-icon {
   color: white;
   font-size: 18px;
   cursor: pointer;
+}
+
+.rest-timer-floating button:hover {
+  opacity: 0.6;
 }
 
 .flash {

@@ -10,11 +10,17 @@ import { ChevronUp } from 'lucide-react'
  * @param {() => void} props.onExpand
  */
 export default function WorkoutSessionBar({
-  workoutName,
-  currentExercise,
+  isResting,
+  restRemaining,
+  adjustRest,
+  skipRest,
   onExpand,
 }) {
-  const { elapsed, status } = useWorkoutContext()
+  const { elapsed, status, activeWorkout } = useWorkoutContext()
+
+  const currentExercise = activeWorkout?.currentExercise
+  const workoutName = activeWorkout?.name
+
   const minutes = Math.floor(elapsed / 60)
   const seconds = elapsed % 60
 
@@ -23,15 +29,40 @@ export default function WorkoutSessionBar({
   ).padStart(2, '0')}`
 
   return (
-    <div className="workout-session-bar" onClick={onExpand}>
+    <div
+      className={`workout-session-bar ${isResting ? 'rest-active' : ''}`}
+      onClick={onExpand}
+    >
       <div className="session-left">
         <div className="session-time">{formatted}</div>
         <div className="session-status">{status}</div>
       </div>
 
       <div className="session-center">
-        <div className="session-name">{workoutName}</div>
-        <div className="session-exercise">{currentExercise}</div>
+        <div className="session-center-left">
+          <div className="session-name">{workoutName}</div>
+
+          <div className="session-exercise-row">
+            <div className="session-exercise">{currentExercise}</div>
+          </div>
+        </div>
+
+        {isResting && (
+          <div className="rest-controls">
+            <button onClick={(e) => { e.stopPropagation(); adjustRest(-15) }}>−</button>
+
+            <span className="rest-time">{restRemaining}s</span>
+
+            <button onClick={(e) => { e.stopPropagation(); adjustRest(15) }}>+</button>
+
+            <button
+              className="skip"
+              onClick={(e) => { e.stopPropagation(); skipRest() }}
+            >
+              Skip
+            </button>
+          </div>
+        )}
       </div>
 
       <div className="session-right">

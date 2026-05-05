@@ -171,6 +171,7 @@ export function useWorkoutLogic(navigate, location, workoutId) {
   useEffect(() => {
     if (status === 'running' || status === 'paused') {
       setActiveWorkout({
+        id: workoutId,
         name: workout.name,
         status,
         elapsed,
@@ -187,6 +188,7 @@ export function useWorkoutLogic(navigate, location, workoutId) {
     workout.name,
     currentExercise,
     setActiveWorkout,
+    workoutId,
   ])
 
   const handleAddExercise = async (exercise) => {

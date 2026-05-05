@@ -108,7 +108,7 @@ export function useTimer() {
         setStatus('paused')
         alert('No activity detected. Still working out?')
       }
-    }, 900000)
+    }, 60000)
 
     return () => clearInterval(inactivityRef.current)
   }, [status, lastActivity])

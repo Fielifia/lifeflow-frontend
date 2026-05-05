@@ -1,12 +1,22 @@
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { useWorkoutContext } from '../../../../shared/context/WorkoutContext'
 import WorkoutSessionBar from './WorkoutSessionBar'
 
 export default function WorkoutSessionBarWrapper() {
-  const { activeWorkout } = useWorkoutContext()
+  const {
+    activeWorkout,
+    isResting,
+    restRemaining,
+    adjustRest,
+    skipRest,
+  } = useWorkoutContext()
+  
+  const location = useLocation()
   const navigate = useNavigate()
 
-  if (!activeWorkout) return null
+  const isWorkoutPage = location.pathname.includes('/run')
+  
+  if (!activeWorkout || isWorkoutPage) return null
 
   return (
     <WorkoutSessionBar
@@ -14,6 +24,10 @@ export default function WorkoutSessionBarWrapper() {
       status={activeWorkout.status}
       workoutName={activeWorkout.name}
       currentExercise={activeWorkout.currentExercise}
+      isResting={isResting}
+      restRemaining={restRemaining}
+      adjustRest={adjustRest}
+      skipRest={skipRest}
       onExpand={() => navigate('/workouts/active/run')}
     />
   )
