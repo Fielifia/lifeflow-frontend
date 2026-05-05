@@ -5,6 +5,8 @@ import WorkoutSessionBar from './WorkoutSessionBar'
 export default function WorkoutSessionBarWrapper() {
   const {
     activeWorkout,
+    elapsed,
+    status,
     isResting,
     restRemaining,
     adjustRest,
@@ -20,8 +22,8 @@ export default function WorkoutSessionBarWrapper() {
 
   return (
     <WorkoutSessionBar
-      elapsed={activeWorkout.elapsed}
-      status={activeWorkout.status}
+      elapsed={elapsed}
+      status={status}
       workoutName={activeWorkout.name}
       currentExercise={activeWorkout.currentExercise}
       isResting={isResting}

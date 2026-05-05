@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useWorkoutLogic } from '../hooks/useWorkoutLogic'
+import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 
 import BackButton from '../../../shared/ui/BackButton'
 import ExerciseItem from '../components/ExerciseItem'
@@ -33,7 +34,6 @@ export default function WorkoutRunPage() {
 
     restRemaining,
     isResting,
-    skipRest,
 
     isEditingName,
     setIsEditingName,
@@ -42,7 +42,6 @@ export default function WorkoutRunPage() {
     adjustStartTime,
 
     handleStartPause,
-    adjustRest,
 
     openLibrary,
     addSet,
@@ -56,6 +55,12 @@ export default function WorkoutRunPage() {
     saveWorkout,
     saveAsTemplate,
   } = useWorkoutLogic(navigate, location, workoutId)
+
+  const {
+    adjustRest,
+    skipRest,
+  } = useWorkoutContext()
+
 
   return (
     <div className={`card-base card-workout ${flash ? 'flash' : ''}`}>
@@ -89,7 +94,9 @@ export default function WorkoutRunPage() {
       {success && <p className="muted center">Workout saved ✔</p>}
       {error && <p className="error center">{error}</p>}
 
-      {/* REST TIMER */}
+
+      {/* REST TIMER */
+      }
       <RestTimer
         isResting={isResting}
         restRemaining={restRemaining}

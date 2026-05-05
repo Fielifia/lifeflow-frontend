@@ -1,6 +1,6 @@
 import { useRef } from 'react'
 import { useState } from 'react'
-import { Timer, Weight, Trophy } from 'lucide-react'
+import { Clock, Weight, Trophy } from 'lucide-react'
 
 /**
  * Exercise item in workout.
@@ -270,7 +270,7 @@ export default function ExerciseItem({
           }
         }}
       >
-        <Timer className="icon-small muted" /> Rest Timer: {restTime ?? 60}s
+        <Clock className="icon-small muted" /> Rest Timer: {restTime ?? 60}s
       </div>
     </div>
   )

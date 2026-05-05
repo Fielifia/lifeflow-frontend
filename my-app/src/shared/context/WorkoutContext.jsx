@@ -14,7 +14,16 @@ export function WorkoutProvider({ children }) {
     <WorkoutContext.Provider
       value={{
         ...timer,
-        ...rest,
+
+        restTime: rest.restTime,
+        setRestTime: rest.setRestTime,
+        restRemaining: rest.restRemaining,
+        isResting: rest.isResting,
+
+        startRest: rest.startRest,
+        adjustRest: rest.adjust,
+        skipRest: rest.skip,
+        resetRest: rest.reset,
 
         activeWorkout,
         setActiveWorkout,

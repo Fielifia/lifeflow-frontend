@@ -57,7 +57,11 @@ export default function WorkoutSessionBar({
 
             <button
               className="skip"
-              onClick={(e) => { e.stopPropagation(); skipRest() }}
+              onClick={(e) => {
+                e.stopPropagation()
+                skipRest()
+                requestAnimationFrame(() => onExpand())
+              }}
             >
               Skip
             </button>

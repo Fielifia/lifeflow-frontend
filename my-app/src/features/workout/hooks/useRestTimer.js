@@ -21,7 +21,7 @@ export function useRestTimer() {
   // countdown
   useEffect(() => {
     let interval
-
+  
     if (isResting) {
       interval = setInterval(() => {
         setRestRemaining((prev) => {
@@ -33,7 +33,7 @@ export function useRestTimer() {
         })
       }, 1000)
     }
-
+  
     return () => {
       if (interval) clearInterval(interval)
     }
