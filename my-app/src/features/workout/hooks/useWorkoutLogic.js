@@ -49,8 +49,6 @@ export function useWorkoutLogic(navigate, location, workoutId) {
   const [error, setError] = useState('')
   const [isEditingName, setIsEditingName] = useState(false)
 
-  const { status, elapsed, handleStartPause, reset: resetTimer } = useTimer()
-
   const [pbs, setPbs] = useState({})
 
   const hasAddedRef = useRef(false)
@@ -59,6 +57,15 @@ export function useWorkoutLogic(navigate, location, workoutId) {
     { reps: 8, weight: 0, completed: false },
     { reps: 8, weight: 0, completed: false },
   ]
+
+  const {
+    status,
+    elapsed,
+    startTime,
+    adjustStartTime,
+    handleStartPause,
+    reset: resetTimer,
+  } = useTimer()
 
   const {
     restTime,
@@ -266,12 +273,14 @@ export function useWorkoutLogic(navigate, location, workoutId) {
         return
       }
 
-      const saved = await API.post('/workouts', {
+      const payload = {
         ...workout,
         name: workout.name?.trim() || 'Workout',
-        exercises: cleaned,
         duration: elapsed,
-      })
+        exercises: cleaned,
+      }
+
+      const saved = await API.post('/workouts', payload)
 
       setSuccess(true)
 
@@ -322,6 +331,9 @@ export function useWorkoutLogic(navigate, location, workoutId) {
 
     isEditingName,
     setIsEditingName,
+
+    startTime,
+    adjustStartTime,
 
     handleStartPause,
     adjustRest: adjust,

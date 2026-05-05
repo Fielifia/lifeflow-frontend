@@ -15,7 +15,6 @@ const INACTIVITY_LIMIT = 10 * 60 * 1000 // ms
  * - Max duration cap (3 hours)
  * - Inactivity detection (auto-pause)
  * - Persistence via localStorage (startTime + offset)
- *
  * @returns {{
  *   status: 'idle' | 'running' | 'paused' | 'stopped',
  *   elapsed: number,
@@ -109,7 +108,7 @@ export function useTimer() {
         setStatus('paused')
         alert('No activity detected. Still working out?')
       }
-    }, 60000)
+    }, 900000)
 
     return () => clearInterval(inactivityRef.current)
   }, [status, lastActivity])
@@ -180,9 +179,26 @@ export function useTimer() {
     clearInterval(inactivityRef.current)
   }
 
+  /**
+   * Adjust the timer's start time.
+   * @param newStartTimestamp - New start time
+   */
+  const adjustStartTime = (newStartTimestamp) => {
+    const now = Date.now()
+
+    const newElapsed = Math.floor((now - newStartTimestamp - offset) / 1000)
+    const clamped = Math.max(0, Math.min(newElapsed, MAX_DURATION))
+
+    const correctedStart = now - clamped * 1000 - offset
+
+    setStartTime(correctedStart)
+  }
+
   return {
     status,
     elapsed,
+    startTime,
+    adjustStartTime,
     handleStartPause,
     reset,
     stop,

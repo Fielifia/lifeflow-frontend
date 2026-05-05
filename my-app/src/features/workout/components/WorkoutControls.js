@@ -28,7 +28,7 @@ export default function WorkoutControls({
       <button
         className="btn btn-secondary"
         onClick={handleStartPause}
-        disabled={!hasExercises || saving}
+        disabled={saving}
       >
         {status === 'running'
           ? '⏸ Pause'
@@ -41,6 +41,7 @@ export default function WorkoutControls({
         className="btn btn-primary"
         loading={loading}
         saving={saving}
+        disabled={!hasExercises}
         onClick={isStarted ? saveWorkout : onSaveTemplate}
       >
         {isStarted ? 'Finish & Save' : 'Save as Template'}

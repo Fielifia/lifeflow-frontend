@@ -1,4 +1,5 @@
 import { Pencil } from 'lucide-react'
+import DurationDisplay from './DurationDisplay'
 
 /**
  * Header for workout page.
@@ -8,6 +9,9 @@ import { Pencil } from 'lucide-react'
  * @param {(value: boolean) => void} props.setIsEditing - Toggle edit mode
  * @param {(value: string) => void} props.onChangeName - Update name
  * @param {number} props.elapsed - Duration in seconds
+ * @param {string} props.status - Workout status
+ * @param props.startTime - Workout start time
+ * @param props.adjustStartTime - Adjust start time
  * @returns {import('react').ReactElement} Header UI
  */
 export default function WorkoutHeader({
@@ -16,12 +20,10 @@ export default function WorkoutHeader({
   setIsEditing,
   onChangeName,
   elapsed,
+  status,
+  startTime,
+  adjustStartTime,
 }) {
-  const formatTime = (elapsed) => {
-    const m = Math.floor(elapsed/ 60)
-    const sec = elapsed % 60
-    return `${m}:${sec.toString().padStart(2, '0')}`
-  }
 
   return (
     <div className="workout-header">
@@ -48,7 +50,12 @@ export default function WorkoutHeader({
         </h2>
       )}
 
-      <span>Duration: {formatTime(elapsed)}</span>
+      <DurationDisplay
+        elapsed={elapsed}
+        status={status}
+        startTime={startTime}
+        adjustStartTime={adjustStartTime}
+      />
     </div>
   )
 }

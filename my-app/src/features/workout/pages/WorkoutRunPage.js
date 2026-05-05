@@ -38,6 +38,9 @@ export default function WorkoutRunPage() {
     isEditingName,
     setIsEditingName,
 
+    startTime,
+    adjustStartTime,
+
     handleStartPause,
     adjustRest,
 
@@ -51,7 +54,7 @@ export default function WorkoutRunPage() {
     updateWorkoutNotes,
 
     saveWorkout,
-    saveAsTemplate
+    saveAsTemplate,
   } = useWorkoutLogic(navigate, location, workoutId)
 
   return (
@@ -66,6 +69,9 @@ export default function WorkoutRunPage() {
           setWorkout((prev) => ({ ...prev, name: value }))
         }
         elapsed={elapsed}
+        status={status}
+        startTime={startTime}
+        adjustStartTime={adjustStartTime}
       />
 
       {/* TOP CONTROLS */}
