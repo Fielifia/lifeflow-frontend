@@ -21,14 +21,10 @@ import { usePreviousExercise } from './usePreviousExercise'
  *  status: string,
  *  elapsed: number,
  *  restTime: number,
- *  restRemaining: number,
- *  isResting: boolean,
- *  skipRest: () => void,
  *  updateExerciseRest: (index: number, value: number) => void,
  *  isEditingName: boolean,
  *  setIsEditingName: (value: boolean) => void,
  *  handleStartPause: () => void,
- *  adjustRest: (amount: number) => void,
  *  openLibrary: () => void,
  *  addSet: (index: number) => void,
  *  updateSet: (exIndex: number, setIndex: number, field: string, value: number | '') => void,
@@ -64,12 +60,8 @@ export function useWorkoutLogic(navigate, location, workoutId) {
     handleStartPause,
     reset: resetTimer,
     restTime,
-    restRemaining,
-    isResting,
-    adjust,
-    skip,
-    reset: resetRest,
     startRest,
+    reset: resetRest,
   } = useWorkoutContext()
 
   const { getPreviousSets } = usePreviousExercise()
@@ -343,10 +335,6 @@ export function useWorkoutLogic(navigate, location, workoutId) {
 
     // Rest
     restTime,
-    restRemaining,
-    isResting,
-    adjustRest: adjust,
-    skipRest: skip,
 
     saving,
     success,

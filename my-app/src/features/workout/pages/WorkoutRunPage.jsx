@@ -32,9 +32,6 @@ export default function WorkoutRunPage() {
     status,
     elapsed,
 
-    restRemaining,
-    isResting,
-
     isEditingName,
     setIsEditingName,
 
@@ -57,10 +54,11 @@ export default function WorkoutRunPage() {
   } = useWorkoutLogic(navigate, location, workoutId)
 
   const {
+    restRemaining,
+    isResting,
     adjustRest,
     skipRest,
   } = useWorkoutContext()
-
 
   return (
     <div className={`card-base card-workout ${flash ? 'flash' : ''}`}>
@@ -73,7 +71,6 @@ export default function WorkoutRunPage() {
         onChangeName={(value) =>
           setWorkout((prev) => ({ ...prev, name: value }))
         }
-        numberOfExercises={workout.exercises.length}
         elapsed={elapsed}
         status={status}
         startTime={startTime}
