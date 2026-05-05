@@ -7,6 +7,7 @@ import ExerciseItem from '../components/ExerciseItem'
 import RestTimer from '../components/RestTimer'
 import WorkoutControls from '../components/WorkoutControls'
 import WorkoutHeader from '../components/WorkoutHeader'
+import WorkoutSessionBar from '../components/WorkoutSessionBar'
 
 /**
  * Workout page for creating and tracking a workout session.
@@ -68,6 +69,7 @@ export default function WorkoutRunPage() {
         onChangeName={(value) =>
           setWorkout((prev) => ({ ...prev, name: value }))
         }
+        numberOfExercises={workout.exercises.length}
         elapsed={elapsed}
         status={status}
         startTime={startTime}
@@ -76,7 +78,9 @@ export default function WorkoutRunPage() {
 
       {/* TOP CONTROLS */}
       <WorkoutControls
+        name={workout.name}
         status={status}
+        elapsed={elapsed}
         handleStartPause={handleStartPause}
         saveWorkout={saveWorkout}
         onSaveTemplate={saveAsTemplate}
@@ -127,17 +131,14 @@ export default function WorkoutRunPage() {
         onChange={(e) => updateWorkoutNotes(e.target.value)}
       />
 
-      {/* BOTTOM CONTROLS */}
-      {workout.exercises.length > 0 && (
-        <WorkoutControls
-          status={status}
-          handleStartPause={handleStartPause}
-          saveWorkout={saveWorkout}
-          onSaveTemplate={saveAsTemplate}
-          saving={saving}
-          hasExercises={workout.exercises.length > 0}
-        />
-      )}
+      {/* Workout Session Bar */}
+      <WorkoutSessionBar
+        elapsed={elapsed}
+        status={status}
+        workoutName={workout.name}
+        currentExercise={workout.exercises[0]?.name || 'No exercise'}
+        onExpand={() => console.log('expand')}
+      />
 
       {/* FEEDBACK */}
       {success && <p className="muted center">Workout saved ✔</p>}

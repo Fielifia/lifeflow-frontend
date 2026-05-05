@@ -5,6 +5,7 @@ import DurationDisplay from './DurationDisplay'
  * Header for workout page.
  * @param {object} props - Component props
  * @param {string} props.name - Workout name
+ * @param props.numberOfExercises
  * @param {boolean} props.isEditing - Edit mode state
  * @param {(value: boolean) => void} props.setIsEditing - Toggle edit mode
  * @param {(value: string) => void} props.onChangeName - Update name
@@ -16,6 +17,7 @@ import DurationDisplay from './DurationDisplay'
  */
 export default function WorkoutHeader({
   name,
+  numberOfExercises,
   isEditing,
   setIsEditing,
   onChangeName,
@@ -24,6 +26,7 @@ export default function WorkoutHeader({
   startTime,
   adjustStartTime,
 }) {
+  console.log(numberOfExercises)
 
   return (
     <div className="workout-header">
@@ -34,7 +37,7 @@ export default function WorkoutHeader({
           onChange={(e) => onChangeName(e.target.value)}
           autoFocus
           onBlur={() => {
-            onChangeName(name.trim() || 'Workout')
+            onChangeName(name.trim() || 'Workout –')
             setIsEditing(false)
           }}
           onKeyDown={(e) => {
