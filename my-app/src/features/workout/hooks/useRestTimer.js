@@ -39,7 +39,7 @@ export function useRestTimer() {
 
   /**
    * Start rest timer
-   * @param {number} [time] - Optional rest duration override
+   * @param {number} duration - Workout duration
    */
   const startRest = (duration) => {
     if (!duration) return

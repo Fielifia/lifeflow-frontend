@@ -37,7 +37,7 @@ build:
   dependencies:
     - install
   script:
-    - npm run build
+    - CI=false npm run build
 
 deploy:
   stage: build
