@@ -356,7 +356,6 @@ export function useWorkoutLogic(navigate, location, workoutId) {
 
     isEditingName,
     setIsEditingName,
-    adjustRest: adjust,
 
     openLibrary,
     addSet,
