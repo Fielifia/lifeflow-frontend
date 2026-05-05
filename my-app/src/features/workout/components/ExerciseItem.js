@@ -120,7 +120,7 @@ export default function ExerciseItem({
           src={ex.image || ex.images?.[0] || '/placeholder.png'}
           alt=""
           className="exercise-img-small"
-          onClick={() => navigate(`/exercise/${ex.exerciseId}`)}
+          onClick={() => navigate(`/exercises/${ex.exerciseId}`)}
         />
 
         <h2>{ex.name}</h2>

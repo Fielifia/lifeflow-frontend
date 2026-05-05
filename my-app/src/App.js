@@ -8,9 +8,11 @@ import ExerciseDetail from './features/exercise/components/ExerciseDetail'
 import Exercises from './features/exercise/pages/ExerciseLibraryPage'
 import WorkoutStartPage from './features/workout/pages/WorkoutStartPage'
 import WorkoutRunPage from './features/workout/pages/WorkoutRunPage'
+import ExerciseLibraryPage from './features/exercise/pages/ExerciseLibraryPage'
 import TemplateDetailPage from './features/template/pages/TemplateDetailPage'
-import TemplateListPage from './features/template/pages/TemplateListPage'
 import TemplateEditPage from './features/template/pages/TemplateEditPage'
+import WorkoutHistoryPage from './features/history/pages/WorkoutHistoryPage'
+import WorkoutDetailPage from './features/history/pages/WorkoutDetailPage'
 import Header from './shared/ui/Header'
 import Navbar from './shared/ui/Navbar'
 import DataState from './shared/ui/DataState'
@@ -55,26 +57,21 @@ function App() {
         <Routes>
           <Route path="/" element={<Dashboard setUser={setUser} />} />
           <Route path="/exercises" element={<Exercises />} />
-          <Route path="/exercise/:id" element={<ExerciseDetail />} />
+          <Route path="/exercises/:id" element={<ExerciseDetail />} />
 
-          <Route path="/workout" element={<WorkoutStartPage />} />
-          <Route path="/workout/run" element={<WorkoutRunPage />} />
+          <Route path="/workouts" element={<WorkoutStartPage />} />
+          <Route path="/workouts/:id/run" element={<WorkoutRunPage />} />
+          <Route
+            path="/workouts/:id/exercises"
+            element={<ExerciseLibraryPage />}
+          />
 
-          <Route path="/templates/" element={<TemplateListPage />} />
           <Route path="/templates/:id" element={<TemplateDetailPage />} />
           <Route path="/templates/create" element={<TemplateEditPage />} />
 
-          <Route
-            path="/history"
-            element={
-              <DataState
-                variant="card-empty"
-                emptyText="Coming soon"
-                count={1}
-              >
-              </DataState>
-            }
-          />
+          <Route path="/history" element={<WorkoutHistoryPage />} />
+          <Route path="/workouts/:id" element={<WorkoutDetailPage />} />
+
           <Route
             path="/stats"
             element={
@@ -82,8 +79,8 @@ function App() {
                 variant="card-empty"
                 emptyText="Coming soon"
                 count={1}
-              >
-              </DataState>}
+              ></DataState>
+            }
           />
           <Route
             path="/calendar"
@@ -92,8 +89,8 @@ function App() {
                 variant="card-empty"
                 emptyText="Coming soon"
                 count={1}
-              >
-              </DataState>}
+              ></DataState>
+            }
           />
 
           {/* fallback */}

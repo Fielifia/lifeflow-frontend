@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import { getTemplates } from '../../../shared/api/templateApi'
 import TemplateList from '../../template/components/TemplateList'
 import DataState from '../../../shared/ui/DataState'
-import BackButton from '../../../shared/ui/BackButton'
 
 /**
  * Entry page for starting workouts.
@@ -36,56 +35,48 @@ export default function WorkoutStart() {
   }, [])
 
   return (
-    <div className="card-base">
-      <BackButton fallback="/home" />
-      <h2>Start Workout</h2>
+    <div className="app">
+      <div className="page-section">
+        <div className="hero-actions">
+          <button
+            className="hero-btn hero-btn-primary"
+            onClick={() =>
+              navigate(`/workouts/${Date.now()}/run`, {
+                state: {
+                  workout: {
+                    name: '',
+                    exercises: [],
+                    notes: '',
+                  },
+                },
+              })
+            }
+          >
+            <span className="hero-icon">▷</span>
+            <span>Start Empty Workout</span>
+          </button>
 
-      <button
-        className="btn btn-primary btn-full"
-        onClick={() =>
-          navigate('/workout/run', {
-            state: {
-              workout: {
-                name: '',
-                exercises: [],
-                notes: '',
-              },
-            },
-          })
-        }
-      >
-        Start new workout
-      </button>
+          <button
+            className="hero-btn hero-btn-secondary"
+            onClick={() => navigate('/templates/create')}
+          >
+            <span className="hero-icon">+</span>
+            <span>Create New Workout</span>
+          </button>
+        </div>
 
-      <button
-        className="btn btn-secondary btn-full"
-        onClick={() => navigate('/templates/create')}
-      >
-        Create template
-      </button>
-
-      <button
-        className="btn btn-secondary btn-full"
-        onClick={() => navigate('/history')}
-      >
-        Repeat previous
-      </button>
-
-      <div className="section template">
-        <DataState
-          loading={loading}
-          error={error}
-          data={templates}
-          variant="card-template"
-          emptyText="No templates found"
-          count={4}
-        >
-          <TemplateList templates={templates.slice(0, 3)} />
-        </DataState>
-
-        <p className="link center" onClick={() => navigate('/templates')}>
-          View all templates →
-        </p>
+        <div className="section template">
+          <DataState
+            loading={loading}
+            error={error}
+            data={templates}
+            variant="card-template"
+            emptyText="No templates found"
+            count={4}
+          >
+            <TemplateList templates={templates.slice(0, 3)} />
+          </DataState>
+        </div>
       </div>
     </div>
   )

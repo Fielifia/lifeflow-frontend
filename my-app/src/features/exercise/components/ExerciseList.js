@@ -28,14 +28,27 @@ export default function ExerciseList({
             key={e.id}
             exercise={e}
             selected={isSelected}
+            mode={onSelect ? 'select' : 'view'}
             onClick={() => {
               if (onSelect) {
                 onSelect(e)
               } else {
-                navigate(`/exercise/${e.id}`, {
-                  state: { from: location.pathname },
+                navigate(`/exercises/${e.id}`, {
+                  state: {
+                    from: location.pathname,
+                    mode: location.state?.mode,
+                  },
                 })
               }
+            }}
+            onView={() => {
+              navigate(`/exercises/${e.id}`, {
+                state: {
+                  from: location.pathname,
+                  mode: location.state?.mode,
+                  selectedExercises: location.state?.selectedExercises,
+                },
+              })
             }}
           />
         )

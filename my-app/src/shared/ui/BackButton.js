@@ -10,8 +10,12 @@ export default function BackButton({ fallback = '/' }) {
   const location = useLocation()
 
   const handleBack = () => {
-    if (location.state?.from) {
-      navigate(location.state.from)
+    const { from, ...restState } = location.state || {}
+
+    if (from) {
+      navigate(from, {
+        state: restState,
+      })
     } else {
       navigate(fallback)
     }

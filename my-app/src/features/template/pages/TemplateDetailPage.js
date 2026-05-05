@@ -23,10 +23,10 @@ export default function TemplateDetail() {
   }))
 
   const handleStartWorkout = () => {
-    navigate('/workout/run', {
-      state: {
-        template,
-      },
+    const workoutId = Date.now()
+
+    navigate(`/workouts/${workoutId}/run`, {
+      state: { template }
     })
   }
 
@@ -49,7 +49,7 @@ export default function TemplateDetail() {
               src={ex.image || '/placeholder.png'}
               alt=""
               className="exercise-img-small"
-              onClick={() => navigate(`/exercise/${ex.exerciseId}`)}
+              onClick={() => navigate(`/exercises/${ex.exerciseId}`)}
             />
 
             <h2>{ex.name}</h2>
