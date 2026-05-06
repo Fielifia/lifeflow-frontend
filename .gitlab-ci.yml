@@ -3,15 +3,17 @@ stages:
   - lint
   - test
   - build
+  - deploy
 
 image: node:22
 
 before_script:
-  - cd my-app
   - npm ci
 
 install:
   stage: install
+  before_script:
+    - cd my-app
   script:
     - npm ci
   artifacts:
@@ -41,6 +43,19 @@ build:
 
 deploy:
   stage: deploy
+  before_script:
+    - apt-get update -y && apt-get install -y openssh-client
+    - mkdir -p ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_ed25519
+    - chmod 600 ~/.ssh/id_ed25519
+    - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+
   script:
-    - ssh ubuntu@<server-ip> "docker compose up --build -d"
+    - ssh ubuntu@cu0039.camp.lnu.se "
+        cd ~/lifeflow &&
+        cd lifeflow-backend && git pull &&
+        cd ../lifeflow-frontend && git pull &&
+        cd ../lifeflow-deploy &&
+        docker compose up -d --build
+      "
   when: manual
