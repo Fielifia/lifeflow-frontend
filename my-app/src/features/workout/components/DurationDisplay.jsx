@@ -55,8 +55,8 @@ export default function DurationDisplay({
 
     return (
       <div className="duration">
-        <div>
-          <strong>{formatted}</strong> min
+        <div className="duration-time">
+          <strong>{formatted}</strong>
         </div>
 
         <div className="edit-duration muted small">
@@ -93,8 +93,8 @@ export default function DurationDisplay({
 
   return (
     <div className="duration">
-      <div>
-        <strong>{formatted}</strong> min
+      <div className="duration-time">
+        <strong>{formatted}</strong>
         <button
           className="btn-clean muted small"
           onClick={() => setEditing((v) => !v)}

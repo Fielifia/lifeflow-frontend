@@ -43,7 +43,7 @@ export default function TemplateCard({ template, onClick }) {
 
       {/* ACTION */}
       <button
-        className="btn btn-primary btn-full"
+        className="btn btn-standard btn-primary btn-full"
         onClick={handleStartWorkout}
       >
         ▶ Start Workout

@@ -54,7 +54,7 @@ export default function WorkoutEditPage() {
 
       {/* SAVE */}
       <button
-        className="btn btn-primary btn-full"
+        className="btn btn-standard btn-primary btn-full"
         onClick={saveWorkout}
         disabled={saving}
       >

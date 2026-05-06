@@ -69,7 +69,7 @@ export default function Login({ setUser }) {
           }}
         />
 
-        <LoadingButton className="btn btn-primary" loading={loading} onClick={handleLogin}>
+        <LoadingButton className="btn btn-standard btn-primary" loading={loading} onClick={handleLogin}>
           Login
         </LoadingButton>
       </form>

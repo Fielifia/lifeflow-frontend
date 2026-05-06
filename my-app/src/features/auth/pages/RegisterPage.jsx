@@ -109,7 +109,7 @@ export default function Register( { setUser } ) {
           }}
         />
 
-        <LoadingButton className="btn btn-primary" loading={loading} onClick={handleRegister}>
+        <LoadingButton className="btn btn-standard btn-primary" loading={loading} onClick={handleRegister}>
           Create account
         </LoadingButton>
       </form>

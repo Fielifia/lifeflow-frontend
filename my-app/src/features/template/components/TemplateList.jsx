@@ -90,7 +90,7 @@ export default function TemplateList({ limit = 5 }) {
       {/* SHOW MORE */}
       {visibleCount < filtered.length && (
         <button
-          className="btn btn-primary"
+          className="btn btn-standard btn-primary"
           onClick={() => setVisibleCount((prev) => prev + limit)}
         >
           Show more (+{Math.min(limit, filtered.length - visibleCount)})

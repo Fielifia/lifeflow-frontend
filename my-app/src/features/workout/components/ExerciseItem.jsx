@@ -184,19 +184,23 @@ export default function ExerciseItem({
       </form>
 
       {/* SET HEADER */}
-      <div className="set-header">
+      <div className={`set-header ${showCheckbox ? 'set-grid-with-checkbox' : 'set-grid-no-checkbox'}`}>
         <span>Set</span>
+
         <span>Previous</span>
+
         <span>
           <Weight className="icon-small" />
           kg
         </span>
+
         <div className="reps-grid">
           <span></span>
           <span>Reps</span>
           <span></span>
         </div>
-        <span>✔</span>
+
+        {showCheckbox && <span>✔</span>}
       </div>
 
       {/* SETS */}
@@ -209,6 +213,7 @@ export default function ExerciseItem({
           onTouchStart={(e) => startHold(j, e)}
           onTouchEnd={cancelHold}
           className={`set-row 
+            ${showCheckbox ? 'set-grid-with-checkbox' : 'set-grid-no-checkbox'}
   ${set.completed ? 'completed' : ''} 
   ${j === bestIndex ? 'best-set' : ''}
 `}
@@ -278,21 +283,19 @@ export default function ExerciseItem({
             </button>
           </div>
 
-          {showCheckbox ? (
+          {showCheckbox && (
             <input
               type="checkbox"
               className="checkbox"
               checked={set.completed}
               onChange={(e) => handleCheck(j, e.target.checked)}
             />
-          ) : (
-            <span className="set-number">{j + 1}</span>
           )}
         </div>
       ))}
 
       {/* ADD SET */}
-      <button className="btn btn-secondary btn-full" onClick={() => addSet(i)}>
+      <button className="btn btn-standard btn-secondary btn-full" onClick={() => addSet(i)}>
         Add set
       </button>
     </div>

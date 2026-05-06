@@ -22,7 +22,7 @@ export default function BackButton({ fallback = '/' }) {
   }
 
   return (
-    <button onClick={handleBack} className="btn back-btn">
+    <button onClick={handleBack} className="btn btn-standard back-btn">
       ← Back
     </button>
   )
