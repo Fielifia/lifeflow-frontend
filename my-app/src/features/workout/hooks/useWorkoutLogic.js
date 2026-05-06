@@ -205,7 +205,7 @@ export function useWorkoutLogic(navigate, location, workoutId) {
 
   const toggleSetComplete = (exIndex, setIndex, checked) => {
     const ex = workout.exercises[exIndex]
-    const rest = ex?.restTime ?? DEFAULT_REST
+    const rest = ex.restTime
 
     setWorkout((prev) => {
       const exercises = prev.exercises.map((ex, i) => {
@@ -262,8 +262,9 @@ export function useWorkoutLogic(navigate, location, workoutId) {
       const payload = {
         ...workout,
         name: workout.name?.trim() || 'Workout',
-        duration: elapsed,
         exercises: cleaned,
+        duration: elapsed,
+        notes: workout.notes,
       }
 
       const saved = await API.post('/workouts', payload)
