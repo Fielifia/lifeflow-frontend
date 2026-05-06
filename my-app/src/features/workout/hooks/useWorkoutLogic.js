@@ -198,6 +198,11 @@ export function useWorkoutLogic(navigate, location, workoutId) {
   const updateExerciseRest = (index, value) =>
     setWorkout((prev) => workoutMutation.updateExerciseRest(prev, index, value))
 
+  const updateExerciseNotes = (index, notes) =>
+    setWorkout((prev) =>
+      workoutMutation.updateExerciseNotes(prev, index, notes),
+    )
+
   const toggleSetComplete = (exIndex, setIndex, checked) => {
     const ex = workout.exercises[exIndex]
     const rest = ex?.restTime ?? DEFAULT_REST
@@ -306,6 +311,7 @@ export function useWorkoutLogic(navigate, location, workoutId) {
     success,
     error,
 
+    updateExerciseNotes,
     updateExerciseRest,
     pbs,
 

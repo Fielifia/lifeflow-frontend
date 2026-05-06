@@ -44,6 +44,7 @@ export default function WorkoutRunPage() {
     removeSet,
     toggleSetComplete,
     updateExerciseRest,
+    updateExerciseNotes,
     updateWorkoutNotes,
 
     saveWorkout,
@@ -126,6 +127,7 @@ export default function WorkoutRunPage() {
           removeExercise={removeExercise}
           removeSet={removeSet}
           toggleSetComplete={toggleSetComplete}
+          updateExerciseNotes={updateExerciseNotes}
           pb={pbs?.[String(ex.exerciseId)]}
           restTime={ex.restTime}
           onChangeRestTime={(value) => updateExerciseRest(i, value)}
