@@ -4,27 +4,36 @@ const MAX_DURATION = 180 * 60 // seconds
 const INACTIVITY_LIMIT = 10 * 60 * 1000 // ms
 
 /**
- * Hook for managing a workout timer with pause/resume, inactivity detection,
- * persistence, and max duration handling.
+ * Hook for managing a workout timer with pause/resume,
+ * inactivity detection, and duration tracking.
  *
- * The timer is based on a start timestamp and an accumulated offset
- * (for paused time), which ensures accuracy across re-renders and reloads.
+ * The timer is based on:
+ * - startTime (timestamp when workout started)
+ * - offset (accumulated paused time)
  *
  * Features:
- * - Start / pause / resume / stop
+ * - Explicit start (start)
+ * - Pause / resume (handleStartPause)
+ * - Stop without reset (stop)
+ * - Full reset (reset)
+ * - Inactivity auto-pause
+ * - Activity tracking
  * - Max duration cap (3 hours)
- * - Inactivity detection (auto-pause)
- * - Persistence via localStorage (startTime + offset)
+ *
  * @returns {{
  *   status: 'idle' | 'running' | 'paused' | 'stopped',
  *   elapsed: number,
+ *   startTime: number,
+ *   start: () => void,
  *   handleStartPause: () => void,
  *   reset: () => void,
  *   stop: () => void,
+ *   adjustStartTime: (timestamp: number) => void,
+ *   registerActivity: () => void
  * }} Timer state and control functions
  */
 export function useTimer() {
-  const [status, setStatus] = useState('running')
+  const [status, setStatus] = useState('idle')
 
   const [startTime, setStartTime] = useState(Date.now())
   const [offset, setOffset] = useState(0)
@@ -36,12 +45,12 @@ export function useTimer() {
   const intervalRef = useRef(null)
   const inactivityRef = useRef(null)
 
-  useEffect(() => {
-    const now = Date.now()
-    setStartTime(now)
-    setOffset(0)
-    setElapsed(0)
-  }, [])
+  // useEffect(() => {
+  //   const now = Date.now()
+  //   setStartTime(now)
+  //   setOffset(0)
+  //   setElapsed(0)
+  // }, [])
   
   /**
    * Recalculate elapsed time when base timing values change.
@@ -136,6 +145,17 @@ export function useTimer() {
     })
   }
 
+  const start = () => {
+    const now = Date.now()
+
+    setStartTime(now)
+    setOffset(0)
+    setPausedAt(null)
+    setElapsed(0)
+    setLastActivity(now)
+    setStatus('running')
+  }
+
   /**
    * Resets the timer completely and clears persisted state.
    */
@@ -178,6 +198,7 @@ export function useTimer() {
 
   return {
     status,
+    start,
     elapsed,
     startTime,
     adjustStartTime,

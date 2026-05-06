@@ -14,6 +14,7 @@ export function WorkoutProvider({ children }) {
     <WorkoutContext.Provider
       value={{
         status: timer.status,
+        start: timer.start,
         elapsed: timer.elapsed,
         startTime: timer.startTime,
         adjustStartTime: timer.adjustStartTime,

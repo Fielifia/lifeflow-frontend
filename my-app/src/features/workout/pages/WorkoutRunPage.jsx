@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useWorkoutLogic } from '../hooks/useWorkoutLogic'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
@@ -29,7 +29,6 @@ export default function WorkoutRunPage() {
     setWorkout,
     pbs,
 
-    status,
     elapsed,
 
     isEditingName,
@@ -37,8 +36,6 @@ export default function WorkoutRunPage() {
 
     startTime,
     adjustStartTime,
-
-    handleStartPause,
 
     openLibrary,
     addSet,
@@ -54,11 +51,20 @@ export default function WorkoutRunPage() {
   } = useWorkoutLogic(navigate, location, workoutId)
 
   const {
+    status, 
+    start,
+    handleStartPause,
     restRemaining,
     isResting,
     adjustRest,
     skipRest,
   } = useWorkoutContext()
+
+  useEffect(() => {
+    if (status === 'idle') {
+      start()
+    }
+  }, [])
 
   return (
     <div className={`card-base card-workout ${flash ? 'flash' : ''}`}>
