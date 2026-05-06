@@ -199,13 +199,12 @@ export function useWorkoutLogic(navigate, location, workoutId) {
     setWorkout((prev) => workoutMutation.updateExerciseRest(prev, index, value))
 
   const toggleSetComplete = (exIndex, setIndex, checked) => {
-    let rest = DEFAULT_REST
+    const ex = workout.exercises[exIndex]
+    const rest = ex?.restTime ?? DEFAULT_REST
 
     setWorkout((prev) => {
       const exercises = prev.exercises.map((ex, i) => {
         if (i !== exIndex) return ex
-
-        rest = ex.restTime ?? DEFAULT_REST
 
         return {
           ...ex,
@@ -217,15 +216,14 @@ export function useWorkoutLogic(navigate, location, workoutId) {
       })
 
       const updatedWorkout = { ...prev, exercises }
-
       setPbs(detectPersonalBest(updatedWorkout))
 
       return updatedWorkout
     })
 
     if (checked) {
-      registerActivity()
       startRest(rest)
+      registerActivity()
     }
   }
 
