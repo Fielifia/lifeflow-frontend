@@ -50,11 +50,12 @@ deploy:
     - echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
 
   script:
-    - ssh ubuntu@cu0039.camp.lnu.se "
-        cd ~/lifeflow &&
-        cd lifeflow-backend && git pull &&
-        cd ../lifeflow-frontend && git pull &&
-        cd ../lifeflow-deploy &&
-        docker compose up -d --build
-      "
+    ssh ubuntu@cu0039.camp.lnu.se "
+      cd ~/lifeflow &&
+      cd lifeflow-backend && git pull &&
+      cd ../lifeflow-frontend && git pull &&
+      cd ../lifeflow-deploy && git pull &&
+      docker compose down &&
+      docker compose up -d --build
+    "
   when: manual
