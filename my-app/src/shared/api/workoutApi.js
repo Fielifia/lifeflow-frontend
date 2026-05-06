@@ -19,3 +19,8 @@ export const getPreviousExercise = async (exerciseId) => {
   const res = await API.get(`/workouts/exercises/${exerciseId}/previous`)
   return res.data
 }
+
+export const updateWorkout = async (id, data) => {
+  const res = await API.put(`/workouts/${id}`, data)
+  return res.data
+}

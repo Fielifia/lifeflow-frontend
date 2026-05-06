@@ -267,6 +267,7 @@ button {
   color: var(--text);
   justify-content: center;
   cursor: pointer;
+  padding: 0;
 }
 
 .btn-dots {
@@ -606,6 +607,15 @@ input[type="checkbox"]:hover {
   flex-direction: column;
 }
 
+.duration, .edit-duration {
+  display: flex;
+  gap: 6px;
+}
+
+.duration {
+  flex-direction: column;
+}
+
 .workout-header h2 {
   cursor: pointer;
 }
@@ -613,7 +623,6 @@ input[type="checkbox"]:hover {
 .workout-header .icon-small {
   height: 14px;
   width: 14px;
-  margin-left: 4px;
   cursor: pointer;
 }
 

@@ -11,6 +11,7 @@ import {
 } from './features/exercise/pages/ExerciseLibraryPage'
 import WorkoutDetailPage from './features/history/pages/WorkoutDetailPage'
 import WorkoutHistoryPage from './features/history/pages/WorkoutHistoryPage'
+import WorkoutEditPage from './features/history/pages/WorkoutEditPage'
 import TemplateDetailPage from './features/template/pages/TemplateDetailPage'
 import TemplateEditPage from './features/template/pages/TemplateEditPage'
 import WorkoutSessionBarWrapper from './features/workout/components/session/WorkoutSessionBarWrapper'
@@ -76,6 +77,7 @@ function App() {
 
             <Route path="/history" element={<WorkoutHistoryPage />} />
             <Route path="/workouts/:id" element={<WorkoutDetailPage />} />
+            <Route path="/workouts/:id/edit" element={<WorkoutEditPage />} />
 
             <Route
               path="/stats"

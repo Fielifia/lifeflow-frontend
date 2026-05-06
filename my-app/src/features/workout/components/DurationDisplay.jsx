@@ -11,58 +11,103 @@ import { ClipboardClock } from 'lucide-react'
  * @returns {import('react').ReactElement} Duration Display UI
  */
 export default function DurationDisplay({
-  elapsed,
-  status,
+  elapsed = 0,
   startTime,
   adjustStartTime,
+  duration,
+  onChangeDuration,
+  mode = 'run',
 }) {
   const [editing, setEditing] = useState(false)
   const [time, setTime] = useState('')
 
-  const minutes = Math.floor(elapsed / 60)
-  const seconds = elapsed % 60
+  const total = mode === 'edit' ? duration : elapsed
+
+  const minutes = Math.floor(total / 60)
+  const seconds = total % 60
 
   const formatted = `${String(minutes).padStart(2, '0')}:${String(
-    seconds,
+    seconds
   ).padStart(2, '0')}`
 
-  const start = startTime
-    ? new Date(startTime).toLocaleTimeString([], {
-      hour: '2-digit',
-      minute: '2-digit',
-    })
-    : '--:--'
+  // RUN MODE
+  if (mode === 'run') {
+    const start = startTime
+      ? new Date(startTime).toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+      })
+      : '--:--'
 
+    const handleSave = () => {
+      if (!time) return
+
+      const [h, m] = time.split(':').map(Number)
+
+      const selected = new Date()
+      selected.setHours(h)
+      selected.setMinutes(m)
+      selected.setSeconds(0)
+
+      adjustStartTime(selected.getTime())
+      setEditing(false)
+    }
+
+    return (
+      <div className="duration">
+        <div>
+          <strong>{formatted}</strong> min
+        </div>
+
+        <div className="edit-duration muted small">
+          <button className="btn-clean" onClick={() => setEditing(v => !v)}>
+            <ClipboardClock className="icon-small" />
+          </button>
+          Started at {start}{' '}
+        </div>
+
+        {editing && (
+          <div>
+            <input
+              type="time"
+              value={time}
+              onChange={(e) => setTime(e.target.value)}
+            />
+            <button onClick={handleSave}>Save</button>
+          </div>
+        )}
+      </div>
+    )
+  }
+
+  // EDIT MODE
   const handleSave = () => {
     if (!time) return
 
-    const [h, m] = time.split(':').map(Number)
+    const [m, s] = time.split(':').map(Number)
+    const newDuration = m * 60 + (s || 0)
 
-    const selected = new Date()
-    selected.setHours(h)
-    selected.setMinutes(m)
-    selected.setSeconds(0)
-    selected.setMilliseconds(0)
-
-    adjustStartTime(selected.getTime())
+    onChangeDuration?.(newDuration)
     setEditing(false)
   }
 
   return (
     <div className="duration">
       <div>
-        <strong>{formatted}</strong> ({status})
-      </div>
-
-      <div className="muted small">
-        Started at {start}{' '}
-        <button className="btn-clean muted small" onClick={() => setEditing((v) => !v)}><ClipboardClock className="icon-small"/></button>
+        <strong>{formatted}</strong> min
+        <button
+          className="btn-clean muted small"
+          onClick={() => setEditing((v) => !v)}
+        >
+          <ClipboardClock className="icon-small" />
+        </button>
       </div>
 
       {editing && (
         <div>
           <input
-            type="time"
+            type="text"
+            placeholder="mm:ss"
             value={time}
             onChange={(e) => setTime(e.target.value)}
           />
