@@ -7,13 +7,12 @@ stages:
 
 image: node:22
 
-before_script:
-  - npm ci
+default:
+  before_script:
+    - cd my-app
 
 install:
   stage: install
-  before_script:
-    - cd my-app
   script:
     - npm ci
   artifacts:
