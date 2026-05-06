@@ -3,6 +3,7 @@ stages:
   - lint
   - test
   - build
+  - deploy
 
 image: node:22
 
