@@ -1,11 +1,11 @@
 import { createContext, useContext, useState } from 'react'
-import { useTimer } from '../../features/workout/hooks/useTimer'
+import { useWorkoutTimer } from '../../features/workout/hooks/useWorkoutTimer'
 import { useRestTimer } from '../../features/workout/hooks/useRestTimer'
 
 const WorkoutContext = createContext()
 
 export function WorkoutProvider({ children }) {
-  const timer = useTimer()
+  const timer = useWorkoutTimer()
   const rest = useRestTimer()
 
   const [activeWorkout, setActiveWorkout] = useState(null)

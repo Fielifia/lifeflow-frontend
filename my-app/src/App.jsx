@@ -18,6 +18,7 @@ import WorkoutSessionBarWrapper from './features/workout/components/session/Work
 import WorkoutRunPage from './features/workout/pages/WorkoutRunPage'
 import WorkoutStartPage from './features/workout/pages/WorkoutStartPage'
 import { WorkoutProvider } from './shared/context/WorkoutContext'
+import { ToastProvider } from './shared/context/ToastContext'
 import DataState from './shared/ui/DataState'
 import Header from './shared/ui/Header'
 import Navbar from './shared/ui/Navbar'
@@ -56,58 +57,60 @@ function App() {
 
   return (
     <BrowserRouter>
-      <WorkoutProvider>
-        <div className="app">
-          {/* Header */}
-          <Header setUser={setUser} />
-          <Routes>
-            <Route path="/" element={<Dashboard setUser={setUser} />} />
-            <Route path="/exercises" element={<Exercises />} />
-            <Route path="/exercises/:id" element={<ExerciseDetail />} />
+      <ToastProvider>
+        <WorkoutProvider>
+          <div className="app">
+            {/* Header */}
+            <Header setUser={setUser} />
+            <Routes>
+              <Route path="/" element={<Dashboard setUser={setUser} />} />
+              <Route path="/exercises" element={<Exercises />} />
+              <Route path="/exercises/:id" element={<ExerciseDetail />} />
 
-            <Route path="/workouts" element={<WorkoutStartPage />} />
-            <Route path="/workouts/:id/run" element={<WorkoutRunPage />} />
-            <Route
-              path="/workouts/:id/exercises"
-              element={<ExerciseLibraryPage />}
-            />
+              <Route path="/workouts" element={<WorkoutStartPage />} />
+              <Route path="/workouts/:id/run" element={<WorkoutRunPage />} />
+              <Route
+                path="/workouts/:id/exercises"
+                element={<ExerciseLibraryPage />}
+              />
 
-            <Route path="/templates/:id" element={<TemplateDetailPage />} />
-            <Route path="/templates/create" element={<TemplateEditPage />} />
+              <Route path="/templates/:id" element={<TemplateDetailPage />} />
+              <Route path="/templates/create" element={<TemplateEditPage />} />
 
-            <Route path="/history" element={<WorkoutHistoryPage />} />
-            <Route path="/workouts/:id" element={<WorkoutDetailPage />} />
-            <Route path="/workouts/:id/edit" element={<WorkoutEditPage />} />
+              <Route path="/history" element={<WorkoutHistoryPage />} />
+              <Route path="/workouts/:id" element={<WorkoutDetailPage />} />
+              <Route path="/workouts/:id/edit" element={<WorkoutEditPage />} />
 
-            <Route
-              path="/stats"
-              element={
-                <DataState
-                  variant="card-empty"
-                  emptyText="Coming soon"
-                  count={1}
-                ></DataState>
-              }
-            />
-            <Route
-              path="/calendar"
-              element={
-                <DataState
-                  variant="card-empty"
-                  emptyText="Coming soon"
-                  count={1}
-                ></DataState>
-              }
-            />
+              <Route
+                path="/stats"
+                element={
+                  <DataState
+                    variant="card-empty"
+                    emptyText="Coming soon"
+                    count={1}
+                  ></DataState>
+                }
+              />
+              <Route
+                path="/calendar"
+                element={
+                  <DataState
+                    variant="card-empty"
+                    emptyText="Coming soon"
+                    count={1}
+                  ></DataState>
+                }
+              />
 
-            {/* fallback */}
-            <Route path="*" element={<Navigate to="/" />} />
-          </Routes>
+              {/* fallback */}
+              <Route path="*" element={<Navigate to="/" />} />
+            </Routes>
 
-          <Navbar />
-          <WorkoutSessionBarWrapper />
-        </div>
-      </WorkoutProvider>
+            <Navbar />
+            <WorkoutSessionBarWrapper />
+          </div>
+        </WorkoutProvider>
+      </ToastProvider>
     </BrowserRouter>
   )
 }

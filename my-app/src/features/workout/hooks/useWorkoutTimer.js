@@ -1,7 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
+import { useToast } from '../../../shared/context/ToastContext'
 
 const MAX_DURATION = 180 * 60 // seconds
-const INACTIVITY_LIMIT = 10 * 60 * 1000 // ms
+const INACTIVITY_LIMIT = 10 * 1000 // ms
+const WARNING_TIME = 5 * 1000
 
 /**
  * Hook for managing a workout timer with pause/resume,
@@ -9,7 +11,7 @@ const INACTIVITY_LIMIT = 10 * 60 * 1000 // ms
  *
  * The timer is based on:
  * - startTime (timestamp when workout started)
- * - offset (accumulated paused time)
+ * - offset (total time spent paused, in ms)
  *
  * Features:
  * - Explicit start (start)
@@ -23,19 +25,19 @@ const INACTIVITY_LIMIT = 10 * 60 * 1000 // ms
  * @returns {{
  *   status: 'idle' | 'running' | 'paused' | 'stopped',
  *   elapsed: number,
- *   startTime: number,
+ *   startTime: number | null,
  *   start: () => void,
  *   handleStartPause: () => void,
  *   reset: () => void,
  *   stop: () => void,
- *   adjustStartTime: (timestamp: number) => void,
+ * adjustStartTime: (newStartTimestamp: number) => void,
  *   registerActivity: () => void
- * }} Timer state and control functions
+ * }}
  */
-export function useTimer() {
+export function useWorkoutTimer() {
   const [status, setStatus] = useState('idle')
 
-  const [startTime, setStartTime] = useState(Date.now())
+  const [startTime, setStartTime] = useState(null)
   const [offset, setOffset] = useState(0)
 
   const [pausedAt, setPausedAt] = useState(null)
@@ -44,20 +46,21 @@ export function useTimer() {
 
   const intervalRef = useRef(null)
   const inactivityRef = useRef(null)
+  const warnedRef = useRef(false)
+  const toast = useToast()
 
-  // useEffect(() => {
-  //   const now = Date.now()
-  //   setStartTime(now)
-  //   setOffset(0)
-  //   setElapsed(0)
-  // }, [])
-  
   /**
    * Recalculate elapsed time when base timing values change.
    */
   useEffect(() => {
-    const seconds = Math.floor((Date.now() - startTime - offset) / 1000)
-    setElapsed(Math.max(0, Math.min(seconds, MAX_DURATION)))
+    if (!startTime) return
+
+    const seconds = Math.max(
+      0,
+      Math.floor((Date.now() - startTime - offset) / 1000),
+    )
+
+    setElapsed(Math.min(seconds, MAX_DURATION))
   }, [startTime, offset])
 
   /**
@@ -67,7 +70,12 @@ export function useTimer() {
   useEffect(() => {
     if (status === 'running') {
       intervalRef.current = setInterval(() => {
-        const seconds = Math.floor((Date.now() - startTime - offset) / 1000)
+        if (!startTime) return
+
+        const seconds = Math.max(
+          0,
+          Math.floor((Date.now() - startTime - offset) / 1000),
+        )
 
         if (seconds >= MAX_DURATION) {
           setElapsed(MAX_DURATION)
@@ -82,8 +90,7 @@ export function useTimer() {
 
       return () => clearInterval(intervalRef.current)
     }
-
-    return () => { }
+    return undefined
   }, [status, startTime, offset])
 
   /**
@@ -91,21 +98,26 @@ export function useTimer() {
    * has been registered within the defined limit.
    */
   useEffect(() => {
-    if (status !== 'running') {
-      return () => { }
-    }
+    if (status !== 'running') return undefined
 
     inactivityRef.current = setInterval(() => {
       const inactiveFor = Date.now() - lastActivity
 
-      if (status === 'running' && inactiveFor > INACTIVITY_LIMIT) {
+      if (!warnedRef.current && inactiveFor > INACTIVITY_LIMIT - WARNING_TIME) {
+        toast.warning('Inactive… pausing soon')
+        warnedRef.current = true
+      }
+
+      if (inactiveFor > INACTIVITY_LIMIT) {
+        warnedRef.current = false
+        toast.show({ message: 'Paused due to inactivity' })
+        setPausedAt(Date.now())
         setStatus('paused')
       }
     }, 60000)
 
     return () => clearInterval(inactivityRef.current)
   }, [status, lastActivity])
-
 
   /**
    * Track activity
@@ -115,36 +127,65 @@ export function useTimer() {
   }
 
   /**
-   * Toggles between running and paused states.
-   * Also handles restarting from idle/stopped state.
+   * Registers user activity from global interactions
+   * (click, keydown, touchstart)
+   */
+  useEffect(() => {
+    if (status !== 'running') return undefined
+
+    const handler = () => registerActivity()
+
+    window.addEventListener('click', handler)
+    window.addEventListener('keydown', handler)
+    window.addEventListener('touchstart', handler)
+
+    return () => {
+      window.removeEventListener('click', handler)
+      window.removeEventListener('keydown', handler)
+      window.removeEventListener('touchstart', handler)
+    }
+  }, [status])
+
+  /**
+   * Detects inactivity and pauses the timer if no activity
+   * has been registered within the defined limit.
+   * Shows a warning toast shortly before pausing.
    */
   const handleStartPause = () => {
-    setStatus((prev) => {
-      if (prev === 'running') {
-        setPausedAt(Date.now())
-        return 'paused'
-      }
+    if (status === 'running') {
+      setPausedAt(Date.now())
+      setStatus('paused')
+      return
+    }
 
-      if (prev === 'paused' && pausedAt) {
-        const pauseDuration = Date.now() - pausedAt
-        setOffset((prevOffset) => prevOffset + pauseDuration)
-        setPausedAt(null)
-        return 'running'
-      }
+    if (status === 'paused') {
+      if (!pausedAt) return
 
-      if (prev === 'idle' || prev === 'stopped') {
-        const now = Date.now()
-        setStartTime(now)
-        setOffset(0)
-        setPausedAt(null)
-        setElapsed(0)
-        return 'running'
-      }
+      const now = Date.now()
+      const pauseDuration = now - pausedAt
 
-      return prev
-    })
+      setOffset((prev) => prev + pauseDuration)
+      setPausedAt(null)
+      setLastActivity(now)
+      setStatus('running')
+      return
+    }
+
+    if (status === 'idle' || status === 'stopped') {
+      const now = Date.now()
+
+      setStartTime(now)
+      setOffset(0)
+      setPausedAt(null)
+      setElapsed(0)
+      setLastActivity(now)
+      setStatus('running')
+    }
   }
 
+  /**
+   * Starts the timer from zero.
+   */
   const start = () => {
     const now = Date.now()
 
@@ -163,12 +204,11 @@ export function useTimer() {
     const now = Date.now()
 
     setStatus('idle')
-    setStartTime(now)
+    setStartTime(null)
     setOffset(0)
     setPausedAt(null)
     setElapsed(0)
     setLastActivity(now)
-
   }
 
   /**
@@ -183,17 +223,21 @@ export function useTimer() {
 
   /**
    * Adjust the timer's start time.
-   * @param newStartTimestamp - New start time
+   * @param {number} newStartTimestamp - New start time in ms timestamp
    */
   const adjustStartTime = (newStartTimestamp) => {
     const now = Date.now()
 
-    const newElapsed = Math.floor((now - newStartTimestamp - offset) / 1000)
-    const clamped = Math.max(0, Math.min(newElapsed, MAX_DURATION))
+    const raw = now - newStartTimestamp - offset
 
-    const correctedStart = now - clamped * 1000 - offset
+    const seconds = Math.floor(raw / 1000)
 
-    setStartTime(correctedStart)
+    const clamped = Math.max(0, Math.min(seconds, MAX_DURATION))
+
+    const safeStart = now - clamped * 1000 - offset
+
+    setStartTime(safeStart)
+    setElapsed(clamped)
   }
 
   return {
