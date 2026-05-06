@@ -40,7 +40,7 @@ build:
     - CI=false npm run build
 
 deploy:
-  stage: build
+  stage: deploy
   script:
-    - echo "Deploy step"
+    - ssh ubuntu@<server-ip> "docker compose up --build -d"
   when: manual
