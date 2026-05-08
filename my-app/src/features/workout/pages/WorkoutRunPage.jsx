@@ -51,6 +51,8 @@ export default function WorkoutRunPage() {
 
     saveWorkout,
     saveAsTemplate,
+    
+    discardWorkout,
   } = useWorkoutLogic(navigate, location, workoutId)
 
   const {
@@ -86,6 +88,7 @@ export default function WorkoutRunPage() {
         saveWorkout={saveWorkout}
         onSaveTemplate={saveAsTemplate}
         saving={saving}
+        discardWorkout={discardWorkout}
         hasExercises={workout.exercises.length > 0}
       />
       {success && <p className="muted center">Workout saved ✔</p>}

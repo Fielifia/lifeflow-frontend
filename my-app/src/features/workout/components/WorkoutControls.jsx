@@ -19,8 +19,9 @@ export default function WorkoutControls({
   saving,
   loading,
   hasExercises,
+  discardWorkout,
 }) {
-  
+
   const isStarted = status !== 'idle'
 
   return (
@@ -46,6 +47,14 @@ export default function WorkoutControls({
       >
         {isStarted ? 'Finish & Save' : 'Save as Template'}
       </LoadingButton>
+
+      <button
+        className="btn btn-danger btn-full"
+        onClick={discardWorkout}
+      >
+        Discard workout
+      </button>
+
     </div>
   )
 }

@@ -16,6 +16,7 @@
 
   --text: #fff;
   --muted: #b0b8bb;
+  --danger: #a83b3f;
   --border: rgba(255, 255, 255, 0.05);
 }
 
@@ -236,6 +237,17 @@ button {
 
 .btn-secondary:hover {
   border-color: var(--primary);
+}
+
+.btn-danger {
+  background-color: var(--danger);
+  color: white;
+  border: 1px solid transparent;
+  transition: background-color 0.2s ease;
+}
+
+.btn-danger:hover {
+  background-color: #b91c1c;
 }
 
 .btn-right {
@@ -630,7 +642,7 @@ input[type="checkbox"]:hover {
 html body div#root div.app div.card-base.card-workout div.workout-exercise div.exercise-header-main button.btn-secondary.btn-small svg.lucide.lucide-trash2.lucide-trash-2 {
   height: 17px;
   width: 17px;
-  color: #ad5356;
+  color: var(--danger);
 }
 
 .exercise-notes {

@@ -293,6 +293,27 @@ export function useWorkoutLogic(navigate, location, workoutId) {
     }
   }
 
+  const discardWorkout = () => {
+    const confirmed = window.confirm('Discard current workout?')
+
+    if (!confirmed) {
+      return
+    }
+
+    setWorkout(EMPTY_WORKOUT)
+
+    resetTimer()
+    resetRest()
+
+    setIsEditingName(false)
+
+    setActiveWorkout(null)
+
+    localStorage.removeItem('draftWorkout')
+
+    navigate('/dashboard')
+  }
+
   return {
     workout,
     setWorkout,
@@ -324,5 +345,7 @@ export function useWorkoutLogic(navigate, location, workoutId) {
 
     saveWorkout,
     saveAsTemplate,
+
+    discardWorkout,
   }
 }
