@@ -421,9 +421,17 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
-input:-webkit-autofill {
-  -webkit-box-shadow: 0 0 0px 1000px var(--card-2) inset;
-  -webkit-text-fill-color: var(--text);
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px var(--card-2) inset !important;
+  -webkit-text-fill-color: var(--text) !important;
+  caret-color: var(--text) !important;
+
+  border: 1px solid var(--border) !important;
+
+  transition: background-color 9999s ease-in-out 0s;
 }
 
 input {
