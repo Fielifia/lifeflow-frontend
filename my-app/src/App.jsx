@@ -28,7 +28,7 @@ import Navbar from './shared/ui/Navbar'
 function App() {
   const storedUser = JSON.parse(localStorage.getItem('user'))
   const token = localStorage.getItem('token')
-  
+
   const [user, setUser] = useState(
     storedUser && token ? storedUser : null,
   )
@@ -61,7 +61,7 @@ function App() {
       <WorkoutProvider>
         <div className="app">
           {/* Header */}
-          <Header setUser={setUser} />
+          <Header user={user} setUser={setUser} />
           <Routes>
             <Route path="/" element={<Dashboard setUser={setUser} />} />
             <Route path="/exercises" element={<Exercises />} />
