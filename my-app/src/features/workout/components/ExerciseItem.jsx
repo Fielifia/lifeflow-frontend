@@ -139,7 +139,7 @@ export default function ExerciseItem({
                 className="input-clean"
                 type="number"
                 autoFocus
-                defaultValue={safeRest}
+                value={safeRest}
                 onBlur={(e) => {
                   const val = Number(e.target.value)
                   if (!isNaN(val)) onChangeRestTime(val)
@@ -151,6 +151,10 @@ export default function ExerciseItem({
                   }
                 }}
                 onClick={(e) => e.stopPropagation()}
+                onChange={(e) => {
+                  const val = Number(e.target.value)
+                  if (!isNaN(val)) onChangeRestTime(val)
+                }}
               />
             ) : (
               <span className="rest-badge">

@@ -20,7 +20,6 @@ export function useEditWorkoutLogic(workoutId, navigate) {
         setLoading(true)
         const res = await API.get(`/workouts/${workoutId}`)
 
-        // ⚠️ Viktigt: mappa rest -> restTime för frontend
         const data = {
           ...res.data,
           exercises: res.data.exercises.map((ex) => ({
@@ -115,7 +114,6 @@ export function useEditWorkoutLogic(workoutId, navigate) {
 
       setSuccess(true)
 
-      // valfritt: redirect tillbaka till detail
       navigate(`/workouts/${res.data._id}`)
     } catch (err) {
       setError(err.response?.data?.error || 'Could not update workout')
