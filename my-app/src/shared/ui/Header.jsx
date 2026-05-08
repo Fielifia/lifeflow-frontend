@@ -9,7 +9,7 @@ export default function Header({ setUser }) {
   const handleLogout = () => {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
-    setUser(false)
+    setUser(null)
   }
 
   return (

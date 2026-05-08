@@ -26,8 +26,11 @@ import Navbar from './shared/ui/Navbar'
  * @returns {import('react').ReactElement} Application UI
  */
 function App() {
+  const storedUser = JSON.parse(localStorage.getItem('user'))
+  const token = localStorage.getItem('token')
+  
   const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem('user')) || null,
+    storedUser && token ? storedUser : null,
   )
   const [showRegister, setShowRegister] = useState(false)
 
