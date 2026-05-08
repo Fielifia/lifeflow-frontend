@@ -18,7 +18,9 @@ export default function ExercisesLibraryPage() {
 
   const isSelectMode =
     location.state?.mode === 'workout' ||
-    location.pathname.includes('/workouts/')
+    location.pathname.includes('/workouts/') ||
+    location.state?.mode === 'template' ||
+    location.pathname.includes('/templates/')
 
   // UI state
   const [search, setSearch] = useState('')
@@ -169,7 +171,7 @@ export default function ExercisesLibraryPage() {
         {/* SELECT BUTTON */}
         {isSelectMode && selectedExercises.length > 0 && (
           <button
-            className="btn btn-primary"
+            className="btn btn-standard btn-primary"
             onClick={() => {
               const from = location.state?.from || '/'
 
@@ -177,7 +179,7 @@ export default function ExercisesLibraryPage() {
                 state: {
                   selectedExercises,
                   currentExercises: location.state?.currentExercises || [],
-                  mode: 'workout',
+                  mode: location.state.mode,
                 },
               })
             }}
@@ -189,7 +191,7 @@ export default function ExercisesLibraryPage() {
         {/* LOAD MORE */}
         {visibleCount < filtered.length && (
           <button
-            className="btn btn-primary"
+            className="btn btn-standard btn-primary"
             onClick={() => setVisibleCount((prev) => prev + 20)}
           >
             Show more ({filtered.length - visibleCount} left)

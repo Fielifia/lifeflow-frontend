@@ -91,7 +91,7 @@ export default function TemplateEditPage() {
       />
 
       {/* ADD EXERCISE */}
-      <button className="btn btn-secondary btn-full" onClick={openLibrary}>
+      <button className="btn btn-standard btn-secondary btn-full" onClick={openLibrary}>
         Add exercise
       </button>
 
@@ -113,7 +113,7 @@ export default function TemplateEditPage() {
         />
       ))}
 
-      <LoadingButton className="btn btn-primary" loading={loading} saving={saving}loadingText="Saving..." onClick={saveTemplate}>
+      <LoadingButton className="btn btn-standard btn-primary" loading={loading} saving={saving}loadingText="Saving..." onClick={saveTemplate}>
         Save Template
       </LoadingButton>
 

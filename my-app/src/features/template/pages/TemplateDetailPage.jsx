@@ -87,14 +87,14 @@ export default function TemplateDetail() {
       {/* ACTIONS */}
       <div className="section">
         <button
-          className="btn btn-primary btn-full"
+          className="btn btn-standard btn-primary btn-full"
           onClick={handleStartWorkout}
         >
           Start workout
         </button>
 
         <button
-          className="btn btn-secondary btn-full"
+          className="btn btn-standard btn-secondary btn-full"
           onClick={() =>
             navigate('/templates/edit', {
               state: {

@@ -135,7 +135,7 @@ export default function Register({ setUser }) {
           </button>
         </div>
 
-        <LoadingButton className="btn btn-primary" loading={loading} onClick={handleRegister}>
+        <LoadingButton className="btn btn-standard btn-primary" loading={loading} onClick={handleRegister}>
           Create account
         </LoadingButton>
       </form>

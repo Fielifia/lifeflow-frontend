@@ -27,7 +27,7 @@ export default function WorkoutControls({
   return (
     <div className="workout-controls">
       <button
-        className="btn btn-secondary"
+        className="btn btn-standard btn-secondary"
         onClick={handleStartPause}
         disabled={saving}
       >
@@ -39,7 +39,7 @@ export default function WorkoutControls({
       </button>
 
       <LoadingButton
-        className="btn btn-primary"
+        className="btn btn-standard btn-primary"
         loading={loading}
         saving={saving}
         disabled={!hasExercises}

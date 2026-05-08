@@ -198,14 +198,18 @@ export function useWorkoutLogic(navigate, location, workoutId) {
   const updateExerciseRest = (index, value) =>
     setWorkout((prev) => workoutMutation.updateExerciseRest(prev, index, value))
 
+  const updateExerciseNotes = (index, notes) =>
+    setWorkout((prev) =>
+      workoutMutation.updateExerciseNotes(prev, index, notes),
+    )
+
   const toggleSetComplete = (exIndex, setIndex, checked) => {
-    let rest = DEFAULT_REST
+    const ex = workout.exercises[exIndex]
+    const rest = ex.restTime
 
     setWorkout((prev) => {
       const exercises = prev.exercises.map((ex, i) => {
         if (i !== exIndex) return ex
-
-        rest = ex.restTime ?? DEFAULT_REST
 
         return {
           ...ex,
@@ -217,15 +221,14 @@ export function useWorkoutLogic(navigate, location, workoutId) {
       })
 
       const updatedWorkout = { ...prev, exercises }
-
       setPbs(detectPersonalBest(updatedWorkout))
 
       return updatedWorkout
     })
 
     if (checked) {
-      registerActivity()
       startRest(rest)
+      registerActivity()
     }
   }
 
@@ -259,8 +262,9 @@ export function useWorkoutLogic(navigate, location, workoutId) {
       const payload = {
         ...workout,
         name: workout.name?.trim() || 'Workout',
-        duration: elapsed,
         exercises: cleaned,
+        duration: elapsed,
+        notes: workout.notes,
       }
 
       const saved = await API.post('/workouts', payload)
@@ -329,6 +333,7 @@ export function useWorkoutLogic(navigate, location, workoutId) {
     success,
     error,
 
+    updateExerciseNotes,
     updateExerciseRest,
     pbs,
 

@@ -18,7 +18,7 @@ export default function WorkoutSessionBarWrapper() {
 
   const isWorkoutPage = location.pathname.includes('/run')
   
-  if (!activeWorkout || isWorkoutPage) return null
+  if (!activeWorkout?.id || isWorkoutPage) return null
 
   return (
     <WorkoutSessionBar
@@ -30,7 +30,7 @@ export default function WorkoutSessionBarWrapper() {
       restRemaining={restRemaining}
       adjustRest={adjustRest}
       skipRest={skipRest}
-      onExpand={() => navigate('/workouts/active/run')}
+      onExpand={() => navigate(`/workouts/${activeWorkout.id}/run`)}
     />
   )
 }

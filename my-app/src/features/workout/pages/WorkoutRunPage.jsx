@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useWorkoutLogic } from '../hooks/useWorkoutLogic'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
@@ -29,7 +29,6 @@ export default function WorkoutRunPage() {
     setWorkout,
     pbs,
 
-    status,
     elapsed,
 
     isEditingName,
@@ -38,8 +37,6 @@ export default function WorkoutRunPage() {
     startTime,
     adjustStartTime,
 
-    handleStartPause,
-
     openLibrary,
     addSet,
     updateSet,
@@ -47,6 +44,7 @@ export default function WorkoutRunPage() {
     removeSet,
     toggleSetComplete,
     updateExerciseRest,
+    updateExerciseNotes,
     updateWorkoutNotes,
 
     saveWorkout,
@@ -56,11 +54,20 @@ export default function WorkoutRunPage() {
   } = useWorkoutLogic(navigate, location, workoutId)
 
   const {
+    status, 
+    start,
+    handleStartPause,
     restRemaining,
     isResting,
     adjustRest,
     skipRest,
   } = useWorkoutContext()
+
+  useEffect(() => {
+    if (status === 'idle') {
+      start()
+    }
+  }, [])
 
   return (
     <div className={`card-base card-workout ${flash ? 'flash' : ''}`}>
@@ -106,7 +113,7 @@ export default function WorkoutRunPage() {
       />
 
       {/* ADD EXERCISE */}
-      <button className="btn btn-secondary btn-full" onClick={openLibrary}>
+      <button className="btn btn-standard btn-secondary btn-full" onClick={openLibrary}>
         Add exercise
       </button>
 
@@ -123,6 +130,7 @@ export default function WorkoutRunPage() {
           removeExercise={removeExercise}
           removeSet={removeSet}
           toggleSetComplete={toggleSetComplete}
+          updateExerciseNotes={updateExerciseNotes}
           pb={pbs?.[String(ex.exerciseId)]}
           restTime={ex.restTime}
           onChangeRestTime={(value) => updateExerciseRest(i, value)}

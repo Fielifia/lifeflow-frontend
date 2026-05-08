@@ -89,4 +89,11 @@ export const workoutMutation = {
       }),
     }
   },
+
+  updateExerciseNotes: (workout, index, notes) => ({
+    ...workout,
+    exercises: workout.exercises.map((ex, i) =>
+      i === index ? { ...ex, notes } : ex,
+    ),
+  }),
 }

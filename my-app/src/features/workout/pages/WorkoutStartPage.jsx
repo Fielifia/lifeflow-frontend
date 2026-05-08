@@ -15,6 +15,36 @@ export default function WorkoutStart() {
   const [error, setError] = useState(null)
   const [templates, setTemplates] = useState([])
 
+  const [draftTemplate, setDraftTemplate] = useState(null)
+
+  useEffect(() => {
+    try {
+      const stored = JSON.parse(localStorage.getItem('draftTemplate'))
+      if (stored?.exercises?.length > 0) {
+        setDraftTemplate(stored)
+      }
+    } catch {
+      setDraftTemplate(null)
+    }
+  }, [])
+
+  const hasTemplateDraft = draftTemplate?.exercises?.length > 0
+
+  const [draftWorkout, setDraftWorkout] = useState(null)
+
+  useEffect(() => {
+    try {
+      const stored = JSON.parse(localStorage.getItem('draftWorkout'))
+      if (stored?.exercises?.length > 0) {
+        setDraftWorkout(stored)
+      }
+    } catch {
+      setDraftWorkout(null)
+    }
+  }, [])
+
+  const hasWorkoutDraft = draftWorkout?.exercises?.length > 0
+
   useEffect(() => {
     const fetchTemplates = async () => {
       try {
@@ -43,25 +73,48 @@ export default function WorkoutStart() {
             onClick={() =>
               navigate(`/workouts/${Date.now()}/run`, {
                 state: {
-                  workout: {
-                    name: '',
-                    exercises: [],
-                    notes: '',
-                  },
+                  workout: hasWorkoutDraft
+                    ? {
+                      ...draftWorkout,
+                      exercises: draftWorkout.exercises.map((ex) => ({
+                        ...ex,
+                        sets: ex.sets.map((s) => ({
+                          ...s,
+                          completed: false,
+                        })),
+                      })),
+                    }
+                    : {
+                      name: '',
+                      exercises: [],
+                      notes: '',
+                    },
                 },
               })
             }
           >
             <span className="hero-icon">▷</span>
-            <span>Start Empty Workout</span>
+            <span>
+              {hasWorkoutDraft
+                ? `Continue ${draftWorkout.name || 'Workout'}`
+                : 'Start Empty Workout'}
+            </span>
           </button>
 
           <button
             className="hero-btn hero-btn-secondary"
-            onClick={() => navigate('/templates/create')}
+            onClick={() =>
+              navigate('/templates/create', {
+                state: hasTemplateDraft ? { draft: draftTemplate } : undefined,
+              })
+            }
           >
             <span className="hero-icon">+</span>
-            <span>New Workout Template</span>
+            <span>
+              {hasTemplateDraft
+                ? `Continue ${draftTemplate.name || 'Template'}`
+                : 'New Workout Template'}
+            </span>
           </button>
         </div>
 

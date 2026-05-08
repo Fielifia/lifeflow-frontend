@@ -28,15 +28,23 @@ export default function RestTimer({
     prevTime.current = restRemaining
   }, [restRemaining, setFlash])
 
-  if (!isResting) return null
-  
-
   return (
-    <div className="rest-timer-floating">
-      <button onClick={() => adjustRest(-15)}>-</button>
-      <span>{Math.max(0, restRemaining)}s</span>
-      <button onClick={() => adjustRest(15)}>+</button>
-      <button onClick={skipRest}>Skip</button>
+    <div
+      className={`rest-timer-floating ${isResting ? 'show' : ''}`}
+    >
+      <div className="rest-controls">
+        <button onClick={() => adjustRest(-15)}>−</button>
+
+        <span className="rest-time">
+          {Math.max(0, restRemaining)}s
+        </span>
+
+        <button onClick={() => adjustRest(15)}>+</button>
+
+        <button className="skip" onClick={skipRest}>
+          Skip
+        </button>
+      </div>
     </div>
   )
 }

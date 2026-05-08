@@ -27,10 +27,37 @@ export default function WorkoutSessionBar({
     seconds,
   ).padStart(2, '0')}`
 
-  const currentExercise =
-  activeWorkout?.exercises?.find((ex) =>
-    ex.sets?.some((s) => !s.completed)
-  )?.name || 'No exercise'
+  const exercises = activeWorkout?.exercises || []
+
+  let lastCompletedIndex = -1
+
+  exercises.forEach((ex, i) => {
+    if (ex.sets?.some((s) => s.completed)) {
+      lastCompletedIndex = i
+    }
+  })
+
+  let nextExercise = null
+
+  for (let i = lastCompletedIndex + 1; i < exercises.length; i++) {
+    const ex = exercises[i]
+    const isFullyCompleted = ex.sets?.every((s) => s.completed)
+
+    if (!isFullyCompleted) {
+      nextExercise = ex
+      break
+    }
+  }
+
+  if (!nextExercise) {
+    nextExercise = exercises.find(
+      (ex) => !ex.sets?.every((s) => s.completed)
+    )
+  }
+
+  const currentExercise = nextExercise
+    ? `Next: ${nextExercise.name}`
+    : 'Done ✔'
 
   return (
     <div

@@ -23,6 +23,9 @@ export default function WorkoutHeader({
   status,
   startTime,
   adjustStartTime,
+  mode = 'run',
+  duration,
+  onChangeDuration
 }) {
 
   return (
@@ -51,10 +54,13 @@ export default function WorkoutHeader({
       )}
 
       <DurationDisplay
+        mode={mode}
         elapsed={elapsed}
         status={status}
         startTime={startTime}
         adjustStartTime={adjustStartTime}
+        duration={duration}
+        onChangeDuration={onChangeDuration}
       />
     </div>
   )
