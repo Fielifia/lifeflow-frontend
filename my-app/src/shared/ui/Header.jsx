@@ -19,7 +19,7 @@ export default function Header({ user, setUser }) {
       </Link>
 
       {user && (
-        <button className="btn btn-secondary btn-right" onClick={handleLogout}>
+        <button className="btn btn-standard btn-secondary btn-right" onClick={handleLogout}>
           Logout
         </button>
       )}

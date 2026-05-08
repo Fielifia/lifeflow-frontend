@@ -21,7 +21,6 @@ const WARNING_TIME = 5 * 1000
  * - Inactivity auto-pause
  * - Activity tracking
  * - Max duration cap (3 hours)
- *
  * @returns {{
  *   status: 'idle' | 'running' | 'paused' | 'stopped',
  *   elapsed: number,
@@ -32,7 +31,7 @@ const WARNING_TIME = 5 * 1000
  *   stop: () => void,
  * adjustStartTime: (newStartTimestamp: number) => void,
  *   registerActivity: () => void
- * }}
+ * }} - Workout Time UI
  */
 export function useWorkoutTimer() {
   const [status, setStatus] = useState('idle')
@@ -117,7 +116,7 @@ export function useWorkoutTimer() {
     }, 60000)
 
     return () => clearInterval(inactivityRef.current)
-  }, [status, lastActivity])
+  }, [status, lastActivity, toast])
 
   /**
    * Track activity

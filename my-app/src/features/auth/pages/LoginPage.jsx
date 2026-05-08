@@ -89,7 +89,7 @@ export default function Login({ setUser }) {
           </button>
         </div>
 
-        <LoadingButton className="btn btn-primary" loading={loading} onClick={handleLogin}>
+        <LoadingButton className="btn btn-standard btn-primary" loading={loading} onClick={handleLogin}>
           {loading ? 'Logging in...' : 'Login'}
         </LoadingButton>
       </form>

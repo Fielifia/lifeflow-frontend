@@ -4,6 +4,12 @@ import { workoutMutation } from '../../workout/utils/workoutMutations'
 import { cleanWorkoutForSave } from '../../workout/utils/cleanWorkoutForSave'
 import { detectPersonalBest } from '../../workout/utils/detectPersonalBest'
 
+/**
+ * Custom hook for editing workouts.
+ * @param {string} workoutId - Workout ID.
+ * @param {(path: string) => void} navigate - React Router navigate function.
+ * @returns {object} Workout state and mutation handlers.
+ */
 export function useEditWorkoutLogic(workoutId, navigate) {
   // ===== STATE =====
   const [workout, setWorkout] = useState(null)
@@ -106,7 +112,7 @@ export function useEditWorkoutLogic(workoutId, navigate) {
         duration: workout.duration ?? 0,
         exercises: cleaned.map((ex) => ({
           ...ex,
-          rest: ex.restTime, // 🔥 viktig mapping tillbaka
+          rest: ex.restTime,
         })),
       }
 
