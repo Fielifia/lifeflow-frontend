@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
-import API from '../../../shared/api/api'
+import { login } from '../../../shared/api/authApi'
 import LoadingButton from '../../../shared/ui/LoadingButton'
 
 /**
@@ -30,19 +30,9 @@ export default function Login({ setUser }) {
     try {
       setLoading(true)
 
-      const res = await API.post('/auth/login', { email, password })
+      const user = await login({ email, password })
 
-      // Store auth data
-      localStorage.setItem(
-        'user',
-        JSON.stringify({
-          ...res.data.user,
-          token: res.data.token,
-        }),
-      )
-
-      // Update app state
-      setUser(res.data.user)
+      setUser(user)
     } catch (err) {
       const message = err.response?.data?.error || 'Login failed'
       setError(message)
