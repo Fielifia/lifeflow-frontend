@@ -1,13 +1,11 @@
 import { NavLink } from 'react-router-dom'
 import { House, Dumbbell, History, ChartNoAxesCombined } from 'lucide-react'
-import { useWorkoutContext } from '../context/WorkoutContext'
 
 /**
  * Navigation bar for switching between views.
  * @returns {import('react').ReactElement} Navigation UI
  */
 export default function Navbar() {
-  const { activeWorkout } = useWorkoutContext()
 
   return (
     <div className="navbar">
@@ -21,7 +19,7 @@ export default function Navbar() {
 
 
       <NavLink
-        to={activeWorkout ? `/workouts/${activeWorkout.id}/run` : '/workouts'}
+        to="/workouts"
         className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
       >
         <Dumbbell className="nav-icon" />
