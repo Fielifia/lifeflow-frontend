@@ -314,7 +314,7 @@ export function useWorkoutLogic(navigate, location, workoutId) {
 
     localStorage.removeItem('draftWorkout')
 
-    navigate('/dashboard')
+    navigate('/workouts')
   }
 
   return {
