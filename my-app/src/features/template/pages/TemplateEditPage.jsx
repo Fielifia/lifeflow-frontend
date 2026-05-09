@@ -79,7 +79,7 @@ export default function TemplateEditPage() {
       <BackButton
         fallback={
           isCreate
-            ? '/templates'
+            ? '/workouts'
             : `/templates/${id}`
         }
       />
