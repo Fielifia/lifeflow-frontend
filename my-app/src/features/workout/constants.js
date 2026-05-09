@@ -12,5 +12,5 @@ export const EMPTY_WORKOUT = {
 }
 
 export const MAX_DURATION = 180 * 60 // seconds
-export const INACTIVITY_LIMIT = 10 * 1000 // ms
-export const WARNING_TIME = 5 * 1000
+export const INACTIVITY_LIMIT = 15 * 60 * 1000
+export const WARNING_TIME = 2 * 60 * 1000

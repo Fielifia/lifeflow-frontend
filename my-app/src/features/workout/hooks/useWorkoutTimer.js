@@ -110,7 +110,7 @@ export function useWorkoutTimer() {
         setPausedAt(Date.now())
         setStatus('paused')
       }
-    }, 60000)
+    }, 10000)
 
     return () => clearInterval(inactivityRef.current)
   }, [status, lastActivity, toast])
@@ -129,7 +129,9 @@ export function useWorkoutTimer() {
   useEffect(() => {
     if (status !== 'running') return undefined
 
-    const handler = () => registerActivity()
+    const handler = () => {
+      setLastActivity(Date.now())
+    }
 
     window.addEventListener('click', handler)
     window.addEventListener('keydown', handler)
