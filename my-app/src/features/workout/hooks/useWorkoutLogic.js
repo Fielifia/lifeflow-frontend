@@ -185,9 +185,23 @@ export function useWorkoutLogic(navigate, location, workoutId) {
     setWorkout((prev) => workoutMutation.addSet(prev, index))
 
   const updateSet = (exIndex, setIndex, field, value) =>
-    setWorkout((prev) =>
-      workoutMutation.updateSet(prev, exIndex, setIndex, field, value),
-    )
+    setWorkout((prev) => {
+      const updatedWorkout = workoutMutation.updateSet(
+        prev,
+        exIndex,
+        setIndex,
+        field,
+        value,
+      )
+
+      const updatedSet = updatedWorkout.exercises[exIndex].sets[setIndex]
+
+      if (updatedSet.completed && (field === 'weight' || field === 'reps')) {
+        setPbs(detectPersonalBest(updatedWorkout))
+      }
+
+      return updatedWorkout
+    })
 
   const removeSet = (exIndex, setIndex) =>
     setWorkout((prev) => workoutMutation.removeSet(prev, exIndex, setIndex))
