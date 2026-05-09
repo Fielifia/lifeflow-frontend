@@ -133,7 +133,6 @@ export function useWorkoutLogic(navigate, location, workoutId) {
         ],
       }))
 
-      navigate(location.pathname, { replace: true, state: null })
     }
 
     run()
@@ -154,7 +153,6 @@ export function useWorkoutLogic(navigate, location, workoutId) {
       })),
     })
 
-    navigate(location.pathname, { replace: true, state: null })
   }, [location.state, navigate, location.pathname])
 
   useEffect(() => {
@@ -237,9 +235,10 @@ export function useWorkoutLogic(navigate, location, workoutId) {
 
   const openLibrary = () => {
     navigate(`/workouts/${workoutId}/exercises`, {
+      replace: true,
       state: {
         currentExercises: workout.exercises,
-        from: location.pathname,
+        returnTo: location.pathname,
         mode: 'workout',
       },
     })

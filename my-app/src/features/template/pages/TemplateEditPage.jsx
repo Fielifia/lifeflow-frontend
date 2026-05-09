@@ -1,9 +1,9 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import BackButton from '../../../shared/ui/BackButton'
-import LoadingButton from '../../../shared/ui/LoadingButton'
 import ExerciseItem from '../../workout/components/ExerciseItem'
 import TemplateHeader from '../components/TemplateHeader'
 import { useTemplateLogic } from '../hooks/useTemplateLogic'
+import TemplateControls from '../components/TemplateControls'
 
 /**
  * Page for creating and editing workout templates.
@@ -51,11 +51,11 @@ export default function TemplateEditPage() {
 
   const {
     template,
-    setTemplate,
-    loading,
     saving,
     success,
     error,
+    setTemplate,
+    loading,
 
     isEditingName,
     setIsEditingName,
@@ -76,7 +76,13 @@ export default function TemplateEditPage() {
 
   return (
     <div className="card-base card-workout">
-      <BackButton fallback="/workouts" />
+      <BackButton
+        fallback={
+          isCreate
+            ? '/templates'
+            : `/templates/${id}`
+        }
+      />
       {/* HEADER */}
       <h2>{isCreate ? 'Create Template' : 'Edit Template'}</h2>
 
@@ -105,17 +111,18 @@ export default function TemplateEditPage() {
           navigate={navigate}
           addSet={addSet}
           updateSet={updateSet}
-          updateExerciseNotes={updateExerciseNotes}
           removeExercise={removeExercise}
           removeSet={removeSet}
+          updateExerciseNotes={updateExerciseNotes}
           restTime={ex.restTime}
           onChangeRestTime={(value) => updateExerciseRest(i, value)}
         />
       ))}
 
-      <LoadingButton className="btn btn-standard btn-primary" loading={loading} saving={saving}loadingText="Saving..." onClick={saveTemplate}>
-        Save Template
-      </LoadingButton>
+      <TemplateControls
+        saveTemplate={saveTemplate}
+        saving={saving}
+      />
 
       {/* FEEDBACK */}
       {success && <p className="muted center">Template saved ✔</p>}

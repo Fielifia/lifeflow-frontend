@@ -30,7 +30,13 @@ export default function ExerciseCard({
     if (onView) {
       onView(exercise)
     } else {
-      navigate(`/exercises/${exercise.id}`)
+      navigate(`/exercises/${exercise.id}, {
+        state: {
+          from: location.pathname,
+          rootFlow: location.state?.rootFlow,
+          mode: location.state?.mode,
+        },
+      }`)
     }
   }
 

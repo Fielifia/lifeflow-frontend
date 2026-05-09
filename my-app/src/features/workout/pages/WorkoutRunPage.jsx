@@ -49,12 +49,12 @@ export default function WorkoutRunPage() {
 
     saveWorkout,
     saveAsTemplate,
-    
+
     discardWorkout,
   } = useWorkoutLogic(navigate, location, workoutId)
 
   const {
-    status, 
+    status,
     start,
     handleStartPause,
     restRemaining,
@@ -102,8 +102,7 @@ export default function WorkoutRunPage() {
       {error && <p className="error center">{error}</p>}
 
 
-      {/* REST TIMER */
-      }
+      {/* REST TIMER */}
       <RestTimer
         isResting={isResting}
         restRemaining={restRemaining}

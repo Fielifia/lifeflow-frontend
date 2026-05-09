@@ -35,8 +35,8 @@ export default function ExerciseList({
               } else {
                 navigate(`/exercises/${e.id}`, {
                   state: {
-                    from: location.pathname,
                     mode: location.state?.mode,
+                    returnTo: location.state?.returnTo,
                   },
                 })
               }
@@ -44,8 +44,8 @@ export default function ExerciseList({
             onView={() => {
               navigate(`/exercises/${e.id}`, {
                 state: {
-                  from: location.pathname,
                   mode: location.state?.mode,
+                  returnTo: location.state?.returnTo,
                   selectedExercises: location.state?.selectedExercises,
                 },
               })

@@ -1,4 +1,4 @@
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 /**
  * Reusable back button.
@@ -7,18 +7,14 @@ import { useNavigate, useLocation } from 'react-router-dom'
  */
 export default function BackButton({ fallback = '/' }) {
   const navigate = useNavigate()
-  const location = useLocation()
 
   const handleBack = () => {
-    const { from, ...restState } = location.state || {}
-
-    if (from) {
-      navigate(from, {
-        state: restState,
-      })
-    } else {
+    if (fallback) {
       navigate(fallback)
+      return
     }
+
+    navigate(-1)
   }
 
   return (

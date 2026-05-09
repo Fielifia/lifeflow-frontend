@@ -173,13 +173,14 @@ export default function ExercisesLibraryPage() {
           <button
             className="btn btn-standard btn-primary"
             onClick={() => {
-              const from = location.state?.from || '/'
+              const returnTo = location.state?.returnTo || '/'
 
-              navigate(from, {
+              navigate(returnTo, {
+                replace: true,
                 state: {
                   selectedExercises,
                   currentExercises: location.state?.currentExercises || [],
-                  mode: location.state.mode,
+                  mode: location.state?.mode,
                 },
               })
             }}

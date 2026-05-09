@@ -10,3 +10,7 @@ export const EMPTY_WORKOUT = {
   exercises: [],
   notes: '',
 }
+
+export const MAX_DURATION = 180 * 60 // seconds
+export const INACTIVITY_LIMIT = 10 * 1000 // ms
+export const WARNING_TIME = 5 * 1000

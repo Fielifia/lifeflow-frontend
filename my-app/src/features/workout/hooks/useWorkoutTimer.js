@@ -1,9 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useToast } from '../../../shared/context/ToastContext'
-
-const MAX_DURATION = 180 * 60 // seconds
-const INACTIVITY_LIMIT = 10 * 1000 // ms
-const WARNING_TIME = 5 * 1000
+import { MAX_DURATION, INACTIVITY_LIMIT, WARNING_TIME } from '../constants.js'
 
 /**
  * Hook for managing a workout timer with pause/resume,

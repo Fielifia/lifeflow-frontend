@@ -1,6 +1,9 @@
-import { useNavigate, useLocation } from 'react-router-dom'
 import { Timer } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { getTemplateById } from '../../../shared/api/templateApi'
 import BackButton from '../../../shared/ui/BackButton'
+import DataState from '../../../shared/ui/DataState'
 
 /**
  * Displays detailed view of a template.
@@ -10,10 +13,54 @@ export default function TemplateDetail() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const template = location.state?.template
+  const { id } = useParams()
 
-  if (!template) return <p className="center">No template found</p>
+  const [template, setTemplate] = useState(
+    location.state?.template || null,
+  )
 
+  const [loading, setLoading] = useState(!location.state?.template)
+  const [error, setError] = useState('')
+
+  useEffect(() => {
+    if (template) return
+
+    const fetchTemplate = async () => {
+      try {
+        setLoading(true)
+
+        const data = await getTemplateById(id)
+
+        setTemplate(data)
+      } catch {
+        setError('Could not load template')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchTemplate()
+  }, [id, template])
+
+  // ===== LOADING / ERROR / EMPTY =====
+  if (loading || error || !template) {
+    return (
+      <div className="card-base card-workout">
+        <BackButton fallback="/workouts" />
+
+        <DataState
+          loading={loading}
+          error={error}
+          data={template ? [template] : []}
+          variant="card-workout"
+          emptyText="No template found"
+          count={1}
+        />
+      </div>
+    )
+  }
+
+  // ===== NORMALIZE =====
   const normalizedExercises = (template.exercises || []).map((ex) => ({
     ...ex,
     image: ex.image || ex.images?.[0] || '',
@@ -22,17 +69,18 @@ export default function TemplateDetail() {
     notes: ex.notes ?? '',
   }))
 
+  // ===== ACTIONS =====
   const handleStartWorkout = () => {
     const workoutId = Date.now()
 
     navigate(`/workouts/${workoutId}/run`, {
-      state: { template }
+      state: { template },
     })
   }
 
   return (
     <div className="card-base card-workout">
-      <BackButton fallback="/templates" />
+      <BackButton fallback="/workouts" />
 
       {/* HEADER */}
       <div className="workout-header">
@@ -43,7 +91,7 @@ export default function TemplateDetail() {
       {/* EXERCISES */}
       {normalizedExercises.map((ex, i) => (
         <div key={i} className="workout-exercise">
-          {/* HEADER  */}
+          {/* HEADER */}
           <div className="exercise-header-main">
             <img
               src={ex.image || '/placeholder.png'}
@@ -72,7 +120,7 @@ export default function TemplateDetail() {
             </div>
           ))}
 
-          {/* REST TIMER (read only) */}
+          {/* REST */}
           {ex.restTime && (
             <div className="rest-label">
               <Timer className="icon-small" /> Rest: {ex.restTime}s
@@ -96,7 +144,7 @@ export default function TemplateDetail() {
         <button
           className="btn btn-standard btn-secondary btn-full"
           onClick={() =>
-            navigate('/templates/edit', {
+            navigate(`/templates/${template._id}/edit`, {
               state: {
                 template,
                 from: location.pathname,

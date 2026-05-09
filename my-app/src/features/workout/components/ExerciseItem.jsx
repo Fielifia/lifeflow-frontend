@@ -1,5 +1,4 @@
-import { useRef } from 'react'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Clock, Weight, Trash2, Trophy } from 'lucide-react'
 
 /**
@@ -118,7 +117,8 @@ export default function ExerciseItem({
           src={ex.image || ex.images?.[0] || '/placeholder.png'}
           alt=""
           className="exercise-img-small"
-          onClick={() => navigate(`/exercises/${ex.exerciseId}`)}
+          onClick={() => navigate(`/exercises/${ex.exerciseId}`)
+          }
         />
 
         <h2>{ex.name}</h2>

@@ -80,6 +80,11 @@ export function useTemplateLogic(navigate, location, id) {
   useEffect(() => {
     if (isCreate) return
 
+    if (template.exercises.length > 0) {
+      setLoading(false)
+      return
+    }
+
     const fetch = async () => {
       try {
         const data = await getTemplateById(id)
@@ -133,7 +138,6 @@ export function useTemplateLogic(navigate, location, id) {
       ],
     }))
 
-    navigate(location.pathname, { replace: true, state: null })
   }, [
     location.state?.selectedExercises,
     location.state?.mode,
@@ -146,7 +150,7 @@ export function useTemplateLogic(navigate, location, id) {
     navigate('/exercises?select=true', {
       state: {
         currentExercises: template.exercises,
-        from: location.pathname,
+        returnTo: location.pathname,
         mode: 'template',
       },
     })

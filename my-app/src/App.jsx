@@ -4,10 +4,9 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import Login from './features/auth/pages/LoginPage'
 import Register from './features/auth/pages/RegisterPage'
 import Dashboard from './features/dashboard/pages/Dashboard'
-import ExerciseDetail from './features/exercise/components/ExerciseDetail'
+import ExerciseDetailPage from './features/exercise/pages/ExerciseDetailPage'
 import {
   default as ExerciseLibraryPage,
-  default as Exercises,
 } from './features/exercise/pages/ExerciseLibraryPage'
 import WorkoutDetailPage from './features/history/pages/WorkoutDetailPage'
 import WorkoutHistoryPage from './features/history/pages/WorkoutHistoryPage'
@@ -67,8 +66,8 @@ function App() {
             <Header user={user} setUser={setUser} />
             <Routes>
               <Route path="/" element={<Dashboard setUser={setUser} />} />
-              <Route path="/exercises" element={<Exercises />} />
-              <Route path="/exercises/:id" element={<ExerciseDetail />} />
+              <Route path="/exercises" element={<ExerciseLibraryPage />} />
+              <Route path="/exercises/:id" element={<ExerciseDetailPage />} />
 
               <Route path="/workouts" element={<WorkoutStartPage />} />
               <Route path="/workouts/:id/run" element={<WorkoutRunPage />} />
@@ -79,6 +78,7 @@ function App() {
 
               <Route path="/templates/:id" element={<TemplateDetailPage />} />
               <Route path="/templates/create" element={<TemplateEditPage />} />
+              <Route path="/templates/:id/edit" element={<TemplateEditPage />} />
 
               <Route path="/history" element={<WorkoutHistoryPage />} />
               <Route path="/workouts/:id" element={<WorkoutDetailPage />} />
