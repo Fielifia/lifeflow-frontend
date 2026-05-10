@@ -60,6 +60,7 @@ export default function WorkoutDetailPage() {
         totalSets={stats.totalSets}
         totalReps={stats.totalReps}
         totalVolume={stats.totalVolume}
+        personalBests={stats.personalBests}
       />
 
       {/* ACTIONS */}
@@ -81,6 +82,7 @@ export default function WorkoutDetailPage() {
           ex={ex}
           i={i}
           navigate={navigate}
+          pb={ex.pb}
           isEditable={false}
           showCheckbox={false}
         />

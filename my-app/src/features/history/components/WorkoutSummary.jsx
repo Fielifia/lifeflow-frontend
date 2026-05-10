@@ -13,6 +13,7 @@ export default function WorkoutSummary({
   totalSets,
   totalReps,
   totalVolume,
+  personalBests,
 }) {
   return (
     <div className="workout-summary-grid">
@@ -34,6 +35,11 @@ export default function WorkoutSummary({
       <div className="card-base">
         <p className="stat-label">Volume</p>
         <h3>{totalVolume} kg</h3>
+      </div>
+
+      <div className="card-base">
+        <p className="stat-label">PBs</p>
+        <h3>{personalBests}</h3>
       </div>
     </div>
   )

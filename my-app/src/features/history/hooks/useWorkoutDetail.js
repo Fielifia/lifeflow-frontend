@@ -49,7 +49,11 @@ export function useWorkoutDetail(id) {
     fetchWorkout()
   }, [id])
 
-  const stats = useMemo(() => calculateWorkoutStats(workout), [workout])
+  const stats = useMemo(() => {
+    if (!workout) return null
+
+    return calculateWorkoutStats(workout)
+  }, [workout])
 
   return {
     workout,

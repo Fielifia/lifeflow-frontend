@@ -44,5 +44,6 @@ export function calculateWorkoutStats(workout) {
     totalSets,
     totalReps,
     totalVolume,
+    personalBests: workout.personalBests || 0,
   }
 }

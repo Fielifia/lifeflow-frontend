@@ -245,11 +245,10 @@ export default function ExerciseItem({
           onMouseLeave={isEditable ? cancelHold : undefined}
           onTouchStart={isEditable ? (e) => startHold(j, e) : undefined}
           onTouchEnd={isEditable ? cancelHold : undefined}
-          className={`set-row 
-            ${gridClass}
-  ${set.completed ? 'completed' : ''} 
-  ${j === bestIndex ? 'best-set' : ''}
-`}
+          className={`set-row
+            ${set.completed ? 'completed' : ''} 
+            ${(set.personalBest || j === bestIndex) ? 'best-set' : ''}
+          `}
         >
           {holdingSet === j && (
             <div className="hold-indicator">
@@ -259,8 +258,13 @@ export default function ExerciseItem({
               />
             </div>
           )}
-          <span className={`set-number ${j === bestIndex ? 'pb' : ''}`}>
-            {j === bestIndex ? <Trophy className="icon-small" /> : j + 1}
+          <span
+            className={`set-number ${set.personalBest || j === bestIndex ? 'pb' : ''
+            }`}
+          >
+            {set.personalBest || j === bestIndex
+              ? <Trophy className="icon-small" />
+              : j + 1}
           </span>
 
           {/* PREVIOUS */}
