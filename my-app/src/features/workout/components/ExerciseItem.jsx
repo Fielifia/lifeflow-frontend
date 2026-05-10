@@ -46,8 +46,14 @@ export default function ExerciseItem({
   onChangeRestTime,
   updateExerciseNotes,
   showCheckbox = true,
+  isEditable = true,
 }) {
   const inputRefs = useRef([])
+
+  const gridClass =
+    showCheckbox && isEditable
+      ? 'set-grid-with-checkbox'
+      : 'set-grid-no-checkbox'
 
   const getBestSetIndex = () => {
     if (!pb?.bestSet) return -1
@@ -136,13 +142,15 @@ export default function ExerciseItem({
           <div
             className="rest-label"
             onClick={(e) => {
+              if (!isEditable) return
+
               e.stopPropagation()
               setEditingRest(true)
             }}
           >
             <Clock className="icon-small" />
 
-            {editingRest ? (
+            {editingRest && isEditable ? (
               <input
                 className="input-clean"
                 type="number"
@@ -173,33 +181,46 @@ export default function ExerciseItem({
             )}
           </div>
 
-          <button
-            className="btn-secondary btn-small"
-            onClick={(e) => {
-              e.stopPropagation()
-              removeExercise(i)
-            }}
-          >
-            <Trash2 />
-          </button>
+          {isEditable && (
+            <button
+              className="btn-secondary btn-small"
+              onClick={(e) => {
+                e.stopPropagation()
+                removeExercise(i)
+              }}
+            >
+              <Trash2 />
+            </button>
+          )}
         </div>
       </div>
 
-      <form className="exercise-notes" onSubmit={(e) => e.preventDefault()}>
-        <input
-          className="input-base input-exercise-notes"
-          type="text"
-          placeholder="Exercise Notes..."
-          value={ex.notes || ''}
-          onChange={(e) => addExerciseNotes(e.target.value)}
-        />
-      </form>
+      {isEditable ? (
+        <form
+          className="exercise-notes"
+          onSubmit={(e) => e.preventDefault()}
+        >
+          <input
+            className="input-base input-exercise-notes"
+            type="text"
+            placeholder="Exercise Notes..."
+            value={ex.notes || ''}
+            onChange={(e) => addExerciseNotes(e.target.value)}
+          />
+        </form>
+      ) : (
+        ex.notes && (
+          <p className="muted small exercise-notes-static">
+            {ex.notes}
+          </p>
+        )
+      )}
 
       {/* SET HEADER */}
-      <div className={`set-header ${showCheckbox ? 'set-grid-with-checkbox' : 'set-grid-no-checkbox'}`}>
+      <div className={`set-header ${gridClass}`}>
         <span>Set</span>
 
-        <span>Previous</span>
+        {isEditable && <span>Previous</span>}
 
         <span>
           <Weight className="icon-small" />
@@ -212,20 +233,20 @@ export default function ExerciseItem({
           <span></span>
         </div>
 
-        {showCheckbox && <span>✔</span>}
+        {showCheckbox && isEditable && <span>✔</span>}
       </div>
 
       {/* SETS */}
       {ex.sets.map((set, j) => (
         <div
           key={j}
-          onMouseDown={(e) => startHold(j, e)}
-          onMouseUp={cancelHold}
-          onMouseLeave={cancelHold}
-          onTouchStart={(e) => startHold(j, e)}
-          onTouchEnd={cancelHold}
+          onMouseDown={isEditable ? (e) => startHold(j, e) : undefined}
+          onMouseUp={isEditable ? cancelHold : undefined}
+          onMouseLeave={isEditable ? cancelHold : undefined}
+          onTouchStart={isEditable ? (e) => startHold(j, e) : undefined}
+          onTouchEnd={isEditable ? cancelHold : undefined}
           className={`set-row 
-            ${showCheckbox ? 'set-grid-with-checkbox' : 'set-grid-no-checkbox'}
+            ${gridClass}
   ${set.completed ? 'completed' : ''} 
   ${j === bestIndex ? 'best-set' : ''}
 `}
@@ -242,60 +263,76 @@ export default function ExerciseItem({
             {j === bestIndex ? <Trophy className="icon-small" /> : j + 1}
           </span>
 
-          <span className="previous">
-            {set.prevWeight != null && set.prevReps != null
-              ? `${set.prevWeight}×${set.prevReps}`
-              : '–'}
-          </span>
+          {/* PREVIOUS */}
+          {isEditable && (
+            <span className="previous">
+              {set.prevWeight != null && set.prevReps != null
+                ? `${set.prevWeight}×${set.prevReps}`
+                : '–'}
+            </span>
+          )}
 
-          <input
-            ref={(el) => (inputRefs.current[j] = el)}
-            className="input-base"
-            type="number"
-            value={set.weight ?? ''}
-            onChange={(e) =>
-              updateSet(
-                i,
-                j,
-                'weight',
-                e.target.value === '' ? '' : Number(e.target.value),
-              )
-            }
-          />
-
-          <div className="number-input">
-            <button
-              className="btn-clean"
-              onClick={() =>
-                updateSet(i, j, 'reps', Math.max(0, (set.reps || 0) - 1))
-              }
-            >
-              −
-            </button>
-
+          {/* WEIGHT */}
+          {isEditable ? (
             <input
+              ref={(el) => (inputRefs.current[j] = el)}
               className="input-base"
               type="number"
-              value={set.reps ?? ''}
+              value={set.weight ?? ''}
               onChange={(e) =>
                 updateSet(
                   i,
                   j,
-                  'reps',
+                  'weight',
                   e.target.value === '' ? '' : Number(e.target.value),
                 )
               }
             />
+          ) : (
+            <span>{set.weight ?? '-'}</span>
+          )}
 
-            <button
-              className="btn-clean"
-              onClick={() => updateSet(i, j, 'reps', (set.reps || 0) + 1)}
-            >
-              +
-            </button>
-          </div>
+          {/* REPS */}
+          {isEditable ? (
+            <div className="number-input">
+              <button
+                className="btn-clean"
+                onClick={() =>
+                  updateSet(i, j, 'reps', Math.max(0, (set.reps || 0) - 1))
+                }
+              >
+                −
+              </button>
 
-          {showCheckbox && (
+              <input
+                className="input-base"
+                type="number"
+                value={set.reps ?? ''}
+                onChange={(e) =>
+                  updateSet(
+                    i,
+                    j,
+                    'reps',
+                    e.target.value === '' ? '' : Number(e.target.value),
+                  )
+                }
+              />
+
+              <button
+                className="btn-clean"
+                onClick={() =>
+                  updateSet(i, j, 'reps', (set.reps || 0) + 1)
+                }
+              >
+                +
+              </button>
+            </div>
+          ) : (
+            <span>{set.reps ?? '-'}</span>
+          )}
+
+          {/* CHECKBOX */}
+          {showCheckbox && isEditable && (
             <input
               type="checkbox"
               className="checkbox"
@@ -307,9 +344,14 @@ export default function ExerciseItem({
       ))}
 
       {/* ADD SET */}
-      <button className="btn btn-standard btn-secondary btn-full" onClick={() => addSet(i)}>
-        Add set
-      </button>
+      {isEditable && (
+        <button
+          className="btn btn-standard btn-secondary btn-full"
+          onClick={() => addSet(i)}
+        >
+          Add set
+        </button>
+      )}
     </div>
   )
 }
