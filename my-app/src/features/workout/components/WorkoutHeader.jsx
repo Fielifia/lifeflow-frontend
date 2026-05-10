@@ -25,12 +25,14 @@ export default function WorkoutHeader({
   adjustStartTime,
   mode = 'run',
   duration,
-  onChangeDuration
+  onChangeDuration,
+  isEditable = true,
+  showDuration = true,
 }) {
 
   return (
     <div className="workout-header">
-      {isEditing ? (
+      {isEditing && isEditable ? (
         <input
           className="input-base"
           value={name}
@@ -48,20 +50,28 @@ export default function WorkoutHeader({
           }}
         />
       ) : (
-        <h2 onClick={() => setIsEditing(true)}>
-          {name} <Pencil className="icon-small" />
+        <h2
+          onClick={() => {
+            if (isEditable) {
+              setIsEditing(true)
+            }
+          }}
+        >
+          {name} {isEditable && <Pencil className="icon-small" />}
         </h2>
       )}
 
-      <DurationDisplay
-        mode={mode}
-        elapsed={elapsed}
-        status={status}
-        startTime={startTime}
-        adjustStartTime={adjustStartTime}
-        duration={duration}
-        onChangeDuration={onChangeDuration}
-      />
+      {showDuration && (
+        <DurationDisplay
+          mode={mode}
+          elapsed={elapsed}
+          status={status}
+          startTime={startTime}
+          adjustStartTime={adjustStartTime}
+          duration={duration}
+          onChangeDuration={onChangeDuration}
+        />
+      )}
     </div>
   )
 }

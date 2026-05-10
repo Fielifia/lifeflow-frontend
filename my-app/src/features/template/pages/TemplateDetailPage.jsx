@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { getTemplateById } from '../../../shared/api/templateApi'
 import BackButton from '../../../shared/ui/BackButton'
+import WorkoutHeader from '../../workout/components/WorkoutHeader'
 import DataState from '../../../shared/ui/DataState'
 
 /**
@@ -83,10 +84,11 @@ export default function TemplateDetail() {
       <BackButton fallback="/workouts" />
 
       {/* HEADER */}
-      <div className="workout-header">
-        <h2>{template.name || 'Untitled template'}</h2>
-        <span>{template.exercises?.length || 0} exercises</span>
-      </div>
+      <WorkoutHeader
+        name={template.name}
+        isEditable={false}
+        showDuration={false}
+      />
 
       {/* EXERCISES */}
       {normalizedExercises.map((ex, i) => (

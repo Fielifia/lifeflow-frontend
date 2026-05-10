@@ -84,6 +84,7 @@ export default function WorkoutRunPage() {
         status={status}
         startTime={startTime}
         adjustStartTime={adjustStartTime}
+        showDuration={true}
       />
 
       {/* TOP CONTROLS */}

@@ -4,6 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { getWorkoutById } from '../../../shared/api/workoutApi'
 
 import BackButton from '../../../shared/ui/BackButton'
+import WorkoutHeader from '../../workout/components/WorkoutHeader'
 import ExerciseItem from '../../workout/components/ExerciseItem'
 
 /**
@@ -37,13 +38,13 @@ export default function WorkoutDetailPage() {
       <BackButton fallback="/history" />
 
       {/* HEADER */}
-      <div className="workout-header">
-        <h2>{workout.name}</h2>
-
-        <span>
-          {workout.exercises?.length || 0} exercises
-        </span>
-      </div>
+      <WorkoutHeader
+        name={workout.name}
+        mode="history"
+        duration={workout.duration}
+        isEditable={false}
+        showDuration={true}
+      />
 
       {/* EXERCISES */}
       {workout.exercises.map((ex, i) => (

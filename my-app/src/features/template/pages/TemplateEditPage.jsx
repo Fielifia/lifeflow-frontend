@@ -1,7 +1,7 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import BackButton from '../../../shared/ui/BackButton'
 import ExerciseItem from '../../workout/components/ExerciseItem'
-import TemplateHeader from '../components/TemplateHeader'
+import WorkoutHeader from '../../workout/components/WorkoutHeader'
 import { useTemplateLogic } from '../hooks/useTemplateLogic'
 import TemplateControls from '../components/TemplateControls'
 
@@ -87,13 +87,18 @@ export default function TemplateEditPage() {
       <h2>{isCreate ? 'Create Template' : 'Edit Template'}</h2>
 
       {/* HEADER */}
-      <TemplateHeader
+      <WorkoutHeader
         name={template.name}
         isEditing={isEditingName}
         setIsEditing={setIsEditingName}
         onChangeName={(value) =>
-          setTemplate((prev) => ({ ...prev, name: value }))
+          setTemplate((prev) => ({
+            ...prev,
+            name: value,
+          }))
         }
+        isEditable={true}
+        showDuration={false}
       />
 
       {/* ADD EXERCISE */}
