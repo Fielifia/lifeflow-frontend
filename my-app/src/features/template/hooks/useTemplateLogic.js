@@ -109,7 +109,7 @@ export function useTemplateLogic(navigate, location, id) {
     }
 
     fetch()
-  }, [id, isCreate])
+  }, [id, isCreate, template.exercises.length])
 
   // ===== ADD FROM LIBRARY =====
   useEffect(() => {

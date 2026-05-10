@@ -89,6 +89,7 @@ export function useWorkoutTimer() {
     return undefined
   }, [status, startTime, offset])
 
+  
   /**
    * Detects inactivity and pauses the timer if no activity
    * has been registered within the defined limit.
