@@ -1,6 +1,30 @@
 import { useEffect, useMemo, useState } from 'react'
 import { getWorkoutById } from '../../../shared/api/workoutApi'
 
+/**
+ * Fetches a completed workout and calculates summary statistics.
+ *
+ * Handles:
+ * - Fetching workout by ID
+ * - Loading and error state
+ * - Derived workout statistics
+ *
+ * Statistics include:
+ * - Total sets
+ * - Total reps
+ * - Total training volume
+ * @param {string} id - Workout ID
+ * @returns {{
+ *   workout: object | null,
+ *   loading: boolean,
+ *   error: string,
+ *   stats: {
+ *     totalSets: number,
+ *     totalReps: number,
+ *     totalVolume: number,
+ *   } | null
+ * }} Workout detail state and calculated workout statistics.
+ */
 export function useWorkoutDetail(id) {
   const [workout, setWorkout] = useState(null)
   const [loading, setLoading] = useState(true)
