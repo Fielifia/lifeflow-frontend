@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import { getExerciseById } from '../../../shared/api/exerciseApi'
 import { normalizeExercise } from '../utils/exerciseAdapter'
@@ -16,6 +17,7 @@ export default function ExerciseDetail() {
 
   const [exercise, setExercise] = useState(null)
   const [currentImage, setCurrentImage] = useState(0)
+  const location = useLocation()
 
   useEffect(() => {
     if (!id) return
@@ -51,7 +53,7 @@ export default function ExerciseDetail() {
     <div className="app">
       {/* Header */}
 
-      <BackButton />
+      <BackButton fallback={location.state?.returnTo || '/exercises'} />
 
       {/* Title */}
       <div className="section">
