@@ -1,4 +1,4 @@
-import Skeleton from './SkeletonGrid'
+import SkeletonGrid from './SkeletonGrid'
 
 /**
  * DataState component to handle loading, error, and empty states for data fetching.
@@ -22,7 +22,7 @@ export default function DataState({
   children,
 }) {
   if (loading) {
-    return <Skeleton variant={variant} count={count} />
+    return <SkeletonGrid variant={variant} count={count} />
   }
 
   if (error) {
@@ -33,7 +33,11 @@ export default function DataState({
     )
   }
 
-  if (!data || data.length === 0) {
+  const isEmpty =
+  !data ||
+  (Array.isArray(data) && data.length === 0)
+
+  if (isEmpty) {
     return (
       <div className="empty-state">
         <p>{emptyText}</p>

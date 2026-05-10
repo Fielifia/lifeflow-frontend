@@ -70,6 +70,7 @@ export default function WorkoutHeader({
           adjustStartTime={adjustStartTime}
           duration={duration}
           onChangeDuration={onChangeDuration}
+          isEditable={isEditable}
         />
       )}
     </div>

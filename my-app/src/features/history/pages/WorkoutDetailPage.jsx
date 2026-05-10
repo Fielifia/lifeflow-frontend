@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
-import { getWorkoutById } from '../../../shared/api/workoutApi'
+import { useWorkoutDetail } from '../hooks/useWorkoutDetail'
 
+import DataState from '../../../shared/ui/DataState'
 import BackButton from '../../../shared/ui/BackButton'
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
 import ExerciseItem from '../../workout/components/ExerciseItem'
@@ -16,21 +16,28 @@ import ExerciseItem from '../../workout/components/ExerciseItem'
 export default function WorkoutDetailPage() {
   const { id } = useParams()
   const navigate = useNavigate()
+  const {
+    workout,
+    loading,
+    error,
+    stats,
+  } = useWorkoutDetail(id)
 
-  const [workout, setWorkout] = useState(null)
+  if (loading || error || !workout) {
+    return (
+      <div className="card-base card-workout">
+        <BackButton fallback="/workouts" />
 
-  useEffect(() => {
-    const fetchWorkout = async () => {
-      const data = await getWorkoutById(id)
-
-      setWorkout(data)
-    }
-
-    fetchWorkout()
-  }, [id])
-
-  if (!workout) {
-    return <p className="center">Loading...</p>
+        <DataState
+          loading={loading}
+          error={error}
+          data={workout ? [workout] : []}
+          variant="card-workout"
+          emptyText="No workout found"
+          count={1}
+        />
+      </div>
+    )
   }
 
   return (
@@ -43,8 +50,43 @@ export default function WorkoutDetailPage() {
         mode="history"
         duration={workout.duration}
         isEditable={false}
-        showDuration={true}
+        showDuration
       />
+
+      {/* SUMMARY */}
+      <div className="workout-summary-grid">
+        <div className="card-base">
+          <p className="stat-label">Exercises</p>
+          <h3>{workout.exercises.length}</h3>
+        </div>
+
+        <div className="card-base">
+          <p className="stat-label">Sets</p>
+          <h3>{stats.totalSets}</h3>
+        </div>
+
+        <div className="card-base">
+          <p className="stat-label">Reps</p>
+          <h3>{stats.totalReps}</h3>
+        </div>
+
+        <div className="card-base">
+          <p className="stat-label">Volume</p>
+          <h3>{stats.totalVolume} kg</h3>
+        </div>
+      </div>
+
+      {/* ACTIONS */}
+      <div className="workout-controls">
+        <button
+          className="btn btn-standard btn-secondary"
+          onClick={() =>
+            navigate(`/workouts/${workout._id}/edit`)
+          }
+        >
+          Edit workout
+        </button>
+      </div>
 
       {/* EXERCISES */}
       {workout.exercises.map((ex, i) => (
@@ -53,7 +95,6 @@ export default function WorkoutDetailPage() {
           ex={ex}
           i={i}
           navigate={navigate}
-          restTime={ex.restTime}
           isEditable={false}
           showCheckbox={false}
         />
