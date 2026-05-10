@@ -6,6 +6,7 @@
  *   totalSets: number,
  *   totalReps: number,
  *   totalVolume: number,
+ *   personalBests: number,
  * }} - Stats
  */
 export function calculateWorkoutStats(workout) {
