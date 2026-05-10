@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { Clock, Weight, Trash2, Trophy } from 'lucide-react'
 
 /**
@@ -109,6 +110,8 @@ export default function ExerciseItem({
   const [editingRest, setEditingRest] = useState(false)
   const safeRest = restTime ?? 120
 
+  const location = useLocation()
+
   return (
     <div className="workout-exercise">
       {/* HEADER */}
@@ -117,7 +120,12 @@ export default function ExerciseItem({
           src={ex.image || ex.images?.[0] || '/placeholder.png'}
           alt=""
           className="exercise-img-small"
-          onClick={() => navigate(`/exercises/${ex.exerciseId}`)
+          onClick={() => navigate(`/exercises/${ex.exerciseId}`, {
+            state: {
+              returnTo: location.pathname,
+              mode: 'workout',
+            },
+          })
           }
         />
 
