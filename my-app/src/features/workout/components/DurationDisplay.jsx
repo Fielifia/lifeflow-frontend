@@ -69,35 +69,45 @@ export default function DurationDisplay({
     <div className="duration">
       <div className="duration-time">
         <strong>{formatted}</strong>
-
-        {isEditable && (
-          <button
-            className="btn-clean muted small"
-            onClick={() => setEditing((v) => !v)}
-          >
-            <ClipboardClock className="icon-small" />
-          </button>
-        )}
       </div>
 
       {mode === 'run' && (
         <div className="edit-duration muted small">
-          Started at {start}
-        </div>
-      )}
+          <span>Started at {start}</span>
 
-      {editing && isEditable && (
-        <div>
-          <input
-            type={mode === 'run' ? 'time' : 'text'}
-            placeholder={mode === 'edit' ? 'mm:ss' : ''}
-            value={time}
-            onChange={(e) => setTime(e.target.value)}
-          />
-
-          <button onClick={handleSave}>
-            Save
-          </button>
+          {editing ? (
+            <>
+              {editing ? (
+                <input
+                  className="input-time"
+                  type="time"
+                  value={time}
+                  onChange={(e) => setTime(e.target.value)}
+                  onBlur={() => {
+                    handleSave()
+                    setEditing(false)
+                  }}
+                  autoFocus
+                />
+              ) : (
+                <button
+                  className="btn-clean muted small"
+                  onClick={() => setEditing(true)}
+                >
+                  <ClipboardClock className="icon-small" />
+                </button>
+              )}
+            </>
+          ) : (
+            isEditable && (
+              <button
+                className="btn-clean muted small"
+                onClick={() => setEditing(true)}
+              >
+                <ClipboardClock className="icon-small" />
+              </button>
+            )
+          )}
         </div>
       )}
     </div>

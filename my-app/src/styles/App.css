@@ -670,7 +670,27 @@ input[type="checkbox"]:hover {
 }
 
 .duration-time {
-  font-size: 28px;
+  font-size: 34px;
+}
+
+.edit-duration {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.input-time {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font: inherit;
+}
+
+.workout-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .workout-header h2 {

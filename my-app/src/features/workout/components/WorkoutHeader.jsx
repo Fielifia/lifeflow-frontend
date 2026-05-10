@@ -32,34 +32,42 @@ export default function WorkoutHeader({
 
   return (
     <div className="workout-header">
-      {isEditing && isEditable ? (
-        <input
-          className="input-base"
-          value={name}
-          onChange={(e) => onChangeName(e.target.value)}
-          autoFocus
-          onBlur={() => {
-            onChangeName(name.trim() || 'Workout –')
-            setIsEditing(false)
-          }}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              e.preventDefault()
-              e.target.blur()
-            }
-          }}
-        />
-      ) : (
-        <h2
-          onClick={() => {
-            if (isEditable) {
-              setIsEditing(true)
-            }
-          }}
-        >
-          {name} {isEditable && <Pencil className="icon-small" />}
-        </h2>
-      )}
+      <div className="workout-name">
+        {isEditing && isEditable ? (
+          <input
+            className="input-base"
+            value={name}
+            onChange={(e) => onChangeName(e.target.value)}
+            autoFocus
+            onBlur={() => {
+              onChangeName(name.trim() || 'Workout –')
+              setIsEditing(false)
+            }}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault()
+                e.target.blur()
+              }
+            }}
+          />
+        ) : (
+          <h2 className="close"
+            onClick={() => {
+              if (isEditable) {
+                setIsEditing(true)
+              }
+            }}
+          >
+            {name} {isEditable && <Pencil className="icon-small" />}
+          </h2>
+        )}
+
+        {mode === 'run' && (
+          <p className="muted small close">
+            In progress
+          </p>
+        )}
+      </div>
 
       {showDuration && (
         <DurationDisplay
