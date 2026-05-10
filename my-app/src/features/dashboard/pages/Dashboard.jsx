@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
-import {Play, CalendarCheck2, Trophy, Activity} from 'lucide-react'
+import { Play, CalendarCheck2, Trophy, Activity } from 'lucide-react'
+import { useEffect } from 'react'
+import { getOverviewStats } from '../../../shared/api/statsApi'
 
 /**
  * Dashboard view displaying user statistics and quick navigation.
@@ -25,13 +27,25 @@ export default function Dashboard() {
     NEW_PR: Trophy,
     GOAL_CRUSHER: Activity,
   }
-  
+
   const achievements = [
     { type: 'FIRST_WORKOUT', title: 'First Workout' },
     { type: 'CONSISTENCY_10', title: 'Consistency Beginner' },
     { type: 'NEW_PR', title: 'New PR' },
     { type: 'GOAL_CRUSHER', title: 'Goal Crusher' },
   ]
+
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      const data = await getOverviewStats()
+
+      console.log(data)
+    }
+
+    fetchStats()
+  }, [])
+
 
   return (
     <div className="app">

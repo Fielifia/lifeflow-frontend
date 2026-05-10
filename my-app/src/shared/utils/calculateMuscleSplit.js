@@ -1,6 +1,5 @@
 /**
  * Calculates muscle group distribution for a workout.
- *
  * @param {object} workout - Workout object
  * @returns {Array<{ muscle: string, percentage: number, sets: number }>} - Muscle split
  */

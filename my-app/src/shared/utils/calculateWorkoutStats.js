@@ -1,6 +1,5 @@
 /**
  * Calculates summary statistics for a workout.
- *
  * @param {object} workout - Workout object
  * @returns {{
  *   totalSets: number,
