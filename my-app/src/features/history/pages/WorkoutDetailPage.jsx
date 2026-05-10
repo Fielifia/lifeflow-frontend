@@ -6,6 +6,7 @@ import DataState from '../../../shared/ui/DataState'
 import BackButton from '../../../shared/ui/BackButton'
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
 import ExerciseItem from '../../workout/components/ExerciseItem'
+import WorkoutSummary from '../components/WorkoutSummary'
 
 /**
  * Page for displaying detailed information about a single workout.
@@ -54,27 +55,12 @@ export default function WorkoutDetailPage() {
       />
 
       {/* SUMMARY */}
-      <div className="workout-summary-grid">
-        <div className="card-base">
-          <p className="stat-label">Exercises</p>
-          <h3>{workout.exercises.length}</h3>
-        </div>
-
-        <div className="card-base">
-          <p className="stat-label">Sets</p>
-          <h3>{stats.totalSets}</h3>
-        </div>
-
-        <div className="card-base">
-          <p className="stat-label">Reps</p>
-          <h3>{stats.totalReps}</h3>
-        </div>
-
-        <div className="card-base">
-          <p className="stat-label">Volume</p>
-          <h3>{stats.totalVolume} kg</h3>
-        </div>
-      </div>
+      <WorkoutSummary
+        exerciseCount={workout.exercises.length}
+        totalSets={stats.totalSets}
+        totalReps={stats.totalReps}
+        totalVolume={stats.totalVolume}
+      />
 
       {/* ACTIONS */}
       <div className="workout-controls">

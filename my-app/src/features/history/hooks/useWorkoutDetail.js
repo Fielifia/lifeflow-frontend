@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { getWorkoutById } from '../../../shared/api/workoutApi'
+import { calculateWorkoutStats } from '../../../shared/utils/calculateWorkoutStats'
 
 /**
  * Fetches a completed workout and calculates summary statistics.
@@ -48,38 +49,7 @@ export function useWorkoutDetail(id) {
     fetchWorkout()
   }, [id])
 
-  const stats = useMemo(() => {
-    if (!workout) return null
-
-    const totalSets = workout.exercises.reduce(
-      (sum, ex) => sum + ex.sets.length,
-      0,
-    )
-
-    const totalReps = workout.exercises.reduce(
-      (sum, ex) =>
-        sum +
-        ex.sets.reduce((repSum, set) => repSum + (Number(set.reps) || 0), 0),
-      0,
-    )
-
-    const totalVolume = workout.exercises.reduce(
-      (sum, ex) =>
-        sum +
-        ex.sets.reduce(
-          (setSum, set) =>
-            setSum + (Number(set.weight) || 0) * (Number(set.reps) || 0),
-          0,
-        ),
-      0,
-    )
-
-    return {
-      totalSets,
-      totalReps,
-      totalVolume,
-    }
-  }, [workout])
+  const stats = useMemo(() => calculateWorkoutStats(workout), [workout])
 
   return {
     workout,
