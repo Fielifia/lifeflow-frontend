@@ -71,8 +71,12 @@ export function formatWeight(kg) {
     return '0 kg'
   }
 
+  if (kg >= 1000000000) {
+    return `${(kg / 1000000000).toFixed(1)}B kg`
+  }
+
   if (kg >= 1000000) {
-    return `${(kg / 1000000).toFixed(1)}t`
+    return `${(kg / 1000000).toFixed(1)}M kg`
   }
 
   if (kg >= 1000) {

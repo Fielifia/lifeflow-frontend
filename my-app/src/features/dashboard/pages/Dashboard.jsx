@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { Play, CalendarCheck2, Trophy, Activity } from 'lucide-react'
 import StatCard from '../components/StatCard'
 import { useDashboardStats } from '../hooks/useDashboardStats'
-import { formatDuration } from '../../../shared/utils/format'
+import { formatDuration, formatNumber, formatWeight } from '../../../shared/utils/format'
 
 /**
  * Dashboard view displaying user statistics and quick navigation.
@@ -71,12 +71,12 @@ export default function Dashboard() {
 
         <StatCard
           label={`Sets / ${stats?.currentMonth.reps ?? 0} Reps`}
-          value={`${stats?.currentMonth.sets ?? 0}`}
+          value={`${formatNumber(stats?.currentMonth.sets ?? 0)}`}
         />
 
         <StatCard
           label="Total volume"
-          value={`${stats?.currentMonth.volumeKg ?? 0} kg`}
+          value={formatWeight(stats?.currentMonth.volumeKg)}
         />
       </div>
 
