@@ -70,8 +70,8 @@ export default function Dashboard() {
         />
 
         <StatCard
-          label="Sets / Reps"
-          value={`${stats?.currentMonth.sets ?? 0} / ${stats?.currentMonth.reps ?? 0}`}
+          label={`Sets / ${stats?.currentMonth.reps ?? 0} Reps`}
+          value={`${stats?.currentMonth.sets ?? 0}`}
         />
 
         <StatCard

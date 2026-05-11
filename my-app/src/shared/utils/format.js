@@ -49,3 +49,35 @@ export function formatDuration(minutes) {
     ? `${hours}h ${mins}m`
     : `${hours}h`
 }
+
+/**
+ * Formats large numbers with separators.
+ *
+ * @param {number} value
+ * @returns {string}
+ */
+export function formatNumber(value) {
+  return new Intl.NumberFormat('en-US').format(value || 0)
+}
+
+/**
+ * Formats workout volume.
+ *
+ * @param {number} kg
+ * @returns {string}
+ */
+export function formatWeight(kg) {
+  if (!kg) {
+    return '0 kg'
+  }
+
+  if (kg >= 1000000) {
+    return `${(kg / 1000000).toFixed(1)}t`
+  }
+
+  if (kg >= 1000) {
+    return `${(kg / 1000).toFixed(1)}k kg`
+  }
+
+  return `${kg} kg`
+}
