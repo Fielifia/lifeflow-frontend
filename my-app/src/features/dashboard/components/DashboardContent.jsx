@@ -54,6 +54,7 @@ export default function DashboardContent({
   ]
 
   const hasWorkouts = (stats?.allTime?.workouts ?? 0) > 0
+  const hasActivity = activityData.some((d) => d.minutes > 0)
 
   return (
     <div className="section">
@@ -114,35 +115,46 @@ export default function DashboardContent({
       <div className="section">
         <h3>Weekly Activity</h3>
 
-        <div className="chart">
-          <div className="y-axis">
-            {yAxisValues.map((value) => (
-              <span key={value}>{value}</span>
-            ))}
-          </div>
-
-          <div className="graph">
-            {activityData.map((d) => (
-              <div
-                key={d.day}
-                className="column"
-                title={`${d.minutes} min active`}
-              >
-
-                <div
-                  className="bar"
-                  style={{
-                    height: `${(d.minutes / maxValue) * 120}px`,
-                  }}
-                />
-
-                <span className="label">{d.day}</span>
+        {hasActivity ? (
+          <>
+            <div className="chart">
+              <div className="y-axis">
+                {yAxisValues.map((value) => (
+                  <span key={value}>{value}</span>
+                ))}
               </div>
-            ))}
-          </div>
-        </div>
 
-        <p className="muted small center">Minutes active</p>
+              <div className="graph">
+                {activityData.map((d) => (
+                  <div
+                    key={d.day}
+                    className="column"
+                    title={`${d.minutes} min active`}
+                  >
+                    <div
+                      className="bar"
+                      style={{
+                        height: `${(d.minutes / maxValue) * 120}px`,
+                      }}
+                    />
+
+                    <span className="label">{d.day}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <p className="muted small center">
+              Minutes active
+            </p>
+          </>
+        ) : (
+          <div className="empty-state">
+            <p className="muted small center">
+              Complete a workout to see your weekly activity
+            </p>
+          </div>
+        )}
       </div>
 
       {/* Quick actions */}
@@ -164,7 +176,7 @@ export default function DashboardContent({
       <div className="section">
         <MonthlyGoal
           current={stats?.currentMonth?.workouts ?? 0}
-          target={12}
+          target={null}
         />
       </div>
 

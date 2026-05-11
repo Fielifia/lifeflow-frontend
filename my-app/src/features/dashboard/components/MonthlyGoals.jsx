@@ -3,7 +3,9 @@ export default function MonthlyGoal({
   current,
   target,
 }) {
-  const progress = Math.min((current / target) * 100, 100)
+  const progress = target
+    ? Math.min((current / target) * 100, 100)
+    : 0
 
   const remaining = Math.max(target - current, 0)
 
@@ -19,13 +21,16 @@ export default function MonthlyGoal({
       </div>
 
       <p className="muted small">
-        {remaining > 0
-          ? `${remaining} workouts left to reach your goal`
-          : (
-            <span className="goal-complete">
-              <Award />Monthly goal completed
-            </span>
-          )}
+        {!target
+          ? 'Set a monthly goal to start tracking your progress'
+          : remaining > 0
+            ? `${remaining} workouts left to reach your goal`
+            : (
+              <span className="goal-complete">
+                <Award size={14} />
+                Monthly goal completed
+              </span>
+            )}
       </p>
     </div>
   )
