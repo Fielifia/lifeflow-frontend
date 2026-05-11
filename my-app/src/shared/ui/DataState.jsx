@@ -35,7 +35,12 @@ export default function DataState({
 
   const isEmpty =
   !data ||
-  (Array.isArray(data) && data.length === 0)
+  (Array.isArray(data) && data.length === 0) ||
+  (
+    typeof data === 'object' &&
+    !Array.isArray(data) &&
+    Object.keys(data).length === 0
+  )
 
   if (isEmpty) {
     return (

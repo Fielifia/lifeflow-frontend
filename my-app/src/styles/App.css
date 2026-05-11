@@ -144,8 +144,8 @@ a:active {
 
 .app {
   max-width: 480px;
-  margin: 0 auto 40px;
-  padding: 16px 12px 80px;
+  margin: 0 auto 48px;
+  padding: 12px 12px;
 }
 
 .page-section {
@@ -643,10 +643,6 @@ input[type="checkbox"]:hover {
   display: flex;
   gap: 8px;
   margin: 12px 0 0;
-}
-
-.workout-controls.btn {
-  flex: 1;
 }
 
 .workout-exercise {

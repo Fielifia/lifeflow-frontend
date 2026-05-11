@@ -142,6 +142,21 @@ export default function WorkoutRunPage() {
         placeholder="Workout Notes..."
         onChange={(e) => updateWorkoutNotes(e.target.value)}
       />
+
+      {/* BOTTOM CONTROLS */}
+      <WorkoutControls
+        name={workout.name}
+        status={status}
+        elapsed={elapsed}
+        handleStartPause={handleStartPause}
+        saveWorkout={saveWorkout}
+        onSaveTemplate={saveAsTemplate}
+        saving={saving}
+        discardWorkout={discardWorkout}
+        hasExercises={workout.exercises.length > 0}
+      />
+      {success && <p className="muted center">Workout saved ✔</p>}
+      {error && <p className="error center">{error}</p>}
     </div>
   )
 }

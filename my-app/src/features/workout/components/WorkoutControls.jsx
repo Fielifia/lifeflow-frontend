@@ -27,12 +27,12 @@ export default function WorkoutControls({
   return (
     <div className="workout-controls">
       <button
-        className="btn btn-standard btn-secondary"
+        className="btn btn-standard btn-secondary workout-toggle-btn"
         onClick={handleStartPause}
         disabled={saving}
       >
         {status === 'running'
-          ? '⏸ Pause'
+          ? '❚❚ Pause'
           : status === 'paused'
             ? '▶ Resume'
             : '▶ Start'}
