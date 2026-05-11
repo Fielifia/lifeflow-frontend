@@ -1043,14 +1043,6 @@ html body div#root div.app div.card-base.card-workout div.workout-exercise div.e
   justify-content: center;
 }
 
-.workout-summary-grid .stat-label {
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  opacity: 0.7;
-  margin: 0;
-}
-
 .workout-summary-grid h3 {
   margin: 0;
   font-size: 1.35rem;

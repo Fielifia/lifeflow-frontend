@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Play, CalendarCheck2, Trophy, Activity } from 'lucide-react'
-import { useEffect } from 'react'
-import { getOverviewStats } from '../../../shared/api/statsApi'
+import StatCard from '../components/StatCard'
+import { useDashboardStats } from '../hooks/useDashboardStats'
 
 /**
  * Dashboard view displaying user statistics and quick navigation.
@@ -35,17 +35,9 @@ export default function Dashboard() {
     { type: 'GOAL_CRUSHER', title: 'Goal Crusher' },
   ]
 
+  const { stats, loading } = useDashboardStats()
 
-  useEffect(() => {
-    const fetchStats = async () => {
-      const data = await getOverviewStats()
-
-      console.log(data)
-    }
-
-    fetchStats()
-  }, [])
-
+  if (loading) return <p>Loading...</p>
 
   return (
     <div className="app">
@@ -59,25 +51,25 @@ export default function Dashboard() {
 
       {/* Stats cards */}
       <div className="grid-base stats-grid">
-        <div className="card-base stat-card">
-          <p className="stat-value">18</p>
-          <p className="stat-label">Workouts this month</p>
-        </div>
+        <StatCard
+          label="Workouts this month"
+          value={stats?.currentMonth.workouts ?? 0}
+        />
 
-        <div className="card-base stat-card">
-          <p className="stat-value">24</p>
-          <p className="stat-label">Total hours this month</p>
-        </div>
+        <StatCard
+          label="Total minutes this month"
+          value={stats?.currentMonth.durationMinutes ?? 0}
+        />
 
-        <div className="card-base stat-card">
-          <p className="stat-value">342</p>
-          <p className="stat-label">Sets / 4,256 reps</p>
-        </div>
+        <StatCard
+          label="Sets / Reps"
+          value={`${stats?.currentMonth.sets ?? 0} / ${stats?.currentMonth.reps ?? 0}`}
+        />
 
-        <div className="card-base stat-card">
-          <p className="stat-value">12.4k</p>
-          <p className="stat-label">Total volume (kg)</p>
-        </div>
+        <StatCard
+          label="Total volume (kg)"
+          value={`${stats?.currentMonth.volumeKg ?? 0} kg`}
+        />
       </div>
 
       {/* Weekly activity */}
