@@ -1066,6 +1066,17 @@ html body div#root div.app div.card-base.card-workout div.workout-exercise div.e
   margin-top: 6px;
 }
 
+.stat-with-icon {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.stat-with-icon .stat-icon {
+  width: 16px;
+  color: var(--primary);
+}
+
 .stat-value {
   font-size: 22px;
   font-weight: 600;

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { Play, CalendarCheck2, Trophy, Activity } from 'lucide-react'
+import { Dumbbell, TrendingUp, Weight, Play, CalendarCheck2, Trophy, Activity } from 'lucide-react'
 import StatCard from '../components/StatCard'
 import { useDashboardStats } from '../hooks/useDashboardStats'
 import { formatDuration, formatNumber, formatWeight } from '../../../shared/utils/format'
@@ -15,7 +15,7 @@ export default function Dashboard() {
 
   const activityData = stats?.currentWeek.activity ?? []
 
-  const monthlyMinutes = stats?.currentMonth.minutes ?? 0
+  const monthlyMinutes = stats?.currentMonth.durationMinutes ?? 0
 
   const rawMax = Math.max(
     ...activityData.map((d) => d.minutes),
@@ -61,22 +61,45 @@ export default function Dashboard() {
       <div className="grid-base stats-grid">
         <StatCard
           label="Workouts"
-          value={stats?.currentMonth.workouts ?? 0}
+          value={
+            <div className="stat-with-icon">
+              <Dumbbell className="stat-icon" />
+              <span>{stats?.currentMonth.workouts ?? 0}</span>
+            </div>
+          }
         />
+
+
 
         <StatCard
           label="Total time"
-          value={formatDuration(monthlyMinutes)}
+          value={
+            <div className="stat-with-icon">
+              <Activity className="stat-icon" />
+              <span>{formatDuration(monthlyMinutes)}</span>
+            </div>
+          }
         />
 
+
         <StatCard
-          label={`Sets / ${stats?.currentMonth.reps ?? 0} Reps`}
-          value={`${formatNumber(stats?.currentMonth.sets ?? 0)}`}
+          label={`Sets / ${formatNumber(stats?.currentMonth.reps ?? 0)} Reps`}
+          value={
+            <div className="stat-with-icon">
+              <TrendingUp className="stat-icon" />
+              <span>{formatNumber(stats?.currentMonth.sets ?? 0)}</span>
+            </div>
+          }
         />
 
         <StatCard
           label="Total volume"
-          value={formatWeight(stats?.currentMonth.volumeKg)}
+          value={
+            <div className="stat-with-icon">
+              <Weight className="stat-icon" />
+              <span>{formatWeight(stats?.currentMonth.volumeKg)}</span>
+            </div>
+          }
         />
       </div>
 
