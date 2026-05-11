@@ -9,17 +9,22 @@ import { useDashboardStats } from '../hooks/useDashboardStats'
  */
 export default function Dashboard() {
   const user = JSON.parse(localStorage.getItem('user'))
-  const maxValue = 120
 
-  const data = [
-    { day: 'Mon', value: 40 },
-    { day: 'Tue', value: 60 },
-    { day: 'Wed', value: 50 },
-    { day: 'Thu', value: 90 },
-    { day: 'Fri', value: 70 },
-    { day: 'Sat', value: 110 },
-    { day: 'Sun', value: 80 },
-  ]
+  const { stats, loading } = useDashboardStats()
+
+  const activityData = stats?.currentWeek.activity ?? []
+
+  const rawMax = Math.max(
+    ...activityData.map((d) => d.minutes),
+    1
+  )
+
+  const maxValue = Math.ceil(rawMax / 25) * 25
+
+  const yAxisValues = Array.from(
+    { length: 6 },
+    (_, i) => Math.round((maxValue / 5) * (5 - i))
+  )
 
   const ACHIEVEMENT_ICONS = {
     FIRST_WORKOUT: Play,
@@ -35,7 +40,6 @@ export default function Dashboard() {
     { type: 'GOAL_CRUSHER', title: 'Goal Crusher' },
   ]
 
-  const { stats, loading } = useDashboardStats()
 
   if (loading) return <p>Loading...</p>
 
@@ -78,24 +82,26 @@ export default function Dashboard() {
 
         <div className="chart">
           <div className="y-axis">
-            <span>120</span>
-            <span>100</span>
-            <span>80</span>
-            <span>60</span>
-            <span>40</span>
-            <span>20</span>
-            <span>0</span>
+            {yAxisValues.map((value) => (
+              <span key={value}>{value}</span>
+            ))}
           </div>
 
           <div className="graph">
-            {data.map((d) => (
-              <div key={d.day} className="column">
+            {activityData.map((d) => (
+              <div
+                key={d.day}
+                className="column"
+                title={`${d.minutes} min active`}
+              >
+
                 <div
                   className="bar"
                   style={{
-                    height: `${(d.value / maxValue) * 120}px`,
+                    height: `${(d.minutes / maxValue) * 120}px`,
                   }}
-                ></div>
+                />
+
                 <span className="label">{d.day}</span>
               </div>
             ))}
