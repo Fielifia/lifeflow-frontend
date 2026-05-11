@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import API from '../../../shared/api/api'
 import { workoutMutation } from '../../workout/utils/workoutMutations'
 import { cleanWorkoutForSave } from '../../workout/utils/cleanWorkoutForSave'
-import { detectPersonalBest } from '../../workout/utils/detectPersonalBest'
 
 /**
  * Custom hook for editing workouts.
@@ -17,7 +16,6 @@ export function useEditWorkoutLogic(workoutId, navigate) {
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
-  const [pbs, setPbs] = useState({})
 
   // ===== LOAD WORKOUT =====
   useEffect(() => {
@@ -82,7 +80,6 @@ export function useEditWorkoutLogic(workoutId, navigate) {
       })
 
       const updated = { ...prev, exercises }
-      setPbs(detectPersonalBest(updated))
       return updated
     })
   }
@@ -137,7 +134,6 @@ export function useEditWorkoutLogic(workoutId, navigate) {
     success,
     error,
 
-    pbs,
 
     addSet,
     updateSet,

@@ -82,7 +82,6 @@ export default function WorkoutDetailPage() {
           ex={ex}
           i={i}
           navigate={navigate}
-          pb={ex.pb}
           isEditable={false}
           showCheckbox={false}
         />

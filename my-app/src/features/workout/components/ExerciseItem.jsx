@@ -7,7 +7,6 @@ import { Clock, Weight, Trash2, Trophy } from 'lucide-react'
  * @param {object} props - Component props
  * @param {{ exerciseId: string, name: string, image?: string, sets: Array }} props.ex - Exercise data
  * @param {number} props.i - Exercise index
- * @param props.pb - Personal best
  * @param {(path: string) => void} props.navigate - Navigation function
  * @param {(i: number) => void} props.addSet - Adds a new set
  * @param {(i: number, j: number, field: string, value: number | '') => void} props.updateSet - Updates set values
@@ -35,7 +34,6 @@ import { Clock, Weight, Trash2, Trophy } from 'lucide-react'
 export default function ExerciseItem({
   ex,
   i,
-  pb,
   navigate,
   addSet,
   updateSet,
@@ -54,18 +52,6 @@ export default function ExerciseItem({
     showCheckbox && isEditable
       ? 'set-grid-with-checkbox'
       : 'set-grid-no-checkbox'
-
-  const getBestSetIndex = () => {
-    if (!pb?.bestSet) return -1
-
-    return ex.sets.findIndex(
-      (s) =>
-        Number(s.weight) === pb.bestSet.weight &&
-        Number(s.reps) === pb.bestSet.reps,
-    )
-  }
-
-  const bestIndex = getBestSetIndex()
 
   const handleCheck = (j, checked) => {
     toggleSetComplete(i, j, checked)
@@ -117,6 +103,11 @@ export default function ExerciseItem({
   const safeRest = restTime ?? 120
 
   const location = useLocation()
+
+  const historicalBest = ex.historicalBest || {
+    weight: 0,
+    reps: 0,
+  }
 
   return (
     <div className="workout-exercise">
@@ -237,115 +228,128 @@ export default function ExerciseItem({
       </div>
 
       {/* SETS */}
-      {ex.sets.map((set, j) => (
-        <div
-          key={j}
-          onMouseDown={isEditable ? (e) => startHold(j, e) : undefined}
-          onMouseUp={isEditable ? cancelHold : undefined}
-          onMouseLeave={isEditable ? cancelHold : undefined}
-          onTouchStart={isEditable ? (e) => startHold(j, e) : undefined}
-          onTouchEnd={isEditable ? cancelHold : undefined}
-          className={`set-row
+      {ex.sets.map((set, j) => {
+
+
+        const isHistoricalPB =
+          set.completed &&
+          (
+            set.weight > historicalBest.weight ||
+            (
+              set.weight === historicalBest.weight &&
+              set.reps > historicalBest.reps
+            )
+          )
+
+        return (
+          <div
+            key={j}
+            onMouseDown={isEditable ? (e) => startHold(j, e) : undefined}
+            onMouseUp={isEditable ? cancelHold : undefined}
+            onMouseLeave={isEditable ? cancelHold : undefined}
+            onTouchStart={isEditable ? (e) => startHold(j, e) : undefined}
+            onTouchEnd={isEditable ? cancelHold : undefined}
+            className={`set-row
             ${set.completed ? 'completed' : ''} 
-            ${(set.personalBest || j === bestIndex) ? 'best-set' : ''}
+            ${isHistoricalPB ? 'best-set' : ''}
           `}
-        >
-          {holdingSet === j && (
-            <div className="hold-indicator">
-              <div
-                className="hold-progress"
-                style={{ transform: `scaleX(${progress})` }}
-              />
-            </div>
-          )}
-          <span
-            className={`set-number ${set.personalBest || j === bestIndex ? 'pb' : ''
-            }`}
           >
-            {set.personalBest || j === bestIndex
-              ? <Trophy className="icon-small" />
-              : j + 1}
-          </span>
-
-          {/* PREVIOUS */}
-          {isEditable && (
-            <span className="previous">
-              {set.prevWeight != null && set.prevReps != null
-                ? `${set.prevWeight}×${set.prevReps}`
-                : '–'}
+            {holdingSet === j && (
+              <div className="hold-indicator">
+                <div
+                  className="hold-progress"
+                  style={{ transform: `scaleX(${progress})` }}
+                />
+              </div>
+            )}
+            <span
+              className={`set-number ${isHistoricalPB ? 'pb' : ''}`}
+            >
+              {isHistoricalPB
+                ? <Trophy className="icon-small" />
+                : j + 1}
             </span>
-          )}
 
-          {/* WEIGHT */}
-          {isEditable ? (
-            <input
-              ref={(el) => (inputRefs.current[j] = el)}
-              className="input-base"
-              type="number"
-              value={set.weight ?? ''}
-              onChange={(e) =>
-                updateSet(
-                  i,
-                  j,
-                  'weight',
-                  e.target.value === '' ? '' : Number(e.target.value),
-                )
-              }
-            />
-          ) : (
-            <span>{set.weight ?? '-'}</span>
-          )}
+            {/* PREVIOUS */}
+            {isEditable && (
+              <span className="previous">
+                {set.prevWeight != null && set.prevReps != null
+                  ? `${set.prevWeight}×${set.prevReps}`
+                  : '–'}
+              </span>
+            )}
 
-          {/* REPS */}
-          {isEditable ? (
-            <div className="number-input">
-              <button
-                className="btn-clean"
-                onClick={() =>
-                  updateSet(i, j, 'reps', Math.max(0, (set.reps || 0) - 1))
-                }
-              >
-                −
-              </button>
-
+            {/* WEIGHT */}
+            {isEditable ? (
               <input
+                ref={(el) => (inputRefs.current[j] = el)}
                 className="input-base"
                 type="number"
-                value={set.reps ?? ''}
+                value={set.weight ?? ''}
                 onChange={(e) =>
                   updateSet(
                     i,
                     j,
-                    'reps',
+                    'weight',
                     e.target.value === '' ? '' : Number(e.target.value),
                   )
                 }
               />
+            ) : (
+              <span>{set.weight ?? '-'}</span>
+            )}
 
-              <button
-                className="btn-clean"
-                onClick={() =>
-                  updateSet(i, j, 'reps', (set.reps || 0) + 1)
-                }
-              >
-                +
-              </button>
-            </div>
-          ) : (
-            <span>{set.reps ?? '-'}</span>
-          )}
+            {/* REPS */}
+            {isEditable ? (
+              <div className="number-input">
+                <button
+                  className="btn-clean"
+                  onClick={() =>
+                    updateSet(i, j, 'reps', Math.max(0, (set.reps || 0) - 1))
+                  }
+                >
+                  −
+                </button>
 
-          {/* CHECKBOX */}
-          {showCheckbox && isEditable && (
-            <input
-              type="checkbox"
-              className="checkbox"
-              checked={set.completed}
-              onChange={(e) => handleCheck(j, e.target.checked)}
-            />
-          )}
-        </div>
-      ))}
+                <input
+                  className="input-base"
+                  type="number"
+                  value={set.reps ?? ''}
+                  onChange={(e) =>
+                    updateSet(
+                      i,
+                      j,
+                      'reps',
+                      e.target.value === '' ? '' : Number(e.target.value),
+                    )
+                  }
+                />
+
+                <button
+                  className="btn-clean"
+                  onClick={() =>
+                    updateSet(i, j, 'reps', (set.reps || 0) + 1)
+                  }
+                >
+                  +
+                </button>
+              </div>
+            ) : (
+              <span>{set.reps ?? '-'}</span>
+            )}
+
+            {/* CHECKBOX */}
+            {showCheckbox && isEditable && (
+              <input
+                type="checkbox"
+                className="checkbox"
+                checked={set.completed}
+                onChange={(e) => handleCheck(j, e.target.checked)}
+              />
+            )}
+          </div>
+        )
+      })}
 
       {/* ADD SET */}
       {isEditable && (

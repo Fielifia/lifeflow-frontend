@@ -4,7 +4,6 @@ import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 import { mapWorkoutToTemplate } from '../../template/utils/mapWorkoutToTemplate'
 import { DEFAULT_REST, DEFAULT_SETS, EMPTY_WORKOUT } from '../constants.js'
 import { cleanWorkoutForSave } from '../utils/cleanWorkoutForSave'
-import { detectPersonalBest } from '../utils/detectPersonalBest'
 import { workoutMutation } from '../utils/workoutMutations'
 import { usePreviousExercise } from './usePreviousExercise'
 
@@ -44,7 +43,7 @@ export function useWorkoutLogic(navigate, location, workoutId) {
   const [isEditingName, setIsEditingName] = useState(false)
 
   const { setActiveWorkout } = useWorkoutContext()
-  const [pbs, setPbs] = useState({})
+
 
   const hasAddedRef = useRef(false)
 
@@ -101,14 +100,21 @@ export function useWorkoutLogic(navigate, location, workoutId) {
 
           const prev = await getPreviousSets(ex.id || ex.exerciseId)
 
+          let historicalBest = {
+            weight: 0,
+            reps: 0,
+          }
+
           if (prev) {
-            sets = prev.map((s) => ({
+            sets = prev.sets.map((s) => ({
               reps: s.reps,
               weight: s.weight,
               completed: false,
               prevReps: s.reps,
               prevWeight: s.weight,
             }))
+
+            historicalBest = prev.bestSet
           }
 
           return {
@@ -116,6 +122,7 @@ export function useWorkoutLogic(navigate, location, workoutId) {
             exerciseId: ex.id || ex.exerciseId,
             restTime: ex.restTime ?? DEFAULT_REST,
             sets,
+            historicalBest,
           }
         }),
       )
@@ -192,12 +199,6 @@ export function useWorkoutLogic(navigate, location, workoutId) {
         value,
       )
 
-      const updatedSet = updatedWorkout.exercises[exIndex].sets[setIndex]
-
-      if (updatedSet.completed && (field === 'weight' || field === 'reps')) {
-        setPbs(detectPersonalBest(updatedWorkout))
-      }
-
       return updatedWorkout
     })
 
@@ -233,7 +234,6 @@ export function useWorkoutLogic(navigate, location, workoutId) {
       })
 
       const updatedWorkout = { ...prev, exercises }
-      setPbs(detectPersonalBest(updatedWorkout))
 
       return updatedWorkout
     })
@@ -348,7 +348,6 @@ export function useWorkoutLogic(navigate, location, workoutId) {
 
     updateExerciseNotes,
     updateExerciseRest,
-    pbs,
 
     isEditingName,
     setIsEditingName,
