@@ -108,6 +108,8 @@ export default function ExerciseItem({
     weight: 0,
     reps: 0,
   }
+  
+  let currentBest = { ...historicalBest }
 
   return (
     <div className="workout-exercise">
@@ -228,18 +230,25 @@ export default function ExerciseItem({
       </div>
 
       {/* SETS */}
-      {ex.sets.map((set, j) => {
 
+      {ex.sets.map((set, j) => {
 
         const isHistoricalPB =
           set.completed &&
           (
-            set.weight > historicalBest.weight ||
+            set.weight > currentBest.weight ||
             (
-              set.weight === historicalBest.weight &&
-              set.reps > historicalBest.reps
+              set.weight === currentBest.weight &&
+              set.reps > currentBest.reps
             )
           )
+
+        if (isHistoricalPB) {
+          currentBest = {
+            weight: set.weight,
+            reps: set.reps,
+          }
+        }
 
         return (
           <div
