@@ -164,7 +164,7 @@ export default function Dashboard() {
 
       {/* Achievements */}
       <div className="section">
-        <h3>Recent Achievements</h3>
+        <h3>Recent Achievements – placeholders</h3>
 
         <div className="grid-base achievements-grid">
           {achievements.map((a) => {

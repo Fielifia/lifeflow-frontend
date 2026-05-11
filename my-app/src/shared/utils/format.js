@@ -29,7 +29,6 @@ export function formatLabel(str) {
  * Formats workout duration.
  * Shows minutes under 2 hours,
  * otherwise hours + minutes.
- *
  * @param {number} minutes - Duration in minutes
  * @returns {string} Formatted duration
  */
@@ -52,9 +51,8 @@ export function formatDuration(minutes) {
 
 /**
  * Formats large numbers with separators.
- *
- * @param {number} value
- * @returns {string}
+ * @param {number} value - The value to format
+ * @returns {string} Formatted number
  */
 export function formatNumber(value) {
   return new Intl.NumberFormat('en-US').format(value || 0)
@@ -62,9 +60,8 @@ export function formatNumber(value) {
 
 /**
  * Formats workout volume.
- *
- * @param {number} kg
- * @returns {string}
+ * @param {number} kg - The value to format
+ * @returns {string} Formatted volume
  */
 export function formatWeight(kg) {
   if (!kg) {
