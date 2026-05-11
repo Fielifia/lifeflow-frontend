@@ -72,7 +72,7 @@ export default function Dashboard() {
 
         <StatCard
           label="Total volume (kg)"
-          value={`${stats?.currentMonth.volumeKg ?? 0} kg`}
+          value={`${stats?.currentMonth.volumeKg ?? 0}`}
         />
       </div>
 
