@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { Play, CalendarCheck2, Trophy, Activity } from 'lucide-react'
 import StatCard from '../components/StatCard'
 import { useDashboardStats } from '../hooks/useDashboardStats'
+import { formatDuration } from '../../../shared/utils/format'
 
 /**
  * Dashboard view displaying user statistics and quick navigation.
@@ -13,6 +14,8 @@ export default function Dashboard() {
   const { stats, loading } = useDashboardStats()
 
   const activityData = stats?.currentWeek.activity ?? []
+
+  const monthlyMinutes = stats?.currentMonth.minutes ?? 0
 
   const rawMax = Math.max(
     ...activityData.map((d) => d.minutes),
@@ -54,15 +57,16 @@ export default function Dashboard() {
       </div>
 
       {/* Stats cards */}
+      <h3>This month</h3>
       <div className="grid-base stats-grid">
         <StatCard
-          label="Workouts this month"
+          label="Workouts"
           value={stats?.currentMonth.workouts ?? 0}
         />
 
         <StatCard
-          label="Total minutes this month"
-          value={stats?.currentMonth.durationMinutes ?? 0}
+          label="Total time"
+          value={formatDuration(monthlyMinutes)}
         />
 
         <StatCard
@@ -71,8 +75,8 @@ export default function Dashboard() {
         />
 
         <StatCard
-          label="Total volume (kg)"
-          value={`${stats?.currentMonth.volumeKg ?? 0}`}
+          label="Total volume"
+          value={`${stats?.currentMonth.volumeKg ?? 0} kg`}
         />
       </div>
 

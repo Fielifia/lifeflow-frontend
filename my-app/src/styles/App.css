@@ -1055,6 +1055,9 @@ html body div#root div.app div.card-base.card-workout div.workout-exercise div.e
 /* ========== DASHBOARD ======== */
 /* ============================= */
 
+.header-section {
+  margin-bottom: 24px;
+}
 .welcome {
   color: var(--muted);
 }

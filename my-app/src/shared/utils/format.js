@@ -24,3 +24,28 @@ export function formatLabel(str) {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ')
 }
+
+/**
+ * Formats workout duration.
+ * Shows minutes under 2 hours,
+ * otherwise hours + minutes.
+ *
+ * @param {number} minutes - Duration in minutes
+ * @returns {string} Formatted duration
+ */
+export function formatDuration(minutes) {
+  if (!minutes && minutes !== 0) {
+    return '0 min'
+  }
+
+  if (minutes < 120) {
+    return `${minutes} min`
+  }
+
+  const hours = Math.floor(minutes / 60)
+  const mins = minutes % 60
+
+  return mins > 0
+    ? `${hours}h ${mins}m`
+    : `${hours}h`
+}
