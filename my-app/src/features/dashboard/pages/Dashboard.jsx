@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Dumbbell, TrendingUp, Weight, Play, CalendarCheck2, Trophy, Activity } from 'lucide-react'
 import StatCard from '../components/StatCard'
+import MonthlyGoal from '../components/MonthlyGoals'
 import { useDashboardStats } from '../hooks/useDashboardStats'
 import { formatDuration, formatNumber, formatWeight } from '../../../shared/utils/format'
 
@@ -144,7 +145,7 @@ export default function Dashboard() {
 
         <div className="grid-base stats-grid">
           <Link to="/exercises" className="card-base stat-card">
-            <p className="quick-label">Exercises</p>
+            <p className="quick-label">Exercise Library</p>
           </Link>
 
           <Link to="/calendar" className="card-base stat-card">
@@ -155,11 +156,10 @@ export default function Dashboard() {
 
       {/* Monthly goal */}
       <div className="section">
-        <h3>Monthly Goal</h3>
-        <div className="progress-bar">
-          <div className="progress-fill"></div>
-        </div>
-        <p className="muted small">6 more to reach your milestone!</p>
+        <MonthlyGoal
+          current={stats?.currentMonth.workouts ?? 0}
+          target={12}
+        />
       </div>
 
       {/* Achievements */}

@@ -1088,6 +1088,12 @@ html body div#root div.app div.card-base.card-workout div.workout-exercise div.e
   color: var(--muted);
 }
 
+.goal-complete {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
 /* ============================= */
 /* ===== EXERCISE LIBRARY ====== */
 /* ============================= */
