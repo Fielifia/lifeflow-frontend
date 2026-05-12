@@ -13,20 +13,36 @@ install:
     - cd my-app
     - npm ci
 
+  artifacts:
+    paths:
+      - my-app/node_modules/
+
 lint:
   stage: lint
+
+  dependencies:
+    - install
+
   script:
     - cd my-app
     - npm run lint
 
 test:
   stage: test
+
+  dependencies:
+    - install
+
   script:
     - cd my-app
     - npm test -- --watchAll=false
 
 build:
   stage: build
+
+  dependencies:
+    - install
+
   script:
     - cd my-app
     - CI=false npm run build
@@ -35,5 +51,5 @@ trigger-deploy:
   stage: deploy
 
   trigger:
-    project: 1dv613/student/sa226jf/workspace/lifeFlow-deploy
+    project: 1dv613/student/sa226jf/workspace/lifeflow-deploy
     branch: main
