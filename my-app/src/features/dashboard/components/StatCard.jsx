@@ -9,8 +9,8 @@
 export default function StatCard({ label, value }) {
   return (
     <article className="card-base stat-card">
-      <p className="stat-value">{value}</p>
-      <p className="stat-label">{label}</p>
+      <div className="stat-value">{value}</div>
+      <div className="stat-label">{label}</div>
     </article>
   )
 }
