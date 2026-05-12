@@ -1654,12 +1654,12 @@ input[type="checkbox"]:hover {
 }
 
 .stat-card-icon {
-  width: 16px;
-  color: var(--primary);
+  width: 20px;
+  color: var(--primary-light);
 }
 
 .stat-card-value span {
-  font-size: 22px;
+  font-size: 28px;
   font-weight: 600;
   margin: 0;
 }

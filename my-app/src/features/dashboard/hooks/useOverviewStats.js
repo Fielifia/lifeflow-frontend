@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { getOverviewStats } from '../../../shared/api/statsApi'
 
-export const useDashboardStats = () => {
+export const useOverviewStats = () => {
   const [stats, setStats] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)

@@ -1,4 +1,6 @@
 import {
+  Award,
+  Clock3,
   Dumbbell,
   TrendingUp,
   Weight,
@@ -18,6 +20,7 @@ export default function StatsHero({
 }) {
   return (
     <div className="grid-base stats-grid">
+
       <StatCard
         icon={Dumbbell}
         label="Workouts"
@@ -48,6 +51,18 @@ export default function StatsHero({
         value={formatWeight(
           stats?.volumeKg ?? 0
         )}
+      />
+
+      <StatCard
+        icon={Award}
+        label="Personal Bests"
+        value={stats?.personalBests ?? 0}
+      />
+
+      <StatCard
+        icon={Clock3}
+        label="Days since last workout"
+        value={stats?.daysSinceLastWorkout}
       />
     </div>
   )

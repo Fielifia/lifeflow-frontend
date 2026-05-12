@@ -28,6 +28,8 @@ export default function StatsPage() {
         onChangeRange={setRange}
       />
 
+      <p className="quote">"Every workout is a step closer to your best self"</p>
+
       <StatsHero
         stats={stats}
       />

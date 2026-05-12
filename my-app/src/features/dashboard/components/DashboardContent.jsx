@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
 import {
+  Award,
+  Clock3,
   Dumbbell,
   TrendingUp,
   Weight,
@@ -81,6 +83,18 @@ export default function DashboardContent({
           label="Total volume"
           value={formatWeight(stats?.currentMonth?.volumeKg)}
           emphasis="large"
+        />
+
+        <StatCard
+          icon={Award}
+          label="Personal Bests"
+          value={stats?.currentMonth?.personalBests ?? 0}
+        />
+
+        <StatCard
+          icon={Clock3}
+          label="Days since last workout"
+          value={stats?.daysSinceLastWorkout}
         />
 
       </div>
