@@ -1097,6 +1097,38 @@ html body div#root div.app div.card-base.card-workout div.workout-exercise div.e
   gap: 12px;
 }
 
+.recent-workout-info {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 12px;
+  padding: 8px 0;
+  width: 100%;
+  align-items: center;
+}
+
+.recent-workout-info::after{
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 100%;
+    border-bottom: 1px solid #ffffff20;
+}
+
+.recent-workout-info::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  border-bottom: 1px solid #ffffff20;
+}
+
+.recent-workout-info-content {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+}
+
 .recent-workout-meta {
   display: flex;
   gap: 12px;

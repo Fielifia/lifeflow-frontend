@@ -171,10 +171,13 @@ export default function DashboardContent({
 
         <div className="recent-workouts">
           {recentWorkouts.map((workout) => (
-            <RecentWorkoutCard
+            <Link
               key={workout._id}
-              workout={workout}
-            />
+              to={`/workouts/${workout._id}`}
+              state={{ returnTo: '/' }}
+            >
+              <RecentWorkoutCard workout={workout} />
+            </Link>
           ))}
         </div>
       </div>

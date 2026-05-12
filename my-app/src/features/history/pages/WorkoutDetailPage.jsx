@@ -1,5 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom'
-
+import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { useWorkoutDetail } from '../hooks/useWorkoutDetail'
 
 import DataState from '../../../shared/ui/DataState'
@@ -17,6 +16,8 @@ import WorkoutSummary from '../components/WorkoutSummary'
 export default function WorkoutDetailPage() {
   const { id } = useParams()
   const navigate = useNavigate()
+  const location = useLocation()
+
   const {
     workout,
     loading,
@@ -27,7 +28,7 @@ export default function WorkoutDetailPage() {
   if (loading || error || !workout) {
     return (
       <div className="card-base card-workout">
-        <BackButton fallback="/workouts" />
+        <BackButton fallback={location.state?.returnTo || '/history'} />
 
         <DataState
           loading={loading}
@@ -43,7 +44,9 @@ export default function WorkoutDetailPage() {
 
   return (
     <div className="card-base card-workout">
-      <BackButton fallback="/history" />
+      <BackButton
+        fallback={location.state?.returnTo || '/history'}
+      />
 
       {/* HEADER */}
       <WorkoutHeader

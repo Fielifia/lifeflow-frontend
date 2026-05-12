@@ -6,6 +6,7 @@
  *   totalReps: number,
  *   totalVolume: number,
  *   personalBests: number,
+ *   duration: number,
  * }} - Stats
  */
 export function calculateWorkoutStats(workout) {
@@ -14,6 +15,8 @@ export function calculateWorkoutStats(workout) {
       totalSets: 0,
       totalReps: 0,
       totalVolume: 0,
+      personalBests: 0,
+      duration: 0,
     }
   }
 
@@ -45,5 +48,6 @@ export function calculateWorkoutStats(workout) {
     totalReps,
     totalVolume,
     personalBests: workout.personalBests || 0,
+    duration: workout.duration || 0,
   }
 }

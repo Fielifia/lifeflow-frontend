@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { getRecentWorkouts } from '../../../shared/api/workoutApi'
 
 export const useRecentWorkouts = () => {
-  const [workouts, setWorkouts] = useState(null)
+  const [workouts, setWorkouts] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
