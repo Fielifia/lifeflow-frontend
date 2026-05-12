@@ -82,3 +82,52 @@ export function formatWeight(kg) {
 
   return `${kg} kg`
 }
+
+
+/**
+ * Formats workout date into relative text.
+ * @param {string|Date} date - Workout date
+ * @returns {string} Formatted relative date
+ */
+export function formatDate(date) {
+  if (!date) {
+    return ''
+  }
+
+  const workoutDate = new Date(date)
+
+  const today = new Date()
+  const yesterday = new Date()
+
+  yesterday.setDate(today.getDate() - 1)
+
+  const isToday =
+    workoutDate.toDateString() === today.toDateString()
+
+  const isYesterday =
+    workoutDate.toDateString() === yesterday.toDateString()
+
+  if (isToday) {
+    return 'Today'
+  }
+
+  if (isYesterday) {
+    return 'Yesterday'
+  }
+
+  const diffTime =
+    today.getTime() - workoutDate.getTime()
+
+  const diffDays = Math.floor(
+    diffTime / (1000 * 60 * 60 * 24)
+  )
+
+  if (diffDays < 7) {
+    return `${diffDays} days ago`
+  }
+
+  return workoutDate.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+  })
+}

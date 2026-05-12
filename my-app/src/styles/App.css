@@ -1054,6 +1054,7 @@ html body div#root div.app div.card-base.card-workout div.workout-exercise div.e
 .header-section {
   margin-bottom: 24px;
 }
+
 .welcome {
   color: var(--muted);
 }
@@ -1088,6 +1089,30 @@ html body div#root div.app div.card-base.card-workout div.workout-exercise div.e
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
+}
+
+.recent-workouts {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.recent-workout-meta {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.recent-workout-meta span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.recent-workout-card h4 {
+  margin: 0;
 }
 
 /* ============================= */
