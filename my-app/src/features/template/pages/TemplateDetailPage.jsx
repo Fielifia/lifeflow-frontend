@@ -1,8 +1,8 @@
-import { Timer } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { getTemplateById } from '../../../shared/api/templateApi'
 import Header from '../../../shared/ui/Header'
+import ExerciseItem from '../../workout/components/ExerciseItem'
 import BackButton from '../../../shared/ui/BackButton'
 import DataState from '../../../shared/ui/DataState'
 
@@ -49,7 +49,7 @@ export default function TemplateDetail() {
       <div className="app">
         <Header
           title="Template"
-          
+
         />
 
         <div className="card-base card-workout">
@@ -96,47 +96,26 @@ export default function TemplateDetail() {
 
       {/* EXERCISES */}
       {normalizedExercises.map((ex, i) => (
-        <div key={i} className="workout-exercise">
-          {/* HEADER */}
-          <div className="exercise-header-main">
-            <img
-              src={ex.image || '/placeholder.png'}
-              alt=""
-              className="exercise-img-small"
-              onClick={() => navigate(`/exercises/${ex.exerciseId}`)}
-            />
-
-            <h2>{ex.name}</h2>
-          </div>
-
-          {/* SET HEADER */}
-          <div className="set-header">
-            <span>Set</span>
-            <span>Weight (kg)</span>
-            <span>Reps</span>
-          </div>
-
-          {/* SETS */}
-          {ex.sets.map((set, j) => (
-            <div key={j} className="set-row">
-              <span className="set-number">{j + 1}</span>
-
-              <span>{set.weight ?? '-'}</span>
-              <span>{set.reps ?? '-'}</span>
-            </div>
-          ))}
-
-          {/* REST */}
-          {ex.restTime && (
-            <div className="rest-label">
-              <Timer className="icon-small" /> Rest: {ex.restTime}s
-            </div>
-          )}
-
-          {/* NOTES */}
-          {ex.notes && <p className="muted small">{ex.notes}</p>}
-        </div>
+        <ExerciseItem
+          key={ex.exerciseId || i}
+          ex={ex}
+          i={i}
+          navigate={navigate}
+          isEditable={false}
+          showCheckbox={false}
+        />
       ))}
+
+      {/* NOTES */}
+      {template.notes && (
+        <div className="section">
+          <h3>Notes</h3>
+
+          <p className="muted">
+            {template.notes}
+          </p>
+        </div>
+      )}
 
       {/* ACTIONS */}
       <div className="section">
