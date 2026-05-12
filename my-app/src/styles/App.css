@@ -1067,24 +1067,30 @@ input[type="checkbox"]:hover {
   margin-top: 6px;
 }
 
-.stat-with-icon {
+.stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.stat-card-value {
   display: flex;
   gap: 8px;
   align-items: center;
 }
 
-.stat-with-icon .stat-icon {
+.stat-card-icon {
   width: 16px;
   color: var(--primary);
 }
 
-.stat-value {
+.stat-card-value span {
   font-size: 22px;
   font-weight: 600;
   margin: 0;
 }
 
-.stat-label {
+.stat-card-label {
   font-size: 12px;
   color: var(--muted);
 }

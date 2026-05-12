@@ -56,44 +56,33 @@ export default function DashboardContent({
       <h3>This month</h3>
       <div className="grid-base stats-grid">
         <StatCard
+          icon={Dumbbell}
           label="Workouts"
-          value={
-            <div className="stat-with-icon">
-              <Dumbbell className="stat-icon" />
-              <span>{stats?.currentMonth?.workouts ?? 0}</span>
-            </div>
-          }
+          value={stats?.currentMonth?.workouts ?? 0}
+          emphasis="large"
         />
 
         <StatCard
+          icon={Activity}
           label="Total time"
-          value={
-            <div className="stat-with-icon">
-              <Activity className="stat-icon" />
-              <span>{formatDuration(monthlyMinutes)}</span>
-            </div>
-          }
+          value={formatDuration(monthlyMinutes)}
+          emphasis="large"
         />
 
         <StatCard
+          icon={TrendingUp}
           label={`Sets / ${formatNumber(stats?.currentMonth?.reps ?? 0)} Reps`}
-          value={
-            <div className="stat-with-icon">
-              <TrendingUp className="stat-icon" />
-              <span>{formatNumber(stats?.currentMonth?.sets ?? 0)}</span>
-            </div>
-          }
+          value={formatNumber(stats?.currentMonth?.sets ?? 0)}
+          emphasis="large"
         />
 
         <StatCard
+          icon={Weight}
           label="Total volume"
-          value={
-            <div className="stat-with-icon">
-              <Weight className="stat-icon" />
-              <span>{formatWeight(stats?.currentMonth?.volumeKg)}</span>
-            </div>
-          }
+          value={formatWeight(stats?.currentMonth?.volumeKg)}
+          emphasis="large"
         />
+
       </div>
 
       {/* Weekly activity */}
@@ -147,11 +136,11 @@ export default function DashboardContent({
         <h3>Quick Access</h3>
 
         <div className="grid-base stats-grid">
-          <Link to="/exercises" className="card-base stat-card">
+          <Link to="/exercises" className="card-base stat-card card-clickable">
             <p className="quick-label">Exercise Library</p>
           </Link>
 
-          <Link to="/calendar" className="card-base stat-card">
+          <Link to="/calendar" className="card-base stat-card card-clickable">
             <p className="quick-label">Calendar</p>
           </Link>
         </div>
