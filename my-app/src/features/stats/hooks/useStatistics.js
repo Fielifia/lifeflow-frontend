@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+
 import { getStatistics } from '../../../shared/api/statsApi'
 
 export const useStatistics = (range) => {

@@ -36,11 +36,10 @@ export default function StatsHero({
 
       <StatCard
         icon={TrendingUp}
-        label="Sets"
-        value={formatNumber(
+        label={`Sets / ${formatNumber(stats?.reps ?? 0)} reps`}
+        value={`${formatNumber(
           stats?.sets ?? 0
-        )}
-        unit={`${formatNumber(stats?.reps ?? 0)} reps`}
+        )}`}
       />
 
       <StatCard

@@ -1,8 +1,11 @@
 import { useState } from 'react'
-import { useStatistics } from '../hooks/useStatistics'
+
 import Header from '../../../shared/ui/Header'
+
 import StatsHeader from '../components/StatsHeader'
 import StatsHero from '../components/StatsHero'
+
+import { useStatistics } from '../hooks/useStatistics'
 
 export default function StatsPage() {
   const [range, setRange] = useState('1m')
@@ -19,6 +22,7 @@ export default function StatsPage() {
         title="Statistics"
         subtitle="Your progress"
       />
+
       <StatsHeader
         selectedRange={range}
         onChangeRange={setRange}
@@ -26,10 +30,7 @@ export default function StatsPage() {
 
       <StatsHero
         stats={stats}
-        selectedRange={range}
       />
-
-      {/* <HeroMetrics /> */}
     </div>
   )
 }
