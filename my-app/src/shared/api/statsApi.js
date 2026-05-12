@@ -5,3 +5,11 @@ export const getOverviewStats = async () => {
 
   return response.data
 }
+
+export const getStatistics = async (range) => {
+  const res = await API.get('/stats', {
+    params: { range },
+  })
+
+  return res.data
+}

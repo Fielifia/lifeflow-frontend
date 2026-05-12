@@ -6,7 +6,7 @@ import {
   Activity,
 } from 'lucide-react'
 
-import StatCard from './StatCard'
+import StatCard from '../../stats/components/StatCard'
 import MonthlyGoal from './MonthlyGoals'
 import RecentWorkoutCard from './RecentWorkoutCard'
 
