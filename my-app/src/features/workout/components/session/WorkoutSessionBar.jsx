@@ -3,13 +3,13 @@ import { ChevronUp } from 'lucide-react'
 
 /**
  * Workout session bar display and controls.
- * * @param {object} props - Component props.
- * @param {boolean} props.isResting - Indicates whether the rest timer is active.
- * @param {number} props.restRemaining - Remaining rest time in seconds.
- * @param {Function} props.adjustRest - Adjusts the remaining rest timer duration.
- * @param {Function} props.skipRest - Skips the current rest period.
- * @param {Function} props.onExpand - Opens the expanded workout session view.
- * @returns {React.ReactElement} Workout session bar component.
+ * @param {object} props - Component props
+ * @param {boolean} props.isResting - Whether rest timer is active
+ * @param {number} props.restRemaining - Remaining rest time in seconds
+ * @param {(seconds: number) => void} props.adjustRest - Adjusts rest timer duration
+ * @param {() => void} props.skipRest - Skips current rest timer
+ * @param {() => void} props.onExpand - Opens workout session page
+ * @returns {import('react').ReactElement} Workout session bar UI
  */
 export default function WorkoutSessionBar({
   isResting,

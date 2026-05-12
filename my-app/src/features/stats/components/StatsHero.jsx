@@ -15,6 +15,12 @@ import {
   formatWeight,
 } from '../../../shared/utils/format'
 
+/**
+ * Statistics overview metrics.
+ * @param {object} props - Component props
+ * @param {object} props.stats - Filtered statistics
+ * @returns {import('react').ReactElement} Statistics hero UI
+ */
 export default function StatsHero({
   stats,
 }) {

@@ -2,13 +2,16 @@ import { useState } from 'react'
 import { ClipboardClock } from 'lucide-react'
 
 /**
- * Workout duration display
+ * Workout duration display.
  * @param {object} props - Component props
- * @param {number} props.elapsed - Duration in seconds
- * @param {string} props.status - Workout status
- * @param {} props.startTime - Workout start time
- * @param props.adjustStartTime - Adjust start time
- * @returns {import('react').ReactElement} Duration Display UI
+ * @param {number} props.elapsed - Elapsed workout time in seconds
+ * @param {number} props.startTime - Workout start timestamp
+ * @param {(time: number) => void} props.adjustStartTime - Updates workout start time
+ * @param {number} props.duration - Workout duration in seconds
+ * @param {(duration: number) => void} props.onChangeDuration - Updates workout duration
+ * @param {string} props.mode - Display mode
+ * @param {boolean} props.isEditable - Whether duration can be edited
+ * @returns {import('react').ReactElement} Duration display UI
  */
 export default function DurationDisplay({
   elapsed = 0,
@@ -76,28 +79,17 @@ export default function DurationDisplay({
           <span>Started at {start}</span>
 
           {editing ? (
-            <>
-              {editing ? (
-                <input
-                  className="input-time"
-                  type="time"
-                  value={time}
-                  onChange={(e) => setTime(e.target.value)}
-                  onBlur={() => {
-                    handleSave()
-                    setEditing(false)
-                  }}
-                  autoFocus
-                />
-              ) : (
-                <button
-                  className="btn-clean muted small"
-                  onClick={() => setEditing(true)}
-                >
-                  <ClipboardClock className="icon-small" />
-                </button>
-              )}
-            </>
+            <input
+              className="input-time"
+              type="time"
+              value={time}
+              onChange={(e) => setTime(e.target.value)}
+              onBlur={() => {
+                handleSave()
+                setEditing(false)
+              }}
+              autoFocus
+            />
           ) : (
             isEditable && (
               <button

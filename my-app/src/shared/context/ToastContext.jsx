@@ -3,6 +3,12 @@ import ToastContainer from '../ui/ToastContainer'
 
 const ToastContext = createContext()
 
+/**
+ * Toast context provider.
+ * @param {object} props - Component props
+ * @param {import('react').ReactNode} props.children - Provider children
+ * @returns {import('react').ReactElement} Toast provider UI
+ */
 export function ToastProvider({ children }) {
   const [toasts, setToasts] = useState([])
 

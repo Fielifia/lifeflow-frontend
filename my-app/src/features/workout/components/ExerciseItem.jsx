@@ -15,8 +15,6 @@ import { Clock, Weight, Trash2, Trophy } from 'lucide-react'
  * @param {(i: number, j: number, checked: boolean) => void} props.toggleSetComplete - Toggles set completion
  * @param {number} props.restTime - Rest time in seconds
  * @param {(value: number) => void} props.onChangeRestTime - Updates rest time
- * @param {'idle' | 'running' | 'paused'} props.status - Workout status
- * @param {() => void} props.handleStartPause - Starts or pauses workout
  * @param {(index: number, notes: string) => void} props.updateExerciseNotes - Updates exercise notes
  * @param props.showCheckbox - Whether to show completion checkbox (default: true)
  * @description
@@ -98,7 +96,6 @@ export default function ExerciseItem({
     updateExerciseNotes(i, notes)
   }
 
-  {/* REST TIME */ }
   const [editingRest, setEditingRest] = useState(false)
   const safeRest = restTime ?? 120
 

@@ -10,6 +10,11 @@ import DurationDisplay from './DurationDisplay'
  * @param {(value: string) => void} props.onChangeName - Update name
  * @param {number} props.elapsed - Duration in seconds
  * @param {string} props.status - Workout status
+ * @param {string} props.mode - Workout mode
+ * @param {number} props.duration - Workout duration in seconds
+ * @param {(duration: number) => void} props.onChangeDuration - Updates workout duration
+ * @param {boolean} props.isEditable - Whether workout can be edited
+ * @param {boolean} props.showDuration - Whether duration should be displayed
  * @param props.startTime - Workout start time
  * @param props.adjustStartTime - Adjust start time
  * @returns {import('react').ReactElement} Header UI

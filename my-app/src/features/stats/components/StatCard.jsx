@@ -2,15 +2,14 @@ import clsx from 'clsx'
 
 /**
  * Reusable statistics card.
- *
- * @param {object} props
- * @param {import('lucide-react').LucideIcon} [props.icon]
- * @param {string} props.label
- * @param {string|number} props.value
- * @param {string} [props.unit]
- * @param {string} [props.trend]
- * @param {'default' | 'large'} [props.emphasis]
- * @returns {import('react').ReactElement}
+ * @param {object} props - Component props
+ * @param {object} props.icon - Card icon
+ * @param {string} props.label - Statistic label
+ * @param {string|number} props.value - Statistic value
+ * @param {string} [props.unit] - Optional unit
+ * @param {string} [props.trend] - Optional trend text
+ * @param {string} [props.emphasis] - Visual emphasis style
+ * @returns {import('react').ReactElement} Statistics card UI
  */
 export default function StatCard({
   icon: Icon,

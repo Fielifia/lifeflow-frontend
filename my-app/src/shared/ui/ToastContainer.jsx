@@ -1,3 +1,9 @@
+/**
+ * Toast notification container.
+ * @param {object} props - Component props
+ * @param {Array<object>} props.toasts - Active toast notifications
+ * @returns {import('react').ReactElement} Toast container UI
+ */
 export default function ToastContainer({ toasts }) {
   return (
     <div className="toast-container">

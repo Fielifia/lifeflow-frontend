@@ -1,5 +1,12 @@
 import { useEffect, useRef } from 'react'
 
+/**
+ * Statistics range selector.
+ * @param {object} props - Component props
+ * @param {string} props.selectedRange - Active statistics range
+ * @param {(range: string) => void} props.onChangeRange - Range change handler
+ * @returns {import('react').ReactElement} Statistics header UI
+ */
 export default function StatsHeader({
   selectedRange,
   onChangeRange,

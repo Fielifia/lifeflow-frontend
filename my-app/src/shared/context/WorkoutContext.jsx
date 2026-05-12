@@ -4,6 +4,20 @@ import { useRestTimer } from '../../features/workout/hooks/useRestTimer'
 
 const WorkoutContext = createContext()
 
+/**
+ * Accesses workout context values.
+ * @returns {object} Workout context
+ */
+export function useWorkoutContext() {
+  return useContext(WorkoutContext)
+}
+
+/**
+ * Workout context provider.
+ * @param {object} props - Component props
+ * @param {import('react').ReactNode} props.children - Provider children
+ * @returns {import('react').ReactElement} Workout provider UI
+ */
 export function WorkoutProvider({ children }) {
   const timer = useWorkoutTimer()
   const rest = useRestTimer()
@@ -36,8 +50,4 @@ export function WorkoutProvider({ children }) {
       {children}
     </WorkoutContext.Provider>
   )
-}
-
-export function useWorkoutContext() {
-  return useContext(WorkoutContext)
 }

@@ -2,6 +2,12 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useWorkoutContext } from '../../../../shared/context/WorkoutContext'
 import WorkoutSessionBar from './WorkoutSessionBar'
 
+/**
+ * Floating workout session bar wrapper.
+ * Displays the active workout session bar outside
+ * of the workout run page.
+ * @returns {import('react').ReactElement|null} Workout session bar UI
+ */
 export default function WorkoutSessionBarWrapper() {
   const {
     activeWorkout,

@@ -7,6 +7,10 @@ import StatsHero from '../components/StatsHero'
 
 import { useStatistics } from '../hooks/useStatistics'
 
+/**
+ * Statistics and progress page.
+ * @returns {import('react').ReactElement} Statistics page UI
+ */
 export default function StatsPage() {
   const [range, setRange] = useState('1m')
 

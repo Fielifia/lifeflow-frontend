@@ -1,5 +1,13 @@
 import LoadingButton from '../../../shared/ui/LoadingButton'
 
+/**
+ * Template action controls.
+ * @param {object} props - Component props
+ * @param {boolean} props.loading - Loading state
+ * @param {boolean} props.saving - Saving state
+ * @param {() => void} props.saveTemplate - Save template handler
+ * @returns {import('react').ReactElement} Template controls UI
+ */
 export default function WorkoutControls({
   loading,
   saving,

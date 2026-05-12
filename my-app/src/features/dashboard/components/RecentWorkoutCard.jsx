@@ -1,6 +1,12 @@
 import { formatDuration, formatDate, formatWeight } from '../../../shared/utils/format'
 import { calculateWorkoutStats } from '../../../shared/utils/calculateWorkoutStats'
 
+/**
+ * Recent workout preview card.
+ * @param {object} props - Component props
+ * @param {object} props.workout - Workout data
+ * @returns {import('react').ReactElement} Recent workout card UI
+ */
 export default function RecentWorkoutCard({
   workout,
 }) {

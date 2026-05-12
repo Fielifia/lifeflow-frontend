@@ -1,4 +1,12 @@
 import { Award } from 'lucide-react'
+
+/**
+ * Monthly workout goal progress.
+ * @param {object} props - Component props
+ * @param {number} props.current - Current progress
+ * @param {number|null} props.target - Goal target
+ * @returns {import('react').ReactElement} Monthly goal UI
+ */
 export default function MonthlyGoal({
   current,
   target,

@@ -1,11 +1,11 @@
 /**
  * Workout summary statistics cards.
- *
  * @param {object} props - Component props
  * @param {number} props.exerciseCount - Total exercises
  * @param {number} props.totalSets - Total sets
  * @param {number} props.totalReps - Total reps
  * @param {number} props.totalVolume - Total training volume
+ * @param {number} props.personalBests - Total personal bests
  * @returns {import('react').ReactElement} Workout summary UI
  */
 export default function WorkoutSummary({

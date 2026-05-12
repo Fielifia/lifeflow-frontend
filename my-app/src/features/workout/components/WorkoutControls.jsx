@@ -6,6 +6,7 @@ import LoadingButton from '../../../shared/ui/LoadingButton'
  * @param {() => void} props.handleStartPause - Start/pause toggle
  * @param {() => void} props.saveWorkout - Save workout handler
  * @param {() => void} props.onSaveTemplate - Save template handler
+ * @param {() => void} props.discardWorkout - Discards workout
  * @param {boolean} props.saving - Saving state
  * @param props.loading - Loading state
  * @param {boolean} props.hasExercises - If exercises exist

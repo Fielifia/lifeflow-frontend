@@ -18,6 +18,14 @@ import {
   formatWeight,
 } from '../../../shared/utils/format'
 
+/**
+ * Dashboard main content.
+ * @param {object} props - Component props
+ * @param {object} props.stats - Dashboard statistics
+ * @param {object} props.user - Current user
+ * @param {Array<object>} props.recentWorkouts - Recent workouts
+ * @returns {import('react').ReactElement} Dashboard UI
+ */
 export default function DashboardContent({
   stats,
   user,

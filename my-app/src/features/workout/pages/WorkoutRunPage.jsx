@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useWorkoutLogic } from '../hooks/useWorkoutLogic'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
@@ -55,19 +55,12 @@ export default function WorkoutRunPage() {
 
   const {
     status,
-    start,
     handleStartPause,
     restRemaining,
     isResting,
     adjustRest,
     skipRest,
   } = useWorkoutContext()
-
-  useEffect(() => {
-    if (status === 'idle') {
-      start()
-    }
-  }, [])
 
   return (
     <div className={`app ${flash ? 'flash' : ''}`}>
@@ -147,20 +140,6 @@ export default function WorkoutRunPage() {
         onChange={(e) => updateWorkoutNotes(e.target.value)}
       />
 
-      {/* BOTTOM CONTROLS */}
-      {/* <WorkoutControls
-        name={workout.name}
-        status={status}
-        elapsed={elapsed}
-        handleStartPause={handleStartPause}
-        saveWorkout={saveWorkout}
-        onSaveTemplate={saveAsTemplate}
-        saving={saving}
-        discardWorkout={discardWorkout}
-        hasExercises={workout.exercises.length > 0}
-      />
-      {success && <p className="muted center">Workout saved ✔</p>}
-      {error && <p className="error center">{error}</p>} */}
     </div>
   )
 }

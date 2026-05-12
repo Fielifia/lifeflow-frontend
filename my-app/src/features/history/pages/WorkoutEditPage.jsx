@@ -6,6 +6,10 @@ import BackButton from '../../../shared/ui/BackButton'
 import ExerciseItem from '../../workout/components/ExerciseItem'
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
 
+/**
+ * Page for editing a completed workout.
+ * @returns {import('react').ReactElement} Workout edit page UI
+ */
 export default function WorkoutEditPage() {
   const navigate = useNavigate()
   const { id } = useParams()

@@ -7,13 +7,12 @@ import {
 
 /**
  * Shared app header.
- *
- * @param {object} props
- * @param {string} props.title
- * @param {string} [props.subtitle]
- * @param {'guest' | 'login' | 'authenticated'} [props.variant]
- * @param {() => void} [props.onProfileClick]
- * @returns {import('react').ReactElement}
+ * @param {object} props - Component props
+ * @param {string} props.title - Header title
+ * @param {string} [props.subtitle] - Header subtitle
+ * @param {'guest' | 'login' | 'authenticated'} [props.variant] - Header profile icon variant
+ * @param {() => void} [props.onProfileClick] - 
+ * @returns {import('react').ReactElement} Header
  */
 export default function Header({
   title,

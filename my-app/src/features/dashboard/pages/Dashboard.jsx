@@ -4,6 +4,10 @@ import DashboardContent from '../components/DashboardContent'
 import { useOverviewStats } from '../hooks/useOverviewStats'
 import { useRecentWorkouts } from '../hooks/useRecentWorkouts'
 
+/**
+ * Dashboard page.
+ * @returns {import('react').ReactElement} Dashboard page UI
+ */
 export default function Dashboard() {
   const user = JSON.parse(localStorage.getItem('user'))
 
