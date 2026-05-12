@@ -11,8 +11,8 @@ install:
   stage: install
   script:
     - cd my-app
-    - rm -rf node_modules package-lock.json   # ta bort gamla filer helt
-    - npm install                             # generera ny lock-fil
+    - rm -rf node_modules package-lock.json
+    - npm install
   artifacts:
     paths:
       - my-app/node_modules/
@@ -61,4 +61,3 @@ deploy:
       docker compose down &&
       docker compose up -d --build
     "
-  when: manual
