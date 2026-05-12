@@ -1,4 +1,5 @@
 import DataState from '../../../shared/ui/DataState'
+import Header from '../../../shared/ui/Header'
 import DashboardContent from '../components/DashboardContent'
 import { useDashboardStats } from '../hooks/useDashboardStats'
 import { useRecentWorkouts } from '../hooks/useRecentWorkouts'
@@ -14,6 +15,9 @@ export default function Dashboard() {
 
   return (
     <div className="app">
+      <Header
+        title="LifeFlow Fitness"
+      />
       <DataState
         loading={loading}
         error={error}

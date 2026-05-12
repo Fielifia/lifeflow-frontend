@@ -2,8 +2,8 @@ import { Timer } from 'lucide-react'
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { getTemplateById } from '../../../shared/api/templateApi'
+import Header from '../../../shared/ui/Header'
 import BackButton from '../../../shared/ui/BackButton'
-import WorkoutHeader from '../../workout/components/WorkoutHeader'
 import DataState from '../../../shared/ui/DataState'
 
 /**
@@ -46,17 +46,24 @@ export default function TemplateDetail() {
   // ===== LOADING / ERROR / EMPTY =====
   if (loading || error || !template) {
     return (
-      <div className="card-base card-workout">
-        <BackButton fallback="/workouts" />
-
-        <DataState
-          loading={loading}
-          error={error}
-          data={template ? [template] : []}
-          variant="card-workout"
-          emptyText="No template found"
-          count={1}
+      <div className="app">
+        <Header
+          title="Template"
+          
         />
+
+        <div className="card-base card-workout">
+          <BackButton fallback="/workouts" />
+
+          <DataState
+            loading={loading}
+            error={error}
+            data={template ? [template] : []}
+            variant="card-workout"
+            emptyText="No template found"
+            count={1}
+          />
+        </div>
       </div>
     )
   }
@@ -80,15 +87,12 @@ export default function TemplateDetail() {
   }
 
   return (
-    <div className="card-base card-workout">
-      <BackButton fallback="/workouts" />
-
-      {/* HEADER */}
-      <WorkoutHeader
-        name={template.name}
-        isEditable={false}
-        showDuration={false}
+    <div className="app">
+      <Header
+        title={template.name}
+        subtitle={`${template.exercises.length} exercises `}
       />
+      <BackButton fallback="/workouts" />
 
       {/* EXERCISES */}
       {normalizedExercises.map((ex, i) => (

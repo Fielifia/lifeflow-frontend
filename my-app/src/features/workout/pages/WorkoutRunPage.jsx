@@ -3,6 +3,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useWorkoutLogic } from '../hooks/useWorkoutLogic'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 
+import Header from '../../../shared/ui/Header'
 import BackButton from '../../../shared/ui/BackButton'
 import ExerciseItem from '../components/ExerciseItem'
 import RestTimer from '../components/RestTimer'
@@ -69,7 +70,11 @@ export default function WorkoutRunPage() {
   }, [])
 
   return (
-    <div className={`card-base card-workout ${flash ? 'flash' : ''}`}>
+    <div className={`app ${flash ? 'flash' : ''}`}>
+      <Header
+        title={workout.name}
+        subtitle='In progress'
+      />
       <BackButton fallback="/workouts" />
       {/* HEADER */}
       <WorkoutHeader
@@ -80,7 +85,6 @@ export default function WorkoutRunPage() {
           setWorkout((prev) => ({ ...prev, name: value }))
         }
         elapsed={elapsed}
-        status={status}
         startTime={startTime}
         adjustStartTime={adjustStartTime}
         showDuration={true}
@@ -144,7 +148,7 @@ export default function WorkoutRunPage() {
       />
 
       {/* BOTTOM CONTROLS */}
-      <WorkoutControls
+      {/* <WorkoutControls
         name={workout.name}
         status={status}
         elapsed={elapsed}
@@ -156,7 +160,7 @@ export default function WorkoutRunPage() {
         hasExercises={workout.exercises.length > 0}
       />
       {success && <p className="muted center">Workout saved ✔</p>}
-      {error && <p className="error center">{error}</p>}
+      {error && <p className="error center">{error}</p>} */}
     </div>
   )
 }

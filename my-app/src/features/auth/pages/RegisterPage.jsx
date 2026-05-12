@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { register } from '../../../shared/api/authApi'
 import { Eye, EyeOff } from 'lucide-react'
+import Header from '../../../shared/ui/Header'
 import LoadingButton from '../../../shared/ui/LoadingButton'
 
 /**
@@ -61,87 +62,95 @@ export default function Register({ setUser }) {
   const [showPassword, setShowPassword] = useState(false)
 
   return (
-    <div className="card-base card-auth">
-      <h2 className="center">Create account</h2>
+    <div className="app">
+      <Header
+        title="Create Account"
+        subtitle="Start your fitness journey"
+        variant="guest"
+      />
 
-      <form
-        onSubmit={(e) => {
-          e.preventDefault()
-          handleRegister()
-        }}
-      >
-        <input
-          className="input-base input-auth"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => {
-            setEmail(e.target.value)
-            setError('')
+      <div className="card-base card-auth">
+        <h2 className="center">Create account</h2>
+
+        <form
+          onSubmit={(e) => {
+            e.preventDefault()
+            handleRegister()
           }}
-        />
-
-        <input
-          className="input-base input-auth"
-          placeholder="Username"
-          value={username}
-          onChange={(e) => {
-            setUsername(e.target.value)
-            setError('')
-          }}
-        />
-
-        <div className="password-wrapper">
+        >
           <input
             className="input-base input-auth"
-            type={showPassword ? 'text' : 'password'}
-            placeholder="Password"
-            value={password}
+            placeholder="Email"
+            value={email}
             onChange={(e) => {
-              setPassword(e.target.value)
+              setEmail(e.target.value)
               setError('')
             }}
           />
 
-          <button
-            type="button"
-            className="password-toggle"
-            onClick={() => setShowPassword((prev) => !prev)}
-          >
-            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-          </button>
-        </div>
-
-        <div className="password-wrapper">
           <input
             className="input-base input-auth"
-            type={showPassword ? 'text' : 'password'}
-            placeholder="Confirm Password"
-            value={confirmPassword}
+            placeholder="Username"
+            value={username}
             onChange={(e) => {
-              setConfirmPassword(e.target.value)
+              setUsername(e.target.value)
               setError('')
-            }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') handleRegister()
             }}
           />
 
-          <button
-            type="button"
-            className="password-toggle"
-            onClick={() => setShowPassword((prev) => !prev)}
-          >
-            {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-          </button>
-        </div>
+          <div className="password-wrapper">
+            <input
+              className="input-base input-auth"
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value)
+                setError('')
+              }}
+            />
 
-        <LoadingButton className="btn btn-standard btn-primary" loading={loading} onClick={handleRegister}>
-          Create account
-        </LoadingButton>
-      </form>
+            <button
+              type="button"
+              className="password-toggle"
+              onClick={() => setShowPassword((prev) => !prev)}
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
 
-      {error && <p className="error">{error}</p>}
-      {message && <p className="message">{message}</p>}
+          <div className="password-wrapper">
+            <input
+              className="input-base input-auth"
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Confirm Password"
+              value={confirmPassword}
+              onChange={(e) => {
+                setConfirmPassword(e.target.value)
+                setError('')
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleRegister()
+              }}
+            />
+
+            <button
+              type="button"
+              className="password-toggle"
+              onClick={() => setShowPassword((prev) => !prev)}
+            >
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+            </button>
+          </div>
+
+          <LoadingButton className="btn btn-standard btn-primary" loading={loading} onClick={handleRegister}>
+            Create account
+          </LoadingButton>
+        </form>
+
+        {error && <p className="error">{error}</p>}
+        {message && <p className="message">{message}</p>}
+      </div>
     </div>
   )
 }

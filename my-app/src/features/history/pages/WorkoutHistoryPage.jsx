@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { getWorkouts } from '../../../shared/api/workoutApi'
 import DataState from '../../../shared/ui/DataState'
+import Header from '../../../shared/ui/Header'
 import WorkoutCard from '../components/WorkoutCard'
 
 /**
@@ -32,8 +33,10 @@ export default function WorkoutHistoryPage() {
 
   return (
     <div className="app">
-
-      <h2>Workout History</h2>
+      <Header
+        title="Workout History"
+        subtitle="Your completed sessions"
+      />
 
       <DataState
         loading={loading}

@@ -1,6 +1,8 @@
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { useWorkoutDetail } from '../hooks/useWorkoutDetail'
+import { formatDate } from '../../../shared/utils/format'
 
+import Header from '../../../shared/ui/Header'
 import DataState from '../../../shared/ui/DataState'
 import BackButton from '../../../shared/ui/BackButton'
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
@@ -27,7 +29,10 @@ export default function WorkoutDetailPage() {
 
   if (loading || error || !workout) {
     return (
-      <div className="card-base card-workout">
+      <div className="app">
+        <Header
+          title='Workout'
+        />
         <BackButton fallback={location.state?.returnTo || '/history'} />
 
         <DataState
@@ -43,7 +48,11 @@ export default function WorkoutDetailPage() {
   }
 
   return (
-    <div className="card-base card-workout">
+    <div className="app">
+      <Header
+        title={workout.name}
+        subtitle={formatDate(workout.date)}
+      />
       <BackButton
         fallback={location.state?.returnTo || '/history'}
       />

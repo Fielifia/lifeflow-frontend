@@ -61,12 +61,6 @@ export default function WorkoutHeader({
             {name} {isEditable && <Pencil className="icon-small" />}
           </h2>
         )}
-
-        {mode === 'run' && (
-          <p className="muted small close">
-            In progress
-          </p>
-        )}
       </div>
 
       {showDuration && (

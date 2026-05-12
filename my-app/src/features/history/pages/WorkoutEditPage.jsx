@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useEditWorkoutLogic } from '../hooks/useEditWorkoutLogic'
 
+import Header from '../../../shared/ui/Header'
 import BackButton from '../../../shared/ui/BackButton'
 import ExerciseItem from '../../workout/components/ExerciseItem'
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
@@ -34,7 +35,11 @@ export default function WorkoutEditPage() {
   if (!workout) return <p>Workout not found</p>
 
   return (
-    <div className="card-base card-workout">
+    <div className="app">
+      <Header
+        title={workout.name}
+        subtitle="Edit workout"
+      />
       <BackButton fallback="/workouts/history" />
 
       {/* HEADER */}

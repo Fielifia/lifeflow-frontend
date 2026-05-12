@@ -1,6 +1,7 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import BackButton from '../../../shared/ui/BackButton'
 import ExerciseItem from '../../workout/components/ExerciseItem'
+import Header from '../../../shared/ui/Header'
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
 import { useTemplateLogic } from '../hooks/useTemplateLogic'
 import TemplateControls from '../components/TemplateControls'
@@ -75,7 +76,11 @@ export default function TemplateEditPage() {
   if (loading) return <p className="center">Loading...</p>
 
   return (
-    <div className="card-base card-workout">
+    <div className="app">
+      <Header
+        title={template.name}
+        subtitle={isCreate ? 'Create Template' : 'Edit Template'}
+      />
       <BackButton
         fallback={
           isCreate
@@ -83,8 +88,6 @@ export default function TemplateEditPage() {
             : `/templates/${id}`
         }
       />
-      {/* HEADER */}
-      <h2>{isCreate ? 'Create Template' : 'Edit Template'}</h2>
 
       {/* HEADER */}
       <WorkoutHeader

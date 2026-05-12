@@ -84,15 +84,19 @@ h4 {
 .header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  padding: 12px;
+  align-items: flex-start;
+
+  margin-bottom: 48px;
 }
 
-.logo {
-  font-size: 18px;
-  font-weight: 600;
-  text-decoration: none;
-  color: var(--text);
+.header-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.header-profile-btn {
+  opacity: 0.8;
 }
 
 /* ============================= */
@@ -1598,4 +1602,52 @@ input[type="checkbox"]:hover {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+
+/* ============================= */
+/* =========== STATS =========== */
+/* ============================= */
+
+.stats-header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.stats-range-picker {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+
+  scrollbar-width: none;
+}
+
+.stats-range-picker::-webkit-scrollbar {
+  display: none;
+}
+
+.stats-range-btn {
+  border: 1px solid var(--border);
+  background: var(--card-2);
+  color: var(--muted);
+
+  padding: 8px 14px;
+  border-radius: 12px;
+
+  font-size: 12px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.stats-range-btn.active {
+  background: var(--primary);
+  color: white;
+  border-color: transparent;
 }

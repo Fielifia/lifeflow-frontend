@@ -9,17 +9,17 @@ import {
   default as ExerciseLibraryPage,
 } from './features/exercise/pages/ExerciseLibraryPage'
 import WorkoutDetailPage from './features/history/pages/WorkoutDetailPage'
-import WorkoutHistoryPage from './features/history/pages/WorkoutHistoryPage'
 import WorkoutEditPage from './features/history/pages/WorkoutEditPage'
+import WorkoutHistoryPage from './features/history/pages/WorkoutHistoryPage'
+import StatsPage from './features/stats/pages/StatsPage'
 import TemplateDetailPage from './features/template/pages/TemplateDetailPage'
 import TemplateEditPage from './features/template/pages/TemplateEditPage'
 import WorkoutSessionBarWrapper from './features/workout/components/session/WorkoutSessionBarWrapper'
 import WorkoutRunPage from './features/workout/pages/WorkoutRunPage'
 import WorkoutStartPage from './features/workout/pages/WorkoutStartPage'
-import { WorkoutProvider } from './shared/context/WorkoutContext'
 import { ToastProvider } from './shared/context/ToastContext'
+import { WorkoutProvider } from './shared/context/WorkoutContext'
 import DataState from './shared/ui/DataState'
-import Header from './shared/ui/Header'
 import Navbar from './shared/ui/Navbar'
 
 /**
@@ -34,7 +34,7 @@ function App() {
   } catch {
     storedUser = null
   }
-  
+
   const [user, setUser] = useState(storedUser || null)
   const [showRegister, setShowRegister] = useState(false)
 
@@ -65,8 +65,6 @@ function App() {
       <ToastProvider>
         <WorkoutProvider>
           <div className="app">
-            {/* Header */}
-            <Header user={user} setUser={setUser} />
             <Routes>
               <Route path="/" element={<Dashboard setUser={setUser} />} />
               <Route path="/exercises" element={<ExerciseLibraryPage />} />
@@ -89,13 +87,7 @@ function App() {
 
               <Route
                 path="/stats"
-                element={
-                  <DataState
-                    variant="card-empty"
-                    emptyText="Coming soon"
-                    count={1}
-                  ></DataState>
-                }
+                element={<StatsPage />}
               />
               <Route
                 path="/calendar"

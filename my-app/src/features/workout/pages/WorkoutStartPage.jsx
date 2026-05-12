@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { getTemplates } from '../../../shared/api/templateApi'
+import Header from '../../../shared/ui/Header'
 import TemplateList from '../../template/components/TemplateList'
 import DataState from '../../../shared/ui/DataState'
 
@@ -66,6 +67,10 @@ export default function WorkoutStart() {
 
   return (
     <div className="app">
+      <Header
+        title="Start Workout"
+        subtitle="Build your next session"
+      />
       <div className="page-section">
         <div className="hero-actions">
           <button
