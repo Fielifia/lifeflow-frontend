@@ -7,23 +7,23 @@ stages:
 
 image: node:22
 
-default:
-  before_script:
-    - cd my-app
-
 install:
   stage: install
   script:
+    - cd my-app
     - npm ci
   artifacts:
     paths:
       - my-app/node_modules/
+      - my-app/package-lock.json
+    expire_in: 1h  # valfritt, kan tas bort
 
 lint:
   stage: lint
   dependencies:
     - install
   script:
+    - cd my-app
     - npm run lint
 
 test:
@@ -31,6 +31,7 @@ test:
   dependencies:
     - install
   script:
+    - cd my-app
     - npm test -- --watchAll=false
 
 build:
@@ -38,6 +39,7 @@ build:
   dependencies:
     - install
   script:
+    - cd my-app
     - CI=false npm run build
 
 deploy:
