@@ -11,12 +11,13 @@ install:
   stage: install
   script:
     - cd my-app
-    - npm ci
+    - rm -rf node_modules package-lock.json   # ta bort gamla filer helt
+    - npm install                             # generera ny lock-fil
   artifacts:
     paths:
       - my-app/node_modules/
       - my-app/package-lock.json
-    expire_in: 1h  # valfritt, kan tas bort
+    expire_in: 1h
 
 lint:
   stage: lint
