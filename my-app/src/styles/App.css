@@ -710,7 +710,7 @@ input[type="checkbox"]:hover {
   margin-left: auto;
 }
 
-html body div#root div.app div.card-base.card-workout div.workout-exercise div.exercise-header-main button.btn-secondary.btn-small svg.lucide.lucide-trash2.lucide-trash-2 {
+.exercise-header-main.controls .icon-small-trash {
   height: 17px;
   width: 17px;
   color: var(--danger);
@@ -1210,7 +1210,7 @@ html body div#root div.app div.card-base.card-workout div.workout-exercise div.e
   color: var(--text);
 }
 
-svg.lucide.lucide-eye.details-icon {
+.details-icon {
   width: 18px;
   height: auto;
 }

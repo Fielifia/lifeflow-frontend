@@ -182,7 +182,7 @@ export default function ExerciseItem({
                 removeExercise(i)
               }}
             >
-              <Trash2 />
+              <Trash2 className="icon-small-trash" />
             </button>
           )}
         </div>

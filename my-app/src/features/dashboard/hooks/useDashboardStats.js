@@ -4,6 +4,7 @@ import { getOverviewStats } from '../../../shared/api/statsApi'
 export const useDashboardStats = () => {
   const [stats, setStats] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -12,7 +13,7 @@ export const useDashboardStats = () => {
 
         setStats(data)
       } catch (error) {
-        console.error('Failed to fetch dashboard stats', error)
+        setError('Failed to fetch dashboard stats')
       } finally {
         setLoading(false)
       }
@@ -24,5 +25,6 @@ export const useDashboardStats = () => {
   return {
     stats,
     loading,
+    error,
   }
 }
