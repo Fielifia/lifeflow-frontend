@@ -4,8 +4,9 @@ import {
   getTemplateById,
   updateTemplate,
 } from '../../../shared/api/templateApi'
+import { draftTemplateStorage } from '../../../shared/utils/storage/draftStorage'
+import { workoutStorage } from '../../../shared/utils/storage/workoutStorage'
 import { mapExerciseToTemplate } from '../../workout/utils/mapExerciseToWorkout'
-import { draftTemplateStorage } from '../../../shared/utils/draftStorage'
 
 /**
  * Hook for managing template creation and editing logic.
@@ -119,7 +120,7 @@ export function useTemplateLogic(navigate, location, id) {
 
     if (!selected?.length) return
 
-    const lastWorkout = JSON.parse(localStorage.getItem('lastWorkout'))
+    const lastWorkout = workoutStorage.getLastWorkout()
 
     const newExercises = selected.map((ex) => {
       const previous = lastWorkout?.exercises?.find(

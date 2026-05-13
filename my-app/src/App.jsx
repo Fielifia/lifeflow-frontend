@@ -12,8 +12,8 @@ import WorkoutDetailPage from './features/history/pages/WorkoutDetailPage'
 import WorkoutEditPage from './features/history/pages/WorkoutEditPage'
 import WorkoutHistoryPage from './features/history/pages/WorkoutHistoryPage'
 import StatsPage from './features/stats/pages/StatsPage'
-import TemplateDetailPage from './features/template/pages/TemplateDetailPage'
 import TemplateCreatePage from './features/template/pages/TemplateCreatePage'
+import TemplateDetailPage from './features/template/pages/TemplateDetailPage'
 import TemplateEditPage from './features/template/pages/TemplateEditPage'
 import WorkoutSessionBarWrapper from './features/workout/components/session/WorkoutSessionBarWrapper'
 import WorkoutRunPage from './features/workout/pages/WorkoutRunPage'
@@ -22,6 +22,7 @@ import { ToastProvider } from './shared/context/ToastContext'
 import { WorkoutProvider } from './shared/context/WorkoutContext'
 import DataState from './shared/ui/DataState'
 import Navbar from './shared/ui/Navbar'
+import { userStorage } from './shared/utils/storage/userStorage'
 
 /**
  * Root application component handling authentication and routing.
@@ -31,7 +32,7 @@ function App() {
   let storedUser = null
 
   try {
-    storedUser = JSON.parse(localStorage.getItem('user'))
+    storedUser = userStorage.get()
   } catch {
     storedUser = null
   }

@@ -1,3 +1,4 @@
+import { userStorage } from '../utils/storage/userStorage'
 import API from './api'
 
 export const login = async ({ email, password }) => {
@@ -8,7 +9,7 @@ export const login = async ({ email, password }) => {
     token: res.data.token,
   }
 
-  localStorage.setItem('user', JSON.stringify(userWithToken))
+  userStorage.set(userWithToken)
 
   return userWithToken
 }
@@ -29,7 +30,7 @@ export const register = async ({ email, username, password }) => {
     token: res.data.token,
   }
 
-  localStorage.setItem('user', JSON.stringify(userWithToken))
+  userStorage.set(userWithToken)
 
   return userWithToken
 }

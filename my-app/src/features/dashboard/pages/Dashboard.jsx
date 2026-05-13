@@ -1,5 +1,6 @@
 import DataState from '../../../shared/ui/DataState'
 import Header from '../../../shared/ui/Header'
+import { userStorage } from '../../../shared/utils/storage/userStorage'
 import DashboardContent from '../components/DashboardContent'
 import { useOverviewStats } from '../hooks/useOverviewStats'
 import { useRecentWorkouts } from '../hooks/useRecentWorkouts'
@@ -9,7 +10,7 @@ import { useRecentWorkouts } from '../hooks/useRecentWorkouts'
  * @returns {import('react').ReactElement} Dashboard page UI
  */
 export default function Dashboard() {
-  const user = JSON.parse(localStorage.getItem('user'))
+  const user = userStorage.get()
 
   const { stats, loading, error } = useOverviewStats()
 

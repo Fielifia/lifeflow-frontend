@@ -5,13 +5,14 @@
  * @module api/api
  */
 import axios from 'axios'
+import { userStorage } from '../utils/storage/userStorage'
 
 const API = axios.create({
   baseURL: process.env.REACT_APP_API_URL || '/api',
 })
 
 API.interceptors.request.use((config) => {
-  const storedUser = JSON.parse(localStorage.getItem('user'))
+  const storedUser = userStorage.get()
   const token = storedUser?.token
 
   if (token) {

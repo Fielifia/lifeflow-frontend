@@ -1,12 +1,12 @@
 import { useEffect, useRef, useState } from 'react'
 import API from '../../../shared/api/api'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
+import { draftWorkoutStorage } from '../../../shared/utils/storage/draftStorage.js'
 import { mapWorkoutToTemplate } from '../../template/utils/mapWorkoutToTemplate'
 import { DEFAULT_REST, DEFAULT_SETS, EMPTY_WORKOUT } from '../constants.js'
 import { cleanWorkoutForSave } from '../utils/cleanWorkoutForSave'
 import { workoutMutation } from '../utils/workoutMutations'
 import { usePreviousExercise } from './usePreviousExercise'
-import { draftWorkoutStorage } from '../../../shared/utils/draftStorage'
 
 
 /**

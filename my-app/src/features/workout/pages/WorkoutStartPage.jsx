@@ -1,14 +1,14 @@
-import { useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { getTemplates } from '../../../shared/api/templateApi'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
-import Header from '../../../shared/ui/Header'
-import TemplateList from '../../template/components/TemplateList'
 import DataState from '../../../shared/ui/DataState'
+import Header from '../../../shared/ui/Header'
 import {
-  draftWorkoutStorage,
   draftTemplateStorage,
-} from '../../../shared/utils/draftStorage'
+  draftWorkoutStorage,
+} from '../../../shared/utils/storage/draftStorage'
+import TemplateList from '../../template/components/TemplateList'
 
 /**
  * Entry page for starting workouts.
