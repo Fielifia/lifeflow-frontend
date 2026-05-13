@@ -62,7 +62,7 @@ export function useTemplateLogic(navigate, location, id) {
     let stored = null
     try {
       stored = draftTemplateStorage.get()
-    } catch {}
+    } catch { }
 
     return {
       name: stored?.name?.trim() || 'My Template',
@@ -110,6 +110,7 @@ export function useTemplateLogic(navigate, location, id) {
     }
 
     fetch()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id, isCreate])
 
   // ===== ADD FROM LIBRARY =====

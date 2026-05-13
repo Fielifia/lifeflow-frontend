@@ -3,11 +3,11 @@ import { getTemplateById, updateTemplate } from '../../../shared/api/templateApi
 import { workoutMutation } from '../../workout/utils/workoutMutations'
 
 /**
- * Hook for editing templates.
- * @param {string} templateId - Template ID.
- * @param {(path: string, options?: object) => void} navigate - React Router navigate function.
- * @param {{ state?: object, pathname: string }} location - Current route location object.
- * @returns {object} Template state and mutation handlers.
+ * Hook for editing workout templates.
+ * @param {(path: string, options?: object) => void} navigate - Navigation function
+ * @param {{ state?: object, pathname: string }} location - Current route location
+ * @param {string} id - Template id
+ * @returns {object} Template editing logic API
  */
 export function useEditTemplateLogic(
   navigate,

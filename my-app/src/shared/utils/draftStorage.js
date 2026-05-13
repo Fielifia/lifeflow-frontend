@@ -1,47 +1,57 @@
-// shared/utils/draftStorage.js
+import { safeStorage } from './storage'
 
+/**
+ * Storage helper for workout drafts.
+ */
 export const draftWorkoutStorage = {
+  /**
+   * Gets saved workout draft.
+   * @returns {object|null} Workout draft or null
+   */
   get() {
-    try {
-      return JSON.parse(
-        localStorage.getItem('draftWorkout'),
-      )
-    } catch {
-      return null
-    }
+    return safeStorage.get('draftWorkout')
   },
 
+  /**
+   * Saves workout draft.
+   * @param {object} data - Workout draft data
+   */
   set(data) {
-    localStorage.setItem(
-      'draftWorkout',
-      JSON.stringify(data),
-    )
+    safeStorage.set('draftWorkout', data)
   },
 
+  /**
+   * Removes workout draft.
+   */
   clear() {
-    localStorage.removeItem('draftWorkout')
+    safeStorage.remove('draftWorkout')
   },
 }
 
+/**
+ * Storage helper for template drafts.
+ */
 export const draftTemplateStorage = {
+  /**
+   * Gets saved template draft.
+   * @returns {object|null} Template draft or null
+   */
   get() {
-    try {
-      return JSON.parse(
-        localStorage.getItem('draftTemplate'),
-      )
-    } catch {
-      return null
-    }
+    return safeStorage.get('draftTemplate')
   },
 
+  /**
+   * Saves template draft.
+   * @param {object} data - Template draft data
+   */
   set(data) {
-    localStorage.setItem(
-      'draftTemplate',
-      JSON.stringify(data),
-    )
+    safeStorage.set('draftTemplate', data)
   },
 
+  /**
+   * Removes template draft.
+   */
   clear() {
-    localStorage.removeItem('draftTemplate')
+    safeStorage.remove('draftTemplate')
   },
 }
