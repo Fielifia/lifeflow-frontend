@@ -8,6 +8,7 @@ import { draftTemplateStorage } from '../../../shared/utils/storage/draftStorage
 import { workoutStorage } from '../../../shared/utils/storage/workoutStorage'
 import { mapExerciseToTemplate } from '../../workout/utils/mapExerciseToWorkout'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+import { workoutMutation } from '../../workout/utils/workoutMutations'
 
 /**
  * Hook for managing template creation and editing logic.
@@ -21,8 +22,8 @@ import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
  *
  * Supports navigation flow:
  * - Opens Exercise Library in select mode
- * - Receives selected exercises via location.state
- * - Filters by mode to avoid conflicts with workout flow
+ * - Receives selected exercises from ExerciseFlowContext
+ * - Shares temporary flow state across pages
  * @param {(path: string, options?: object) => void} navigate - Navigation function from react-router
  * @param {{ state?: object, pathname: string }} location - Current route location object
  * @param {string | undefined} id - Template ID (undefined in create mode)
@@ -58,6 +59,10 @@ export function useTemplateLogic(navigate, location, id) {
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
   const [isEditingName, setIsEditingName] = useState(false)
+  const {
+    selectedExercises,
+    setSelectedExercises,
+  } = useExerciseFlow()
 
   // ===== INIT TEMPLATE =====
   const [template, setTemplate] = useState(() => {
@@ -67,7 +72,7 @@ export function useTemplateLogic(navigate, location, id) {
     } catch { }
 
     return {
-      name: stored?.name?.trim() || 'My Template',
+      name: stored?.name?.trim() || 'Template',
       exercises: stored?.exercises || [],
       notes: stored?.notes || '',
     }
@@ -117,13 +122,13 @@ export function useTemplateLogic(navigate, location, id) {
 
   // ===== ADD FROM LIBRARY =====
   useEffect(() => {
-    const selected = location.state?.selectedExercises
-
-    if (!selected?.length) return
+    if (!selectedExercises?.length) {
+      return
+    }
 
     const lastWorkout = workoutStorage.getLastWorkout()
 
-    const newExercises = selected.map((ex) => {
+    const newExercises = selectedExercises.map((ex) => {
       const previous = lastWorkout?.exercises?.find(
         (e) => e.exerciseId === ex.id,
       )
@@ -141,109 +146,53 @@ export function useTemplateLogic(navigate, location, id) {
       ],
     }))
 
-  }, [
-    location.state?.selectedExercises,
-    location.pathname,
-    navigate,
-  ])
+    setSelectedExercises([])
+  }, [selectedExercises])
 
   // ===== ACTIONS =====
   const openLibrary = () => {
     navigate('/exercises?select=true', {
       state: {
-        currentExercises: template.exercises,
         returnTo: location.pathname,
       },
     })
   }
 
-  const updateExerciseNotes = (index, notes) => {
-    setTemplate((prev) => ({
-      ...prev,
-      exercises: prev.exercises.map((ex, i) =>
-        i === index ? { ...ex, notes } : ex,
+  const addSet = (index) =>
+    setTemplate((prev) =>
+      workoutMutation.addSet(prev, index),
+    )
+
+  const updateSet = (exIndex, setIndex, field, value) =>
+    setTemplate((prev) =>
+      workoutMutation.updateSet(
+        prev,
+        exIndex,
+        setIndex,
+        field,
+        value,
       ),
-    }))
-  }
+    )
 
-  const addSet = (index) => {
-    setTemplate((prev) => ({
-      ...prev,
-      exercises: prev.exercises.map((ex, i) => {
-        if (i !== index) return ex
+  const removeSet = (exIndex, setIndex) =>
+    setTemplate((prev) =>
+      workoutMutation.removeSet(prev, exIndex, setIndex),
+    )
 
-        const last = ex.sets.at(-1)
+  const removeExercise = (index) =>
+    setTemplate((prev) =>
+      workoutMutation.removeExercise(prev, index),
+    )
 
-        return {
-          ...ex,
-          sets: [
-            ...ex.sets,
-            last
-              ? { reps: last.reps, weight: last.weight }
-              : { reps: 8, weight: 0 },
-          ],
-        }
-      }),
-    }))
-  }
+  const updateExerciseRest = (index, value) =>
+    setTemplate((prev) =>
+      workoutMutation.updateExerciseRest(prev, index, value),
+    )
 
-  const updateSet = (exIndex, setIndex, field, value) => {
-    setTemplate((prev) => ({
-      ...prev,
-      exercises: prev.exercises.map((ex, i) => {
-        if (i !== exIndex) return ex
-
-        return {
-          ...ex,
-          sets: ex.sets.map((set, j) => {
-            if (j !== setIndex) return set
-
-            return {
-              ...set,
-              [field]: value,
-            }
-          }),
-        }
-      }),
-    }))
-  }
-
-  const removeExercise = (index) => {
-    setTemplate((prev) => ({
-      ...prev,
-      exercises: prev.exercises.filter((_, i) => i !== index),
-    }))
-  }
-
-  const removeSet = (exIndex, setIndex) => {
-    setTemplate((prev) => ({
-      ...prev,
-      exercises: prev.exercises.map((ex, i) => {
-        if (i !== exIndex) return ex
-
-        if (ex.sets.length === 1) return ex
-
-        return {
-          ...ex,
-          sets: ex.sets.filter((_, j) => j !== setIndex),
-        }
-      }),
-    }))
-  }
-
-  const updateExerciseRest = (index, value) => {
-    setTemplate((prev) => ({
-      ...prev,
-      exercises: prev.exercises.map((ex, i) => {
-        if (i !== index) return ex
-
-        return {
-          ...ex,
-          restTime: value,
-        }
-      }),
-    }))
-  }
+  const updateExerciseNotes = (index, notes) =>
+    setTemplate((prev) =>
+      workoutMutation.updateExerciseNotes(prev, index, notes),
+    )
 
   const saveTemplate = async () => {
     try {
@@ -301,8 +250,9 @@ export function useTemplateLogic(navigate, location, id) {
       setError('')
 
       setTemplate({
-        name: 'My Template',
+        name: 'Template',
         exercises: [],
+        notes: '',
       })
 
       setIsEditingName(false)

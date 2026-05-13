@@ -3,7 +3,7 @@ import BackButton from '../../../shared/ui/BackButton'
 import ExerciseItem from '../../workout/components/ExerciseItem'
 import Header from '../../../shared/ui/Header'
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
-import { useTemplateLogic } from '../hooks/useCreateTemplateLogic'
+import { useTemplateLogic } from '../hooks/useTemplateLogic'
 import TemplateControls from '../components/TemplateControls'
 
 /**

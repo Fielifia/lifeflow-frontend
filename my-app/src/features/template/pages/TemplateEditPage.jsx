@@ -1,5 +1,5 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { useEditTemplateLogic } from '../hooks/useEditTemplateLogic'
+import { useTemplateLogic } from '../hooks/useTemplateLogic'
 
 import Header from '../../../shared/ui/Header'
 import BackButton from '../../../shared/ui/BackButton'
@@ -41,7 +41,7 @@ export default function TemplateEditPage() {
     openLibrary,
 
     saveTemplate,
-  } = useEditTemplateLogic(navigate, location, id)
+  } = useTemplateLogic(navigate, location, id)
 
   // ===== UI =====
   if (loading) return <p className="center">Loading...</p>
