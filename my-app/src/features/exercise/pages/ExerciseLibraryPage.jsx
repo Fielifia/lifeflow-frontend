@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 import useExercises from '../hooks/useExercises'
+import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
 import { CATEGORY_ORDER } from '../utils/exerciseCategories'
 
@@ -38,11 +39,10 @@ export default function ExercisesLibraryPage() {
   const visibleCount =
     Number(searchParams.get('limit')) || 20
 
-  // ===== LOCAL UI STATE =====
-
-  const [selectedExercises, setSelectedExercises] = useState(
-    location.state?.selectedExercises || [],
-  )
+  const {
+    selectedExercises,
+    setSelectedExercises,
+  } = useExerciseFlow()
 
   // ===== DATA =====
 
@@ -227,12 +227,7 @@ export default function ExercisesLibraryPage() {
             onClick={() => {
               const returnTo = location.state?.returnTo || '/'
 
-              navigate(returnTo, {
-                replace: true,
-                state: {
-                  selectedExercises,
-                },
-              })
+              navigate(returnTo)
             }}
           >
             Add {selectedExercises.length} exercises

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import API from '../../../shared/api/api'
+import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext.jsx'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 import { draftWorkoutStorage } from '../../../shared/utils/storage/draftStorage.js'
 import { mapWorkoutToTemplate } from '../../template/utils/mapWorkoutToTemplate'
@@ -44,6 +45,10 @@ export function useWorkoutLogic(navigate, location, workoutId) {
   const [isEditingName, setIsEditingName] = useState(false)
 
   const { setActiveWorkout } = useWorkoutContext()
+  const {
+    selectedExercises,
+    setSelectedExercises,
+  } = useExerciseFlow()
 
 
   const hasAddedRef = useRef(false)
@@ -87,15 +92,15 @@ export function useWorkoutLogic(navigate, location, workoutId) {
 
   // ===== ADD FROM LIBRARY =====
   useEffect(() => {
-    const selected = location.state?.selectedExercises
-
-    if (!selected?.length || hasAddedRef.current) return
+    if (!selectedExercises?.length || hasAddedRef.current) {
+      return
+    }
 
     hasAddedRef.current = true
 
     const run = async () => {
       const results = await Promise.all(
-        selected.map(async (ex) => {
+        selectedExercises.map(async (ex) => {
           let sets = DEFAULT_SETS.map((s) => ({ ...s }))
 
           const prev = await getPreviousSets(ex.id || ex.exerciseId)
@@ -140,11 +145,13 @@ export function useWorkoutLogic(navigate, location, workoutId) {
         ],
       }))
 
+      setSelectedExercises([])
+      hasAddedRef.current = false
     }
 
     run()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [location.state?.selectedExercises])
+  }, [selectedExercises])
 
   // ===== LOAD TEMPLATE =====
   useEffect(() => {

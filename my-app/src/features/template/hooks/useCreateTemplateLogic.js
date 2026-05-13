@@ -7,6 +7,7 @@ import {
 import { draftTemplateStorage } from '../../../shared/utils/storage/draftStorage'
 import { workoutStorage } from '../../../shared/utils/storage/workoutStorage'
 import { mapExerciseToTemplate } from '../../workout/utils/mapExerciseToWorkout'
+import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
 /**
  * Hook for managing template creation and editing logic.
