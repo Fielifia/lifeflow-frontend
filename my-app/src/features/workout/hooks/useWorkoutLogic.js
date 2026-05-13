@@ -249,7 +249,6 @@ export function useWorkoutLogic(navigate, location, workoutId) {
 
   const openLibrary = () => {
     navigate(`/workouts/${workoutId}/exercises`, {
-      replace: true,
       state: {
         currentExercises: workout.exercises,
         returnTo: location.pathname,

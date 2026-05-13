@@ -109,7 +109,7 @@ export function useTemplateLogic(navigate, location, id) {
     }
 
     fetch()
-  }, [id, isCreate, template.exercises.length])
+  }, [id, isCreate])
 
   // ===== ADD FROM LIBRARY =====
   useEffect(() => {
@@ -130,12 +130,7 @@ export function useTemplateLogic(navigate, location, id) {
 
     setTemplate((prev) => ({
       ...prev,
-      exercises: [
-        ...prev.exercises,
-        ...newExercises.filter(
-          (ex) => !prev.exercises.some((e) => e.exerciseId === ex.exerciseId),
-        ),
-      ],
+      exercises: newExercises,
     }))
 
   }, [
@@ -261,7 +256,8 @@ export function useTemplateLogic(navigate, location, id) {
       }
 
       const cleaned = template.exercises.map((ex) => ({
-        exerciseId: ex.exerciseId,
+        exerciseId:
+          ex.exerciseId || ex.id || ex._id,
         name: ex.name,
         images: ex.images?.length ? ex.images : ex.image ? [ex.image] : [],
         notes: ex.notes || '',
@@ -308,7 +304,7 @@ export function useTemplateLogic(navigate, location, id) {
 
       localStorage.removeItem('draftTemplate')
 
-      navigate('/templates')
+      navigate('/workouts')
     } catch (err) {
       setError(err.response?.data?.error || 'Could not save template')
     } finally {

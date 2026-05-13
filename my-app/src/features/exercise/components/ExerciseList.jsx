@@ -33,21 +33,30 @@ export default function ExerciseList({
               if (onSelect) {
                 onSelect(e)
               } else {
-                navigate(`/exercises/${e.id}`, {
-                  state: {
-                    mode: location.state?.mode,
-                    returnTo: location.state?.returnTo,
+                const detailState = {
+                  returnTo: `${location.pathname}${location.search}`,
+                  returnState: {
+                    ...location.state,
+                    scrollY: window.scrollY,
                   },
+                }
+
+                navigate(`/exercises/${e.id}`, {
+                  state: detailState,
                 })
               }
             }}
             onView={() => {
-              navigate(`/exercises/${e.id}`, {
-                state: {
-                  mode: location.state?.mode,
-                  returnTo: location.state?.returnTo,
-                  selectedExercises: location.state?.selectedExercises,
+              const detailState = {
+                returnTo: `${location.pathname}${location.search}`,
+                returnState: {
+                  ...location.state,
+                  scrollY: window.scrollY,
                 },
+              }
+
+              navigate(`/exercises/${e.id}`, {
+                state: detailState,
               })
             }}
           />

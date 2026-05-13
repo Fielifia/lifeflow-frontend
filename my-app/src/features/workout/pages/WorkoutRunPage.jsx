@@ -109,7 +109,9 @@ export default function WorkoutRunPage() {
       />
 
       {/* ADD EXERCISE */}
-      <button className="btn btn-standard btn-secondary btn-full" onClick={openLibrary}>
+      <button className="btn btn-standard btn-secondary btn-full"
+        onClick={openLibrary}
+      >
         Add exercise
       </button>
 

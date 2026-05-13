@@ -53,7 +53,10 @@ export default function ExerciseDetail() {
     <div className="app">
       {/* Header */}
 
-      <BackButton fallback={location.state?.returnTo || '/exercises'} />
+      <BackButton
+        fallback={location.state?.returnTo || '/exercises'}
+        state={location.state?.returnState}
+      />
 
       {/* Title */}
       <div className="section">

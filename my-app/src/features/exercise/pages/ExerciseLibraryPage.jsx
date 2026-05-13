@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import useExercises from '../hooks/useExercises'
 import { CATEGORY_ORDER } from '../utils/exerciseCategories'
@@ -7,6 +7,7 @@ import BackButton from '../../../shared/ui/BackButton'
 import DataState from '../../../shared/ui/DataState'
 
 const BASE_CATEGORIES = CATEGORY_ORDER
+
 
 /**
  * Exercise library view with filtering, search, and pagination.
@@ -22,12 +23,37 @@ export default function ExercisesLibraryPage() {
     location.state?.mode === 'template' ||
     location.pathname.includes('/templates/')
 
+  const STORAGE_KEY = isSelectMode
+    ? 'exerciseLibrarySelectState'
+    : 'exerciseLibraryState'
+
+  const returningFromDetail =
+    location.state?.scrollY != null
+
+  const saved =
+    isSelectMode && !returningFromDetail
+      ? {}
+      : JSON.parse(sessionStorage.getItem(STORAGE_KEY)) || {}
+
   // UI state
-  const [search, setSearch] = useState('')
-  const [bodyPart, setBodyPart] = useState(null)
-  const [muscleGroup, setMuscleGroup] = useState(null)
-  const [equipment, setEquipment] = useState(null)
-  const [visibleCount, setVisibleCount] = useState(20)
+  const [search, setSearch] = useState(saved.search || '')
+
+  const [bodyPart, setBodyPart] = useState(
+    saved.bodyPart || null,
+  )
+
+  const [muscleGroup, setMuscleGroup] = useState(
+    saved.muscleGroup || null,
+  )
+
+  const [equipment, setEquipment] = useState(
+    saved.equipment || null,
+  )
+
+  const [visibleCount, setVisibleCount] = useState(
+    saved.visibleCount || 20,
+  )
+
   const [selectedExercises, setSelectedExercises] = useState(
     location.state?.selectedExercises || [],
   )
@@ -71,9 +97,45 @@ export default function ExercisesLibraryPage() {
     })
   }
 
+  useEffect(() => {
+
+    sessionStorage.setItem(
+      STORAGE_KEY,
+      JSON.stringify({
+        search,
+        bodyPart,
+        muscleGroup,
+        equipment,
+        visibleCount,
+      }),
+    )
+  }, [
+    isSelectMode,
+    search,
+    bodyPart,
+    muscleGroup,
+    equipment,
+    visibleCount,
+  ])
+
+  useEffect(() => {
+    if (loading) return
+
+    const scrollY = location.state?.scrollY
+
+    if (scrollY != null) {
+      requestAnimationFrame(() => {
+        window.scrollTo(0, scrollY)
+      })
+    }
+  }, [loading, location.state])
+
   return (
     <div className="app">
-      <BackButton />
+      <BackButton
+        fallback={location.state?.returnTo || '/'}
+        state={location.state}
+      />
 
       <div className="section">
         <h2>{isSelectMode ? 'Select exercise' : 'Exercise Library'}</h2>
