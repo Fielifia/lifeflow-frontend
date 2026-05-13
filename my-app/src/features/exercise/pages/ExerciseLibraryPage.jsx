@@ -44,24 +44,6 @@ export default function ExercisesLibraryPage() {
     location.state?.selectedExercises || [],
   )
 
-  // ===== HELPERS =====
-
-  const updateParam = (key, value) => {
-    const params = new URLSearchParams(searchParams)
-
-    if (
-      value === null ||
-      value === undefined ||
-      value === ''
-    ) {
-      params.delete(key)
-    } else {
-      params.set(key, value)
-    }
-
-    setSearchParams(params)
-  }
-
   // ===== DATA =====
 
   const { loading, error, exercises, filtered, visibleExercises } =
