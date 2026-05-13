@@ -17,6 +17,8 @@ export function useEditWorkoutLogic(workoutId, navigate) {
   const [error, setError] = useState('')
   const [success, setSuccess] = useState(false)
 
+  const [isEditingName, setIsEditingName] = useState(false)
+
   // ===== LOAD WORKOUT =====
   useEffect(() => {
     const fetchWorkout = async () => {
@@ -42,6 +44,7 @@ export function useEditWorkoutLogic(workoutId, navigate) {
 
     if (workoutId) fetchWorkout()
   }, [workoutId])
+
 
   // ===== MUTATION WRAPPERS =====
   const addSet = (index) =>
@@ -87,8 +90,6 @@ export function useEditWorkoutLogic(workoutId, navigate) {
   const updateWorkoutNotes = (notes) =>
     setWorkout((prev) => ({ ...prev, notes }))
 
-  const updateWorkoutName = (name) => setWorkout((prev) => ({ ...prev, name }))
-
   // ===== SAVE =====
   const saveWorkout = async () => {
     try {
@@ -133,7 +134,11 @@ export function useEditWorkoutLogic(workoutId, navigate) {
     saving,
     success,
     error,
+    
+    isEditingName,
+    setIsEditingName,
 
+    // openLibrary,
 
     addSet,
     updateSet,
@@ -143,9 +148,7 @@ export function useEditWorkoutLogic(workoutId, navigate) {
 
     updateExerciseRest,
     updateExerciseNotes,
-
     updateWorkoutNotes,
-    updateWorkoutName,
 
     saveWorkout,
   }

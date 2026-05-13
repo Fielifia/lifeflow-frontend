@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 /**
  * Displays a summary card for a workout.
@@ -18,13 +18,19 @@ import { useNavigate } from 'react-router-dom'
  */
 export default function WorkoutCard({ workout }) {
   const navigate = useNavigate()
+  const location = useLocation()
 
   const date = new Date(workout.createdAt).toLocaleDateString()
 
   return (
     <div
       className="card-base clickable"
-      onClick={() => navigate(`/workouts/${workout._id}`)}
+      onClick={() => navigate(`/workouts/${workout._id}`, {
+        state: {
+          workout,
+          from: location.pathname,
+        },
+      })}
     >
       <h3>{workout.name || 'Workout'}</h3>
 

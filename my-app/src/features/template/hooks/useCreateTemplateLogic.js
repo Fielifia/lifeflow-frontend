@@ -130,7 +130,12 @@ export function useTemplateLogic(navigate, location, id) {
 
     setTemplate((prev) => ({
       ...prev,
-      exercises: newExercises,
+      exercises: [
+        ...prev.exercises,
+        ...newExercises.filter(
+          (ex) => !prev.exercises.some((e) => e.exerciseId === ex.exerciseId),
+        ),
+      ],
     }))
 
   }, [
@@ -256,8 +261,7 @@ export function useTemplateLogic(navigate, location, id) {
       }
 
       const cleaned = template.exercises.map((ex) => ({
-        exerciseId:
-          ex.exerciseId || ex.id || ex._id,
+        exerciseId: ex.exerciseId,
         name: ex.name,
         images: ex.images?.length ? ex.images : ex.image ? [ex.image] : [],
         notes: ex.notes || '',

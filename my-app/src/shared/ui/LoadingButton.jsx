@@ -3,11 +3,19 @@
  * @param {{ loading: boolean, children: import('react').ReactNode }} param0 - The component props
  * @returns {import('react').ReactElement} The loading button UI
  */
-export default function LoadingButton({ loading, children, ...props }) {
+export default function LoadingButton({
+  loading,
+  loadingText,
+  children,
+  ...props
+}) {
   return (
     <button {...props} disabled={loading || props.disabled}>
       {loading && <span className="spinner"></span>}
-      <span>{children}</span>
+
+      <span>
+        {loading ? loadingText || children : children}
+      </span>
     </button>
   )
 }

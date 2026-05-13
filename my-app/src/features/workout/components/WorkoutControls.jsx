@@ -18,7 +18,6 @@ export default function WorkoutControls({
   saveWorkout,
   onSaveTemplate,
   saving,
-  loading,
   hasExercises,
   discardWorkout,
 }) {
@@ -41,8 +40,7 @@ export default function WorkoutControls({
 
       <LoadingButton
         className="btn btn-standard btn-primary"
-        loading={loading}
-        saving={saving}
+        loading={saving}
         disabled={!hasExercises}
         onClick={isStarted ? saveWorkout : onSaveTemplate}
       >

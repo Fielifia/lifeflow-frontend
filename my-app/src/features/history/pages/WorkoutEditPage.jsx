@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { useEditWorkoutLogic } from '../hooks/useEditWorkoutLogic'
 
 import Header from '../../../shared/ui/Header'
@@ -12,6 +12,7 @@ import WorkoutHeader from '../../workout/components/WorkoutHeader'
  */
 export default function WorkoutEditPage() {
   const navigate = useNavigate()
+  const location = useLocation()
   const { id } = useParams()
 
   const {
@@ -22,21 +23,25 @@ export default function WorkoutEditPage() {
 
     setWorkout,
 
+    openLibrary,
     addSet,
     updateSet,
     removeExercise,
     removeSet,
     toggleSetComplete,
+    
     updateExerciseRest,
     updateExerciseNotes,
     updateWorkoutNotes,
-    updateWorkoutName,
+
+    isEditingName,
+    setIsEditingName,
 
     saveWorkout,
-  } = useEditWorkoutLogic(id, navigate)
+  } = useEditWorkoutLogic(id, location, navigate)
 
-  if (loading) return <p>Loading...</p>
-  if (!workout) return <p>Workout not found</p>
+  if (loading) return <p className="center">Loading...</p>
+  if (!workout) return <p className="center">Workout not found</p>
 
   return (
     <div className="app">
@@ -44,14 +49,16 @@ export default function WorkoutEditPage() {
         title={workout.name}
         subtitle="Edit workout"
       />
-      <BackButton fallback="/workouts/history" />
+      <BackButton fallback={(`/workouts/${id}`)} />
 
       {/* HEADER */}
       <WorkoutHeader
         name={workout.name}
-        isEditing={true}
-        setIsEditing={() => { }}
-        onChangeName={updateWorkoutName}
+        isEditing={isEditingName}
+        setIsEditing={setIsEditingName}
+        onChangeName={(value) =>
+          setWorkout((prev) => ({ ...prev, name: value }))
+        }
 
         mode="edit"
         duration={workout.duration}
@@ -70,6 +77,11 @@ export default function WorkoutEditPage() {
       </button>
 
       {error && <p className="error center">{error}</p>}
+
+      {/* ADD EXERCISE */}
+      <button className="btn btn-standard btn-secondary btn-full" onClick={openLibrary}>
+        Add exercise
+      </button>
 
       {/* EXERCISES */}
       {workout.exercises.map((ex, i) => (

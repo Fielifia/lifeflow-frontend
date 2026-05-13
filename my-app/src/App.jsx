@@ -13,6 +13,7 @@ import WorkoutEditPage from './features/history/pages/WorkoutEditPage'
 import WorkoutHistoryPage from './features/history/pages/WorkoutHistoryPage'
 import StatsPage from './features/stats/pages/StatsPage'
 import TemplateDetailPage from './features/template/pages/TemplateDetailPage'
+import TemplateCreatePage from './features/template/pages/TemplateCreatePage'
 import TemplateEditPage from './features/template/pages/TemplateEditPage'
 import WorkoutSessionBarWrapper from './features/workout/components/session/WorkoutSessionBarWrapper'
 import WorkoutRunPage from './features/workout/pages/WorkoutRunPage'
@@ -78,7 +79,7 @@ function App() {
               />
 
               <Route path="/templates/:id" element={<TemplateDetailPage />} />
-              <Route path="/templates/create" element={<TemplateEditPage />} />
+              <Route path="/templates/create" element={<TemplateCreatePage />} />
               <Route path="/templates/:id/edit" element={<TemplateEditPage />} />
 
               <Route path="/history" element={<WorkoutHistoryPage />} />

@@ -9,7 +9,6 @@ import LoadingButton from '../../../shared/ui/LoadingButton'
  * @returns {import('react').ReactElement} Template controls UI
  */
 export default function WorkoutControls({
-  loading,
   saving,
   saveTemplate,
 }) {
@@ -19,8 +18,7 @@ export default function WorkoutControls({
 
       <LoadingButton
         className="btn btn-standard btn-primary"
-        loading={loading}
-        saving={saving}
+        loading={saving}
         loadingText="Saving..."
         onClick={saveTemplate}>
         Save Template

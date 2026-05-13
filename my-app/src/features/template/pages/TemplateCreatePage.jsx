@@ -1,51 +1,79 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { useEditTemplateLogic } from '../hooks/useEditTemplateLogic'
-
-import Header from '../../../shared/ui/Header'
 import BackButton from '../../../shared/ui/BackButton'
 import ExerciseItem from '../../workout/components/ExerciseItem'
+import Header from '../../../shared/ui/Header'
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
+import { useTemplateLogic } from '../hooks/useCreateTemplateLogic'
 import TemplateControls from '../components/TemplateControls'
 
 /**
- * Page for editing a workout template.
- * @returns {import('react').ReactElement} Template edit page UI
+ * Page for creating and editing workout templates.
+ *
+ * Supports both:
+ * - Create mode (no id in route)
+ * - Edit mode (template id in route)
+ *
+ * Features:
+ * - Load existing template when editing
+ * - Add exercises from Exercise Library (select mode)
+ * - Manage sets (reps, weight)
+ * - Update rest time per exercise
+ * - Remove exercises and sets
+ * - Save template (create or update)
+ *
+ * Navigation flow:
+ * - Opens Exercise Library in select mode
+ * - Receives selected exercises via location.state
+ * - Returns to originating route using `from` and `mode`
+ *
+ * State structure:
+ * template = {
+ *   name: string,
+ *   exercises: [
+ *     {
+ *       exerciseId: string,
+ *       name: string,
+ *       image?: string,
+ *       restTime: number,
+ *       sets: [
+ *         { reps: number, weight: number }
+ *       ]
+ *     }
+ *   ]
+ * }
+ * @returns {import('react').ReactElement} Template edit/create page UI
  */
 export default function TemplateEditPage() {
   const navigate = useNavigate()
-  const { id } = useParams()
-  
   const location = useLocation()
+
+  const { id } = useParams()
   const isCreate = !id
 
   const {
     template,
-    loading,
     saving,
-    error,
     success,
-
+    error,
     setTemplate,
-
-    addSet,
-    updateSet,
-    removeExercise,
-    removeSet,
-    
-    updateExerciseRest,
-    updateExerciseNotes,
+    loading,
 
     isEditingName,
     setIsEditingName,
 
     openLibrary,
+    addSet,
+    updateSet,
+    removeExercise,
+    removeSet,
+    updateExerciseRest,
+    updateExerciseNotes,
 
     saveTemplate,
-  } = useEditTemplateLogic(navigate, location, id)
+  } = useTemplateLogic(navigate, location, id)
 
   // ===== UI =====
   if (loading) return <p className="center">Loading...</p>
-  if (!template) return <p className="center">Template not found</p>
 
   return (
     <div className="app">
@@ -67,7 +95,10 @@ export default function TemplateEditPage() {
         isEditing={isEditingName}
         setIsEditing={setIsEditingName}
         onChangeName={(value) =>
-          setTemplate((prev) => ({ ...prev, name: value }))
+          setTemplate((prev) => ({
+            ...prev,
+            name: value,
+          }))
         }
         isEditable={true}
         showDuration={false}
