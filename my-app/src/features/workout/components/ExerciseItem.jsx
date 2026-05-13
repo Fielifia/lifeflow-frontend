@@ -119,7 +119,6 @@ export default function ExerciseItem({
           onClick={() => navigate(`/exercises/${ex.exerciseId}`, {
             state: {
               returnTo: location.pathname,
-              mode: 'workout',
             },
           })
           }

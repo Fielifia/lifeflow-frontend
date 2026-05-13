@@ -50,9 +50,8 @@ export function useEditTemplateLogic(
   // ===== ADD FROM LIBRARY =====
   useEffect(() => {
     const selected = location.state?.selectedExercises
-    const mode = location.state?.mode
 
-    if (!selected?.length || mode !== 'template') {
+    if (!selected?.length) {
       return
     }
 
@@ -77,7 +76,6 @@ export function useEditTemplateLogic(
     })
   }, [
     location.state?.selectedExercises,
-    location.state?.mode,
   ])
 
   // ===== ACTIONS =====
@@ -88,7 +86,6 @@ export function useEditTemplateLogic(
         selectedExercises: template.exercises,
         currentExercises: template.exercises,
         returnTo: location.pathname,
-        mode: 'template',
       },
     })
   }

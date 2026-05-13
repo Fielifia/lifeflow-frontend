@@ -6,7 +6,7 @@ import ExerciseCard from './ExerciseCard'
  * @param {{
  *  exercises: Array<{ id: string }>,
  *  onSelect?: (exercise: object) => void,
- *  selectedExercises?: Array<{ id: string }>
+ *  selectedExercises?: Array<{ id?: string, exerciseId?: string }>
  * }} props - Component props
  * @returns {import('react').ReactElement} Exercise list UI
  */

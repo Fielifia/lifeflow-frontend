@@ -34,7 +34,6 @@ export default function ExerciseCard({
         state: {
           from: location.pathname,
           rootFlow: location.state?.rootFlow,
-          mode: location.state?.mode,
         },
       }`)
     }

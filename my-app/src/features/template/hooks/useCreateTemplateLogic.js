@@ -114,9 +114,8 @@ export function useTemplateLogic(navigate, location, id) {
   // ===== ADD FROM LIBRARY =====
   useEffect(() => {
     const selected = location.state?.selectedExercises
-    const mode = location.state?.mode
 
-    if (!selected?.length || mode !== 'template') return
+    if (!selected?.length) return
 
     const lastWorkout = JSON.parse(localStorage.getItem('lastWorkout'))
 
@@ -140,7 +139,6 @@ export function useTemplateLogic(navigate, location, id) {
 
   }, [
     location.state?.selectedExercises,
-    location.state?.mode,
     location.pathname,
     navigate,
   ])
@@ -151,7 +149,6 @@ export function useTemplateLogic(navigate, location, id) {
       state: {
         currentExercises: template.exercises,
         returnTo: location.pathname,
-        mode: 'template',
       },
     })
   }

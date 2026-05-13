@@ -691,6 +691,7 @@ input[type="checkbox"]:hover {
   display: flex;
   flex-direction: column;
   gap: 12px;
+  margin: 12px 0;
 }
 
 .workout-header h2 {

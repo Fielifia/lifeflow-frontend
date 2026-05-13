@@ -87,9 +87,8 @@ export function useWorkoutLogic(navigate, location, workoutId) {
   // ===== ADD FROM LIBRARY =====
   useEffect(() => {
     const selected = location.state?.selectedExercises
-    const mode = location.state?.mode
 
-    if (!selected?.length || mode !== 'workout' || hasAddedRef.current) return
+    if (!selected?.length || hasAddedRef.current) return
 
     hasAddedRef.current = true
 
@@ -248,13 +247,14 @@ export function useWorkoutLogic(navigate, location, workoutId) {
     setWorkout((prev) => ({ ...prev, notes }))
 
   const openLibrary = () => {
-    navigate(`/workouts/${workoutId}/exercises`, {
-      state: {
-        currentExercises: workout.exercises,
-        returnTo: location.pathname,
-        mode: 'workout',
+    navigate(
+      `/workouts/${workoutId}/exercises?select=true`,
+      {
+        state: {
+          returnTo: location.pathname,
+        },
       },
-    })
+    )
   }
 
   // ===== SAVE =====
