@@ -1,64 +1,69 @@
 import { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+
 import useExercises from '../hooks/useExercises'
+
 import { CATEGORY_ORDER } from '../utils/exerciseCategories'
+
 import ExerciseList from '../components/ExerciseList'
+
 import BackButton from '../../../shared/ui/BackButton'
 import DataState from '../../../shared/ui/DataState'
 
 const BASE_CATEGORIES = CATEGORY_ORDER
 
-
 /**
  * Exercise library view with filtering, search, and pagination.
- * @returns {import('react').ReactElement} -
+ * @returns {import('react').ReactElement}
  */
 export default function ExercisesLibraryPage() {
   const navigate = useNavigate()
   const location = useLocation()
 
+  const [searchParams, setSearchParams] = useSearchParams()
+
   const isSelectMode =
-    location.state?.mode === 'workout' ||
-    location.pathname.includes('/workouts/') ||
-    location.state?.mode === 'template' ||
-    location.pathname.includes('/templates/')
+    searchParams.get('select') === 'true'
 
-  const STORAGE_KEY = isSelectMode
-    ? 'exerciseLibrarySelectState'
-    : 'exerciseLibraryState'
+  // ===== URL STATE =====
 
-  const returningFromDetail =
-    location.state?.scrollY != null
+  const search = searchParams.get('search') || ''
 
-  const saved =
-    isSelectMode && !returningFromDetail
-      ? {}
-      : JSON.parse(sessionStorage.getItem(STORAGE_KEY)) || {}
+  const bodyPart = searchParams.get('bodyPart') || ''
 
-  // UI state
-  const [search, setSearch] = useState(saved.search || '')
+  const muscleGroup = searchParams.get('muscleGroup') || ''
 
-  const [bodyPart, setBodyPart] = useState(
-    saved.bodyPart || null,
-  )
+  const equipment = searchParams.get('equipment') || ''
 
-  const [muscleGroup, setMuscleGroup] = useState(
-    saved.muscleGroup || null,
-  )
+  const visibleCount =
+    Number(searchParams.get('limit')) || 20
 
-  const [equipment, setEquipment] = useState(
-    saved.equipment || null,
-  )
-
-  const [visibleCount, setVisibleCount] = useState(
-    saved.visibleCount || 20,
-  )
+  // ===== LOCAL UI STATE =====
 
   const [selectedExercises, setSelectedExercises] = useState(
     location.state?.selectedExercises || [],
   )
 
-  // Data logic from hook
+  // ===== HELPERS =====
+
+  const updateParam = (key, value) => {
+    const params = new URLSearchParams(searchParams)
+
+    if (
+      value === null ||
+      value === undefined ||
+      value === ''
+    ) {
+      params.delete(key)
+    } else {
+      params.set(key, value)
+    }
+
+    setSearchParams(params)
+  }
+
+  // ===== DATA =====
+
   const { loading, error, exercises, filtered, visibleExercises } =
     useExercises({
       search,
@@ -68,7 +73,8 @@ export default function ExercisesLibraryPage() {
       visibleCount,
     })
 
-  // Derived dropdowns
+  // ===== FILTER OPTIONS =====
+
   const muscles = [
     ...new Set(exercises.map((e) => e.muscle).filter(Boolean)),
   ].sort((a, b) => a.localeCompare(b))
@@ -77,46 +83,19 @@ export default function ExercisesLibraryPage() {
     ...new Set(exercises.map((e) => e.equipment).filter(Boolean)),
   ].sort((a, b) => a.localeCompare(b))
 
-  // Actions
+  // ===== SELECTION =====
+
   const toggleSelect = (exercise) => {
     setSelectedExercises((prev) => {
       const exists = prev.find((e) => e.id === exercise.id)
-      const updated = exists
+
+      return exists
         ? prev.filter((e) => e.id !== exercise.id)
         : [...prev, exercise]
-
-      navigate(location.pathname, {
-        replace: true,
-        state: {
-          ...location.state,
-          selectedExercises: updated,
-        },
-      })
-
-      return updated
     })
   }
 
-  useEffect(() => {
-
-    sessionStorage.setItem(
-      STORAGE_KEY,
-      JSON.stringify({
-        search,
-        bodyPart,
-        muscleGroup,
-        equipment,
-        visibleCount,
-      }),
-    )
-  }, [
-    isSelectMode,
-    search,
-    bodyPart,
-    muscleGroup,
-    equipment,
-    visibleCount,
-  ])
+  // ===== SCROLL RESTORE =====
 
   useEffect(() => {
     if (loading) return
@@ -129,6 +108,27 @@ export default function ExercisesLibraryPage() {
       })
     }
   }, [loading, location.state])
+
+  const updateParams = (updates) => {
+    const params =
+      new URLSearchParams(searchParams)
+
+    Object.entries(updates).forEach(
+      ([key, value]) => {
+        if (
+          value === null ||
+          value === undefined ||
+          value === ''
+        ) {
+          params.delete(key)
+        } else {
+          params.set(key, value)
+        }
+      },
+    )
+
+    setSearchParams(params)
+  }
 
   return (
     <div className="app">
@@ -151,26 +151,30 @@ export default function ExercisesLibraryPage() {
           className="input-base"
           placeholder="Search exercises..."
           value={search}
-          onChange={(e) => {
-            setSearch(e.target.value)
-            setVisibleCount(20)
-          }}
+          onChange={(e) =>
+            updateParams({
+              search: e.target.value,
+              limit: null,
+            })
+          }
         />
 
         {/* FILTERS */}
         <div className="filters">
           <select
             className="select-base"
-            value={bodyPart || ''}
-            onChange={(e) => {
-              const val = e.target.value || null
-              setBodyPart(val)
-              setMuscleGroup(null)
-              setEquipment(null)
-              setVisibleCount(20)
-            }}
+            value={bodyPart}
+            onChange={(e) =>
+              updateParams({
+                bodyPart: e.target.value,
+                muscleGroup: null,
+                equipment: null,
+                limit: null,
+              })
+            }
           >
             <option value="">All body parts</option>
+
             {BASE_CATEGORIES.map((bp) => (
               <option key={bp} value={bp}>
                 {bp}
@@ -180,15 +184,17 @@ export default function ExercisesLibraryPage() {
 
           <select
             className="select-base"
-            value={muscleGroup || ''}
-            onChange={(e) => {
-              const val = e.target.value || null
-              setMuscleGroup(val)
-              setEquipment(null)
-              setVisibleCount(20)
-            }}
+            value={muscleGroup}
+            onChange={(e) =>
+              updateParams({
+                muscleGroup: e.target.value,
+                equipment: null,
+                limit: null,
+              })
+            }
           >
             <option value="">All muscles</option>
+
             {muscles.map((m) => (
               <option key={m} value={m}>
                 {m}
@@ -198,14 +204,16 @@ export default function ExercisesLibraryPage() {
 
           <select
             className="select-base"
-            value={equipment || ''}
-            onChange={(e) => {
-              const val = e.target.value || null
-              setEquipment(val)
-              setVisibleCount(20)
-            }}
+            value={equipment}
+            onChange={(e) =>
+              updateParams({
+                equipment: e.target.value,
+                limit: null,
+              })
+            }
           >
             <option value="">All equipment</option>
+
             {equipments.map((eq) => (
               <option key={eq} value={eq}>
                 {eq}
@@ -214,7 +222,7 @@ export default function ExercisesLibraryPage() {
           </select>
         </div>
 
-        {/* DATA STATE */}
+        {/* DATA */}
         <DataState
           loading={loading}
           error={error}
@@ -230,7 +238,7 @@ export default function ExercisesLibraryPage() {
           />
         </DataState>
 
-        {/* SELECT BUTTON */}
+        {/* ADD BUTTON */}
         {isSelectMode && selectedExercises.length > 0 && (
           <button
             className="btn btn-standard btn-primary"
@@ -241,8 +249,6 @@ export default function ExercisesLibraryPage() {
                 replace: true,
                 state: {
                   selectedExercises,
-                  currentExercises: location.state?.currentExercises || [],
-                  mode: location.state?.mode,
                 },
               })
             }}
@@ -255,7 +261,11 @@ export default function ExercisesLibraryPage() {
         {visibleCount < filtered.length && (
           <button
             className="btn btn-standard btn-primary"
-            onClick={() => setVisibleCount((prev) => prev + 20)}
+            onClick={() =>
+              updateParams({
+                limit: visibleCount + 20,
+              })
+            }
           >
             Show more ({filtered.length - visibleCount} left)
           </button>
