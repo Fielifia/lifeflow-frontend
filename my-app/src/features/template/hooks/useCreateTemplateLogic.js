@@ -5,6 +5,7 @@ import {
   updateTemplate,
 } from '../../../shared/api/templateApi'
 import { mapExerciseToTemplate } from '../../workout/utils/mapExerciseToWorkout'
+import { draftTemplateStorage } from '../../../shared/utils/draftStorage'
 
 /**
  * Hook for managing template creation and editing logic.
@@ -60,7 +61,7 @@ export function useTemplateLogic(navigate, location, id) {
   const [template, setTemplate] = useState(() => {
     let stored = null
     try {
-      stored = JSON.parse(localStorage.getItem('draftTemplate'))
+      stored = draftTemplateStorage.get()
     } catch {}
 
     return {
@@ -73,7 +74,7 @@ export function useTemplateLogic(navigate, location, id) {
   // ===== SAVE DRAFT =====
   useEffect(() => {
     if (!isCreate) return
-    localStorage.setItem('draftTemplate', JSON.stringify(template))
+    draftTemplateStorage.set(template)
   }, [template, isCreate])
 
   // ===== LOAD (edit) =====
@@ -303,7 +304,7 @@ export function useTemplateLogic(navigate, location, id) {
 
       setIsEditingName(false)
 
-      localStorage.removeItem('draftTemplate')
+      draftTemplateStorage.clear()
 
       navigate('/workouts')
     } catch (err) {

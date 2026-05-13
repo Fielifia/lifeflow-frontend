@@ -5,6 +5,10 @@ import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 import Header from '../../../shared/ui/Header'
 import TemplateList from '../../template/components/TemplateList'
 import DataState from '../../../shared/ui/DataState'
+import {
+  draftWorkoutStorage,
+  draftTemplateStorage,
+} from '../../../shared/utils/draftStorage'
 
 /**
  * Entry page for starting workouts.
@@ -23,7 +27,7 @@ export default function WorkoutStart() {
 
   useEffect(() => {
     try {
-      const stored = JSON.parse(localStorage.getItem('draftTemplate'))
+      const stored = draftTemplateStorage.get()
       if (stored?.exercises?.length > 0) {
         setDraftTemplate(stored)
       }
@@ -38,7 +42,7 @@ export default function WorkoutStart() {
 
   useEffect(() => {
     try {
-      const stored = JSON.parse(localStorage.getItem('draftWorkout'))
+      const stored = draftWorkoutStorage.get()
       if (stored?.exercises?.length > 0) {
         setDraftWorkout(stored)
       }

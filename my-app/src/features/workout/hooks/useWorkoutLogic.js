@@ -6,6 +6,7 @@ import { DEFAULT_REST, DEFAULT_SETS, EMPTY_WORKOUT } from '../constants.js'
 import { cleanWorkoutForSave } from '../utils/cleanWorkoutForSave'
 import { workoutMutation } from '../utils/workoutMutations'
 import { usePreviousExercise } from './usePreviousExercise'
+import { draftWorkoutStorage } from '../../../shared/utils/draftStorage'
 
 
 /**
@@ -64,7 +65,7 @@ export function useWorkoutLogic(navigate, location, workoutId) {
   // ===== INIT =====
   const [workout, setWorkout] = useState(() => {
     try {
-      const stored = JSON.parse(localStorage.getItem('draftWorkout'))
+      const stored = draftWorkoutStorage.get()
       return {
         name: stored?.name?.trim() || 'Workout',
         exercises: stored?.exercises || [],
@@ -78,7 +79,7 @@ export function useWorkoutLogic(navigate, location, workoutId) {
   // ===== SAVE DRAFT =====
   useEffect(() => {
     const timeout = setTimeout(() => {
-      localStorage.setItem('draftWorkout', JSON.stringify(workout))
+      draftWorkoutStorage.set(workout)
     }, 500)
 
     return () => clearTimeout(timeout)
@@ -291,7 +292,7 @@ export function useWorkoutLogic(navigate, location, workoutId) {
       setIsEditingName(false)
       setActiveWorkout(null)
 
-      localStorage.removeItem('draftWorkout')
+      draftWorkoutStorage.clear()
     } catch (err) {
       setError(err.response?.data?.error || 'Could not save workout')
     } finally {
@@ -325,7 +326,7 @@ export function useWorkoutLogic(navigate, location, workoutId) {
 
     setActiveWorkout(null)
 
-    localStorage.removeItem('draftWorkout')
+    draftWorkoutStorage.clear()
 
     navigate('/workouts')
   }
