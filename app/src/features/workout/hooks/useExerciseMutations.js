@@ -1,19 +1,20 @@
 import { workoutMutation } from '../utils/workoutMutations'
 
 /**
- * Shared exercise mutation handlers for
- * workout/template state.
- * @param {Function} setState - State updater
- * @returns {{
- *  addSet: Function,
- *  updateSet: Function,
- *  removeSet: Function,
- *  removeExercise: Function,
- *  updateExerciseRest: Function,
- *  updateExerciseNotes: Function
- * }}
+ * Shared exercise mutation handlers.
+ * @param {Function} setState
+ * @param {{
+ *  onSetCompleted?: (rest: number) => void
+ * }} options
  */
-export function useExerciseMutations(setState) {
+export function useExerciseMutations(
+  setState,
+  options = {},
+) {
+  const {
+    onSetCompleted,
+  } = options
+
   const addSet = (index) =>
     setState((prev) =>
       workoutMutation.addSet(prev, index),
@@ -67,6 +68,30 @@ export function useExerciseMutations(setState) {
       ),
     )
 
+  const toggleSetComplete = (
+    exIndex,
+    setIndex,
+    checked,
+  ) => {
+    let rest = 0
+
+    setState((prev) => {
+      rest =
+        prev.exercises[exIndex]?.restTime || 0
+
+      return workoutMutation.toggleSetComplete(
+        prev,
+        exIndex,
+        setIndex,
+        checked,
+      )
+    })
+
+    if (checked && onSetCompleted) {
+      onSetCompleted(rest)
+    }
+  }
+
   return {
     addSet,
     updateSet,
@@ -74,5 +99,6 @@ export function useExerciseMutations(setState) {
     removeExercise,
     updateExerciseRest,
     updateExerciseNotes,
+    toggleSetComplete,
   }
 }

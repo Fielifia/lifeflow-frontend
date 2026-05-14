@@ -186,35 +186,13 @@ export function useWorkoutLogic(navigate, workoutId) {
     removeExercise,
     updateExerciseRest,
     updateExerciseNotes,
-  } = useExerciseMutations(setWorkout)
-
-  const toggleSetComplete = (exIndex, setIndex, checked) => {
-    const ex = workout.exercises[exIndex]
-    const rest = ex.restTime
-
-    setWorkout((prev) => {
-      const exercises = prev.exercises.map((ex, i) => {
-        if (i !== exIndex) return ex
-
-        return {
-          ...ex,
-          sets: ex.sets.map((set, j) => {
-            if (j !== setIndex) return set
-            return { ...set, completed: checked }
-          }),
-        }
-      })
-
-      const updatedWorkout = { ...prev, exercises }
-
-      return updatedWorkout
-    })
-
-    if (checked) {
+    toggleSetComplete,
+  } = useExerciseMutations(setWorkout, {
+    onSetCompleted: (rest) => {
       startRest(rest)
       registerActivity()
-    }
-  }
+    },
+  })
 
   const updateWorkoutNotes = (notes) =>
     setWorkout((prev) => ({ ...prev, notes }))

@@ -63,17 +63,30 @@ export const workoutMutation = {
     }
   },
 
-  toggleSetComplete(workout, exIndex, setIndex, checked) {
+  toggleSetComplete(
+    workout,
+    exIndex,
+    setIndex,
+    checked,
+  ) {
     return {
       ...workout,
       exercises: workout.exercises.map((ex, i) => {
-        if (i !== exIndex) return ex
+        if (i !== exIndex) {
+          return ex
+        }
 
         return {
           ...ex,
           sets: ex.sets.map((set, j) => {
-            if (j !== setIndex) return set
-            return { ...set, completed: checked }
+            if (j !== setIndex) {
+              return set
+            }
+
+            return {
+              ...set,
+              completed: checked,
+            }
           }),
         }
       }),
@@ -96,4 +109,6 @@ export const workoutMutation = {
       i === index ? { ...ex, notes } : ex,
     ),
   }),
+
+  
 }
