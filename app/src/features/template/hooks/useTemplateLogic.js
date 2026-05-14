@@ -147,7 +147,7 @@ export function useTemplateLogic(navigate, location, id) {
     }))
 
     setSelectedExercises([])
-  }, [selectedExercises])
+  }, [selectedExercises, setSelectedExercises])
 
   // ===== ACTIONS =====
   const openLibrary = () => {

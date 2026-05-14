@@ -2,7 +2,7 @@
 Frontend for the LifeFlow Fitness project.
 This is a React application created with Create React App.
 
-> Note: The main React app lives in the `my-app/` folder. All commands below should be run inside `my-app/`.
+> Note: The main React app lives in the `app/` folder. All commands below should be run inside `app/`.
 
 ## Requirements
 - Node.js (recommended v18+)
@@ -13,7 +13,7 @@ Clone the repository and install dependencies:
 
 ```bash
 git clone <repo-url>
-cd lifeflow-frontend/my-app
+cd lifeflow-frontend/app
 npm install
 ```
 
@@ -51,7 +51,7 @@ export const getTestMessage = async () => {
 - `GET /` — test endpoint to verify backend connectivity.
 
 ## Environment variables
-You can create a `.env` file in  `my-app` if needed (e.g., to configure the API URL).
+You can create a `.env` file in  `app` if needed (e.g., to configure the API URL).
 
 Example:
 

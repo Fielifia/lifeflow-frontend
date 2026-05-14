@@ -10,12 +10,12 @@ image: node:22
 install:
   stage: install
   script:
-    - cd my-app
+    - cd app
     - npm ci
 
   artifacts:
     paths:
-      - my-app/node_modules/
+      - app/node_modules/
 
 lint:
   stage: lint
@@ -24,7 +24,7 @@ lint:
     - install
 
   script:
-    - cd my-app
+    - cd app
     - npm run lint
 
 test:
@@ -34,7 +34,7 @@ test:
     - install
 
   script:
-    - cd my-app
+    - cd app
     - npm test -- --watchAll=false
 
 build:
@@ -44,7 +44,7 @@ build:
     - install
 
   script:
-    - cd my-app
+    - cd app
     - CI=false npm run build
 
 trigger-deploy:
