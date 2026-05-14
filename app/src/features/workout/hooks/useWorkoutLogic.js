@@ -139,7 +139,7 @@ export function useWorkoutLogic(navigate, location, workoutId) {
           ...results.filter(
             (newEx) =>
               !prev.exercises.some(
-                (existing) => existing.exerciseId === newEx.exerciseId,
+                (existing) => existing.id === newEx.id,
               ),
           ),
         ],

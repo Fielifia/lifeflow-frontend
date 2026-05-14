@@ -10,14 +10,6 @@ export const createWorkout = async (data) => {
   return res.data
 }
 
-export const getRecentWorkouts = async (limit = 3) => {
-  const res = await API.get('/workouts/recent', {
-    params: { limit },
-  })
-
-  return res.data
-}
-
 export const getWorkoutById = async (id) => {
   const res = await API.get(`/workouts/${id}`)
   return res.data

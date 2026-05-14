@@ -3,7 +3,7 @@ import Header from '../../../shared/ui/Header'
 import { userStorage } from '../../../shared/utils/storage/userStorage'
 import DashboardContent from '../components/DashboardContent'
 import { useOverviewStats } from '../hooks/useOverviewStats'
-import { useRecentWorkouts } from '../hooks/useRecentWorkouts'
+import { useWorkouts } from '../hooks/useWorkouts'
 
 /**
  * Dashboard page.
@@ -14,9 +14,7 @@ export default function Dashboard() {
 
   const { stats, loading, error } = useOverviewStats()
 
-  const {
-    workouts: recentWorkouts,
-  } = useRecentWorkouts()
+  const { workouts } = useWorkouts({ limit: 3 })
 
   return (
     <div className="app">
@@ -33,7 +31,7 @@ export default function Dashboard() {
         <DashboardContent
           stats={stats}
           user={user}
-          recentWorkouts={recentWorkouts}
+          recentWorkouts={workouts}
         />
       </DataState>
     </div>

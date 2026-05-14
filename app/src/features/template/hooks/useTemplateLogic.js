@@ -31,7 +31,7 @@ import { workoutMutation } from '../../workout/utils/workoutMutations'
  *  template: {
  *    name: string,
  *    exercises: Array<{
- *      exerciseId: string,
+ *      id: string,
  *      name: string,
  *      images: string[],
  *      restTime: number,

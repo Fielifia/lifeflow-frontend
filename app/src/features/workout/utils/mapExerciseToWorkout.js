@@ -6,7 +6,7 @@
  */
 export function mapExerciseToWorkout(ex, previous) {
   return {
-    exerciseId: ex.id,
+    id: ex.id,
     name: ex.name,
 
     images: ex.images?.length
@@ -43,7 +43,7 @@ export function mapExerciseToWorkout(ex, previous) {
  */
 export function mapExerciseToTemplate(ex, previous) {
   return {
-    exerciseId: ex.id,
+    id: ex.id,
     name: ex.name,
     image: ex.image,
     restTime: previous?.restTime ?? 120,

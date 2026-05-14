@@ -67,13 +67,13 @@ export default function ExercisesLibraryPage() {
 
   // ===== SELECTION =====
 
-  const toggleSelect = (exercise) => {
+  const toggleSelect = (ex) => {
     setSelectedExercises((prev) => {
-      const exists = prev.find((e) => e.id === exercise.id)
+      const exists = prev.find((e) => e.id === ex.id)
 
       return exists
-        ? prev.filter((e) => e.id !== exercise.id)
-        : [...prev, exercise]
+        ? prev.filter((e) => e.id !== ex.id)
+        : [...prev, ex]
     })
   }
 

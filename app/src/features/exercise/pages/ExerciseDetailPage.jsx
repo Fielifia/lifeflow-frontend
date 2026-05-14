@@ -15,7 +15,7 @@ import BackButton from '../../../shared/ui/BackButton'
 export default function ExerciseDetail() {
   const { id } = useParams()
 
-  const [exercise, setExercise] = useState(null)
+  const [ex, setExercise] = useState(null)
   const [currentImage, setCurrentImage] = useState(0)
   const location = useLocation()
 
@@ -32,10 +32,10 @@ export default function ExerciseDetail() {
   useEffect(() => {
     let interval
 
-    if (exercise?.images?.length) {
+    if (ex?.images?.length) {
       interval = setInterval(() => {
         setCurrentImage((prev) =>
-          prev === exercise.images.length - 1 ? 0 : prev + 1,
+          prev === ex.images.length - 1 ? 0 : prev + 1,
         )
       }, 1800)
     }
@@ -43,39 +43,39 @@ export default function ExerciseDetail() {
     return () => {
       if (interval) clearInterval(interval)
     }
-  }, [exercise])
+  }, [ex])
 
-  if (!exercise) return <p className="center">Loading...</p>
+  if (!ex) return <p className="center">Loading...</p>
 
-  const imageSrc = exercise.images?.[currentImage] || '/placeholder.png'
+  const imageSrc = ex.images?.[currentImage] || '/placeholder.png'
 
   return (
     <div className="app">
       {/* Header */}
 
       <BackButton
-        fallback={location.state?.returnTo || '/exercises'}
+        fallback={location.state?.returnTo || '/ex'}
         state={location.state?.returnState}
       />
 
       {/* Title */}
       <div className="section">
-        <h2>{exercise.name}</h2>
+        <h2>{ex.name}</h2>
 
         <p className="muted">
-          {formatLabel(exercise.bodyPart)}
-          {exercise.muscle && exercise.muscle !== exercise.bodyPart && (
-            <> • {formatLabel(exercise.muscle)}</>
+          {formatLabel(ex.bodyPart)}
+          {ex.muscle && ex.muscle !== ex.bodyPart && (
+            <> • {formatLabel(ex.muscle)}</>
           )}
           {' • '}
-          {formatLabel(exercise.equipment)}
+          {formatLabel(ex.equipment)}
         </p>
       </div>
       {/* Image */}
       <div className="container">
         <img
           src={imageSrc}
-          alt={exercise.name}
+          alt={ex.name}
           onError={(e) => {
             e.currentTarget.src = '/placeholder.png'
           }}
@@ -83,9 +83,9 @@ export default function ExerciseDetail() {
         />
 
         {/* dots indicator */}
-        {exercise.images?.length > 1 && (
+        {ex.images?.length > 1 && (
           <div className="dots">
-            {exercise.images.map((_, i) => (
+            {ex.images.map((_, i) => (
               <span
                 key={i}
                 className={i === currentImage ? 'dot active' : 'dot'}
@@ -98,12 +98,12 @@ export default function ExerciseDetail() {
       <div className="section exercise-overview">
         <div className="card-base">
           <p className="stat-label">Muscle</p>
-          <p>{exercise.muscle}</p>
+          <p>{ex.muscle}</p>
         </div>
 
         <div className="card-base">
           <p className="stat-label">Equipment</p>
-          <p>{exercise.equipment}</p>
+          <p>{ex.equipment}</p>
         </div>
       </div>
       {/* Instructions */}
@@ -111,7 +111,7 @@ export default function ExerciseDetail() {
         <h3>Instructions</h3>
 
         <div className="container">
-          {exercise.instructions?.map((step, i) => (
+          {ex.instructions?.map((step, i) => (
             <div key={i} className="instruction-step">
               <span className="step-number">{i + 1}</span>
               <p>{step}</p>

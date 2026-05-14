@@ -82,7 +82,7 @@ export default function TemplateEditPage() {
       {template.exercises.map((ex, i) => (
         <ExerciseItem
           showCheckbox={false}
-          key={ex.exerciseId}
+          key={ex.id}
           ex={ex}
           i={i}
           navigate={navigate}

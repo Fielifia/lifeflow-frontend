@@ -90,7 +90,7 @@ export default function WorkoutDetailPage() {
       {/* EXERCISES */}
       {workout.exercises.map((ex, i) => (
         <ExerciseItem
-          key={ex.exerciseId || i}
+          key={ex.id || i}
           ex={ex}
           i={i}
           navigate={navigate}

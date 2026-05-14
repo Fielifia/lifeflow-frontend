@@ -116,7 +116,7 @@ export default function ExerciseItem({
           src={ex.image || ex.images?.[0] || '/placeholder.png'}
           alt=""
           className="exercise-img-small"
-          onClick={() => navigate(`/exercises/${ex.exerciseId}`, {
+          onClick={() => navigate(`/exercises/${ex.id}`, {
             state: {
               returnTo: location.pathname,
             },
