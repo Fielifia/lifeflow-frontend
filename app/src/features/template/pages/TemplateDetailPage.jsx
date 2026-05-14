@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { getTemplateById } from '../../../shared/api/templateApi'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 import Header from '../../../shared/ui/Header'
@@ -13,16 +13,12 @@ import DataState from '../../../shared/ui/DataState'
  */
 export default function TemplateDetail() {
   const navigate = useNavigate()
-  const location = useLocation()
   const { setSelectedTemplate } = useWorkoutContext()
 
   const { id } = useParams()
 
-  const [template, setTemplate] = useState(
-    location.state?.template || null,
-  )
-
-  const [loading, setLoading] = useState(!location.state?.template)
+  const [template, setTemplate] = useState(null)
+  const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
   useEffect(() => {

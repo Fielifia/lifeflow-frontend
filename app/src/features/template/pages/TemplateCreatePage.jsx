@@ -23,8 +23,8 @@ import TemplateControls from '../components/TemplateControls'
  *
  * Navigation flow:
  * - Opens Exercise Library in select mode
- * - Receives selected exercises via location.state
- * - Returns to originating route using `from` and `mode`
+ * - Receives selected exercises via ExerciseFlowContext
+ * - Uses shared flow state for navigation handling
  *
  * State structure:
  * template = {

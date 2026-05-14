@@ -1,5 +1,6 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useTemplateLogic } from '../hooks/useTemplateLogic'
+import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
 import Header from '../../../shared/ui/Header'
 import BackButton from '../../../shared/ui/BackButton'
@@ -43,6 +44,8 @@ export default function TemplateEditPage() {
     saveTemplate,
   } = useTemplateLogic(navigate, location, id)
 
+  const { returnTo } = useExerciseFlow()
+
   // ===== UI =====
   if (loading) return <p className="center">Loading...</p>
   if (!template) return <p className="center">Template not found</p>
@@ -54,7 +57,7 @@ export default function TemplateEditPage() {
         subtitle={isCreate ? 'Create Template' : 'Edit Template'}
       />
       <BackButton
-        fallback={location.state?.returnTo || '/workouts'}
+        fallback={returnTo || '/workouts'}
       />
 
       {/* HEADER */}
