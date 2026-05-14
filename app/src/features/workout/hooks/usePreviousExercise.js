@@ -1,21 +1,12 @@
 import { getPreviousExercise } from '../../../shared/api/workoutApi'
+import { mapPreviousExercise } from '../utils/mapPreviousExercise'
 
 export const usePreviousExercise = () => {
   const getPreviousSets = async (exerciseId) => {
     try {
       const res = await getPreviousExercise(exerciseId)
 
-      if (!res?.sets?.length) return null
-
-      return {
-        sets: res.sets.map((s) => ({
-          reps: s.reps,
-          weight: s.weight,
-          completed: false,
-        })),
-
-        bestSet: res.bestSet,
-      }
+      return mapPreviousExercise(res)
     } catch {
       return null
     }
