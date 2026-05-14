@@ -52,4 +52,47 @@ describe('normalizeExercise', () => {
 
     expect(result.category).toBe('Mobility')
   })
+
+  test('detects upper chest exercises', () => {
+    const raw = {
+      _id: '1',
+      name: 'incline dumbbell press',
+      bodyPart: 'chest',
+      target: 'pectorals',
+      equipment: 'dumbbell',
+    }
+
+    const result = normalizeExercise(raw)
+
+    expect(result.muscle).toBe('Upper Chest')
+  })
+
+  test('maps unknown equipment to bodyweight', () => {
+    const raw = {
+      _id: '1',
+      name: 'push up',
+      bodyPart: 'chest',
+      target: 'pectorals',
+      equipment: 'unknown',
+    }
+
+    const result = normalizeExercise(raw)
+
+    expect(result.equipment).toBe('Body Only')
+    expect(result.category).toBe('Strength')
+  })
+
+  test('maps arm body parts correctly', () => {
+    const raw = {
+      _id: '1',
+      name: 'bicep curl',
+      bodyPart: 'upper arms',
+      target: 'biceps',
+      equipment: 'dumbbell',
+    }
+
+    const result = normalizeExercise(raw)
+
+    expect(result.bodyPart).toBe('Arms')
+  })
 })
