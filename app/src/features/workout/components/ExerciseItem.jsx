@@ -1,6 +1,5 @@
+import { Clock, Trash2, Trophy, Weight } from 'lucide-react'
 import { useRef, useState } from 'react'
-import { useLocation } from 'react-router-dom'
-import { Clock, Weight, Trash2, Trophy } from 'lucide-react'
 
 /**
  * Exercise item in workout.
@@ -44,6 +43,7 @@ export default function ExerciseItem({
   showCheckbox = true,
   isEditable = true,
 }) {
+
   const inputRefs = useRef([])
 
   const gridClass =
@@ -99,8 +99,6 @@ export default function ExerciseItem({
   const [editingRest, setEditingRest] = useState(false)
   const safeRest = restTime ?? 120
 
-  const location = useLocation()
-
   const historicalBest = ex.historicalBest || {
     weight: 0,
     reps: 0,
@@ -116,12 +114,7 @@ export default function ExerciseItem({
           src={ex.image || ex.images?.[0] || '/placeholder.png'}
           alt=""
           className="exercise-img-small"
-          onClick={() => navigate(`/exercises/${ex.id}`, {
-            state: {
-              returnTo: location.pathname,
-            },
-          })
-          }
+          onClick={() => navigate(`/exercises/${ex.id}`)}
         />
 
         <h2>{ex.name}</h2>

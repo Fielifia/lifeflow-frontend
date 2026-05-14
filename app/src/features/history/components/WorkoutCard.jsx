@@ -1,4 +1,5 @@
 import { useNavigate, useLocation } from 'react-router-dom'
+import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
 /**
  * Displays a summary card for a workout.
@@ -20,16 +21,18 @@ export default function WorkoutCard({ workout }) {
   const navigate = useNavigate()
   const location = useLocation()
 
+  const { setReturnTo } = useExerciseFlow()
+
   const date = new Date(workout.createdAt).toLocaleDateString()
 
   return (
     <div
       className="card-base clickable"
-      onClick={() => navigate(`/workouts/${workout._id}`, {
-        state: {
-          returnTo: location.pathname,
-        },
-      })}
+      onClick={() => {
+        setReturnTo(location.pathname)
+
+        navigate(`/workouts/${workout._id}`)
+      }}
     >
       <h3>{workout.name || 'Workout'}</h3>
 

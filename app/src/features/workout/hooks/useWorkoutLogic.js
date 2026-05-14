@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import API from '../../../shared/api/api'
-import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext.jsx'
+import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 import { draftWorkoutStorage } from '../../../shared/utils/storage/draftStorage.js'
 import { mapWorkoutToTemplate } from '../../template/utils/mapWorkoutToTemplate'
@@ -37,7 +38,8 @@ import { usePreviousExercise } from './usePreviousExercise'
  *  saveWorkout: () => Promise<void>
  * }} Workout logic API
  */
-export function useWorkoutLogic(navigate, location, workoutId) {
+export function useWorkoutLogic(navigate, workoutId) {
+  const location = useLocation()
   // ===== STATE =====
   const [saving, setSaving] = useState(false)
   const [success, setSuccess] = useState(false)
@@ -111,7 +113,7 @@ export function useWorkoutLogic(navigate, location, workoutId) {
         selectedExercises.map(async (ex) => {
           let sets = DEFAULT_SETS.map((s) => ({ ...s }))
 
-          const prev = await getPreviousSets(ex.id || ex.id)
+          const prev = await getPreviousSets(ex.id)
 
           let historicalBest = {
             weight: 0,
@@ -132,7 +134,7 @@ export function useWorkoutLogic(navigate, location, workoutId) {
 
           return {
             ...ex,
-            id: ex.id || ex.exerciseId,
+            id: ex.id,
             restTime: ex.restTime ?? DEFAULT_REST,
             sets,
             historicalBest,

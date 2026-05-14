@@ -1,5 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { getTemplates } from '../../../shared/api/templateApi'
 import DataState from '../../../shared/ui/DataState'
 import TemplateCard from './TemplateCard'
@@ -12,6 +13,8 @@ import TemplateCard from './TemplateCard'
 export default function TemplateList({ limit = 5 }) {
   const navigate = useNavigate()
   const location = useLocation()
+
+  const { setReturnTo } = useExerciseFlow()
 
   const [templates, setTemplates] = useState([])
   const [search, setSearch] = useState('')
@@ -74,12 +77,11 @@ export default function TemplateList({ limit = 5 }) {
             <TemplateCard
               key={template._id}
               template={template}
-              onClick={() =>
-                navigate(`/templates/${template._id}`, {
-                  state: {
-                    returnTo: location.pathname,
-                  },
-                })
+              onClick={() => {
+                setReturnTo(location.pathname)
+
+                navigate(`/templates/${template._id}`)
+              }
               }
             />
           ))}

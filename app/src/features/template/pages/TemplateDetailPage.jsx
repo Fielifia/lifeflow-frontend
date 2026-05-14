@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getTemplateById } from '../../../shared/api/templateApi'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
-import Header from '../../../shared/ui/Header'
-import ExerciseItem from '../../workout/components/ExerciseItem'
 import BackButton from '../../../shared/ui/BackButton'
 import DataState from '../../../shared/ui/DataState'
+import Header from '../../../shared/ui/Header'
+import ExerciseItem from '../../workout/components/ExerciseItem'
 
 /**
  * Displays detailed view of a template.
@@ -13,6 +13,7 @@ import DataState from '../../../shared/ui/DataState'
  */
 export default function TemplateDetail() {
   const navigate = useNavigate()
+  
   const { setSelectedTemplate } = useWorkoutContext()
 
   const { id } = useParams()

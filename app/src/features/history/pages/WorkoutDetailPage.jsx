@@ -1,12 +1,13 @@
-import { useNavigate, useLocation, useParams } from 'react-router-dom'
-import { useWorkoutDetail } from '../hooks/useWorkoutDetail'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { formatDate } from '../../../shared/utils/format'
+import { useWorkoutDetail } from '../hooks/useWorkoutDetail'
+import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
-import Header from '../../../shared/ui/Header'
-import DataState from '../../../shared/ui/DataState'
 import BackButton from '../../../shared/ui/BackButton'
-import WorkoutHeader from '../../workout/components/WorkoutHeader'
+import DataState from '../../../shared/ui/DataState'
+import Header from '../../../shared/ui/Header'
 import ExerciseItem from '../../workout/components/ExerciseItem'
+import WorkoutHeader from '../../workout/components/WorkoutHeader'
 import WorkoutSummary from '../components/WorkoutSummary'
 
 /**
@@ -19,6 +20,8 @@ export default function WorkoutDetailPage() {
   const { id } = useParams()
   const navigate = useNavigate()
   const location = useLocation()
+
+  const { setReturnTo } = useExerciseFlow()
 
   const {
     workout,
@@ -77,12 +80,11 @@ export default function WorkoutDetailPage() {
       <div className="workout-controls">
         <button
           className="btn btn-standard btn-secondary"
-          onClick={() =>
-            navigate(`/workouts/${workout._id}/edit`, {
-              state: {
-                returnTo: location.pathname,
-              },
-            })
+          onClick={() => {
+            setReturnTo(location.pathname)
+
+            navigate(`/workouts/${workout._id}/edit`)
+          }
           }
         >
           Edit workout

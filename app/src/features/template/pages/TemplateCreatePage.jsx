@@ -1,10 +1,10 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import BackButton from '../../../shared/ui/BackButton'
-import ExerciseItem from '../../workout/components/ExerciseItem'
 import Header from '../../../shared/ui/Header'
+import ExerciseItem from '../../workout/components/ExerciseItem'
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
-import { useTemplateLogic } from '../hooks/useTemplateLogic'
 import TemplateControls from '../components/TemplateControls'
+import { useTemplateLogic } from '../hooks/useTemplateLogic'
 
 /**
  * Page for creating and editing workout templates.

@@ -1,5 +1,6 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import ExerciseCard from './ExerciseCard'
+import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
 /**
  * Displays a list of exercises.
@@ -18,6 +19,12 @@ export default function ExerciseList({
   const navigate = useNavigate()
   const location = useLocation()
 
+  const {
+    setReturnTo,
+    setScrollPosition,
+    setShouldRestoreScroll,
+  } = useExerciseFlow()
+
   return (
     <div className="exercise-list">
       {exercises.map((e) => {
@@ -33,19 +40,19 @@ export default function ExerciseList({
               if (onSelect) {
                 onSelect(e)
               } else {
-                navigate(`/exercises/${e.id}`, {
-                  state: {
-                    returnTo: `${location.pathname}${location.search}`,
-                  },
-                })
+                setReturnTo(`${location.pathname}${location.search}`)
+                setScrollPosition(window.scrollY)
+                setShouldRestoreScroll(true)
+
+                navigate(`/exercises/${e.id}`)
               }
             }}
             onView={() => {
-              navigate(`/exercises/${e.id}`, {
-                state: {
-                  returnTo: `${location.pathname}${location.search}`,
-                },
-              })
+              setReturnTo(`${location.pathname}${location.search}`)
+              setScrollPosition(window.scrollY)
+              setShouldRestoreScroll(true)
+
+              navigate(`/exercises/${e.id}`)
             }}
           />
         )

@@ -1,8 +1,8 @@
-import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useEditWorkoutLogic } from '../hooks/useEditWorkoutLogic'
 
-import Header from '../../../shared/ui/Header'
 import BackButton from '../../../shared/ui/BackButton'
+import Header from '../../../shared/ui/Header'
 import ExerciseItem from '../../workout/components/ExerciseItem'
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
 

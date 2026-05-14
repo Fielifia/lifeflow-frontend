@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { useWorkoutLogic } from '../hooks/useWorkoutLogic'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
+import { useWorkoutLogic } from '../hooks/useWorkoutLogic'
 
-import Header from '../../../shared/ui/Header'
 import BackButton from '../../../shared/ui/BackButton'
+import Header from '../../../shared/ui/Header'
 import ExerciseItem from '../components/ExerciseItem'
 import RestTimer from '../components/RestTimer'
 import WorkoutControls from '../components/WorkoutControls'

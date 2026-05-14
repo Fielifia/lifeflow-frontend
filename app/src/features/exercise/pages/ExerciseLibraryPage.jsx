@@ -1,7 +1,7 @@
+import { useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-
-import useExercises from '../hooks/useExercises'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+import useExercises from '../hooks/useExercises'
 
 import { CATEGORY_ORDER } from '../utils/exerciseCategories'
 
@@ -42,6 +42,10 @@ export default function ExercisesLibraryPage() {
     setSelectedExercises,
 
     returnTo,
+
+    scrollPosition,
+    shouldRestoreScroll,
+    setShouldRestoreScroll,
   } = useExerciseFlow()
 
   // ===== DATA =====
@@ -97,6 +101,23 @@ export default function ExercisesLibraryPage() {
 
     setSearchParams(params)
   }
+
+  useEffect(() => {
+    if (!shouldRestoreScroll) {
+      return undefined
+    }
+
+    const timeout = setTimeout(() => {
+      window.scrollTo(0, scrollPosition)
+      setShouldRestoreScroll(false)
+    }, 50)
+
+    return () => clearTimeout(timeout)
+  }, [
+    shouldRestoreScroll,
+    scrollPosition,
+    setShouldRestoreScroll,
+  ])
 
   return (
     <div className="app">

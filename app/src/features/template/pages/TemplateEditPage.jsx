@@ -1,9 +1,9 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { useTemplateLogic } from '../hooks/useTemplateLogic'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+import { useTemplateLogic } from '../hooks/useTemplateLogic'
 
-import Header from '../../../shared/ui/Header'
 import BackButton from '../../../shared/ui/BackButton'
+import Header from '../../../shared/ui/Header'
 import ExerciseItem from '../../workout/components/ExerciseItem'
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
 import TemplateControls from '../components/TemplateControls'

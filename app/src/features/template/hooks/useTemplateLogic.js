@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import {
   createTemplate,
   getTemplateById,
@@ -51,7 +52,9 @@ import { workoutMutation } from '../../workout/utils/workoutMutations'
  *  save: () => Promise<void>
  * }} Template state and actions
  */
-export function useTemplateLogic(navigate, location, id) {
+export function useTemplateLogic(navigate, id) {
+  const location = useLocation()
+  
   const isCreate = !id
   const [loading, setLoading] = useState(!isCreate)
 
@@ -62,6 +65,8 @@ export function useTemplateLogic(navigate, location, id) {
   const {
     selectedExercises,
     setSelectedExercises,
+
+    setReturnTo,
   } = useExerciseFlow()
 
   // ===== INIT TEMPLATE =====
@@ -151,11 +156,9 @@ export function useTemplateLogic(navigate, location, id) {
 
   // ===== ACTIONS =====
   const openLibrary = () => {
-    navigate('/exercises?select=true', {
-      state: {
-        returnTo: location.pathname,
-      },
-    })
+    setReturnTo(location.pathname)
+
+    navigate('/exercises?select=true')
   }
 
   const addSet = (index) =>
