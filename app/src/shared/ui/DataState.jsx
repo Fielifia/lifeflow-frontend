@@ -1,16 +1,17 @@
 import SkeletonGrid from './SkeletonGrid'
 
 /**
- * DataState component to handle loading, error, and empty states for data fetching.
- * @param {object} param0 - Component props
- * @param {boolean} param0.loading - Indicates if data is currently being loaded
- * @param param0.error - Error message if data fetching failed
- * @param param0.data - The data that was fetched
- * @param param0.variant - The variant of the skeleton to display while loading (e.g., 'card', 'list')
- * @param param0.emptyText - Text to display when data is empty
- * @param param0.count - The number of skeleton items to display while loading
- * @param param0.children - The child components to render when data is successfully loaded
- * @returns {import('react').ReactElement} The appropriate UI based on the data state
+ * Handles loading, error, and empty states
+ * for fetched data.
+ * @param {object} props - Component props
+ * @param {boolean} props.loading - Indicates if data is loading
+ * @param {string|null} props.error - Error message if request failed
+ * @param {object|Array|null} props.data - Data used to determine empty state
+ * @param {'card'|'list'} [props.variant] - Skeleton variant
+ * @param {string} [props.emptyText] - Empty state text
+ * @param {number} [props.count] - Number of skeleton items
+ * @param {import('react').ReactNode} props.children - Rendered content
+ * @returns {import('react').ReactElement} UI based on current data state
  */
 export default function DataState({
   loading,
@@ -34,13 +35,13 @@ export default function DataState({
   }
 
   const isEmpty =
-  !data ||
-  (Array.isArray(data) && data.length === 0) ||
-  (
-    typeof data === 'object' &&
-    !Array.isArray(data) &&
-    Object.keys(data).length === 0
-  )
+    !data ||
+    (Array.isArray(data) && data.length === 0) ||
+    (
+      typeof data === 'object' &&
+      !Array.isArray(data) &&
+      Object.keys(data).length === 0
+    )
 
   if (isEmpty) {
     return (
