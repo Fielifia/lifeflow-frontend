@@ -44,24 +44,32 @@ export function useWorkoutLogic(navigate, location, workoutId) {
   const [error, setError] = useState('')
   const [isEditingName, setIsEditingName] = useState(false)
 
-  const { setActiveWorkout } = useWorkoutContext()
   const {
     selectedExercises,
     setSelectedExercises,
-  } = useExerciseFlow()
 
+    setReturnTo,
+  } = useExerciseFlow()
 
   const hasAddedRef = useRef(false)
 
   const {
     status,
     elapsed,
+
     startTime,
     adjustStartTime,
     handleStartPause,
+
     resetTimer,
     startRest,
     resetRest,
+
+    setActiveWorkout,
+
+    selectedTemplate,
+    setSelectedTemplate,
+    
     registerActivity,
   } = useWorkoutContext()
 
@@ -155,19 +163,22 @@ export function useWorkoutLogic(navigate, location, workoutId) {
 
   // ===== LOAD TEMPLATE =====
   useEffect(() => {
-    const template = location.state?.template
-    if (!template) return
+    if (!selectedTemplate) return
 
     setWorkout({
-      name: template.name,
+      name: selectedTemplate.name,
       notes: '',
-      exercises: template.exercises.map((ex) => ({
+      exercises: selectedTemplate.exercises.map((ex) => ({
         ...ex,
-        sets: ex.sets.map((s) => ({ ...s, completed: false })),
+        sets: ex.sets.map((s) => ({
+          ...s,
+          completed: false,
+        })),
       })),
     })
 
-  }, [location.state, navigate, location.pathname])
+    setSelectedTemplate(null)
+  }, [selectedTemplate, setSelectedTemplate])
 
   useEffect(() => {
     if (status === 'running' || status === 'paused') {
@@ -255,14 +266,9 @@ export function useWorkoutLogic(navigate, location, workoutId) {
     setWorkout((prev) => ({ ...prev, notes }))
 
   const openLibrary = () => {
-    navigate(
-      `/workouts/${workoutId}/exercises?select=true`,
-      {
-        state: {
-          returnTo: location.pathname,
-        },
-      },
-    )
+    setReturnTo(location.pathname)
+
+    navigate(`/workouts/${workoutId}/exercises?select=true`)
   }
 
   // ===== SAVE =====

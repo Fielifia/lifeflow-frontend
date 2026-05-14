@@ -16,11 +16,16 @@ export function ExerciseFlowProvider({ children }) {
   const [selectedExercises, setSelectedExercises] =
     useState([])
 
+  const [returnTo, setReturnTo] = useState('/')
+
   return (
     <ExerciseFlowContext.Provider
       value={{
         selectedExercises,
         setSelectedExercises,
+
+        returnTo,
+        setReturnTo,
       }}
     >
       {children}
@@ -32,7 +37,9 @@ export function ExerciseFlowProvider({ children }) {
  * Hook for accessing exercise flow context.
  * @returns {{
  *   selectedExercises: Array,
- *   setSelectedExercises: import('react').Dispatch<import('react').SetStateAction<Array>>
+ *   setSelectedExercises: import('react').Dispatch<import('react').SetStateAction<Array>>,
+ *   returnTo: string,
+ *   setReturnTo: import('react').Dispatch<import('react').SetStateAction<string>>
  * }} Exercise flow context values
  */
 export function useExerciseFlow() {

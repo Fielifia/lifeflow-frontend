@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import useExercises from '../hooks/useExercises'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
@@ -18,7 +18,6 @@ const BASE_CATEGORIES = CATEGORY_ORDER
  */
 export default function ExercisesLibraryPage() {
   const navigate = useNavigate()
-  const location = useLocation()
 
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -41,6 +40,8 @@ export default function ExercisesLibraryPage() {
   const {
     selectedExercises,
     setSelectedExercises,
+
+    returnTo,
   } = useExerciseFlow()
 
   // ===== DATA =====
@@ -100,7 +101,7 @@ export default function ExercisesLibraryPage() {
   return (
     <div className="app">
       <BackButton
-        fallback={location.state?.returnTo || '/'}
+        fallback={returnTo || '/'}
       />
 
       <div className="section">
@@ -209,9 +210,7 @@ export default function ExercisesLibraryPage() {
           <button
             className="btn btn-standard btn-primary"
             onClick={() => {
-              const returnTo = location.state?.returnTo || '/'
-
-              navigate(returnTo)
+              navigate(returnTo || '/')
             }}
           >
             Add {selectedExercises.length} exercises

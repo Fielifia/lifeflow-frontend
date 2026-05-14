@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { getTemplateById } from '../../../shared/api/templateApi'
+import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 import Header from '../../../shared/ui/Header'
 import ExerciseItem from '../../workout/components/ExerciseItem'
 import BackButton from '../../../shared/ui/BackButton'
@@ -13,6 +14,7 @@ import DataState from '../../../shared/ui/DataState'
 export default function TemplateDetail() {
   const navigate = useNavigate()
   const location = useLocation()
+  const { setSelectedTemplate } = useWorkoutContext()
 
   const { id } = useParams()
 
@@ -81,9 +83,9 @@ export default function TemplateDetail() {
   const handleStartWorkout = () => {
     const workoutId = Date.now()
 
-    navigate(`/workouts/${workoutId}/run`, {
-      state: { template },
-    })
+    setSelectedTemplate(template)
+
+    navigate(`/workouts/${workoutId}/run`)
   }
 
   return (
