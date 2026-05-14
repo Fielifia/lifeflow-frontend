@@ -100,7 +100,7 @@ export default function ExercisesLibraryPage() {
   return (
     <div className="app">
       <BackButton
-        fallback='/'
+        fallback={location.state?.returnTo || '/'}
       />
 
       <div className="section">
