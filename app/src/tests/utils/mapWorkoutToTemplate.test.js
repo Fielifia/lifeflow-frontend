@@ -6,7 +6,7 @@ describe('mapWorkoutToTemplate', () => {
       name: 'Push Day',
       exercises: [
         {
-          exerciseId: '1',
+          id: '1',
           name: 'Bench Press',
           sets: [{ reps: 10, weight: 50 }],
         },

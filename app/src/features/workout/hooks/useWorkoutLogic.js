@@ -103,7 +103,7 @@ export function useWorkoutLogic(navigate, location, workoutId) {
         selectedExercises.map(async (ex) => {
           let sets = DEFAULT_SETS.map((s) => ({ ...s }))
 
-          const prev = await getPreviousSets(ex.id || ex.exerciseId)
+          const prev = await getPreviousSets(ex.id || ex.id)
 
           let historicalBest = {
             weight: 0,
@@ -124,7 +124,7 @@ export function useWorkoutLogic(navigate, location, workoutId) {
 
           return {
             ...ex,
-            exerciseId: ex.id || ex.exerciseId,
+            id: ex.id || ex.exerciseId,
             restTime: ex.restTime ?? DEFAULT_REST,
             sets,
             historicalBest,

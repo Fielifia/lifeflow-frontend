@@ -11,7 +11,7 @@ export const mapWorkoutToTemplate = (workout) => {
     notes: workout.notes || '',
     exercises:
       workout.exercises?.map((ex) => ({
-        exerciseId: ex.exerciseId,
+        id: ex.id,
         name: ex.name,
 
         images: ex.images?.length ? ex.images : ex.image ? [ex.image] : [],

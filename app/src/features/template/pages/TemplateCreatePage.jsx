@@ -31,7 +31,7 @@ import TemplateControls from '../components/TemplateControls'
  *   name: string,
  *   exercises: [
  *     {
- *       exerciseId: string,
+ *       id: string,
  *       name: string,
  *       image?: string,
  *       restTime: number,

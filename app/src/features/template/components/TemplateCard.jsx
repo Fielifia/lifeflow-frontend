@@ -27,7 +27,7 @@ export default function TemplateCard({ template, onClick }) {
         <div>
           <h3>{template.name}</h3>
           <p className="muted small">
-            {exercises.length} exercises • Last: 2 days ago
+            {exercises.length} exercises • Last: – days ago
           </p>
         </div>
 

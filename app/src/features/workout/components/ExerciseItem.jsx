@@ -5,7 +5,7 @@ import { Clock, Weight, Trash2, Trophy } from 'lucide-react'
 /**
  * Exercise item in workout.
  * @param {object} props - Component props
- * @param {{ exerciseId: string, name: string, image?: string, sets: Array }} props.ex - Exercise data
+ * @param {{ id: string, name: string, image?: string, sets: Array }} props.ex - Exercise data
  * @param {number} props.i - Exercise index
  * @param {(path: string) => void} props.navigate - Navigation function
  * @param {(i: number) => void} props.addSet - Adds a new set

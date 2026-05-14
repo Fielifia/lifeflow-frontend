@@ -130,7 +130,7 @@ export function useTemplateLogic(navigate, location, id) {
 
     const newExercises = selectedExercises.map((ex) => {
       const previous = lastWorkout?.exercises?.find(
-        (e) => e.exerciseId === ex.id,
+        (e) => e.id === ex.id,
       )
 
       return mapExerciseToTemplate(ex, previous)
@@ -141,7 +141,7 @@ export function useTemplateLogic(navigate, location, id) {
       exercises: [
         ...prev.exercises,
         ...newExercises.filter(
-          (ex) => !prev.exercises.some((e) => e.exerciseId === ex.exerciseId),
+          (ex) => !prev.exercises.some((e) => e.id === ex.id),
         ),
       ],
     }))
@@ -211,7 +211,7 @@ export function useTemplateLogic(navigate, location, id) {
       }
 
       const cleaned = template.exercises.map((ex) => ({
-        exerciseId: ex.exerciseId,
+        exerciseId: ex.id,
         name: ex.name,
         images: ex.images?.length ? ex.images : ex.image ? [ex.image] : [],
         notes: ex.notes || '',
