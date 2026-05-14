@@ -18,7 +18,15 @@ import {
  * @param {object|null} prev - Previous workout data
  * @returns {object} Workout exercise
  */
-export function buildWorkoutExercise(ex, prev) {
+export function buildWorkoutExercise(
+  ex,
+  prev = null,
+  options = {},
+) {
+  const {
+    resetCompleted = false,
+  } = options
+
   let sets = DEFAULT_SETS.map((s) => ({ ...s }))
 
   let historicalBest = {
@@ -36,6 +44,13 @@ export function buildWorkoutExercise(ex, prev) {
     }))
 
     historicalBest = prev.bestSet
+  } else if (ex.sets?.length) {
+    sets = ex.sets.map((s) => ({
+      ...s,
+      completed: resetCompleted
+        ? false
+        : s.completed,
+    }))
   }
 
   return {

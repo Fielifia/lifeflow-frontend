@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import API from '../../../shared/api/api'
-import { normalizeWorkoutExercise } from '../../../shared/utils/normalizeWorkoutExercise'
 import { buildWorkoutExercise } from '../utils/buildWorkoutExercise.js'
+import { useExerciseMutations } from './useExerciseMutations.js'
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
@@ -10,7 +10,6 @@ import { draftWorkoutStorage } from '../../../shared/utils/storage/draftStorage.
 import { mapWorkoutToTemplate } from '../../template/utils/mapWorkoutToTemplate'
 import { EMPTY_WORKOUT } from '../constants.js'
 import { cleanWorkoutForSave } from '../utils/cleanWorkoutForSave'
-import { workoutMutation } from '../utils/workoutMutations'
 import { usePreviousExercise } from './usePreviousExercise'
 
 
@@ -73,7 +72,7 @@ export function useWorkoutLogic(navigate, workoutId) {
 
     selectedTemplate,
     setSelectedTemplate,
-    
+
     registerActivity,
   } = useWorkoutContext()
 
@@ -147,14 +146,11 @@ export function useWorkoutLogic(navigate, workoutId) {
     setWorkout({
       name: selectedTemplate.name,
       notes: '',
-      exercises: selectedTemplate.exercises.map((ex) => ({
-        ...normalizeWorkoutExercise(ex),
-
-        sets: ex.sets.map((s) => ({
-          ...s,
-          completed: false,
-        })),
-      })),
+      exercises: selectedTemplate.exercises.map((ex) =>
+        buildWorkoutExercise(ex, null, {
+          resetCompleted: true,
+        }),
+      ),
     })
 
     setSelectedTemplate(null)
@@ -183,36 +179,14 @@ export function useWorkoutLogic(navigate, workoutId) {
     workoutId,
   ])
 
-  // ===== MUTATION WRAPPERS =====
-  const addSet = (index) =>
-    setWorkout((prev) => workoutMutation.addSet(prev, index))
-
-  const updateSet = (exIndex, setIndex, field, value) =>
-    setWorkout((prev) => {
-      const updatedWorkout = workoutMutation.updateSet(
-        prev,
-        exIndex,
-        setIndex,
-        field,
-        value,
-      )
-
-      return updatedWorkout
-    })
-
-  const removeSet = (exIndex, setIndex) =>
-    setWorkout((prev) => workoutMutation.removeSet(prev, exIndex, setIndex))
-
-  const removeExercise = (index) =>
-    setWorkout((prev) => workoutMutation.removeExercise(prev, index))
-
-  const updateExerciseRest = (index, value) =>
-    setWorkout((prev) => workoutMutation.updateExerciseRest(prev, index, value))
-
-  const updateExerciseNotes = (index, notes) =>
-    setWorkout((prev) =>
-      workoutMutation.updateExerciseNotes(prev, index, notes),
-    )
+  const {
+    addSet,
+    updateSet,
+    removeSet,
+    removeExercise,
+    updateExerciseRest,
+    updateExerciseNotes,
+  } = useExerciseMutations(setWorkout)
 
   const toggleSetComplete = (exIndex, setIndex, checked) => {
     const ex = workout.exercises[exIndex]

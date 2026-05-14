@@ -5,13 +5,13 @@ import {
   getTemplateById,
   updateTemplate,
 } from '../../../shared/api/templateApi'
+import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { normalizeWorkoutExercise } from '../../../shared/utils/normalizeWorkoutExercise'
 import { serializeWorkoutExercise } from '../../../shared/utils/serializeWorkoutExercise'
 import { draftTemplateStorage } from '../../../shared/utils/storage/draftStorage'
 import { workoutStorage } from '../../../shared/utils/storage/workoutStorage'
+import { useExerciseMutations } from '../../workout/hooks/useExerciseMutations'
 import { mapExerciseToTemplate } from '../../workout/utils/mapExerciseToWorkout'
-import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
-import { workoutMutation } from '../../workout/utils/workoutMutations'
 
 /**
  * Hook for managing template creation and editing logic.
@@ -156,41 +156,14 @@ export function useTemplateLogic(navigate, id) {
     navigate('/exercises?select=true')
   }
 
-  const addSet = (index) =>
-    setTemplate((prev) =>
-      workoutMutation.addSet(prev, index),
-    )
-
-  const updateSet = (exIndex, setIndex, field, value) =>
-    setTemplate((prev) =>
-      workoutMutation.updateSet(
-        prev,
-        exIndex,
-        setIndex,
-        field,
-        value,
-      ),
-    )
-
-  const removeSet = (exIndex, setIndex) =>
-    setTemplate((prev) =>
-      workoutMutation.removeSet(prev, exIndex, setIndex),
-    )
-
-  const removeExercise = (index) =>
-    setTemplate((prev) =>
-      workoutMutation.removeExercise(prev, index),
-    )
-
-  const updateExerciseRest = (index, value) =>
-    setTemplate((prev) =>
-      workoutMutation.updateExerciseRest(prev, index, value),
-    )
-
-  const updateExerciseNotes = (index, notes) =>
-    setTemplate((prev) =>
-      workoutMutation.updateExerciseNotes(prev, index, notes),
-    )
+  const {
+    addSet,
+    updateSet,
+    removeSet,
+    removeExercise,
+    updateExerciseRest,
+    updateExerciseNotes,
+  } = useExerciseMutations(setTemplate)
 
   const saveTemplate = async () => {
     try {
