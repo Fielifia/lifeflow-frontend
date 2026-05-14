@@ -3,7 +3,7 @@
  * @param {object} workout - Workout object
  * @returns {Array<{ muscle: string, percentage: number, sets: number }>} - Muscle split
  */
-export function calculateWorkoutMuscleSplit(workout) {
+export function calculateMuscleSplit(workout) {
   if (!workout?.exercises) return []
 
   const muscleMap = {}

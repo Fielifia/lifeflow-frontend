@@ -1,5 +1,3 @@
-// cleanWorkoutForSave.test.js
-
 import { cleanWorkoutForSave } from '../../features/workout/utils/cleanWorkoutForSave'
 
 describe('cleanWorkoutForSave', () => {
