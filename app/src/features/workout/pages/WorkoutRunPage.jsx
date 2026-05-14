@@ -68,7 +68,9 @@ export default function WorkoutRunPage() {
         title={workout.name}
         subtitle='In progress'
       />
+
       <BackButton fallback="/workouts" />
+
       {/* HEADER */}
       <WorkoutHeader
         name={workout.name}

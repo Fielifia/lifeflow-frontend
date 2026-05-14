@@ -131,8 +131,7 @@ export default function TemplateDetail() {
           onClick={() =>
             navigate(`/templates/${template._id}/edit`, {
               state: {
-                template,
-                from: location.pathname,
+                returnTo: `/templates/${template._id}`,
               },
             })
           }

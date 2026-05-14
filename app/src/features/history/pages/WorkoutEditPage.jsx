@@ -49,7 +49,7 @@ export default function WorkoutEditPage() {
         title={workout.name}
         subtitle="Edit workout"
       />
-      <BackButton fallback={(`/workouts/${id}`)} />
+      <BackButton fallback="/workouts" />
 
       {/* HEADER */}
       <WorkoutHeader

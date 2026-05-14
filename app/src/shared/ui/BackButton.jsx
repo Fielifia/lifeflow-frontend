@@ -2,7 +2,15 @@ import { useNavigate } from 'react-router-dom'
 
 /**
  * Reusable back button.
- * @param {{ fallback?: string, state?: object }} props - Navigation props
+ *
+ * Navigates back in browser history when possible.
+ * Falls back to provided route if no history exists.
+ *
+ * @param {{
+ *  fallback?: string,
+ *  state?: object | null
+ * }} props - Component props
+ *
  * @returns {import('react').ReactElement} Back button UI
  */
 export default function BackButton({
@@ -12,16 +20,19 @@ export default function BackButton({
   const navigate = useNavigate()
 
   const handleBack = () => {
-    if (fallback) {
-      navigate(fallback, { state })
+    if (window.history.length > 1) {
+      navigate(-1)
       return
     }
 
-    navigate(-1)
+    navigate(fallback, { state })
   }
 
   return (
-    <button onClick={handleBack} className="btn btn-standard back-btn">
+    <button
+      onClick={handleBack}
+      className="btn btn-standard back-btn"
+    >
       ← Back
     </button>
   )

@@ -77,8 +77,7 @@ export default function TemplateList({ limit = 5 }) {
               onClick={() =>
                 navigate(`/templates/${template._id}`, {
                   state: {
-                    template,
-                    from: location.pathname,
+                    returnTo: location.pathname,
                   },
                 })
               }

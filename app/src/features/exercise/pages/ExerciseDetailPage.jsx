@@ -54,8 +54,7 @@ export default function ExerciseDetail() {
       {/* Header */}
 
       <BackButton
-        fallback={location.state?.returnTo || '/ex'}
-        state={location.state?.returnState}
+        fallback={location.state?.returnTo || '/'}
       />
 
       {/* Title */}

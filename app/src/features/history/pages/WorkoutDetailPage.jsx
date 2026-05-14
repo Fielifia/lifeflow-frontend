@@ -33,7 +33,7 @@ export default function WorkoutDetailPage() {
         <Header
           title='Workout'
         />
-        <BackButton fallback={location.state?.returnTo || '/history'} />
+        <BackButton fallback="/workouts" />
 
         <DataState
           loading={loading}
@@ -53,9 +53,7 @@ export default function WorkoutDetailPage() {
         title={workout.name}
         subtitle={formatDate(workout.date)}
       />
-      <BackButton
-        fallback={location.state?.returnTo || '/history'}
-      />
+      <BackButton fallback="/workouts" />
 
       {/* HEADER */}
       <WorkoutHeader
@@ -80,7 +78,11 @@ export default function WorkoutDetailPage() {
         <button
           className="btn btn-standard btn-secondary"
           onClick={() =>
-            navigate(`/workouts/${workout._id}/edit`)
+            navigate(`/workouts/${workout._id}/edit`, {
+              state: {
+                returnTo: location.pathname,
+              },
+            })
           }
         >
           Edit workout

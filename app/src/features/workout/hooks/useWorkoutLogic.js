@@ -291,7 +291,11 @@ export function useWorkoutLogic(navigate, location, workoutId) {
 
       setSuccess(true)
 
-      navigate(`/workouts/${saved.data._id}`)
+      navigate(`/workouts/${saved.data._id}`, {
+        state: {
+          returnTo: '/workouts',
+        },
+      })
 
       setWorkout(EMPTY_WORKOUT)
       resetTimer()

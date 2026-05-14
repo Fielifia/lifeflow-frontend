@@ -1,4 +1,3 @@
-import { useEffect } from 'react'
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 import useExercises from '../hooks/useExercises'
@@ -77,20 +76,6 @@ export default function ExercisesLibraryPage() {
     })
   }
 
-  // ===== SCROLL RESTORE =====
-
-  useEffect(() => {
-    if (loading) return
-
-    const scrollY = location.state?.scrollY
-
-    if (scrollY != null) {
-      requestAnimationFrame(() => {
-        window.scrollTo(0, scrollY)
-      })
-    }
-  }, [loading, location.state])
-
   const updateParams = (updates) => {
     const params =
       new URLSearchParams(searchParams)
@@ -115,8 +100,7 @@ export default function ExercisesLibraryPage() {
   return (
     <div className="app">
       <BackButton
-        fallback={location.state?.returnTo || '/'}
-        state={location.state}
+        fallback='/'
       />
 
       <div className="section">

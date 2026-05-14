@@ -27,8 +27,7 @@ export default function WorkoutCard({ workout }) {
       className="card-base clickable"
       onClick={() => navigate(`/workouts/${workout._id}`, {
         state: {
-          workout,
-          from: location.pathname,
+          returnTo: location.pathname,
         },
       })}
     >

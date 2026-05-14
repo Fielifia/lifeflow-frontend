@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import BackButton from '../../../shared/ui/BackButton'
 import ExerciseItem from '../../workout/components/ExerciseItem'
 import Header from '../../../shared/ui/Header'
@@ -45,7 +45,6 @@ import TemplateControls from '../components/TemplateControls'
  */
 export default function TemplateEditPage() {
   const navigate = useNavigate()
-  const location = useLocation()
 
   const { id } = useParams()
   const isCreate = !id
@@ -70,7 +69,7 @@ export default function TemplateEditPage() {
     updateExerciseNotes,
 
     saveTemplate,
-  } = useTemplateLogic(navigate, location, id)
+  } = useTemplateLogic(navigate, id)
 
   // ===== UI =====
   if (loading) return <p className="center">Loading...</p>
@@ -81,13 +80,7 @@ export default function TemplateEditPage() {
         title={template.name}
         subtitle={isCreate ? 'Create Template' : 'Edit Template'}
       />
-      <BackButton
-        fallback={
-          isCreate
-            ? '/workouts'
-            : `/templates/${id}`
-        }
-      />
+      <BackButton fallback="/workouts" />
 
       {/* HEADER */}
       <WorkoutHeader

@@ -54,11 +54,7 @@ export default function TemplateEditPage() {
         subtitle={isCreate ? 'Create Template' : 'Edit Template'}
       />
       <BackButton
-        fallback={
-          isCreate
-            ? '/workouts'
-            : `/templates/${id}`
-        }
+        fallback={location.state?.returnTo || '/workouts'}
       />
 
       {/* HEADER */}
