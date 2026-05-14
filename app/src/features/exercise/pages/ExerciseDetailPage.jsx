@@ -18,7 +18,7 @@ export default function ExerciseDetail() {
   const [ex, setExercise] = useState(null)
   const [currentImage, setCurrentImage] = useState(0)
 
-  const { returnTo } = useExerciseFlow()
+  const { libraryReturnTo } = useExerciseFlow()
 
   useEffect(() => {
     if (!id) return
@@ -55,7 +55,7 @@ export default function ExerciseDetail() {
       {/* Header */}
 
       <BackButton
-        fallback={returnTo || '/'}
+        fallback={libraryReturnTo}
       />
 
       {/* Title */}

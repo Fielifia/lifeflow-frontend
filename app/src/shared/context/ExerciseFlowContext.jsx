@@ -19,6 +19,7 @@ export function ExerciseFlowProvider({ children }) {
   const [returnTo, setReturnTo] = useState('/')
   const [scrollPosition, setScrollPosition] = useState(0)
   const [shouldRestoreScroll, setShouldRestoreScroll] = useState(false)
+  const [libraryReturnTo, setLibraryReturnTo] = useState('/exercises')
 
   return (
     <ExerciseFlowContext.Provider
@@ -28,6 +29,9 @@ export function ExerciseFlowProvider({ children }) {
 
         returnTo,
         setReturnTo,
+
+        libraryReturnTo,
+        setLibraryReturnTo,
 
         scrollPosition,
         setScrollPosition,

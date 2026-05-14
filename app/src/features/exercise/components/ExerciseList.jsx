@@ -20,7 +20,7 @@ export default function ExerciseList({
   const location = useLocation()
 
   const {
-    setReturnTo,
+    setLibraryReturnTo,
     setScrollPosition,
     setShouldRestoreScroll,
   } = useExerciseFlow()
@@ -40,7 +40,10 @@ export default function ExerciseList({
               if (onSelect) {
                 onSelect(e)
               } else {
-                setReturnTo(`${location.pathname}${location.search}`)
+                setLibraryReturnTo(
+                  `${location.pathname}${location.search}`,
+                )
+
                 setScrollPosition(window.scrollY)
                 setShouldRestoreScroll(true)
 
@@ -48,7 +51,10 @@ export default function ExerciseList({
               }
             }}
             onView={() => {
-              setReturnTo(`${location.pathname}${location.search}`)
+              setLibraryReturnTo(
+                `${location.pathname}${location.search}`,
+              )
+
               setScrollPosition(window.scrollY)
               setShouldRestoreScroll(true)
 
