@@ -5,6 +5,8 @@ import {
   getTemplateById,
   updateTemplate,
 } from '../../../shared/api/templateApi'
+import { normalizeWorkoutExercise } from '../../../shared/utils/normalizeWorkoutExercise'
+import { serializeWorkoutExercise } from '../../../shared/utils/serializeWorkoutExercise'
 import { draftTemplateStorage } from '../../../shared/utils/storage/draftStorage'
 import { workoutStorage } from '../../../shared/utils/storage/workoutStorage'
 import { mapExerciseToTemplate } from '../../workout/utils/mapExerciseToWorkout'
@@ -26,7 +28,6 @@ import { workoutMutation } from '../../workout/utils/workoutMutations'
  * - Receives selected exercises from ExerciseFlowContext
  * - Shares temporary flow state across pages
  * @param {(path: string, options?: object) => void} navigate - Navigation function from react-router
- * @param {{ state?: object, pathname: string }} location - Current route location object
  * @param {string | undefined} id - Template ID (undefined in create mode)
  * @returns {{
  *  template: {
@@ -54,7 +55,7 @@ import { workoutMutation } from '../../workout/utils/workoutMutations'
  */
 export function useTemplateLogic(navigate, id) {
   const location = useLocation()
-  
+
   const isCreate = !id
   const [loading, setLoading] = useState(!isCreate)
 
@@ -104,13 +105,7 @@ export function useTemplateLogic(navigate, id) {
 
         const normalized = {
           ...data,
-          exercises: data.exercises.map((ex) => ({
-            ...ex,
-            image: ex.images?.[0] || '',
-            images: ex.images || [],
-            restTime: ex.rest ?? 120,
-            notes: ex.notes ?? '',
-          })),
+          exercises: data.exercises.map(normalizeWorkoutExercise),
         }
 
         setTemplate(normalized)
@@ -213,20 +208,7 @@ export function useTemplateLogic(navigate, id) {
         return
       }
 
-      const cleaned = template.exercises.map((ex) => ({
-        exerciseId: ex.id,
-        name: ex.name,
-        images: ex.images?.length ? ex.images : ex.image ? [ex.image] : [],
-        notes: ex.notes || '',
-        rest: ex.restTime || 0,
-        sets: ex.sets.filter(
-          (s) =>
-            s.reps !== '' &&
-            s.weight !== '' &&
-            s.reps != null &&
-            s.weight != null,
-        ),
-      }))
+      const cleaned = template.exercises.map(serializeWorkoutExercise)
 
       const validExercises = cleaned.filter((ex) => ex.sets.length > 0)
 

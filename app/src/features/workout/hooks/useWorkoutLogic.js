@@ -1,11 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import API from '../../../shared/api/api'
+import { normalizeWorkoutExercise } from '../../../shared/utils/normalizeWorkoutExercise'
+import { buildWorkoutExercise } from '../utils/buildWorkoutExercise.js'
+
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 import { draftWorkoutStorage } from '../../../shared/utils/storage/draftStorage.js'
 import { mapWorkoutToTemplate } from '../../template/utils/mapWorkoutToTemplate'
-import { DEFAULT_REST, DEFAULT_SETS, EMPTY_WORKOUT } from '../constants.js'
+import { EMPTY_WORKOUT } from '../constants.js'
 import { cleanWorkoutForSave } from '../utils/cleanWorkoutForSave'
 import { workoutMutation } from '../utils/workoutMutations'
 import { usePreviousExercise } from './usePreviousExercise'
@@ -14,7 +17,6 @@ import { usePreviousExercise } from './usePreviousExercise'
 /**
  * Handles workout state, timers and actions.
  * @param {(path: string, options?: object) => void} navigate - Navigation function
- * @param {{ state?: object, pathname: string }} location - Current route info
  * @param workoutId - Workout id
  * @returns {{
  *  workout: object,
@@ -111,34 +113,9 @@ export function useWorkoutLogic(navigate, workoutId) {
     const run = async () => {
       const results = await Promise.all(
         selectedExercises.map(async (ex) => {
-          let sets = DEFAULT_SETS.map((s) => ({ ...s }))
-
           const prev = await getPreviousSets(ex.id)
 
-          let historicalBest = {
-            weight: 0,
-            reps: 0,
-          }
-
-          if (prev) {
-            sets = prev.sets.map((s) => ({
-              reps: s.reps,
-              weight: s.weight,
-              completed: false,
-              prevReps: s.reps,
-              prevWeight: s.weight,
-            }))
-
-            historicalBest = prev.bestSet
-          }
-
-          return {
-            ...ex,
-            id: ex.id,
-            restTime: ex.restTime ?? DEFAULT_REST,
-            sets,
-            historicalBest,
-          }
+          return buildWorkoutExercise(ex, prev)
         }),
       )
 
@@ -171,7 +148,8 @@ export function useWorkoutLogic(navigate, workoutId) {
       name: selectedTemplate.name,
       notes: '',
       exercises: selectedTemplate.exercises.map((ex) => ({
-        ...ex,
+        ...normalizeWorkoutExercise(ex),
+
         sets: ex.sets.map((s) => ({
           ...s,
           completed: false,
