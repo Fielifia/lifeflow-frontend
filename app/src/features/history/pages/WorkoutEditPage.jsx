@@ -45,7 +45,7 @@ export default function WorkoutEditPage() {
     saveAsTemplate,
 
     saveWorkout,
-    deleteCurrentWorkout,
+    deleteWorkout,
   } = useWorkoutManager(id, navigate)
 
   const { returnTo } = useExerciseFlow()
@@ -86,7 +86,7 @@ export default function WorkoutEditPage() {
         saving={saving}
         onSaveWorkout={saveWorkout}
         onSaveWorkoutAsTemplate={saveAsTemplate}
-        onDeleteCurrentWorkout={deleteCurrentWorkout}
+        onDeleteWorkout={deleteWorkout}
         hasExercises={workout.exercises.length > 0}
       />
       {success && <p className="muted center">Workout saved ✔</p>}

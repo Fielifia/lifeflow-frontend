@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
-import {
-  deleteTemplate,
-} from '../../../shared/api/templateApi'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
 import { draftTemplateStorage } from '../../../shared/utils/storage/draftStorage'
@@ -181,7 +178,7 @@ export function useTemplateManager(
     }
 
   // ===== DELETE =====
-  const deleteCurrentTemplate = async () => {
+  const deleteTemplate = async () => {
     const confirmed = window.confirm(
       'Delete this template?',
     )
@@ -226,6 +223,6 @@ export function useTemplateManager(
     updateExerciseNotes,
 
     saveCurrentTemplate,
-    deleteCurrentTemplate,
+    deleteTemplate,
   }
 }

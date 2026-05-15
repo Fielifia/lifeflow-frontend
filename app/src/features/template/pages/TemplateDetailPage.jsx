@@ -35,7 +35,7 @@ export default function TemplateDetailPage() {
 
   const {
     success,
-    deleteCurrentTemplate,
+    deleteTemplate,
   } = useTemplateManager(navigate, id)
 
   // ===== LOADING / ERROR / EMPTY =====
@@ -82,7 +82,7 @@ export default function TemplateDetailPage() {
           navigate(`/templates/${template._id}/edit`)
         }}
 
-        onDeleteTemplate={deleteCurrentTemplate}
+        onDeleteTemplate={deleteTemplate}
       />
 
       {/* FEEDBACK */}

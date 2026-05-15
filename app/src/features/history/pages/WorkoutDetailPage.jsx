@@ -37,7 +37,7 @@ export default function WorkoutDetailPage() {
 
   const {
     success,
-    deleteCurrentWorkout,
+    deleteWorkout,
   } = useWorkoutManager(id, navigate)
 
   const handleSaveTemplate =
@@ -105,7 +105,7 @@ export default function WorkoutDetailPage() {
           navigate(`/workouts/${workout._id}/edit`)
         }}
         onSaveWorkoutAsTemplate={handleSaveTemplate}
-        onDeleteCurrentWorkout={deleteCurrentWorkout}
+        onDeleteWorkout={deleteWorkout}
       />
       {success && <p className="muted center">Workout saved ✔</p>}
       {error && <p className="error center">{error}</p>}

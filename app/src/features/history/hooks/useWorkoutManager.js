@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import API from '../../../shared/api/api'
-import { deleteWorkout, getWorkoutById } from '../../../shared/api/workoutApi'
+import { getWorkoutById } from '../../../shared/api/workoutApi'
 import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
 import { buildWorkoutPayload } from '../../workout/utils/buildWorkoutPayload'
 import { cleanWorkoutForSave } from '../../workout/utils/cleanWorkoutForSave'
@@ -114,7 +114,7 @@ export function useWorkoutManager(workoutId, navigate) {
   }
 
   // ===== DELETE =====
-  const deleteCurrentWorkout = async () => {
+  const deleteWorkout = async () => {
     const confirmed = window.confirm(
       'Delete this workout?',
     )
@@ -164,6 +164,6 @@ export function useWorkoutManager(workoutId, navigate) {
     saveWorkout,
     saveAsTemplate,
 
-    deleteCurrentWorkout,
+    deleteWorkout,
   }
 }

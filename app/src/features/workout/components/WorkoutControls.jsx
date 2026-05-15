@@ -9,7 +9,7 @@ import LoadingButton from '../../../shared/ui/LoadingButton'
  * @param {() => void} [props.onSaveWorkout] - Saves workout changes
  * @param {() => void} [props.onSaveWorkoutAsTemplate] - Saves workout as template
  * @param {() => void} [props.discardWorkout] - Discards active workout session
- * @param {() => void} [props.deleteCurrentWorkout] - Deletes workout permanently
+ * @param {() => void} [props.deleteWorkout] - Deletes workout permanently
  * @param {boolean} [props.saving] - Whether a save action is in progress
  * @param {boolean} [props.loading] - Whether a delete/load action is in progress
  * @param {boolean} [props.hasExercises] - Whether workout contains exercises
@@ -24,7 +24,7 @@ export default function WorkoutControls({
   onSaveWorkout,
 
   onDiscardWorkout,
-  onDeleteCurrentWorkout,
+  onDeleteWorkout,
 
   status,
   handleStartPause,
@@ -114,11 +114,11 @@ export default function WorkoutControls({
       )}
 
       {/* DELETE SAVED WORKOUT */}
-      {onDeleteCurrentWorkout && (
+      {onDeleteWorkout && (
         <LoadingButton
           className="btn btn-standard btn-danger"
           loading={loading}
-          onClick={onDeleteCurrentWorkout}
+          onClick={onDeleteWorkout}
         >
           Delete workout
         </LoadingButton>

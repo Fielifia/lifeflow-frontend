@@ -41,7 +41,7 @@ export default function TemplateEditPage() {
     openLibrary,
 
     saveCurrentTemplate,
-    deleteCurrentTemplate,
+    deleteTemplate,
   } = useTemplateManager(navigate, id)
 
   const { returnTo } = useExerciseFlow()
@@ -75,7 +75,7 @@ export default function TemplateEditPage() {
       <TemplateControls
         onSaveTemplate={saveCurrentTemplate}
         saving={saving}
-        onDeleteCurrentTemplate={deleteCurrentTemplate}
+        onDeleteTemplate={deleteTemplate}
       />
 
       {/* FEEDBACK */}
