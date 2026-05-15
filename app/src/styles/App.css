@@ -1080,7 +1080,7 @@ input[type="checkbox"]:hover {
   gap: 12px;
 }
 
-.recent-workout-info {
+.workout-info {
   position: relative;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
@@ -1090,29 +1090,13 @@ input[type="checkbox"]:hover {
   align-items: center;
 }
 
-.recent-workout-info::after{
-    content: '';
-    position: absolute;
-    top: 0;
-    width: 100%;
-    border-bottom: 1px solid #ffffff20;
-}
-
-.recent-workout-info::before {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  border-bottom: 1px solid #ffffff20;
-}
-
-.recent-workout-info-content {
+.workout-info-content {
   display: flex;
   flex: 1 1 auto;
   flex-direction: column;
 }
 
-.recent-workout-meta {
+.rworkout-meta {
   display: flex;
   gap: 12px;
   margin-top: 8px;
@@ -1120,13 +1104,13 @@ input[type="checkbox"]:hover {
   font-size: 13px;
 }
 
-.recent-workout-meta span {
+.workout-meta span {
   display: flex;
   align-items: center;
   gap: 6px;
 }
 
-.recent-workout-card h4 {
+.workout-card h4 {
   margin: 0;
 }
 
@@ -1492,24 +1476,33 @@ input[type="checkbox"]:hover {
   gap: 12px;
 }
 
-.template-header {
+.template-card-header,
+.workout-card-header {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
 }
 
-.template-header h3 {
+.template-card-header-content p,
+.workout-card-header-content p {
+  margin: 8px 0 16px;
+}
+
+.template-card-header h3,
+.workout-card-header h3 {
   margin: 0;
   font-size: 16px;
 }
 
-.template-list {
+.template-card-exercise-list,
+.workout-card-exercise-list {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-.template-list li {
+.template-card-exercise-list li,
+.workout-card-exercise-list li {
   font-size: 13px;
   color: var(--text);
   position: relative;
@@ -1517,21 +1510,12 @@ input[type="checkbox"]:hover {
   line-height: 1.8;
 }
 
-.template-list li::before {
+.template-card-exercise-list li::before,
+.workout-card-exercise-list li::before {
   content: "•";
   position: absolute;
   left: 0;
   color: var(--primary);
-}
-
-
-.template-preview-row {
-  display: flex;
-  justify-content: space-between;
-}
-
-.template-header {
-  gap: 0;
 }
 
 /* ============================= */

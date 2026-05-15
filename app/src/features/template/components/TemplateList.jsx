@@ -29,7 +29,7 @@ export default function TemplateList({ limit = 5 }) {
         setLoading(true)
         setError(null)
         const data = await getTemplates({ limit: 100 })
-        setTemplates(data.results || [])
+        setTemplates(Array.isArray(data) ? data : data.results || [])
       } catch (err) {
         setError(err)
       } finally {
@@ -40,12 +40,7 @@ export default function TemplateList({ limit = 5 }) {
     fetchTemplates()
   }, [])
 
-  // ===== FILTER =====
-  const filtered = templates.filter((t) =>
-    t.name?.toLowerCase().includes(search.toLowerCase()),
-  )
-
-  const visible = filtered.slice(0, visibleCount)
+  const visible = templates.slice(0, visibleCount)
 
   return (
     <div className="page-section">
@@ -65,7 +60,7 @@ export default function TemplateList({ limit = 5 }) {
       <DataState
         loading={loading}
         error={error}
-        data={filtered}
+        data={templates}
         variant="card-template"
         emptyText={
           search ? `No templates found for "${search}"` : 'No templates yet'
@@ -89,12 +84,12 @@ export default function TemplateList({ limit = 5 }) {
       </DataState>
 
       {/* SHOW MORE */}
-      {visibleCount < filtered.length && (
+      {visibleCount < templates.length && (
         <button
           className="btn btn-standard btn-primary"
           onClick={() => setVisibleCount((prev) => prev + limit)}
         >
-          Show more (+{Math.min(limit, filtered.length - visibleCount)})
+          Show more (+{Math.min(limit, templates.length - visibleCount)})
         </button>
       )}
     </div>

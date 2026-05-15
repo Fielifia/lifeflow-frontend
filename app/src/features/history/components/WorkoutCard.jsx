@@ -1,7 +1,5 @@
-import { useNavigate, useLocation } from 'react-router-dom'
-import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
-import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
-import TemplateControls from '../../template/components/TemplateControls'
+import { formatDate, formatDuration } from '../../../shared/utils/format'
+import WorkoutControls from '../../workout/components/WorkoutControls'
 import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
 
 /**
@@ -9,52 +7,49 @@ import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
  * @param {{ workout: { _id: string, name?: string, createdAt: string, duration: number, exercises: Array } }} props
  * @returns {import('react').ReactElement} Workout card UI
  */
-export default function WorkoutCard({ workout }) {
-  const navigate = useNavigate()
-  const location = useLocation()
-  const { setReturnTo } = useExerciseFlow()
-  const { setSelectedWorkout } = useWorkoutContext()
-  const { startWorkout } = useStartWorkout()
-
-  const date = new Date(workout.createdAt).toLocaleDateString()
+export default function WorkoutCard({ workout, onClick }) {
   const exercises = workout.exercises || []
-
-  const handleStartWorkout = (e) => {
-    e.stopPropagation()
-    setSelectedWorkout(workout)
-    startWorkout({ workout })
-  }
+  const { startWorkout } = useStartWorkout()
 
   return (
     <div
-      className="card-base template-card clickable"
-      onClick={() => {
-        setReturnTo(location.pathname)
-        navigate(`/workouts/${workout._id}`)
-      }}
+      className="card-base workout-card clickable"
+      onClick={onClick}
     >
       {/* HEADER */}
-      <div className="template-header">
-        <div>
-          <h3>{workout.name || 'Workout'}</h3>
+      <div className="workout-card-header">
+        <div className="workout-card-header-content">
+          <h3>{workout.name}</h3>
           <p className="muted small">
-            {exercises.length} exercises • {Math.round(workout.duration / 60)} min
-          </p>
-          <p className="muted small">{date}</p>
+            {formatDuration(
+              Math.round((workout.duration || 0) / 60)
+            )} • {formatDate(workout.date)}</p>
         </div>
 
         <button className="btn-clean btn-dots">⋮</button>
       </div>
 
       {/* EXERCISE PREVIEW */}
-      <ul className="template-list">
-        {exercises.slice(0, 4).map((ex, i) => (
+      <ul className="workout-card-exercise-list">
+        {exercises.slice(0, 3).map((ex, i) => (
           <li key={i}>{ex.name}</li>
         ))}
       </ul>
 
+      {exercises.length > 2 && (
+        <p className="muted small center">
+          And {exercises.length - 2} more ..
+        </p>
+      )}
+
       {/* ACTION */}
-      <TemplateControls onStartWorkout={handleStartWorkout} hasExercises={exercises.length > 0} />
+      <WorkoutControls
+        onStartWorkout={(e) => {
+          e.stopPropagation()
+          startWorkout({ workout })
+        }}
+        hasExercises={exercises.length > 0}
+      />
     </div>
   )
 }
