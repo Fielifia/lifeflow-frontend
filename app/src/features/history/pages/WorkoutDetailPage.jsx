@@ -105,7 +105,7 @@ export default function WorkoutDetailPage() {
           navigate(`/workouts/${workout._id}/edit`)
         }}
         onSaveWorkoutAsTemplate={handleSaveTemplate}
-        deleteCurrentWorkout={deleteCurrentWorkout}
+        onDeleteCurrentWorkout={deleteCurrentWorkout}
       />
       {success && <p className="muted center">Workout saved ✔</p>}
       {error && <p className="error center">{error}</p>}

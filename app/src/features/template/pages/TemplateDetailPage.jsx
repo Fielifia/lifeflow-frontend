@@ -6,9 +6,9 @@ import BackButton from '../../../shared/ui/BackButton'
 import DataState from '../../../shared/ui/DataState'
 import Header from '../../../shared/ui/Header'
 import ExerciseItem from '../../workout/components/ExerciseItem'
+import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
 import TemplateControls from '../components/TemplateControls'
 import { useTemplateManager } from '../hooks/useTemplateManager'
-import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
 /**
  * Displays detailed view of a template.
  * @returns {import('react').ReactElement} Template detail UI
@@ -24,8 +24,6 @@ export default function TemplateDetail() {
 
   const {
     success,
-
-    saveTemplate,
 
     deleteCurrentTemplate,
   } = useTemplateManager(id, navigate)
@@ -97,8 +95,7 @@ export default function TemplateDetail() {
           setReturnTo(location.pathname)
           navigate(`/templates/${template._id}/edit`)
         }}
-        onSaveTemplate={saveTemplate}
-        deleteCurrentTemplate={deleteCurrentTemplate}
+        onDeleteTemplate={deleteCurrentTemplate}
       />
 
       {success && <p className="muted center">Template saved ✔</p>}

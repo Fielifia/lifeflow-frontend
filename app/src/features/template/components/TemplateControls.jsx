@@ -6,7 +6,7 @@ import LoadingButton from '../../../shared/ui/LoadingButton'
  * @param {() => void} [props.onEditTemplate] - Edit template handler
  * @param {() => void} [props.onUseTemplate] - Use template handler
  * @param {() => void} [props.onSaveTemplate] - Save template handler
- * @param {() => void} [props.onDeleteTemplate] - Delete template handler
+ * @param {() => void} [props.onDeleteCurrentTemplate] - Delete template handler
  * @param {boolean} [props.saving] - Saving state
  * @param {boolean} [props.loading] - Loading state
  * @param {boolean} [props.hasExercises] - If template has exercises
@@ -16,7 +16,7 @@ export default function TemplateControls({
   onStartWorkout,
   onEditTemplate,
   onSaveTemplate,
-  onDeleteTemplate,
+  onDeleteCurrentTemplate,
 
   saving = false,
   loading = false,
@@ -53,11 +53,11 @@ export default function TemplateControls({
         </LoadingButton>
       )}
 
-      {onDeleteTemplate && (
+      {onDeleteCurrentTemplate && (
         <LoadingButton
           className="btn btn-standard btn-danger btn-full"
           loading={loading}
-          onClick={onDeleteTemplate}
+          onClick={onDeleteCurrentTemplate}
         >
           Delete template
         </LoadingButton>

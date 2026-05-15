@@ -11,8 +11,7 @@ import { draftTemplateStorage } from '../../../shared/utils/storage/draftStorage
 import { workoutStorage } from '../../../shared/utils/storage/workoutStorage'
 import { appendExercisesToTemplate } from '../utils/appendExercisesToTemplate'
 import {
-  saveTemplate,
-  updateSavedTemplate,
+  updateSavedTemplate
 } from '../utils/templatePersistence'
 
 /**
@@ -127,7 +126,7 @@ export function useTemplateManager(
           await getTemplateById(id)
 
         setTemplate(data)
-        
+
       } catch {
         setError(
           'Could not load template',
@@ -191,7 +190,7 @@ export function useTemplateManager(
         setSuccess(false)
 
         if (isCreate) {
-          await saveTemplate({
+          await saveCurrentTemplate({
             template,
           })
         } else {

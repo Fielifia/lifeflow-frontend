@@ -1,7 +1,6 @@
 import API from '../../../shared/api/api'
 
-import { buildTemplatePayload }
-  from './buildTemplatePayload'
+import { buildTemplatePayload } from './buildTemplatePayload'
 
 /**
  * Saves a new template.
@@ -12,7 +11,7 @@ import { buildTemplatePayload }
  * @returns {Promise<object>}
  * Saved template
  */
-export async function saveTemplate({
+export async function saveCurrentTemplate({
   template,
 }) {
   const payload =

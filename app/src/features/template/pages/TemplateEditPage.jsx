@@ -40,7 +40,7 @@ export default function TemplateEditPage() {
 
     openLibrary,
 
-    saveTemplate,
+    saveCurrentTemplate,
     deleteCurrentTemplate,
   } = useTemplateManager(navigate, id)
 
@@ -73,17 +73,10 @@ export default function TemplateEditPage() {
       />
 
       <TemplateControls
-        saveTemplate={saveTemplate}
+        onSaveTemplate={saveCurrentTemplate}
         saving={saving}
+        onDeleteTemplate={deleteCurrentTemplate}
       />
-
-      <button
-        className="btn btn-standard btn-danger btn-full "
-        onClick={deleteCurrentTemplate}
-        disabled={saving}
-      >
-        {saving ? 'Deleting...' : 'Delete Template'}
-      </button>
 
       {/* ADD EXERCISE */}
       <button className="btn btn-standard btn-secondary btn-full" onClick={openLibrary}>

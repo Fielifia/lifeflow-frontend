@@ -86,7 +86,7 @@ export default function WorkoutEditPage() {
         saving={saving}
         onSaveWorkout={saveWorkout}
         onSaveWorkoutAsTemplate={saveAsTemplate}
-        deleteCurrentWorkout={deleteCurrentWorkout}
+        onDeleteCurrentWorkout={deleteCurrentWorkout}
         hasExercises={workout.exercises.length > 0}
       />
       {success && <p className="muted center">Workout saved ✔</p>}

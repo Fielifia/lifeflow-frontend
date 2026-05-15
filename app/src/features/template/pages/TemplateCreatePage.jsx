@@ -68,7 +68,7 @@ export default function TemplateEditPage() {
     updateExerciseRest,
     updateExerciseNotes,
 
-    saveTemplate,
+    saveCurrentTemplate,
   } = useTemplateManager(navigate, id)
 
   // ===== UI =====
@@ -97,6 +97,13 @@ export default function TemplateEditPage() {
         showDuration={false}
       />
 
+
+      <TemplateControls
+        onSaveTemplate={saveCurrentTemplate}
+        saving={saving}
+        hasExercises={template.exercises.length > 0}
+      />
+
       {/* ADD EXERCISE */}
       <button className="btn btn-standard btn-secondary btn-full" onClick={openLibrary}>
         Add exercise
@@ -120,11 +127,6 @@ export default function TemplateEditPage() {
         />
       ))}
 
-      <TemplateControls
-        onSaveTemplate={saveTemplate}
-        saving={saving}
-        hasExercises={template.exercises.length > 0}
-      />
 
       {/* FEEDBACK */}
       {success && <p className="muted center">Template saved ✔</p>}
