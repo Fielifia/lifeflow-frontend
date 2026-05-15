@@ -3,7 +3,7 @@ import { serializeWorkoutExercise }
 
 /**
  * Builds workout API payload.
-
+ *
  * Removes incomplete exercises
  * and converts frontend workout
  * state into backend format.
@@ -11,8 +11,9 @@ import { serializeWorkoutExercise }
  *  name?: string,
  *  notes?: string,
  *  exercises?: Array,
- * }} workout
+ * }} workout - Frontend workout state
  * @param {number} elapsed
+ * Workout duration in seconds
  * @returns {object} Workout payload
  */
 export function buildWorkoutPayload(

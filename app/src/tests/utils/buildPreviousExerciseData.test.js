@@ -1,6 +1,6 @@
-import { mapPreviousExercise } from '../../features/workout/utils/mapPreviousExercise'
+import { buildPreviousExerciseData } from '../../features/workout/utils/buildPreviousExerciseData'
 
-describe('mapPreviousExercise', () => {
+describe('buildPreviousExerciseData', () => {
   test('maps previous sets correctly', () => {
     const res = {
       sets: [
@@ -9,7 +9,7 @@ describe('mapPreviousExercise', () => {
       bestSet: { reps: 10, weight: 50 },
     }
 
-    const result = mapPreviousExercise(res)
+    const result = buildPreviousExerciseData(res)
 
     expect(result.sets[0]).toEqual({
       reps: 10,
@@ -19,6 +19,6 @@ describe('mapPreviousExercise', () => {
   })
 
   test('returns null if sets are missing', () => {
-    expect(mapPreviousExercise(null)).toBeNull()
+    expect(buildPreviousExerciseData(null)).toBeNull()
   })
 })
