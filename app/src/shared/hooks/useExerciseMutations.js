@@ -2,10 +2,12 @@ import { workoutMutation } from '../utils/workoutMutations'
 
 /**
  * Shared exercise mutation handlers.
- * @param {Function} setState
+ * @param {import('react').Dispatch<
+ *  import('react').SetStateAction<object>
+ * >} setState - React state setter
  * @param {{
  *  onSetCompleted?: (rest: number) => void
- * }} options
+ * }} [options] - Optional mutation callbacks
  */
 export function useExerciseMutations(
   setState,
@@ -73,11 +75,13 @@ export function useExerciseMutations(
     setIndex,
     checked,
   ) => {
-    let rest = 0
-
     setState((prev) => {
-      rest =
+      const rest =
         prev.exercises[exIndex]?.restTime || 0
+
+      if (checked && onSetCompleted) {
+        onSetCompleted(rest)
+      }
 
       return workoutMutation.toggleSetComplete(
         prev,
@@ -86,10 +90,6 @@ export function useExerciseMutations(
         checked,
       )
     })
-
-    if (checked && onSetCompleted) {
-      onSetCompleted(rest)
-    }
   }
 
   return {

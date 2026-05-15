@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import API from '../../../shared/api/api'
 import { deleteWorkout, getWorkoutById } from '../../../shared/api/workoutApi'
-import { workoutMutation } from '../../../shared/utils/workoutMutations'
+import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
 import { buildWorkoutPayload } from '../../workout/utils/buildWorkoutPayload'
 import { cleanWorkoutForSave } from '../../workout/utils/cleanWorkoutForSave'
 import { saveWorkoutAsTemplate } from '../../workout/utils/workoutPersistence'
@@ -44,45 +44,18 @@ export function useWorkoutManager(workoutId, navigate) {
 
 
   // ===== MUTATION WRAPPERS =====
-  const addSet = (index) =>
-    setWorkout((prev) => workoutMutation.addSet(prev, index))
+  const {
+    addSet,
+    updateSet,
+    removeSet,
+    removeExercise,
+    updateExerciseRest,
+    updateExerciseNotes,
+    toggleSetComplete,
+  } = useExerciseMutations(
+    setWorkout,
+  )
 
-  const updateSet = (exIndex, setIndex, field, value) =>
-    setWorkout((prev) =>
-      workoutMutation.updateSet(prev, exIndex, setIndex, field, value),
-    )
-
-  const removeSet = (exIndex, setIndex) =>
-    setWorkout((prev) => workoutMutation.removeSet(prev, exIndex, setIndex))
-
-  const removeExercise = (index) =>
-    setWorkout((prev) => workoutMutation.removeExercise(prev, index))
-
-  const updateExerciseRest = (index, value) =>
-    setWorkout((prev) => workoutMutation.updateExerciseRest(prev, index, value))
-
-  const updateExerciseNotes = (index, notes) =>
-    setWorkout((prev) =>
-      workoutMutation.updateExerciseNotes(prev, index, notes),
-    )
-
-  const toggleSetComplete = (exIndex, setIndex, checked) => {
-    setWorkout((prev) => {
-      const exercises = prev.exercises.map((ex, i) => {
-        if (i !== exIndex) return ex
-
-        return {
-          ...ex,
-          sets: ex.sets.map((set, j) =>
-            j === setIndex ? { ...set, completed: checked } : set,
-          ),
-        }
-      })
-
-      const updated = { ...prev, exercises }
-      return updated
-    })
-  }
 
   const updateWorkoutNotes = (notes) =>
     setWorkout((prev) => ({ ...prev, notes }))
