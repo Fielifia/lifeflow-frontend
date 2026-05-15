@@ -45,7 +45,22 @@ export default function Header({
 
       <button
         className="btn-clean header-profile-btn"
-        onClick={onProfileClick}
+        onClick={() => {
+          if (onProfileClick) {
+            onProfileClick()
+            return
+          }
+
+          const confirmed = window.confirm('Log out?')
+
+          if (!confirmed) {
+            return
+          }
+
+          localStorage.removeItem('token')
+
+          window.location.href = '/login'
+        }}
       >
         <Icon size={22} />
       </button>

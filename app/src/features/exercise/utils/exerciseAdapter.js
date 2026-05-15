@@ -29,6 +29,8 @@ export function normalizeExercise(e) {
 
   return {
     id: e._id,
+    exerciseId: e._id,
+    externalId: e.id,
     name: formatName(e.name),
     bodyPart: formatName(bodyPart),
     muscle: formatName(getMuscle(e, bodyPart)),

@@ -14,36 +14,30 @@ import { buildTemplateExercise }
  *  >
  * }} params - Append exercise dependencies
  */
-export async function appendExercisesToTemplate({
-  exercises,
-  lastWorkout,
-  setTemplate,
-}) {
+export async function appendExercisesToTemplate({ exercises, lastWorkout, setTemplate }) {
   const results = exercises.map((ex) => {
     const previous =
       lastWorkout?.exercises?.find(
-        (e) =>
-          e.id === ex.id,
+        (e) => e.exerciseId === ex.id
       ) || null
 
-    return buildTemplateExercise(
-      ex,
-      previous,
-    )
+    return buildTemplateExercise(ex, previous)
   })
 
   setTemplate((prev) => {
-    if (!prev) {
-      return prev
-    }
+    if (!prev) return prev
+
+    // Filtrera bort redan existerande exercises
+    const newResults = results.filter(
+      (newEx) =>
+        !prev.exercises.some(
+          (existing) => existing.exerciseId === newEx.exerciseId
+        )
+    )
 
     return {
       ...prev,
-
-      exercises: [
-        ...prev.exercises,
-        ...results,
-      ],
+      exercises: [...prev.exercises, ...newResults],
     }
   })
 }

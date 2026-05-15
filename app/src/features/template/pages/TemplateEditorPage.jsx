@@ -150,7 +150,7 @@ export default function TemplateEditorPage() {
       {template.exercises.map(
         (ex, i) => (
           <ExerciseItem
-            key={`${ex.id}-${i}`}
+            key={ex.id}
             showCheckbox={false}
             ex={ex}
             i={i}

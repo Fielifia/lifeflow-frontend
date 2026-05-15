@@ -116,7 +116,16 @@ export default function ExerciseItem({
           alt=""
           className="exercise-img-small"
           
-          onClick={() => navigate(`/exercises/${ex.id}`)}
+          onClick={() => {
+            navigate(
+              `/exercises/${ex.exerciseId || ex.id}`,
+              {
+                state: {
+                  from: window.location.pathname,
+                },
+              },
+            )
+          }}
         />
 
         <h2>{ex.name}</h2>

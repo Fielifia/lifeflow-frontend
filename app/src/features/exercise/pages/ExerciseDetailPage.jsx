@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router-dom'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { getExerciseById } from '../../../shared/api/exerciseApi'
 import { normalizeExercise } from '../utils/exerciseAdapter'
@@ -14,6 +14,7 @@ import BackButton from '../../../shared/ui/BackButton'
  */
 export default function ExerciseDetail() {
   const { id } = useParams()
+  const location = useLocation()
 
   const [ex, setExercise] = useState(null)
   const [currentImage, setCurrentImage] = useState(0)
@@ -50,13 +51,16 @@ export default function ExerciseDetail() {
 
   const imageSrc = ex.images?.[currentImage] || '/placeholder.png'
 
+  const fallback =
+    location.state?.from ||
+    libraryReturnTo ||
+    '/exercises'
+
   return (
     <div className="app">
       {/* Header */}
 
-      <BackButton
-        fallback={libraryReturnTo}
-      />
+      <BackButton fallback={fallback} />
 
       {/* Title */}
       <div className="section">

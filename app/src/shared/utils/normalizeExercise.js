@@ -27,7 +27,8 @@ export function normalizeExercise(ex) {
   return {
     ...ex,
 
-    id: ex.id || ex.exerciseId,
+    id: ex.exerciseId || ex.id,
+    exerciseId: ex.exerciseId || ex.id,
 
     images:
       ex.images?.length

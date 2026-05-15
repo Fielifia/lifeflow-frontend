@@ -119,7 +119,7 @@ export default function WorkoutRunPage() {
       {workout.exercises.map((ex, i) => (
         <ExerciseItem
           showCheckbox
-          key={`${ex.id}-${i}`}
+          key={ex.id}
           ex={ex}
           i={i}
           navigate={navigate}

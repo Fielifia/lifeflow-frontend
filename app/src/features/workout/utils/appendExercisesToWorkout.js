@@ -16,9 +16,7 @@ import { getPreviousExerciseApi } from '../../../shared/api/workoutApi'
 export async function appendExercisesToWorkout({ exercises, setWorkout }) {
   const results = await Promise.all(
     exercises.map(async (ex) => {
-
-      const prev = await getPreviousExerciseApi(ex.id)
-
+      const prev = await getPreviousExerciseApi(ex.exerciseId || ex.id)
       return buildWorkoutExercise(ex, prev)
     }),
   )
@@ -28,10 +26,7 @@ export async function appendExercisesToWorkout({ exercises, setWorkout }) {
     exercises: [
       ...prev.exercises,
       ...results.filter(
-        (newEx) =>
-          !prev.exercises.some(
-            (existing) => existing.id === newEx.id
-          ),
+        (newEx) => !prev.exercises.some((existing) => existing.exerciseId === newEx.exerciseId),
       ),
     ],
   }))
