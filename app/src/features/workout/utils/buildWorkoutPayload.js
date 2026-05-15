@@ -1,5 +1,5 @@
 import { serializeWorkoutExercise }
-  from './serializeWorkoutExercise'
+  from '../../../shared/utils/serializeWorkoutExercise'
 
 /**
  * Builds workout API payload.

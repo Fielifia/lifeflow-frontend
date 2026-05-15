@@ -9,7 +9,6 @@ import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 import { draftWorkoutStorage } from '../../../shared/utils/storage/draftStorage.js'
 import { EMPTY_WORKOUT } from '../constants.js'
-import { usePreviousExercise } from './usePreviousExercise'
 
 /**
  * Handles workout state, timers and actions.
@@ -74,7 +73,6 @@ export function useWorkoutLogic(navigate, workoutId) {
     registerActivity,
   } = useWorkoutContext()
 
-  const { getPreviousSets } = usePreviousExercise()
 
   // ===== INIT =====
   const [workout, setWorkout] = useState(() => {
@@ -110,7 +108,6 @@ export function useWorkoutLogic(navigate, workoutId) {
     const run = async () => {
       await appendExercisesToWorkout({
         exercises: selectedExercises,
-        getPreviousSets,
         setWorkout,
       })
 

@@ -1,4 +1,6 @@
 import API from './api'
+import { normalizeExercise } from '../utils/normalizeExercise'
+import { mapPreviousExercise } from '../../features/workout/utils/buildPreviousWorkoutData'
 
 export const getWorkouts = async () => {
   const res = await API.get('/workouts')
@@ -12,12 +14,22 @@ export const createWorkout = async (data) => {
 
 export const getWorkoutById = async (id) => {
   const res = await API.get(`/workouts/${id}`)
-  return res.data
+  return {
+    ...res.data,
+
+    exercises:
+      res.data.exercises?.map(
+        normalizeExercise,
+      ) || [],
+  }
 }
 
 export const getPreviousExercise = async (exerciseId) => {
-  const res = await API.get(`/workouts/exercises/${exerciseId}/previous`)
-  return res.data
+  const res = await API.get(
+    `/workouts/exercises/${exerciseId}/previous`,
+  )
+
+  return mapPreviousExercise(res.data)
 }
 
 export const updateWorkout = async (id, data) => {

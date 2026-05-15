@@ -81,15 +81,6 @@ export default function TemplateDetail() {
     )
   }
 
-  // ===== NORMALIZE =====
-  const normalizedExercises = (template.exercises || []).map((ex) => ({
-    ...ex,
-    image: ex.image || ex.images?.[0] || '',
-    images: ex.images || (ex.image ? [ex.image] : []),
-    restTime: ex.restTime ?? ex.rest ?? 120,
-    notes: ex.notes ?? '',
-  }))
-
   // ===== ACTIONS =====
   const handleStartWorkout = () => {
     const workoutId = Date.now()
@@ -121,7 +112,7 @@ export default function TemplateDetail() {
       {error && <p className="error center">{error}</p>}
 
       {/* EXERCISES */}
-      {normalizedExercises.map((ex, i) => (
+      {template.exercises.map((ex, i) => (
         <ExerciseItem
           key={ex.id || i}
           ex={ex}

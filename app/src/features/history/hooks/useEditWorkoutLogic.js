@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import API from '../../../shared/api/api'
-import { deleteWorkout } from '../../../shared/api/workoutApi'
-import { normalizeExercise } from '../../../shared/utils/normalizeExercise'
+import { deleteWorkout, getWorkoutById } from '../../../shared/api/workoutApi'
 import { workoutMutation } from '../../../shared/utils/workoutMutations'
 import { cleanWorkoutForSave } from '../../workout/utils/cleanWorkoutForSave'
 import { saveWorkoutAsTemplate } from '../../workout/utils/workoutPersistence'
+import { buildWorkoutPayload } from '../../workout/utils/buildWorkoutPayload'
 
 /**
  * Custom hook for editing workouts.
@@ -27,15 +27,9 @@ export function useEditWorkoutLogic(workoutId, navigate) {
     const fetchWorkout = async () => {
       try {
         setLoading(true)
-        const res = await API.get(`/workouts/${workoutId}`)
+        
 
-        const data = {
-          ...res.data,
-          exercises:
-            res.data.exercises.map(
-              normalizeExercise,
-            ),
-        }
+        const data = await getWorkoutById(workoutId)
 
         setWorkout(data)
       } catch (err) {
@@ -107,15 +101,10 @@ export function useEditWorkoutLogic(workoutId, navigate) {
         return
       }
 
-      const payload = {
-        name: workout.name?.trim() || 'Workout',
-        notes: workout.notes ?? '',
-        duration: workout.duration ?? 0,
-        exercises: cleaned.map((ex) => ({
-          ...ex,
-          rest: ex.restTime,
-        })),
-      }
+      const payload = buildWorkoutPayload(
+        workout,
+        workout.duration,
+      )
 
       const res = await API.put(`/workouts/${workoutId}`, payload)
 

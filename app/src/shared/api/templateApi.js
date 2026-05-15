@@ -1,4 +1,5 @@
 import API from './api'
+import { normalizeExercise } from '../utils/normalizeExercise'
 
 export const getTemplates = async ({ page = 1, limit = 5 } = {}) => {
   const res = await API.get('/templates', {
@@ -15,7 +16,15 @@ export const createTemplate = async (data) => {
 
 export const getTemplateById = async (id) => {
   const res = await API.get(`/templates/${id}`)
-  return res.data
+
+  return {
+    ...res.data,
+
+    exercises:
+      res.data.exercises?.map(
+        normalizeExercise,
+      ) || [],
+  }
 }
 
 export const updateTemplate = async (id, data) => {

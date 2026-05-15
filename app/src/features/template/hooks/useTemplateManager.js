@@ -7,7 +7,6 @@ import {
 } from '../../../shared/api/templateApi'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
-import { normalizeExercise } from '../../../shared/utils/normalizeExercise'
 import { draftTemplateStorage } from '../../../shared/utils/storage/draftStorage'
 import { workoutStorage } from '../../../shared/utils/storage/workoutStorage'
 import { appendExercisesToTemplate } from '../utils/appendExercisesToTemplate'
@@ -127,14 +126,8 @@ export function useTemplateManager(
         const data =
           await getTemplateById(id)
 
-        setTemplate({
-          ...data,
-
-          exercises:
-            data.exercises.map(
-              normalizeExercise,
-            ),
-        })
+        setTemplate(data)
+        
       } catch {
         setError(
           'Could not load template',
