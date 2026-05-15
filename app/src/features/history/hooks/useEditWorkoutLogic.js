@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import API from '../../../shared/api/api'
-import { workoutMutation } from '../../workout/utils/workoutMutations'
+import { deleteWorkout } from '../../../shared/api/workoutApi'
+import { workoutMutation } from '../../../shared/utils/workoutMutations'
 import { cleanWorkoutForSave } from '../../workout/utils/cleanWorkoutForSave'
+import { normalizeWorkoutExercise } from '../../../shared/utils/normalizeWorkoutExercise'
 
 /**
  * Custom hook for editing workouts.
@@ -28,10 +30,10 @@ export function useEditWorkoutLogic(workoutId, navigate) {
 
         const data = {
           ...res.data,
-          exercises: res.data.exercises.map((ex) => ({
-            ...ex,
-            restTime: ex.rest ?? 120,
-          })),
+          exercises:
+            res.data.exercises.map(
+              normalizeWorkoutExercise,
+            ),
         }
 
         setWorkout(data)
@@ -126,6 +128,30 @@ export function useEditWorkoutLogic(workoutId, navigate) {
     }
   }
 
+  // ===== DELETE =====
+  const deleteCurrentWorkout = async () => {
+    const confirmed = window.confirm(
+      'Delete this workout?',
+    )
+
+    if (!confirmed) {
+      return
+    }
+
+    try {
+      setError('')
+
+      await deleteWorkout(workoutId)
+
+      navigate('/history')
+    } catch (err) {
+      setError(
+        err.response?.data?.error ||
+        'Could not delete workout',
+      )
+    }
+  }
+
   return {
     workout,
     setWorkout,
@@ -139,10 +165,10 @@ export function useEditWorkoutLogic(workoutId, navigate) {
     setIsEditingName,
 
     // openLibrary,
-
     addSet,
     updateSet,
     removeSet,
+
     removeExercise,
     toggleSetComplete,
 
@@ -151,5 +177,6 @@ export function useEditWorkoutLogic(workoutId, navigate) {
     updateWorkoutNotes,
 
     saveWorkout,
+    deleteCurrentWorkout,
   }
 }

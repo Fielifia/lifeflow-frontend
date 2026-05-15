@@ -1,5 +1,5 @@
 import { getPreviousExercise } from '../../../shared/api/workoutApi'
-import { mapPreviousExercise } from '../utils/mapPreviousExercise'
+import { mapPreviousExercise } from '../utils/buildPreviousWorkoutData'
 
 export const usePreviousExercise = () => {
   const getPreviousSets = async (exerciseId) => {

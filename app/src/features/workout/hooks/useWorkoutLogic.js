@@ -1,17 +1,15 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import API from '../../../shared/api/api'
+import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations.js'
+import { appendExercisesToWorkout } from '../utils/appendExercisesToWorkout.js'
 import { buildWorkoutExercise } from '../utils/buildWorkoutExercise.js'
-import { useExerciseMutations } from './useExerciseMutations.js'
+import { saveWorkoutAsTemplate, saveWorkoutSession } from '../utils/workoutPersistence.js'
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 import { draftWorkoutStorage } from '../../../shared/utils/storage/draftStorage.js'
-import { mapWorkoutToTemplate } from '../../template/utils/mapWorkoutToTemplate'
 import { EMPTY_WORKOUT } from '../constants.js'
-import { cleanWorkoutForSave } from '../utils/cleanWorkoutForSave'
 import { usePreviousExercise } from './usePreviousExercise'
-
 
 /**
  * Handles workout state, timers and actions.
@@ -110,26 +108,11 @@ export function useWorkoutLogic(navigate, workoutId) {
     hasAddedRef.current = true
 
     const run = async () => {
-      const results = await Promise.all(
-        selectedExercises.map(async (ex) => {
-          const prev = await getPreviousSets(ex.id)
-
-          return buildWorkoutExercise(ex, prev)
-        }),
-      )
-
-      setWorkout((prev) => ({
-        ...prev,
-        exercises: [
-          ...prev.exercises,
-          ...results.filter(
-            (newEx) =>
-              !prev.exercises.some(
-                (existing) => existing.id === newEx.id,
-              ),
-          ),
-        ],
-      }))
+      await appendExercisesToWorkout({
+        exercises: selectedExercises,
+        getPreviousSets,
+        setWorkout,
+      })
 
       setSelectedExercises([])
       hasAddedRef.current = false
@@ -210,52 +193,54 @@ export function useWorkoutLogic(navigate, workoutId) {
       setError('')
       setSuccess(false)
 
-      const cleaned = cleanWorkoutForSave(workout)
-
-      if (!cleaned.length) {
-        setError('Complete at least one set')
-        return
-      }
-
-      const payload = {
-        ...workout,
-        name: workout.name?.trim() || 'Workout',
-        exercises: cleaned,
-        duration: elapsed,
-        notes: workout.notes,
-      }
-
-      const saved = await API.post('/workouts', payload)
+      const saved =
+        await saveWorkoutSession({
+          workout,
+          elapsed,
+        })
 
       setSuccess(true)
 
-      navigate(`/workouts/${saved.data._id}`, {
+      navigate(`/workouts/${saved._id}`, {
         state: {
           returnTo: '/workouts',
         },
       })
 
       setWorkout(EMPTY_WORKOUT)
+
       resetTimer()
       resetRest()
+
       setIsEditingName(false)
+
       setActiveWorkout(null)
 
       draftWorkoutStorage.clear()
     } catch (err) {
-      setError(err.response?.data?.error || 'Could not save workout')
+      setError(
+        err.response?.data?.error ||
+        err.message ||
+        'Could not save workout',
+      )
     } finally {
       setSaving(false)
     }
   }
 
+  // ===== SAVE AS TEMPLATE =====
   const saveAsTemplate = async () => {
     try {
-      const template = mapWorkoutToTemplate(workout)
-      await API.post('/templates', template)
+      await saveWorkoutAsTemplate({
+        workout,
+      })
+
       setSuccess(true)
     } catch (err) {
-      setError(err.response?.data?.error || 'Could not save template')
+      setError(
+        err.response?.data?.error ||
+        'Could not save template',
+      )
     }
   }
 

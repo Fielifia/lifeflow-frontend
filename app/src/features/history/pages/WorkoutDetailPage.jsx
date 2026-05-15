@@ -56,7 +56,7 @@ export default function WorkoutDetailPage() {
         title={workout.name}
         subtitle={formatDate(workout.date)}
       />
-      <BackButton fallback="/workouts" />
+      <BackButton fallback="/history" />
 
       {/* HEADER */}
       <WorkoutHeader

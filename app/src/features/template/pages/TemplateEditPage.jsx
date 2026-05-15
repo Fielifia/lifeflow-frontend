@@ -1,4 +1,4 @@
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { useTemplateLogic } from '../hooks/useTemplateLogic'
 
@@ -15,8 +15,7 @@ import TemplateControls from '../components/TemplateControls'
 export default function TemplateEditPage() {
   const navigate = useNavigate()
   const { id } = useParams()
-  
-  const location = useLocation()
+
   const isCreate = !id
 
   const {
@@ -32,7 +31,7 @@ export default function TemplateEditPage() {
     updateSet,
     removeExercise,
     removeSet,
-    
+
     updateExerciseRest,
     updateExerciseNotes,
 
@@ -42,7 +41,8 @@ export default function TemplateEditPage() {
     openLibrary,
 
     saveTemplate,
-  } = useTemplateLogic(navigate, location, id)
+    deleteCurrentTemplate,
+  } = useTemplateLogic(navigate, id)
 
   const { returnTo } = useExerciseFlow()
 
@@ -72,6 +72,19 @@ export default function TemplateEditPage() {
         showDuration={false}
       />
 
+      <TemplateControls
+        saveTemplate={saveTemplate}
+        saving={saving}
+      />
+
+      <button
+        className="btn btn-standard btn-danger btn-full "
+        onClick={deleteCurrentTemplate}
+        disabled={saving}
+      >
+        {saving ? 'Deleting...' : 'Delete Template'}
+      </button>
+
       {/* ADD EXERCISE */}
       <button className="btn btn-standard btn-secondary btn-full" onClick={openLibrary}>
         Add exercise
@@ -95,10 +108,6 @@ export default function TemplateEditPage() {
         />
       ))}
 
-      <TemplateControls
-        saveTemplate={saveTemplate}
-        saving={saving}
-      />
 
       {/* FEEDBACK */}
       {success && <p className="muted center">Template saved ✔</p>}

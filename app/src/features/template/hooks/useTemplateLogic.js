@@ -2,16 +2,17 @@ import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import {
   createTemplate,
+  deleteTemplate,
   getTemplateById,
   updateTemplate,
 } from '../../../shared/api/templateApi'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
 import { normalizeWorkoutExercise } from '../../../shared/utils/normalizeWorkoutExercise'
 import { serializeWorkoutExercise } from '../../../shared/utils/serializeWorkoutExercise'
 import { draftTemplateStorage } from '../../../shared/utils/storage/draftStorage'
 import { workoutStorage } from '../../../shared/utils/storage/workoutStorage'
-import { useExerciseMutations } from '../../workout/hooks/useExerciseMutations'
-import { mapExerciseToTemplate } from '../../workout/utils/mapExerciseToWorkout'
+import { buildTemplateExercise } from '../utils/buildTemplateExercise'
 
 /**
  * Hook for managing template creation and editing logic.
@@ -133,7 +134,7 @@ export function useTemplateLogic(navigate, id) {
         (e) => e.id === ex.id,
       )
 
-      return mapExerciseToTemplate(ex, previous)
+      return buildTemplateExercise(ex, previous)
     })
 
     setTemplate((prev) => ({
@@ -225,9 +226,34 @@ export function useTemplateLogic(navigate, id) {
     }
   }
 
+  // ===== DELETE =====
+  const deleteCurrentTemplate = async () => {
+    const confirmed = window.confirm(
+      'Delete this template?',
+    )
+
+    if (!confirmed) {
+      return
+    }
+
+    try {
+      setError('')
+
+      await deleteTemplate(id)
+
+      navigate('/workouts')
+    } catch (err) {
+      setError(
+        err.response?.data?.error ||
+        'Could not delete template',
+      )
+    }
+  }
+
   return {
     template,
     setTemplate,
+
     loading,
     saving,
     error,
@@ -239,10 +265,14 @@ export function useTemplateLogic(navigate, id) {
     openLibrary,
     addSet,
     updateSet,
-    removeExercise,
     removeSet,
+
+    removeExercise,
+
     updateExerciseRest,
     updateExerciseNotes,
+
     saveTemplate,
+    deleteCurrentTemplate,
   }
 }

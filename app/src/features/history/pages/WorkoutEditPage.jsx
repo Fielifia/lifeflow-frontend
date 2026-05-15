@@ -1,5 +1,6 @@
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useEditWorkoutLogic } from '../hooks/useEditWorkoutLogic'
+import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
 import BackButton from '../../../shared/ui/BackButton'
 import Header from '../../../shared/ui/Header'
@@ -12,7 +13,6 @@ import WorkoutHeader from '../../workout/components/WorkoutHeader'
  */
 export default function WorkoutEditPage() {
   const navigate = useNavigate()
-  const location = useLocation()
   const { id } = useParams()
 
   const {
@@ -29,7 +29,7 @@ export default function WorkoutEditPage() {
     removeExercise,
     removeSet,
     toggleSetComplete,
-    
+
     updateExerciseRest,
     updateExerciseNotes,
     updateWorkoutNotes,
@@ -38,7 +38,10 @@ export default function WorkoutEditPage() {
     setIsEditingName,
 
     saveWorkout,
-  } = useEditWorkoutLogic(id, location, navigate)
+    deleteCurrentWorkout,
+  } = useEditWorkoutLogic(id, navigate)
+
+  const { returnTo } = useExerciseFlow()
 
   if (loading) return <p className="center">Loading...</p>
   if (!workout) return <p className="center">Workout not found</p>
@@ -49,7 +52,9 @@ export default function WorkoutEditPage() {
         title={workout.name}
         subtitle="Edit workout"
       />
-      <BackButton fallback="/workouts" />
+      <BackButton
+        fallback={returnTo || '/history'}
+      />
 
       {/* HEADER */}
       <WorkoutHeader
@@ -74,6 +79,14 @@ export default function WorkoutEditPage() {
         disabled={saving}
       >
         {saving ? 'Saving...' : 'Save changes'}
+      </button>
+
+      <button
+        className="btn btn-standard btn-danger btn-full "
+        onClick={deleteCurrentWorkout}
+        disabled={saving}
+      >
+        {saving ? 'Deleting...' : 'Delete workout'}
       </button>
 
       {error && <p className="error center">{error}</p>}

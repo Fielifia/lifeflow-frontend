@@ -22,3 +22,8 @@ export const updateTemplate = async (id, data) => {
   const res = await API.put(`/templates/${id}`, data)
   return res.data
 }
+
+export const deleteTemplate = async (id) => {
+  const res = await API.delete(`/templates/${id}`)
+  return res.data
+}

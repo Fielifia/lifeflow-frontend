@@ -47,9 +47,10 @@ export function buildWorkoutExercise(
   } else if (ex.sets?.length) {
     sets = ex.sets.map((s) => ({
       ...s,
-      completed: resetCompleted
-        ? false
-        : s.completed,
+      completed:
+        resetCompleted
+          ? false
+          : (s.completed ?? false),
     }))
   }
 

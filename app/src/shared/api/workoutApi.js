@@ -24,3 +24,8 @@ export const updateWorkout = async (id, data) => {
   const res = await API.put(`/workouts/${id}`, data)
   return res.data
 }
+
+export const deleteWorkout = async (id) => {
+  const res = await API.delete(`/workouts/${id}`)
+  return res.data
+}
