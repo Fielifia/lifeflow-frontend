@@ -4,8 +4,8 @@ import { formatDate } from '../../../shared/utils/format'
 import {
   saveWorkoutAsTemplate,
 } from '../../workout/utils/workoutPersistence'
-import { useEditWorkoutLogic } from '../hooks/useEditWorkoutLogic'
 import { useWorkoutDetail } from '../hooks/useWorkoutDetail'
+import { useWorkoutManager } from '../hooks/useWorkoutManager'
 
 import BackButton from '../../../shared/ui/BackButton'
 import DataState from '../../../shared/ui/DataState'
@@ -38,7 +38,7 @@ export default function WorkoutDetailPage() {
   const {
     success,
     deleteCurrentWorkout,
-  } = useEditWorkoutLogic(id, navigate)
+  } = useWorkoutManager(id, navigate)
 
   const handleSaveTemplate =
     async () => {

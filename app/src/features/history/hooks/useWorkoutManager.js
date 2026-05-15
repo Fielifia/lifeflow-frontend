@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 import API from '../../../shared/api/api'
 import { deleteWorkout, getWorkoutById } from '../../../shared/api/workoutApi'
 import { workoutMutation } from '../../../shared/utils/workoutMutations'
+import { buildWorkoutPayload } from '../../workout/utils/buildWorkoutPayload'
 import { cleanWorkoutForSave } from '../../workout/utils/cleanWorkoutForSave'
 import { saveWorkoutAsTemplate } from '../../workout/utils/workoutPersistence'
-import { buildWorkoutPayload } from '../../workout/utils/buildWorkoutPayload'
 
 /**
  * Custom hook for editing workouts.
@@ -12,7 +12,7 @@ import { buildWorkoutPayload } from '../../workout/utils/buildWorkoutPayload'
  * @param {(path: string) => void} navigate - React Router navigate function.
  * @returns {object} Workout state and mutation handlers.
  */
-export function useEditWorkoutLogic(workoutId, navigate) {
+export function useWorkoutManager(workoutId, navigate) {
   // ===== STATE =====
   const [workout, setWorkout] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -27,7 +27,7 @@ export function useEditWorkoutLogic(workoutId, navigate) {
     const fetchWorkout = async () => {
       try {
         setLoading(true)
-        
+
 
         const data = await getWorkoutById(workoutId)
 
