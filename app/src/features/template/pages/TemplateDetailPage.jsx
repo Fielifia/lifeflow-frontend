@@ -2,14 +2,13 @@ import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { getTemplateById } from '../../../shared/api/templateApi'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
-import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 import BackButton from '../../../shared/ui/BackButton'
 import DataState from '../../../shared/ui/DataState'
 import Header from '../../../shared/ui/Header'
 import ExerciseItem from '../../workout/components/ExerciseItem'
 import TemplateControls from '../components/TemplateControls'
 import { useTemplateManager } from '../hooks/useTemplateManager'
-
+import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
 /**
  * Displays detailed view of a template.
  * @returns {import('react').ReactElement} Template detail UI
@@ -18,10 +17,10 @@ export default function TemplateDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
   const location = useLocation()
+  const { startWorkout } = useStartWorkout()
 
   const { setReturnTo } = useExerciseFlow()
 
-  const { setSelectedTemplate } = useWorkoutContext()
 
   const {
     success,
@@ -81,15 +80,6 @@ export default function TemplateDetail() {
     )
   }
 
-  // ===== ACTIONS =====
-  const handleStartWorkout = () => {
-    const workoutId = Date.now()
-
-    setSelectedTemplate(template)
-
-    navigate(`/workouts/${workoutId}/run`)
-  }
-
   return (
     <div className="app">
       <Header
@@ -99,9 +89,12 @@ export default function TemplateDetail() {
       <BackButton fallback="/workouts" />
 
       <TemplateControls
+        onStartWorkout={(e) => {
+          e.stopPropagation?.()
+          startWorkout({ template })
+        }}
         onEditTemplate={() => {
           setReturnTo(location.pathname)
-
           navigate(`/templates/${template._id}/edit`)
         }}
         onSaveTemplate={saveTemplate}
@@ -134,28 +127,6 @@ export default function TemplateDetail() {
         </div>
       )}
 
-      {/* ACTIONS */}
-      <div className="section">
-        <button
-          className="btn btn-standard btn-primary btn-full"
-          onClick={handleStartWorkout}
-        >
-          Start workout
-        </button>
-
-        <button
-          className="btn btn-standard btn-secondary btn-full"
-          onClick={() =>
-            navigate(`/templates/${template._id}/edit`, {
-              state: {
-                returnTo: `/templates/${template._id}`,
-              },
-            })
-          }
-        >
-          Edit template
-        </button>
-      </div>
     </div>
   )
 }

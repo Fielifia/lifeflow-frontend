@@ -7,7 +7,7 @@ import LoadingButton from '../../../shared/ui/LoadingButton'
  * @param {() => void} [props.onEditWorkout] - Opens workout edit page
  * @param {() => void} [props.onFinishWorkout] - Finishes and saves active workout session
  * @param {() => void} [props.onSaveWorkout] - Saves workout changes
- * @param {() => void} [props.onSaveAsTemplate] - Saves workout as template
+ * @param {() => void} [props.onSaveWorkoutAsTemplate] - Saves workout as template
  * @param {() => void} [props.discardWorkout] - Discards active workout session
  * @param {() => void} [props.deleteCurrentWorkout] - Deletes workout permanently
  * @param {boolean} [props.saving] - Whether a save action is in progress
@@ -16,17 +16,18 @@ import LoadingButton from '../../../shared/ui/LoadingButton'
  * @returns {import('react').ReactElement} Controls UI
  */
 export default function WorkoutControls({
-  status,
-  handleStartPause,
+  onStartWorkout,
+  onFinishWorkout,
+  onSaveWorkoutAsTemplate,
 
   onEditWorkout,
-
-  onFinishWorkout,
   onSaveWorkout,
-  onSaveAsTemplate,
 
-  discardWorkout,
-  deleteCurrentWorkout,
+  onDiscardWorkout,
+  onDeleteCurrentWorkout,
+
+  status,
+  handleStartPause,
 
   saving,
   loading,
@@ -63,12 +64,21 @@ export default function WorkoutControls({
       )}
 
       {/* DISCARD WORKOUT */}
-      {discardWorkout && (
+      {onDiscardWorkout && (
         <button
           className="btn btn-danger btn-full"
-          onClick={discardWorkout}
+          onClick={onDiscardWorkout}
         >
           Discard workout
+        </button>
+      )}
+
+      {onStartWorkout && (
+        <button
+          className="btn btn-standard btn-primary btn-full"
+          onClick={onStartWorkout}
+        >
+          Start workout
         </button>
       )}
 
@@ -94,21 +104,21 @@ export default function WorkoutControls({
       )}
 
       {/* SAVE WORKOUT AS TEMPLATE */}
-      {onSaveAsTemplate && (
+      {onSaveWorkoutAsTemplate && (
         <button
           className="btn btn-standard btn-secondary"
-          onClick={onSaveAsTemplate}
+          onClick={onSaveWorkoutAsTemplate}
         >
           Save as Template
         </button>
       )}
 
       {/* DELETE SAVED WORKOUT */}
-      {deleteCurrentWorkout && (
+      {onDeleteCurrentWorkout && (
         <LoadingButton
           className="btn btn-standard btn-danger"
           loading={loading}
-          onClick={deleteCurrentWorkout}
+          onClick={onDeleteCurrentWorkout}
         >
           Delete workout
         </LoadingButton>

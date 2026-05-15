@@ -42,17 +42,21 @@ export const getWorkoutById = async (id) => {
 
 // ===== GET PREVIOUS EXERCISE DATA =====
 export const getPreviousExercise = async (exerciseId) => {
-  const res = await API.get(
-    `/workouts/exercises/${exerciseId}/previous`,
-  )
-
-  return buildPreviousExerciseData(res.data)
-}
-
-// ===== UPDATE WORKOUTS =====
-export const updateWorkout = async (id, data) => {
-  const res = await API.put(`/workouts/${id}`, data)
-  return res.data
+  try {
+    const res = await API.get(`/workouts/exercises/${exerciseId}/previous`)
+    const data = buildPreviousExerciseData(res.data)
+    return (
+      data || {
+        sets: [{ reps: 10, weight: 0, completed: false }],
+        bestSet: { reps: 0, weight: 0 },
+      }
+    )
+  } catch {
+    return {
+      sets: [{ reps: 10, weight: 0, completed: false }],
+      bestSet: { reps: 0, weight: 0 },
+    }
+  }
 }
 
 // ===== DELETE WORKOUTS =====

@@ -27,6 +27,9 @@ export function WorkoutProvider({ children }) {
   const [selectedTemplate, setSelectedTemplate] =
     useState(null)
 
+  const [selectedWorkout, setSelectedWorkout] =
+    useState(null)
+
   return (
     <WorkoutContext.Provider
       value={{
@@ -50,6 +53,9 @@ export function WorkoutProvider({ children }) {
 
         selectedTemplate,
         setSelectedTemplate,
+
+        selectedWorkout,
+        setSelectedWorkout,
         
         registerActivity: timer.registerActivity,
       }}

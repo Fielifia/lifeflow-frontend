@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom'
-import { useEditWorkoutLogic } from '../hooks/useEditWorkoutLogic'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import WorkoutControls from '../../workout/components/WorkoutControls'
+import { useEditWorkoutLogic } from '../hooks/useEditWorkoutLogic'
 
 import BackButton from '../../../shared/ui/BackButton'
 import Header from '../../../shared/ui/Header'
@@ -85,7 +85,7 @@ export default function WorkoutEditPage() {
       <WorkoutControls
         saving={saving}
         onSaveWorkout={saveWorkout}
-        onSaveAsTemplate={saveAsTemplate}
+        onSaveWorkoutAsTemplate={saveAsTemplate}
         deleteCurrentWorkout={deleteCurrentWorkout}
         hasExercises={workout.exercises.length > 0}
       />

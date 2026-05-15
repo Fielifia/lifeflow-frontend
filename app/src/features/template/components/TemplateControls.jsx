@@ -13,8 +13,8 @@ import LoadingButton from '../../../shared/ui/LoadingButton'
  * @returns {import('react').ReactElement} Template controls UI
  */
 export default function TemplateControls({
+  onStartWorkout,
   onEditTemplate,
-  onUseTemplate,
   onSaveTemplate,
   onDeleteTemplate,
 
@@ -33,12 +33,12 @@ export default function TemplateControls({
         </button>
       )}
 
-      {onUseTemplate && (
+      {onStartWorkout && (
         <button
           className="btn btn-standard btn-primary btn-full"
-          onClick={onUseTemplate}
+          onClick={onStartWorkout}
         >
-          Use template
+          Start workout
         </button>
       )}
 

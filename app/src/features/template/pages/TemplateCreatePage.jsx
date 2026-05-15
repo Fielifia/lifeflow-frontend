@@ -121,8 +121,9 @@ export default function TemplateEditPage() {
       ))}
 
       <TemplateControls
-        saveTemplate={saveTemplate}
+        onSaveTemplate={saveTemplate}
         saving={saving}
+        hasExercises={template.exercises.length > 0}
       />
 
       {/* FEEDBACK */}

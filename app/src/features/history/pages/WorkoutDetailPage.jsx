@@ -1,18 +1,18 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { formatDate } from '../../../shared/utils/format'
-import { useWorkoutDetail } from '../hooks/useWorkoutDetail'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
-import { useEditWorkoutLogic } from '../hooks/useEditWorkoutLogic'
+import { formatDate } from '../../../shared/utils/format'
 import {
   saveWorkoutAsTemplate,
 } from '../../workout/utils/workoutPersistence'
+import { useEditWorkoutLogic } from '../hooks/useEditWorkoutLogic'
+import { useWorkoutDetail } from '../hooks/useWorkoutDetail'
 
 import BackButton from '../../../shared/ui/BackButton'
 import DataState from '../../../shared/ui/DataState'
 import Header from '../../../shared/ui/Header'
 import ExerciseItem from '../../workout/components/ExerciseItem'
-import WorkoutHeader from '../../workout/components/WorkoutHeader'
 import WorkoutControls from '../../workout/components/WorkoutControls'
+import WorkoutHeader from '../../workout/components/WorkoutHeader'
 import WorkoutSummary from '../components/WorkoutSummary'
 
 /**
@@ -104,7 +104,7 @@ export default function WorkoutDetailPage() {
 
           navigate(`/workouts/${workout._id}/edit`)
         }}
-        onSaveTemplate={handleSaveTemplate}
+        onSaveWorkoutAsTemplate={handleSaveTemplate}
         deleteCurrentWorkout={deleteCurrentWorkout}
       />
       {success && <p className="muted center">Workout saved ✔</p>}
