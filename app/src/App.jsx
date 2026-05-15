@@ -12,9 +12,8 @@ import WorkoutDetailPage from './features/history/pages/WorkoutDetailPage'
 import WorkoutEditPage from './features/history/pages/WorkoutEditPage'
 import WorkoutHistoryPage from './features/history/pages/WorkoutHistoryPage'
 import StatsPage from './features/stats/pages/StatsPage'
-import TemplateCreatePage from './features/template/pages/TemplateCreatePage'
 import TemplateDetailPage from './features/template/pages/TemplateDetailPage'
-import TemplateEditPage from './features/template/pages/TemplateEditPage'
+import TemplateEditorPage from './features/template/pages/TemplateEditorPage'
 import WorkoutSessionBarWrapper from './features/workout/components/session/WorkoutSessionBarWrapper'
 import WorkoutRunPage from './features/workout/pages/WorkoutRunPage'
 import WorkoutStartPage from './features/workout/pages/WorkoutStartPage'
@@ -82,8 +81,8 @@ function App() {
                 />
 
                 <Route path="/templates/:id" element={<TemplateDetailPage />} />
-                <Route path="/templates/create" element={<TemplateCreatePage />} />
-                <Route path="/templates/:id/edit" element={<TemplateEditPage />} />
+                <Route path="/templates/create" element={<TemplateEditorPage />} />
+                <Route path="/templates/:id/edit" element={<TemplateEditorPage />} />
 
                 <Route path="/history" element={<WorkoutHistoryPage />} />
                 <Route path="/workouts/:id" element={<WorkoutDetailPage />} />

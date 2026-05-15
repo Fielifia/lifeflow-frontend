@@ -1,6 +1,6 @@
 import API from '../../../shared/api/api'
+import { buildWorkoutPayload } from './buildWorkoutPayload'
 import { buildTemplatePayload } from '../../template/utils/buildTemplatePayload'
-import { cleanWorkoutForSave } from './cleanWorkoutForSave'
 
 /**
  * Saves a completed workout session.
@@ -20,7 +20,7 @@ export async function saveWorkoutSession({
   elapsed,
 }) {
   const cleaned =
-    cleanWorkoutForSave(workout)
+    buildWorkoutPayload(workout)
 
   if (!cleaned.length) {
     throw new Error(

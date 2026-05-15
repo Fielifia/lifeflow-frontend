@@ -1,16 +1,20 @@
-import { useEffect, useState } from 'react'
+import {
+  useEffect,
+  useState
+} from 'react'
 import { useLocation } from 'react-router-dom'
-import { getTemplateByIdApi } from '../../../shared/api/templateApi'
+import {
+  createTemplateApi,
+  getTemplateByIdApi,
+  updateTemplateApi,
+  deleteTemplateApi
+} from '../../../shared/api/templateApi'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
 import { draftTemplateStorage } from '../../../shared/utils/storage/draftStorage'
 import { workoutStorage } from '../../../shared/utils/storage/workoutStorage'
 import { appendExercisesToTemplate } from '../utils/appendExercisesToTemplate'
-import { deleteTemplateApi } from '../../../shared/api/templateApi'
-import {
-  createTemplate,
-  updateSavedTemplate
-} from '../utils/templatePersistence'
+import { buildTemplatePayload } from '../utils/buildTemplatePayload'
 
 /**
  * Handles template creation and editing logic.
@@ -157,39 +161,36 @@ export function useTemplateManager(
   )
 
   // ===== SAVE =====
-  const saveCurrentTemplate =
-    async () => {
-      try {
-        setSaving(true)
-        setError('')
-        setSuccess(false)
+  const saveCurrentTemplate = async () => {
+    try {
+      setSaving(true)
+      setError('')
+      setSuccess(false)
 
-        if (isCreate) {
-          await createTemplate({
-            template,
-          })
-        } else {
-          await updateSavedTemplate({
-            id,
-            template,
-          })
-        }
+      const payload =
+        buildTemplatePayload(template)
 
-        setSuccess(true)
-
-        draftTemplateStorage.clear()
-
-        navigate('/workouts')
-      } catch (err) {
-        setError(
-          err.message ||
-          err.response?.data?.error ||
-          'Could not save template',
-        )
-      } finally {
-        setSaving(false)
+      if (isCreate) {
+        await createTemplateApi(payload)
+      } else {
+        await updateTemplateApi(id, payload)
       }
+
+      setSuccess(true)
+
+      draftTemplateStorage.clear()
+
+      navigate('/workouts')
+    } catch (err) {
+      setError(
+        err.message ||
+        err.response?.data?.error ||
+        'Could not save template',
+      )
+    } finally {
+      setSaving(false)
     }
+  }
 
   // ===== DELETE =====
   const deleteTemplate = async () => {

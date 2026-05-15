@@ -3,6 +3,9 @@ import { serializeWorkoutExercise }
 
 /**
  * Builds workout API payload.
+ * 
+ * Converts frontend template/workout
+ * state into backend workout format.
  *
  * Removes incomplete exercises
  * and converts frontend workout

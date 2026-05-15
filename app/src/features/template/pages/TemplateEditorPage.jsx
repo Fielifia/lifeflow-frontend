@@ -12,10 +12,9 @@ import TemplateControls from '../components/TemplateControls'
  * Page for editing a workout template.
  * @returns {import('react').ReactElement} Template edit page UI
  */
-export default function TemplateEditPage() {
+export default function TemplateEditorPage() {
   const navigate = useNavigate()
   const { id } = useParams()
-
   const isCreate = !id
 
   const {
@@ -75,6 +74,7 @@ export default function TemplateEditPage() {
       <TemplateControls
         onSaveTemplate={saveCurrentTemplate}
         saving={saving}
+        hasExercises={template.exercises.length > 0}
         onDeleteTemplate={deleteTemplate}
       />
 

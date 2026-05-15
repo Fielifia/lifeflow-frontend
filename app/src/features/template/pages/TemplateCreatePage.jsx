@@ -45,7 +45,6 @@ import { useTemplateManager } from '../hooks/useTemplateManager'
  */
 export default function TemplateEditPage() {
   const navigate = useNavigate()
-
   const { id } = useParams()
   const isCreate = !id
 

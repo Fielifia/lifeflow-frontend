@@ -1,10 +1,16 @@
-import { useEffect, useState } from 'react'
-import API from '../../../shared/api/api'
-import { getWorkoutByIdApi, deleteWorkoutApi } from '../../../shared/api/workoutApi'
+import {
+  useEffect,
+  useState
+} from 'react'
+import { createTemplateApi } from '../../../shared/api/templateApi'
+import {
+  deleteWorkoutApi,
+  getWorkoutByIdApi,
+  updateWorkoutApi
+} from '../../../shared/api/workoutApi'
 import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
 import { buildWorkoutPayload } from '../../workout/utils/buildWorkoutPayload'
-import { cleanWorkoutForSave } from '../../workout/utils/cleanWorkoutForSave'
-import { saveWorkoutAsTemplate } from '../../workout/utils/workoutPersistence'
+import { buildTemplatePayload } from '../../template/utils/buildTemplatePayload'
 
 /**
  * Custom hook for editing workouts.
@@ -33,7 +39,8 @@ export function useWorkoutManager(workoutId, navigate) {
 
         setWorkout(data)
       } catch (err) {
-        setError('Failed to load workout')
+        setError(err.response?.data?.error ||
+          'CFailed to load workout',)
       } finally {
         setLoading(false)
       }
@@ -67,23 +74,21 @@ export function useWorkoutManager(workoutId, navigate) {
       setError('')
       setSuccess(false)
 
-      const cleaned = cleanWorkoutForSave(workout)
+      const payload =
+        buildWorkoutPayload(
+          workout,
+          workout.duration,
+        )
 
-      if (!cleaned.length) {
-        setError('Complete at least one set')
-        return
-      }
-
-      const payload = buildWorkoutPayload(
-        workout,
-        workout.duration,
-      )
-
-      const res = await API.put(`/workouts/${workoutId}`, payload)
+      const updated =
+        await updateWorkoutApi(
+          workoutId,
+          payload,
+        )
 
       setSuccess(true)
 
-      navigate(`/workouts/${res.data._id}`)
+      navigate(`/workouts/${updated._id}`)
     } catch (err) {
       setError(err.response?.data?.error || 'Could not update workout')
     } finally {
@@ -98,9 +103,10 @@ export function useWorkoutManager(workoutId, navigate) {
       setError('')
       setSuccess(false)
 
-      await saveWorkoutAsTemplate({
-        workout,
-      })
+      const payload =
+        buildTemplatePayload(workout)
+
+      await createTemplateApi(payload)
 
       setSuccess(true)
     } catch (err) {

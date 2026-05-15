@@ -59,7 +59,13 @@ export const getPreviousExerciseApi = async (exerciseId) => {
   }
 }
 
-// ===== DELETE WORKOUTS =====
+// ===== UPDATE WORKOUT =====
+export const updateWorkoutApi = async (id, data) => {
+  const res = await API.put(`/workouts/${id}`, data)
+  return res.data
+}
+
+// ===== DELETE WORKOUT =====
 export const deleteWorkoutApi = async (id) => {
   const res = await API.delete(`/workouts/${id}`)
   return res.data
