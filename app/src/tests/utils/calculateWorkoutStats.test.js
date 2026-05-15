@@ -1,122 +1,121 @@
-import { cleanWorkoutForSave } from '../../features/workout/utils/cleanWorkoutForSave'
+import { calculateWorkoutStats }
+  from '../../shared/utils/calculateWorkoutStats'
 
-describe('cleanWorkoutForSave', () => {
-  test('removes incomplete sets', () => {
+describe('calculateWorkoutStats', () => {
+  test('calculates total sets', () => {
     const workout = {
       exercises: [
         {
           sets: [
-            { completed: false, reps: '', weight: '' },
-            { completed: true, reps: 10, weight: 50 },
+            { reps: 10, weight: 50 },
+            { reps: 8, weight: 60 },
+          ],
+        },
+        {
+          sets: [
+            { reps: 5, weight: 100 },
           ],
         },
       ],
     }
 
-    const cleaned = cleanWorkoutForSave(workout)
+    const stats =
+      calculateWorkoutStats(workout)
 
-    expect(cleaned[0].sets).toHaveLength(1)
+    expect(stats.totalSets).toBe(3)
   })
 
-  test('removes exercises with no completed sets', () => {
+  test('calculates total reps', () => {
     const workout = {
       exercises: [
         {
-          name: 'Bench Press',
           sets: [
-            { completed: false },
-            { completed: false },
+            { reps: 10, weight: 50 },
+            { reps: 8, weight: 60 },
           ],
         },
       ],
     }
 
-    const cleaned = cleanWorkoutForSave(workout)
+    const stats =
+      calculateWorkoutStats(workout)
 
-    expect(cleaned).toHaveLength(0)
+    expect(stats.totalReps).toBe(18)
   })
 
-  test('maps restTime to rest', () => {
+  test('calculates total volume', () => {
     const workout = {
       exercises: [
         {
-          restTime: 90,
-          sets: [{ completed: true }],
-        },
-      ],
-    }
-
-    const cleaned = cleanWorkoutForSave(workout)
-
-    expect(cleaned[0].rest).toBe(90)
-  })
-
-  test('preserves workout notes', () => {
-    const workout = {
-      exercises: [
-        {
-          notes: 'Felt strong today',
           sets: [
-            {
-              completed: true,
-              reps: 10,
-              weight: 50,
-            },
+            { reps: 10, weight: 50 },
+            { reps: 8, weight: 60 },
           ],
         },
       ],
     }
 
-    const cleaned = cleanWorkoutForSave(workout)
+    const stats =
+      calculateWorkoutStats(workout)
 
-    expect(cleaned[0].notes).toBe('Felt strong today')
+    expect(stats.totalVolume).toBe(980)
   })
 
-  test('preserves completed set values', () => {
+  test('returns personal best count', () => {
     const workout = {
-      exercises: [
-        {
-          sets: [
-            {
-              completed: true,
-              reps: 8,
-              weight: 100,
-            },
-          ],
-        },
-      ],
+      exercises: [],
+      personalBests: 3,
     }
 
-    const cleaned = cleanWorkoutForSave(workout)
+    const stats =
+      calculateWorkoutStats(workout)
 
-    expect(cleaned[0].sets[0]).toEqual({
-      completed: true,
-      reps: 8,
-      weight: 100,
+    expect(stats.personalBests).toBe(3)
+  })
+
+  test('returns workout duration', () => {
+    const workout = {
+      exercises: [],
+      duration: 3600,
+    }
+
+    const stats =
+      calculateWorkoutStats(workout)
+
+    expect(stats.duration).toBe(3600)
+  })
+
+  test('returns zero values for invalid workout', () => {
+    const stats =
+      calculateWorkoutStats(null)
+
+    expect(stats).toEqual({
+      totalSets: 0,
+      totalReps: 0,
+      totalVolume: 0,
+      personalBests: 0,
+      duration: 0,
     })
   })
 
-  test('handles multiple exercises correctly', () => {
+  test('handles string values safely', () => {
     const workout = {
       exercises: [
         {
-          name: 'Bench Press',
           sets: [
-            { completed: true, reps: 10, weight: 50 },
-          ],
-        },
-        {
-          name: 'Squat',
-          sets: [
-            { completed: false, reps: 5, weight: 100 },
+            {
+              reps: '10',
+              weight: '50',
+            },
           ],
         },
       ],
     }
 
-    const cleaned = cleanWorkoutForSave(workout)
+    const stats =
+      calculateWorkoutStats(workout)
 
-    expect(cleaned).toHaveLength(1)
-    expect(cleaned[0].name).toBe('Bench Press')
+    expect(stats.totalReps).toBe(10)
+    expect(stats.totalVolume).toBe(500)
   })
 })
