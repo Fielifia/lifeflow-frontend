@@ -53,8 +53,6 @@ export default function TemplateEditorPage() {
     id,
   )
 
-  console.log('template render', template)
-
   // ===== LOADING =====
   if (loading) {
     return (

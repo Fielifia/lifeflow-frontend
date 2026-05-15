@@ -103,9 +103,10 @@ export default function ExerciseItem({
     weight: 0,
     reps: 0,
   }
-
+  
   let currentBest = { ...historicalBest }
-
+  
+  console.log(ex)
   return (
     <div className="workout-exercise">
       {/* HEADER */}
@@ -114,6 +115,7 @@ export default function ExerciseItem({
           src={ex.image || ex.images?.[0] || '/placeholder.png'}
           alt=""
           className="exercise-img-small"
+          
           onClick={() => navigate(`/exercises/${ex.id}`)}
         />
 

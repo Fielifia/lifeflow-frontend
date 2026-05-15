@@ -23,7 +23,7 @@ export async function appendExercisesToTemplate({
     const previous =
       lastWorkout?.exercises?.find(
         (e) =>
-          (e.exerciseId || e.id) === ex.id,
+          e.id === ex.id,
       ) || null
 
     return buildTemplateExercise(

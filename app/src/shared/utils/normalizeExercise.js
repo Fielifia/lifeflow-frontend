@@ -27,11 +27,7 @@ export function normalizeExercise(ex) {
   return {
     ...ex,
 
-    id:
-      ex.id || crypto.randomUUID(),
-
-    exerciseId:
-      ex.exerciseId || ex.id,
+    id: ex.id || ex.exerciseId,
 
     images:
       ex.images?.length

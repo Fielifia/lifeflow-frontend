@@ -6,25 +6,20 @@ import { useLocation } from 'react-router-dom'
 
 import {
   createTemplateApi,
+  deleteTemplateApi,
   getTemplateByIdApi,
   updateTemplateApi,
-  deleteTemplateApi,
 } from '../../../shared/api/templateApi'
 
-import { useExerciseFlow }
-  from '../../../shared/context/ExerciseFlowContext'
+import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
-import { useExerciseMutations }
-  from '../../../shared/hooks/useExerciseMutations'
+import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
 
-import { draftTemplateStorage }
-  from '../../../shared/utils/storage/draftStorage'
+import { draftTemplateStorage } from '../../../shared/utils/storage/draftStorage'
 
-import { appendExercisesToTemplate }
-  from '../utils/appendExercisesToTemplate'
+import { appendExercisesToTemplate } from '../utils/appendExercisesToTemplate'
 
-import { buildTemplatePayload }
-  from '../utils/buildTemplatePayload'
+import { buildTemplatePayload } from '../utils/buildTemplatePayload'
 
 /**
  * Handles template creation and editing logic.
@@ -106,7 +101,6 @@ export function useTemplateManager(
       return
     }
 
-    // använd edit-state om det redan finns
     if (
       editingTemplate &&
       editingTemplate._id === id
@@ -126,7 +120,6 @@ export function useTemplateManager(
 
           setTemplate(data)
 
-          // spara EN gång
           setEditingTemplate(data)
         } catch {
           setError(
@@ -190,7 +183,6 @@ export function useTemplateManager(
       return
     }
 
-    // undvik loop
     if (
       editingTemplate === template
     ) {
@@ -253,10 +245,21 @@ export function useTemplateManager(
             payload,
           )
 
-          // clear edit cache
           setEditingTemplate(
             null,
           )
+        }
+
+        if (isCreate) {
+          const created = await createTemplateApi(payload)
+          draftTemplateStorage.clear()
+
+          navigate(`/templates/${created._id}`)
+        } else {
+          await updateTemplateApi(id, payload)
+          setEditingTemplate(null)
+
+          navigate(`/templates/${id}`) 
         }
 
         setSuccess(true)
