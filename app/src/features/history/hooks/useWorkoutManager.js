@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import API from '../../../shared/api/api'
-import { getWorkoutById } from '../../../shared/api/workoutApi'
+import { getWorkoutByIdApi, deleteWorkoutApi } from '../../../shared/api/workoutApi'
 import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
 import { buildWorkoutPayload } from '../../workout/utils/buildWorkoutPayload'
 import { cleanWorkoutForSave } from '../../workout/utils/cleanWorkoutForSave'
@@ -29,7 +29,7 @@ export function useWorkoutManager(workoutId, navigate) {
         setLoading(true)
 
 
-        const data = await getWorkoutById(workoutId)
+        const data = await getWorkoutByIdApi(workoutId)
 
         setWorkout(data)
       } catch (err) {
@@ -126,7 +126,7 @@ export function useWorkoutManager(workoutId, navigate) {
     try {
       setError('')
 
-      await deleteWorkout(workoutId)
+      await deleteWorkoutApi(workoutId)
 
       navigate('/history')
     } catch (err) {

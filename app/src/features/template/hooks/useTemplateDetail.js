@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getTemplateById } from '../../../shared/api/templateApi'
+import { getTemplateByIdApi } from '../../../shared/api/templateApi'
 
 /**
  * Fetches template detail data.
@@ -28,7 +28,7 @@ export function useTemplateDetail(id) {
         setLoading(true)
         setError('')
 
-        const data = await getTemplateById(id)
+        const data = await getTemplateByIdApi(id)
 
         setTemplate(data)
       } catch {

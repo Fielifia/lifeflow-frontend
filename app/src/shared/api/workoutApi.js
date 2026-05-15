@@ -3,7 +3,7 @@ import { normalizeExercise } from '../utils/normalizeExercise'
 import API from './api'
 
 // ===== GET WORKOUTS =====
-export const getWorkouts = async () => {
+export const getWorkoutsApi = async () => {
   const res = await API.get('/workouts')
 
   return {
@@ -22,13 +22,13 @@ export const getWorkouts = async () => {
 }
 
 // ===== CREATE WORKOUT =====
-export const createWorkout = async (data) => {
+export const createWorkoutApi = async (data) => {
   const res = await API.post('/workouts', data)
   return res.data
 }
 
 // ===== GET WORKOUT BY ID =====
-export const getWorkoutById = async (id) => {
+export const getWorkoutByIdApi = async (id) => {
   const res = await API.get(`/workouts/${id}`)
   return {
     ...res.data,
@@ -41,7 +41,7 @@ export const getWorkoutById = async (id) => {
 }
 
 // ===== GET PREVIOUS EXERCISE DATA =====
-export const getPreviousExercise = async (exerciseId) => {
+export const getPreviousExerciseApi = async (exerciseId) => {
   try {
     const res = await API.get(`/workouts/exercises/${exerciseId}/previous`)
     const data = buildPreviousExerciseData(res.data)
@@ -60,7 +60,7 @@ export const getPreviousExercise = async (exerciseId) => {
 }
 
 // ===== DELETE WORKOUTS =====
-export const deleteWorkout = async (id) => {
+export const deleteWorkoutApi = async (id) => {
   const res = await API.delete(`/workouts/${id}`)
   return res.data
 }

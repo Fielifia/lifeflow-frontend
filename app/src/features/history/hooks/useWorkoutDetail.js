@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { getWorkoutById } from '../../../shared/api/workoutApi'
+import { getWorkoutByIdApi } from '../../../shared/api/workoutApi'
 import { calculateWorkoutStats } from '../../../shared/utils/calculateWorkoutStats'
 
 /**
@@ -36,7 +36,7 @@ export function useWorkoutDetail(id) {
       try {
         setLoading(true)
 
-        const data = await getWorkoutById(id)
+        const data = await getWorkoutByIdApi(id)
 
         setWorkout(data)
       } catch {

@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
-import { getWorkouts } from '../../../shared/api/workoutApi'
+import { getWorkoutsApi } from '../../../shared/api/workoutApi'
 import DataState from '../../../shared/ui/DataState'
 import Header from '../../../shared/ui/Header'
 import WorkoutCard from '../components/WorkoutCard'
@@ -27,7 +27,7 @@ export default function WorkoutHistoryPage() {
       try {
         setLoading(true)
         setError(null)
-        const data = await getWorkouts()
+        const data = await getWorkoutsApi()
         setWorkouts(Array.isArray(data) ? data : data.results || [])
       } catch (err) {
         setError(err)

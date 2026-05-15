@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
-import { getTemplates } from '../../../shared/api/templateApi'
+import { getTemplatesApi } from '../../../shared/api/templateApi'
 import DataState from '../../../shared/ui/DataState'
 import TemplateCard from './TemplateCard'
 
@@ -28,7 +28,7 @@ export default function TemplateList({ limit = 5 }) {
       try {
         setLoading(true)
         setError(null)
-        const data = await getTemplates({ limit: 100 })
+        const data = await getTemplatesApi({ limit: 100 })
         setTemplates(Array.isArray(data) ? data : data.results || [])
       } catch (err) {
         setError(err)

@@ -30,19 +30,25 @@ export async function appendExercisesToTemplate({
     )
   })
 
-  setTemplate((prev) => ({
-    ...prev,
+  setTemplate((prev) => {
+    if (!prev) {
+      return prev
+    }
 
-    exercises: [
-      ...prev.exercises,
+    return {
+      ...prev,
 
-      ...results.filter(
-        (newEx) =>
-          !prev.exercises.some(
-            (existing) =>
-              existing.id === newEx.id,
-          ),
-      ),
-    ],
-  }))
+      exercises: [
+        ...prev.exercises,
+
+        ...results.filter(
+          (newEx) =>
+            !prev.exercises.some(
+              (existing) =>
+                existing.id === newEx.id,
+            ),
+        ),
+      ],
+    }
+  })
 }

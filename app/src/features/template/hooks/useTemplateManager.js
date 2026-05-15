@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-
+import { getTemplateByIdApi } from '../../../shared/api/templateApi'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
 import { draftTemplateStorage } from '../../../shared/utils/storage/draftStorage'
 import { workoutStorage } from '../../../shared/utils/storage/workoutStorage'
 import { appendExercisesToTemplate } from '../utils/appendExercisesToTemplate'
+import { deleteTemplateApi } from '../../../shared/api/templateApi'
 import {
   createTemplate,
   updateSavedTemplate
@@ -44,15 +45,10 @@ export function useTemplateManager(
   const isCreate = !id
 
   // ===== STATE =====
-
-  const [saving, setSaving] =
-    useState(false)
-
-  const [success, setSuccess] =
-    useState(false)
-
-  const [error, setError] =
-    useState('')
+  const [loading, setLoading] = useState(!isCreate)
+  const [saving, setSaving] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState('')
 
   const [
     isEditingName,
@@ -68,20 +64,17 @@ export function useTemplateManager(
   // ===== INIT =====
   const [template, setTemplate] =
     useState(() => {
+      if (!isCreate) {
+        return null
+      }
+
       try {
-        const stored =
-          draftTemplateStorage.get()
+        const stored = draftTemplateStorage.get()
 
         return {
-          name:
-            stored?.name?.trim() ||
-            'Template',
-
-          exercises:
-            stored?.exercises || [],
-
-          notes:
-            stored?.notes || '',
+          name: stored?.name?.trim() || 'Template',
+          exercises: stored?.exercises || [],
+          notes: stored?.notes || '',
         }
       } catch {
         return {
@@ -101,6 +94,27 @@ export function useTemplateManager(
     draftTemplateStorage.set(template)
   }, [template, isCreate])
 
+  useEffect(() => {
+    if (isCreate) {
+      return
+    }
+
+    const fetchTemplate = async () => {
+      try {
+        setLoading(true)
+
+        const data = await getTemplateByIdApi(id)
+
+        setTemplate(data)
+      } catch {
+        setError('Could not load template')
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    fetchTemplate()
+  }, [id, isCreate])
 
   // ===== ADD FROM LIBRARY =====
   useEffect(() => {
@@ -190,7 +204,7 @@ export function useTemplateManager(
     try {
       setError('')
 
-      await deleteTemplate(id)
+      await deleteTemplateApi(id)
 
       navigate('/workouts')
     } catch (err) {
@@ -208,6 +222,7 @@ export function useTemplateManager(
     saving,
     success,
     error,
+    loading,
 
     isEditingName,
     setIsEditingName,

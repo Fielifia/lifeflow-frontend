@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { getWorkouts } from '../../../shared/api/workoutApi'
+import { getWorkoutsApi } from '../../../shared/api/workoutApi'
 
 /**
  * Fetches paginated workouts for the authenticated user.
@@ -29,7 +29,7 @@ export const useWorkouts = ({
       try {
         setLoading(true)
 
-        const data = await getWorkouts({
+        const data = await getWorkoutsApi({
           page,
           limit,
         })

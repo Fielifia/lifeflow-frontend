@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { getTemplates } from '../../../shared/api/templateApi'
+import { getTemplatesApi } from '../../../shared/api/templateApi'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 import DataState from '../../../shared/ui/DataState'
 import Header from '../../../shared/ui/Header'
@@ -59,7 +59,7 @@ export default function WorkoutStart() {
         setLoading(true)
         setError(null)
 
-        const data = await getTemplates({ limit: 5 })
+        const data = await getTemplatesApi({ limit: 5 })
         setTemplates(data.results || [])
       } catch (err) {
         console.error(err)

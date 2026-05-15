@@ -1,5 +1,5 @@
 import { buildWorkoutExercise } from './buildWorkoutExercise'
-import { getPreviousExercise } from '../../../shared/api/workoutApi'
+import { getPreviousExerciseApi } from '../../../shared/api/workoutApi'
 
 /**
  * Appends exercises to workout state.
@@ -17,7 +17,7 @@ export async function appendExercisesToWorkout({ exercises, setWorkout }) {
   const results = await Promise.all(
     exercises.map(async (ex) => {
 
-      const prev = await getPreviousExercise(ex.id)
+      const prev = await getPreviousExerciseApi(ex.id)
 
       return buildWorkoutExercise(ex, prev)
     }),
