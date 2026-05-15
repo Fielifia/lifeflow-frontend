@@ -7,7 +7,6 @@ import { getTemplateByIdApi } from '../../../shared/api/templateApi'
  * Handles:
  * - Fetching template by ID
  * - Loading and error state
- *
  * @param {string} id - Template ID
  * @returns {{
  *   template: object | null,

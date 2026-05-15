@@ -1,7 +1,4 @@
-import {
-  useEffect,
-  useState,
-} from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import {
@@ -22,67 +19,88 @@ import { appendExercisesToTemplate } from '../utils/appendExercisesToTemplate'
 import { buildTemplatePayload } from '../utils/buildTemplatePayload'
 
 /**
- * Handles template creation and editing logic.
- * @param {(path: string, options?: object) => void} navigate
- * @param {string | undefined} id
- * @returns {object}
+ * Handles template creation, editing,
+ * draft persistence and exercise flow logic.
+ * @param {(path: string, options?: object) => void} navigate - React Router navigation function
+ * @param {string | undefined} id - Template id for edit mode
+ * @returns {{
+ *  template: object|null,
+ *  setTemplate: import('react').Dispatch<
+ *    import('react').SetStateAction<object|null>
+ *  >,
+ *  loading: boolean,
+ *  saving: boolean,
+ *  success: boolean,
+ *  error: string,
+ *  isEditingName: boolean,
+ *  setIsEditingName: import('react').Dispatch<
+ *    import('react').SetStateAction<boolean>
+ *  >,
+ *  openLibrary: () => void,
+ *  addSet: (index: number) => void,
+ *  updateSet: (
+ *    exIndex: number,
+ *    setIndex: number,
+ *    field: string,
+ *    value: number | ''
+ *  ) => void,
+ *  removeSet: (
+ *    exIndex: number,
+ *    setIndex: number
+ *  ) => void,
+ *  removeExercise: (index: number) => void,
+ *  updateExerciseRest: (
+ *    index: number,
+ *    value: number
+ *  ) => void,
+ *  updateExerciseNotes: (
+ *    index: number,
+ *    notes: string
+ *  ) => void,
+ *  saveCurrentTemplate: () => Promise<void>,
+ *  deleteTemplate: () => Promise<void>
+ * }} Template manager state and actions
  */
-export function useTemplateManager(
-  navigate,
-  id,
-) {
+export function useTemplateManager(navigate, id) {
   const location = useLocation()
 
   const isCreate = !id
 
   // ===== STATE =====
 
-  const [template, setTemplate] =
-    useState(() => {
-      if (!isCreate) {
-        return null
+  const [template, setTemplate] = useState(() => {
+    if (!isCreate) {
+      return null
+    }
+
+    try {
+      const stored = draftTemplateStorage.get()
+
+      return {
+        name: stored?.name?.trim() || 'Template',
+
+        exercises: stored?.exercises || [],
+
+        notes: stored?.notes || '',
       }
-
-      try {
-        const stored =
-          draftTemplateStorage.get()
-
-        return {
-          name:
-            stored?.name?.trim() ||
-            'Template',
-
-          exercises:
-            stored?.exercises || [],
-
-          notes:
-            stored?.notes || '',
-        }
-      } catch {
-        return {
-          name: 'Template',
-          exercises: [],
-          notes: '',
-        }
+    } catch {
+      return {
+        name: 'Template',
+        exercises: [],
+        notes: '',
       }
-    })
+    }
+  })
 
-  const [loading, setLoading] =
-    useState(!isCreate)
+  const [loading, setLoading] = useState(!isCreate)
 
-  const [saving, setSaving] =
-    useState(false)
+  const [saving, setSaving] = useState(false)
 
-  const [success, setSuccess] =
-    useState(false)
+  const [success, setSuccess] = useState(false)
 
-  const [error, setError] =
-    useState('')
+  const [error, setError] = useState('')
 
-  const [
-    isEditingName,
-    setIsEditingName,
-  ] = useState(false)
+  const [isEditingName, setIsEditingName] = useState(false)
 
   const {
     selectedExercises,
@@ -101,39 +119,34 @@ export function useTemplateManager(
       return
     }
 
-    if (
-      editingTemplate &&
-      editingTemplate._id === id
-    ) {
+    if (editingTemplate && editingTemplate._id === id) {
       setTemplate(editingTemplate)
       setLoading(false)
       return
     }
 
-    const fetchTemplate =
-      async () => {
-        try {
-          setLoading(true)
+    const fetchTemplate = async () => {
+      try {
+        setLoading(true)
 
-          const data =
-            await getTemplateByIdApi(id)
+        const data = await getTemplateByIdApi(id)
 
-          setTemplate(data)
+        setTemplate(data)
 
-          setEditingTemplate(data)
-        } catch {
-          setError(
-            'Could not load template',
-          )
-        } finally {
-          setLoading(false)
-        }
+        setEditingTemplate(data)
+      } catch {
+        setError('Could not load template')
+      } finally {
+        setLoading(false)
       }
+    }
 
     fetchTemplate()
   }, [
     id,
     isCreate,
+    editingTemplate,
+    setEditingTemplate,
   ])
 
   // ===== SAVE DRAFT =====
@@ -143,67 +156,50 @@ export function useTemplateManager(
       return
     }
 
-    draftTemplateStorage.set(
-      template,
-    )
-  }, [
-    template,
-    isCreate,
-  ])
+    draftTemplateStorage.set(template)
+  }, [template, isCreate])
 
   // ===== ADD FROM LIBRARY =====
 
   useEffect(() => {
-    if (
-      !selectedExercises?.length
-    ) {
+    if (!selectedExercises?.length) {
       return
     }
 
     appendExercisesToTemplate({
-      exercises:
-        selectedExercises,
+      exercises: selectedExercises,
 
       setTemplate,
     })
 
     setSelectedExercises([])
-  }, [
-    selectedExercises,
-    setSelectedExercises,
-  ])
+  }, [selectedExercises, setSelectedExercises])
 
   // ===== KEEP EDIT STATE UPDATED =====
 
   useEffect(() => {
-    if (
-      isCreate ||
-      !template
-    ) {
+    if (isCreate || !template) {
       return
     }
 
-    if (
-      editingTemplate === template
-    ) {
+    if (editingTemplate === template) {
       return
     }
 
     setEditingTemplate(template)
   }, [
     template,
+    editingTemplate,
+    isCreate,
+    setEditingTemplate,
   ])
 
   // ===== OPEN LIBRARY =====
 
   const openLibrary = () => {
-    setReturnTo(
-      location.pathname,
-    )
+    setReturnTo(location.pathname)
 
-    navigate(
-      '/exercises?select=true',
-    )
+    navigate('/exercises?select=true')
   }
 
   // ===== MUTATIONS =====
@@ -215,95 +211,71 @@ export function useTemplateManager(
     removeExercise,
     updateExerciseRest,
     updateExerciseNotes,
-  } = useExerciseMutations(
-    setTemplate,
-  )
+  } = useExerciseMutations(setTemplate)
 
   // ===== SAVE =====
 
-  const saveCurrentTemplate =
-    async () => {
-      try {
-        setSaving(true)
-        setError('')
-        setSuccess(false)
+  const saveCurrentTemplate = async () => {
+    try {
+      setSaving(true)
+      setError('')
+      setSuccess(false)
 
-        const payload =
-          buildTemplatePayload(
-            template,
-          )
+      const payload = buildTemplatePayload(template)
 
-        if (isCreate) {
-          await createTemplateApi(
-            payload,
-          )
+      if (isCreate) {
+        await createTemplateApi(payload)
 
-          draftTemplateStorage.clear()
-        } else {
-          await updateTemplateApi(
-            id,
-            payload,
-          )
+        draftTemplateStorage.clear()
+      } else {
+        await updateTemplateApi(id, payload)
 
-          setEditingTemplate(
-            null,
-          )
-        }
-
-        if (isCreate) {
-          const created = await createTemplateApi(payload)
-          draftTemplateStorage.clear()
-
-          navigate(`/templates/${created._id}`)
-        } else {
-          await updateTemplateApi(id, payload)
-          setEditingTemplate(null)
-
-          navigate(`/templates/${id}`) 
-        }
-
-        setSuccess(true)
-      } catch (err) {
-        setError(
-          err.message ||
-          err.response?.data?.error ||
-          'Could not save template',
-        )
-      } finally {
-        setSaving(false)
+        setEditingTemplate(null)
       }
+
+      if (isCreate) {
+        const created = await createTemplateApi(payload)
+        draftTemplateStorage.clear()
+
+        navigate(`/templates/${created._id}`)
+      } else {
+        await updateTemplateApi(id, payload)
+        setEditingTemplate(null)
+
+        navigate(`/templates/${id}`)
+      }
+
+      setSuccess(true)
+    } catch (err) {
+      setError(
+        err.message || err.response?.data?.error || 'Could not save template',
+      )
+    } finally {
+      setSaving(false)
     }
+  }
 
   // ===== DELETE =====
 
-  const deleteTemplate =
-    async () => {
-      const confirmed =
-        window.confirm(
-          'Delete this template?',
-        )
+  const deleteTemplate = async () => {
+    const confirmed = window.confirm('Delete this template?')
 
-      if (!confirmed) {
-        return
-      }
-
-      try {
-        setError('')
-
-        await deleteTemplateApi(
-          id,
-        )
-
-        setEditingTemplate(null)
-
-        navigate('/workouts')
-      } catch (err) {
-        setError(
-          err.response?.data?.error ||
-          'Could not delete template',
-        )
-      }
+    if (!confirmed) {
+      return
     }
+
+    try {
+      setError('')
+
+      await deleteTemplateApi(id)
+
+      setEditingTemplate(null)
+
+      navigate('/workouts')
+    } catch (err) {
+      setError(err.response?.data?.error || 'Could not delete template')
+    }
+  }
 
   return {
     template,

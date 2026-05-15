@@ -8,6 +8,33 @@ import { workoutMutation } from '../utils/workoutMutations'
  * @param {{
  *  onSetCompleted?: (rest: number) => void
  * }} [options] - Optional mutation callbacks
+ * @returns {{
+ *  addSet: (index: number) => void,
+ *  updateSet: (
+ *    exIndex: number,
+ *    setIndex: number,
+ *    field: string,
+ *    value: number | ''
+ *  ) => void,
+ *  removeSet: (
+ *    exIndex: number,
+ *    setIndex: number
+ *  ) => void,
+ *  removeExercise: (index: number) => void,
+ *  updateExerciseRest: (
+ *    index: number,
+ *    value: number
+ *  ) => void,
+ *  updateExerciseNotes: (
+ *    index: number,
+ *    notes: string
+ *  ) => void,
+ *  toggleSetComplete: (
+ *    exIndex: number,
+ *    setIndex: number,
+ *    checked: boolean
+ *  ) => void
+ * }} Exercise mutation handlers
  */
 export function useExerciseMutations(
   setState,

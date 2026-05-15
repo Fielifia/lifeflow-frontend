@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
  * @param {{
  *  fallback?: string
  * }} props - Component props
+ * @returns {import('react').ReactElement} Back button UI
  */
 export default function BackButton({
   fallback = '/',

@@ -1104,7 +1104,7 @@ input[type="checkbox"]:hover {
   flex-direction: column;
 }
 
-.rworkout-meta {
+.workout-meta {
   display: flex;
   gap: 12px;
   margin-top: 8px;

@@ -27,7 +27,6 @@ export async function appendExercisesToTemplate({ exercises, lastWorkout, setTem
   setTemplate((prev) => {
     if (!prev) return prev
 
-    // Filtrera bort redan existerande exercises
     const newResults = results.filter(
       (newEx) =>
         !prev.exercises.some(

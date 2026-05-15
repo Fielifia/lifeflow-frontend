@@ -1,6 +1,19 @@
 import { useNavigate } from 'react-router-dom'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 
+/**
+ * Handles workout session startup flow.
+ *
+ * Stores selected workout/template
+ * in shared workout context and
+ * navigates to workout run page.
+ * @returns {{
+ *  startWorkout: (params: {
+ *    workout?: object|null,
+ *    template?: object|null
+ *  }) => void
+ * }} Workout start actions
+ */
 export function useStartWorkout() {
   const navigate = useNavigate()
   const { setSelectedWorkout, setSelectedTemplate } = useWorkoutContext()

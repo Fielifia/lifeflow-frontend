@@ -4,7 +4,7 @@ import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
 
 /**
  * Displays a summary card for a workout.
- * @param {{ workout: { _id: string, name?: string, createdAt: string, duration: number, exercises: Array } }} props
+ * @param {{ workout: { _id: string, name?: string, createdAt: string, duration: number, exercises: Array } }} props - Component props
  * @returns {import('react').ReactElement} Workout card UI
  */
 export default function WorkoutCard({ workout, onClick }) {

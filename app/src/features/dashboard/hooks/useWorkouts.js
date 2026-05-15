@@ -7,7 +7,6 @@ import { getWorkoutsApi } from '../../../shared/api/workoutApi'
  *  page?: number,
  *  limit?: number
  * }} options - Query options
- *
  * @returns {{
  *  workouts: Array<object>,
  *  total: number,

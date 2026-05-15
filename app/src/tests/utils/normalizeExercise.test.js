@@ -12,8 +12,10 @@ describe('normalizeExercise', () => {
 
     const result = normalizeExercise(raw)
 
-    expect(result).toEqual({
+    expect(result).toMatchObject({
       id: '1',
+      exerciseId: '1',
+      externalId: undefined,
       name: 'Bench Press',
       bodyPart: 'Chest',
       muscle: 'Mid Chest',

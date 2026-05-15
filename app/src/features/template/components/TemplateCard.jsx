@@ -1,6 +1,16 @@
 import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
 import TemplateControls from './TemplateControls'
 
+/**
+ * Displays a workout template preview card.
+ *
+ * Shows template name, exercise preview list,
+ * and quick actions such as starting a workout.
+ * @param {object} props - Component props
+ * @param {object} props.template - Template data
+ * @param {() => void} props.onClick - Opens template details
+ * @returns {import('react').ReactElement} Template card UI
+ */
 export default function TemplateCard({ template, onClick }) {
   const exercises = template.exercises || []
   const { startWorkout } = useStartWorkout()
