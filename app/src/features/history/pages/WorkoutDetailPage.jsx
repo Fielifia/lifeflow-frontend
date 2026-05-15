@@ -2,12 +2,17 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { formatDate } from '../../../shared/utils/format'
 import { useWorkoutDetail } from '../hooks/useWorkoutDetail'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+import { useEditWorkoutLogic } from '../hooks/useEditWorkoutLogic'
+import {
+  saveWorkoutAsTemplate,
+} from '../../workout/utils/workoutPersistence'
 
 import BackButton from '../../../shared/ui/BackButton'
 import DataState from '../../../shared/ui/DataState'
 import Header from '../../../shared/ui/Header'
 import ExerciseItem from '../../workout/components/ExerciseItem'
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
+import WorkoutControls from '../../workout/components/WorkoutControls'
 import WorkoutSummary from '../components/WorkoutSummary'
 
 /**
@@ -29,6 +34,22 @@ export default function WorkoutDetailPage() {
     error,
     stats,
   } = useWorkoutDetail(id)
+
+  const {
+    success,
+    deleteCurrentWorkout,
+  } = useEditWorkoutLogic(id, navigate)
+
+  const handleSaveTemplate =
+    async () => {
+      try {
+        await saveWorkoutAsTemplate({
+          workout,
+        })
+      } catch (err) {
+        console.error(err)
+      }
+    }
 
   if (loading || error || !workout) {
     return (
@@ -76,20 +97,18 @@ export default function WorkoutDetailPage() {
         personalBests={stats.personalBests}
       />
 
-      {/* ACTIONS */}
-      <div className="workout-controls">
-        <button
-          className="btn btn-standard btn-secondary"
-          onClick={() => {
-            setReturnTo(location.pathname)
+      {/* CONTROLS */}
+      <WorkoutControls
+        onEditWorkout={() => {
+          setReturnTo(location.pathname)
 
-            navigate(`/workouts/${workout._id}/edit`)
-          }
-          }
-        >
-          Edit workout
-        </button>
-      </div>
+          navigate(`/workouts/${workout._id}/edit`)
+        }}
+        onSaveTemplate={handleSaveTemplate}
+        deleteCurrentWorkout={deleteCurrentWorkout}
+      />
+      {success && <p className="muted center">Workout saved ✔</p>}
+      {error && <p className="error center">{error}</p>}
 
       {/* EXERCISES */}
       {workout.exercises.map((ex, i) => (

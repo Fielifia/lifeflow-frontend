@@ -1,30 +1,60 @@
+import { normalizeExercise } from '../../../shared/utils/normalizeExercise'
+
+import {
+  DEFAULT_REST,
+  DEFAULT_SETS,
+} from '../../workout/constants'
 
 /**
- * Maps an exercise to a template format.
- * @param {object} ex - Exercise object
- * @param {object} previous - Previous template exercise data (optional)
- * @returns {object} Template exercise object with structure:
+ * Builds a template-ready exercise object.
+ *
+ * Adds:
+ * - normalized frontend shape
+ * - default rest time
+ * - default template sets
+ * - optional previous set values
+ * @param {object} ex
+ * Exercise data
+ * @param {object|null} prev
+ * Previous exercise data
+ * @returns {object}
+ * Template exercise
  */
-export function buildTemplateExercise(ex, previous) {
+export function buildTemplateExercise(
+  ex,
+  prev = null,
+) {
+  let sets =
+    DEFAULT_SETS.map((set) => ({
+      reps: set.reps,
+      weight: set.weight,
+    }))
+
+  if (prev?.sets?.length) {
+    sets = prev.sets.map((set) => ({
+      reps: set.reps,
+      weight: set.weight,
+    }))
+  } else if (ex.sets?.length) {
+    sets = ex.sets.map((set) => ({
+      reps: set.reps,
+      weight: set.weight,
+    }))
+  }
+
   return {
-    id: ex.id,
-    name: ex.name,
-    images:
-      ex.images?.length
-        ? ex.images
-        : ex.image
-          ? [ex.image]
-          : [],
-    restTime: previous?.restTime ?? 120,
-    notes: previous?.notes ?? '',
-    sets: previous
-      ? previous.sets.map((s) => ({
-        reps: s.reps,
-        weight: s.weight,
-      }))
-      : [
-        { reps: 8, weight: 0 },
-        { reps: 8, weight: 0 },
-      ],
+    ...normalizeExercise(ex),
+
+    restTime:
+      ex.restTime ??
+      prev?.restTime ??
+      DEFAULT_REST,
+
+    notes:
+      ex.notes ??
+      prev?.notes ??
+      '',
+
+    sets,
   }
 }

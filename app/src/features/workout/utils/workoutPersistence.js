@@ -1,6 +1,6 @@
 import API from '../../../shared/api/api'
+import { buildTemplatePayload } from '../../template/utils/buildTemplatePayload'
 import { cleanWorkoutForSave } from './cleanWorkoutForSave'
-import { mapWorkoutToTemplate } from '../../template/utils/buildTemplatePayload'
 
 /**
  * Saves a completed workout session.
@@ -65,7 +65,7 @@ export async function saveWorkoutAsTemplate({
   workout,
 }) {
   const template =
-    mapWorkoutToTemplate(workout)
+    buildTemplatePayload(workout)
 
   const res = await API.post(
     '/templates',

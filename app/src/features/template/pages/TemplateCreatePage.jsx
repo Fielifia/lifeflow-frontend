@@ -4,7 +4,7 @@ import Header from '../../../shared/ui/Header'
 import ExerciseItem from '../../workout/components/ExerciseItem'
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
 import TemplateControls from '../components/TemplateControls'
-import { useTemplateLogic } from '../hooks/useTemplateLogic'
+import { useTemplateManager } from '../hooks/useTemplateManager'
 
 /**
  * Page for creating and editing workout templates.
@@ -69,7 +69,7 @@ export default function TemplateEditPage() {
     updateExerciseNotes,
 
     saveTemplate,
-  } = useTemplateLogic(navigate, id)
+  } = useTemplateManager(navigate, id)
 
   // ===== UI =====
   if (loading) return <p className="center">Loading...</p>

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import API from '../../../shared/api/api'
 import { deleteWorkout } from '../../../shared/api/workoutApi'
+import { normalizeExercise } from '../../../shared/utils/normalizeExercise'
 import { workoutMutation } from '../../../shared/utils/workoutMutations'
 import { cleanWorkoutForSave } from '../../workout/utils/cleanWorkoutForSave'
-import { normalizeWorkoutExercise } from '../../../shared/utils/normalizeWorkoutExercise'
+import { saveWorkoutAsTemplate } from '../../workout/utils/workoutPersistence'
 
 /**
  * Custom hook for editing workouts.
@@ -32,7 +33,7 @@ export function useEditWorkoutLogic(workoutId, navigate) {
           ...res.data,
           exercises:
             res.data.exercises.map(
-              normalizeWorkoutExercise,
+              normalizeExercise,
             ),
         }
 
@@ -128,6 +129,28 @@ export function useEditWorkoutLogic(workoutId, navigate) {
     }
   }
 
+  // ===== SAVE AS TEMPLATE =====
+  const saveAsTemplate = async () => {
+    try {
+      setSaving(true)
+      setError('')
+      setSuccess(false)
+
+      await saveWorkoutAsTemplate({
+        workout,
+      })
+
+      setSuccess(true)
+    } catch (err) {
+      setError(
+        err.response?.data?.error ||
+        'Could not save template',
+      )
+    } finally {
+      setSaving(false)
+    }
+  }
+
   // ===== DELETE =====
   const deleteCurrentWorkout = async () => {
     const confirmed = window.confirm(
@@ -160,7 +183,7 @@ export function useEditWorkoutLogic(workoutId, navigate) {
     saving,
     success,
     error,
-    
+
     isEditingName,
     setIsEditingName,
 
@@ -177,6 +200,8 @@ export function useEditWorkoutLogic(workoutId, navigate) {
     updateWorkoutNotes,
 
     saveWorkout,
+    saveAsTemplate,
+
     deleteCurrentWorkout,
   }
 }

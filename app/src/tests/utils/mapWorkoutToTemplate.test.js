@@ -1,6 +1,6 @@
-import { mapWorkoutToTemplate } from '../../features/template/utils/mapWorkoutToTemplate'
+import { buildTemplatePayload } from '../../features/template/utils/buildTemplatePayload'
 
-describe('mapWorkoutToTemplate', () => {
+describe('buildTemplatePayload', () => {
   test('maps workout exercises into template format', () => {
     const workout = {
       name: 'Push Day',
@@ -13,7 +13,7 @@ describe('mapWorkoutToTemplate', () => {
       ],
     }
 
-    const template = mapWorkoutToTemplate(workout)
+    const template = buildTemplatePayload(workout)
 
     expect(template.exercises).toHaveLength(1)
     expect(template.exercises[0].name).toBe('Bench Press')
@@ -30,7 +30,7 @@ describe('mapWorkoutToTemplate', () => {
       ],
     }
 
-    const template = mapWorkoutToTemplate(workout)
+    const template = buildTemplatePayload(workout)
 
     expect(template.exercises[0].sets[0].reps).toBe(8)
     expect(template.exercises[0].sets[0].weight).toBe(80)

@@ -1,26 +1,49 @@
+import { serializeWorkoutExercise }
+  from '../../../shared/utils/serializeWorkoutExercise'
+
 /**
- * Maps a workout to template format.
- * @param {object} workout  - Workout object
- * @returns {object} Template exercise object
+ * Builds template API payload.
+ *
+ * Converts frontend template/workout
+ * state into backend template format.
+ *
+ * Removes empty exercises
+ * and strips workout-only fields.
+ * @param {{
+ *  name?: string,
+ *  notes?: string,
+ *  exercises?: Array,
+ * }} template - Template state object
+ * @returns {{
+ *  name: string,
+ *  notes: string,
+ *  exercises: Array
+ * }} Template payload
  */
-export const mapWorkoutToTemplate = (workout) => {
-  if (!workout) return null
-
-  return {
-    name: workout.name?.trim() || 'Template',
-    notes: workout.notes || '',
-    exercises:
-      workout.exercises?.map((ex) => ({
-        id: ex.id,
-        name: ex.name,
-
-        images: ex.images?.length ? ex.images : ex.image ? [ex.image] : [],
+export function buildTemplatePayload(
+  template,
+) {
+  const exercises =
+    template.exercises
+      ?.map((ex) => ({
+        ...serializeWorkoutExercise(ex),
 
         sets:
           ex.sets?.map((set) => ({
             reps: set.reps,
             weight: set.weight,
           })) || [],
-      })) || [],
+      }))
+      .filter((ex) => ex.sets.length > 0) || []
+
+  return {
+    name:
+      template.name?.trim() ||
+      'Template',
+
+    notes:
+      template.notes || '',
+
+    exercises,
   }
 }

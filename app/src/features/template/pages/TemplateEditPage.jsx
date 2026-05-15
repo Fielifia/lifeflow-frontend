@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
-import { useTemplateLogic } from '../hooks/useTemplateLogic'
+import { useTemplateManager } from '../hooks/useTemplateManager'
 
 import BackButton from '../../../shared/ui/BackButton'
 import Header from '../../../shared/ui/Header'
@@ -42,7 +42,7 @@ export default function TemplateEditPage() {
 
     saveTemplate,
     deleteCurrentTemplate,
-  } = useTemplateLogic(navigate, id)
+  } = useTemplateManager(navigate, id)
 
   const { returnTo } = useExerciseFlow()
 

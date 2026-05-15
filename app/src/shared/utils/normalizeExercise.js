@@ -23,7 +23,7 @@
  *  sets: Array
  * }} Normalized frontend exercise
  */
-export function normalizeWorkoutExercise(ex) {
+export function normalizeExercise(ex) {
   return {
     ...ex,
 

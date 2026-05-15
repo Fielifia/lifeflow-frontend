@@ -1,22 +1,36 @@
 import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { getTemplateById } from '../../../shared/api/templateApi'
+import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 import BackButton from '../../../shared/ui/BackButton'
 import DataState from '../../../shared/ui/DataState'
 import Header from '../../../shared/ui/Header'
 import ExerciseItem from '../../workout/components/ExerciseItem'
+import TemplateControls from '../components/TemplateControls'
+import { useTemplateManager } from '../hooks/useTemplateManager'
 
 /**
  * Displays detailed view of a template.
  * @returns {import('react').ReactElement} Template detail UI
  */
 export default function TemplateDetail() {
+  const { id } = useParams()
   const navigate = useNavigate()
-  
+  const location = useLocation()
+
+  const { setReturnTo } = useExerciseFlow()
+
   const { setSelectedTemplate } = useWorkoutContext()
 
-  const { id } = useParams()
+  const {
+    success,
+
+    saveTemplate,
+
+    deleteCurrentTemplate,
+  } = useTemplateManager(id, navigate)
+
 
   const [template, setTemplate] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -92,6 +106,19 @@ export default function TemplateDetail() {
         subtitle={`${template.exercises.length} exercises `}
       />
       <BackButton fallback="/workouts" />
+
+      <TemplateControls
+        onEditTemplate={() => {
+          setReturnTo(location.pathname)
+
+          navigate(`/templates/${template._id}/edit`)
+        }}
+        onSaveTemplate={saveTemplate}
+        deleteCurrentTemplate={deleteCurrentTemplate}
+      />
+
+      {success && <p className="muted center">Template saved ✔</p>}
+      {error && <p className="error center">{error}</p>}
 
       {/* EXERCISES */}
       {normalizedExercises.map((ex, i) => (

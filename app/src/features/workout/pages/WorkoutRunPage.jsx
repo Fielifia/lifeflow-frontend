@@ -43,13 +43,14 @@ export default function WorkoutRunPage() {
     removeExercise,
     removeSet,
     toggleSetComplete,
+    
     updateExerciseRest,
     updateExerciseNotes,
     updateWorkoutNotes,
 
     saveWorkout,
     saveAsTemplate,
-
+    
     discardWorkout,
   } = useWorkoutLogic(navigate, location, workoutId)
 
@@ -87,14 +88,12 @@ export default function WorkoutRunPage() {
 
       {/* TOP CONTROLS */}
       <WorkoutControls
-        name={workout.name}
         status={status}
-        elapsed={elapsed}
         handleStartPause={handleStartPause}
-        saveWorkout={saveWorkout}
+        onFinishWorkout={saveWorkout}
         onSaveTemplate={saveAsTemplate}
-        saving={saving}
         discardWorkout={discardWorkout}
+        saving={saving}
         hasExercises={workout.exercises.length > 0}
       />
       {success && <p className="muted center">Workout saved ✔</p>}

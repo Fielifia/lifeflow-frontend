@@ -1,5 +1,4 @@
-import { normalizeWorkoutExercise }
-  from '../../../shared/utils/normalizeWorkoutExercise'
+import { normalizeExercise } from '../../../shared/utils/normalizeExercise'
 
 import {
   DEFAULT_REST,
@@ -8,15 +7,23 @@ import {
 
 /**
  * Builds a workout-ready exercise object.
+ *
  * Adds:
  * - normalized frontend shape
  * - previous set history
  * - historical PB
  * - completed state
  * - default sets/rest values
- * @param {object} ex - Exercise data
- * @param {object|null} prev - Previous workout data
- * @returns {object} Workout exercise
+ * @param {object} ex
+ * Exercise data
+ * @param {object|null} prev
+ * Previous workout data
+ * @param {{
+ *  resetCompleted?: boolean
+ * }} [options]
+ * Build options
+ * @returns {object}
+ * Workout exercise
  */
 export function buildWorkoutExercise(
   ex,
@@ -55,7 +62,7 @@ export function buildWorkoutExercise(
   }
 
   return {
-    ...normalizeWorkoutExercise(ex),
+    ...normalizeExercise(ex),
 
     restTime:
       ex.restTime ??

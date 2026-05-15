@@ -1,6 +1,7 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useEditWorkoutLogic } from '../hooks/useEditWorkoutLogic'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+import WorkoutControls from '../../workout/components/WorkoutControls'
 
 import BackButton from '../../../shared/ui/BackButton'
 import Header from '../../../shared/ui/Header'
@@ -19,7 +20,14 @@ export default function WorkoutEditPage() {
     workout,
     loading,
     saving,
+    success,
     error,
+
+    isEditingName,
+    setIsEditingName,
+
+    startTime,
+    adjustStartTime,
 
     setWorkout,
 
@@ -34,8 +42,7 @@ export default function WorkoutEditPage() {
     updateExerciseNotes,
     updateWorkoutNotes,
 
-    isEditingName,
-    setIsEditingName,
+    saveAsTemplate,
 
     saveWorkout,
     deleteCurrentWorkout,
@@ -66,29 +73,23 @@ export default function WorkoutEditPage() {
         }
 
         mode="edit"
+        startTime={startTime}
+        adjustStartTime={adjustStartTime}
         duration={workout.duration}
         onChangeDuration={(value) =>
           setWorkout((prev) => ({ ...prev, duration: value }))
         }
       />
 
-      {/* SAVE */}
-      <button
-        className="btn btn-standard btn-primary btn-full"
-        onClick={saveWorkout}
-        disabled={saving}
-      >
-        {saving ? 'Saving...' : 'Save changes'}
-      </button>
-
-      <button
-        className="btn btn-standard btn-danger btn-full "
-        onClick={deleteCurrentWorkout}
-        disabled={saving}
-      >
-        {saving ? 'Deleting...' : 'Delete workout'}
-      </button>
-
+      {/* CONTROLS */}
+      <WorkoutControls
+        saving={saving}
+        onSaveWorkout={saveWorkout}
+        onSaveAsTemplate={saveAsTemplate}
+        deleteCurrentWorkout={deleteCurrentWorkout}
+        hasExercises={workout.exercises.length > 0}
+      />
+      {success && <p className="muted center">Workout saved ✔</p>}
       {error && <p className="error center">{error}</p>}
 
       {/* ADD EXERCISE */}

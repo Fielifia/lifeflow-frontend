@@ -218,6 +218,7 @@ button {
   cursor: pointer;
   border-radius: 10px;
   margin: 8px 0;
+  transition: 0.2s ease;
 }
 
 .btn-standard {
@@ -255,7 +256,6 @@ button {
   background-color: var(--danger);
   color: white;
   border: 1px solid transparent;
-  transition: background-color 0.2s ease;
 }
 
 .btn-danger:hover {

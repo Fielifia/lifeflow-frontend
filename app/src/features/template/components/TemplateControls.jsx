@@ -1,27 +1,67 @@
 import LoadingButton from '../../../shared/ui/LoadingButton'
 
 /**
- * Template action controls.
+ * Template control buttons.
  * @param {object} props - Component props
- * @param {boolean} props.saving - Saving state
- * @param {() => void} props.saveTemplate - Save template handler
+ * @param {() => void} [props.onEditTemplate] - Edit template handler
+ * @param {() => void} [props.onUseTemplate] - Use template handler
+ * @param {() => void} [props.onSaveTemplate] - Save template handler
+ * @param {() => void} [props.onDeleteTemplate] - Delete template handler
+ * @param {boolean} [props.saving] - Saving state
+ * @param {boolean} [props.loading] - Loading state
+ * @param {boolean} [props.hasExercises] - If template has exercises
  * @returns {import('react').ReactElement} Template controls UI
  */
-export default function WorkoutControls({
-  saving,
-  saveTemplate,
+export default function TemplateControls({
+  onEditTemplate,
+  onUseTemplate,
+  onSaveTemplate,
+  onDeleteTemplate,
+
+  saving = false,
+  loading = false,
+  hasExercises = false,
 }) {
-
   return (
-    <div className="template-controls">
+    <div className="workout-controls">
+      {onEditTemplate && (
+        <button
+          className="btn btn-standard btn-secondary btn-full"
+          onClick={onEditTemplate}
+        >
+          Edit template
+        </button>
+      )}
 
-      <LoadingButton
-        className="btn btn-standard btn-primary"
-        loading={saving}
-        loadingText="Saving..."
-        onClick={saveTemplate}>
-        Save Template
-      </LoadingButton>
+      {onUseTemplate && (
+        <button
+          className="btn btn-standard btn-primary btn-full"
+          onClick={onUseTemplate}
+        >
+          Use template
+        </button>
+      )}
+
+      {onSaveTemplate && (
+        <LoadingButton
+          className="btn btn-standard btn-primary btn-full"
+          loading={saving}
+          disabled={!hasExercises}
+          onClick={onSaveTemplate}
+        >
+          Save Template
+        </LoadingButton>
+      )}
+
+      {onDeleteTemplate && (
+        <LoadingButton
+          className="btn btn-standard btn-danger btn-full"
+          loading={loading}
+          onClick={onDeleteTemplate}
+        >
+          Delete template
+        </LoadingButton>
+      )}
     </div>
   )
 }
