@@ -103,7 +103,7 @@ export default function ExerciseItem({
     weight: 0,
     reps: 0,
   }
-  
+
   let currentBest = { ...historicalBest }
 
   return (

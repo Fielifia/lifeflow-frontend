@@ -19,27 +19,16 @@ export async function saveWorkoutSession({
   workout,
   elapsed,
 }) {
-  const cleaned =
-    buildWorkoutPayload(workout)
+  const payload =
+    buildWorkoutPayload(
+      workout,
+      elapsed,
+    )
 
-  if (!cleaned.length) {
+  if (!payload.exercises.length) {
     throw new Error(
       'Complete at least one set',
     )
-  }
-
-  const payload = {
-    ...workout,
-
-    name:
-      workout.name?.trim() ||
-      'Workout',
-
-    exercises: cleaned,
-
-    duration: elapsed,
-
-    notes: workout.notes,
   }
 
   const res = await API.post(

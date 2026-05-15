@@ -3,11 +3,12 @@ import { buildTemplateExercise }
 
 /**
  * Appends exercises to template state.
+ *
  * Builds template-ready exercises
- * and prevents duplicates.
+ * and appends them to template state.
  * @param {{
  *  exercises: object[],
- *  previousWorkout: object|null,
+ *  lastWorkout: object|null,
  *  setTemplate: import('react').Dispatch<
  *    import('react').SetStateAction<object>
  *  >
@@ -21,7 +22,8 @@ export async function appendExercisesToTemplate({
   const results = exercises.map((ex) => {
     const previous =
       lastWorkout?.exercises?.find(
-        (e) => e.id === ex.id,
+        (e) =>
+          (e.exerciseId || e.id) === ex.id,
       ) || null
 
     return buildTemplateExercise(
@@ -40,14 +42,7 @@ export async function appendExercisesToTemplate({
 
       exercises: [
         ...prev.exercises,
-
-        ...results.filter(
-          (newEx) =>
-            !prev.exercises.some(
-              (existing) =>
-                existing.id === newEx.id,
-            ),
-        ),
+        ...results,
       ],
     }
   })

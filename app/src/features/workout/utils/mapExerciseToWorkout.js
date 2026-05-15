@@ -6,7 +6,8 @@
  */
 export function mapExerciseToWorkout(ex, previous) {
   return {
-    id: ex.id,
+    id: crypto.randomUUID(),
+    exerciseId: ex.id,
     name: ex.name,
 
     images: ex.images?.length

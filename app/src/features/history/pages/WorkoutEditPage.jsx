@@ -1,13 +1,14 @@
 import { useNavigate, useParams } from 'react-router-dom'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
-import WorkoutControls from '../../workout/components/WorkoutControls'
 import { useWorkoutManager } from '../hooks/useWorkoutManager'
 
 import BackButton from '../../../shared/ui/BackButton'
 import Header from '../../../shared/ui/Header'
+
 import ExerciseItem from '../../workout/components/ExerciseItem'
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
 
+import WorkoutControls from '../../workout/components/WorkoutControls'
 /**
  * Page for editing a completed workout.
  * @returns {import('react').ReactElement} Workout edit page UI
@@ -18,6 +19,8 @@ export default function WorkoutEditPage() {
 
   const {
     workout,
+    setWorkout,
+
     loading,
     saving,
     success,
@@ -25,18 +28,16 @@ export default function WorkoutEditPage() {
 
     isEditingName,
     setIsEditingName,
-
-    startTime,
-    adjustStartTime,
-
-    setWorkout,
-
-    openLibrary,
+    
     addSet,
     updateSet,
     removeExercise,
     removeSet,
     toggleSetComplete,
+
+    startTime,
+    adjustStartTime,
+    openLibrary,
 
     updateExerciseRest,
     updateExerciseNotes,
@@ -101,7 +102,7 @@ export default function WorkoutEditPage() {
       {workout.exercises.map((ex, i) => (
         <ExerciseItem
           showCheckbox
-          key={ex.id}
+          key={`${ex.id}-${i}`}
           ex={ex}
           i={i}
           navigate={navigate}

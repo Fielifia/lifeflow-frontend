@@ -1,5 +1,5 @@
-import { useState } from 'react'
 import { ClipboardClock } from 'lucide-react'
+import { useState } from 'react'
 
 /**
  * Workout duration display.

@@ -42,7 +42,7 @@ export default function WorkoutRunPage() {
     removeExercise,
     removeSet,
     toggleSetComplete,
-    
+
     updateExerciseRest,
     updateExerciseNotes,
     updateWorkoutNotes,
@@ -119,7 +119,7 @@ export default function WorkoutRunPage() {
       {workout.exercises.map((ex, i) => (
         <ExerciseItem
           showCheckbox
-          key={ex.id}
+          key={`${ex.id}-${i}`}
           ex={ex}
           i={i}
           navigate={navigate}

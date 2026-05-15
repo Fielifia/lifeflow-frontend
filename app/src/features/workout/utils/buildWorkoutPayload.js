@@ -29,9 +29,13 @@ export function buildWorkoutPayload(
         ...serializeWorkoutExercise(ex),
 
         sets:
-          ex.sets?.filter(
-            (set) => set.completed,
-          ) || [],
+          ex.sets
+            ?.filter((set) => set.completed)
+            .map((set) => ({
+              reps: set.reps,
+              weight: set.weight,
+              completed: true,
+            })) || [],
       }))
       .filter((ex) => ex.sets.length > 0) || []
 

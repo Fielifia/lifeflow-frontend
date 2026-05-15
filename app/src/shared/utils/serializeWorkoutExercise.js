@@ -22,7 +22,8 @@
  */
 export function serializeWorkoutExercise(ex) {
   return {
-    exerciseId: ex.id,
+    exerciseId:
+      ex.exerciseId || ex.id,
 
     name: ex.name,
 

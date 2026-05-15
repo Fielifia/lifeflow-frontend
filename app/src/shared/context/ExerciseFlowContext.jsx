@@ -21,6 +21,9 @@ export function ExerciseFlowProvider({ children }) {
   const [shouldRestoreScroll, setShouldRestoreScroll] = useState(false)
   const [libraryReturnTo, setLibraryReturnTo] = useState('/exercises')
 
+  const [editingTemplate, setEditingTemplate] = useState(null)
+  const [editingWorkout, setEditingWorkout] = useState(null)
+
   return (
     <ExerciseFlowContext.Provider
       value={{
@@ -38,6 +41,12 @@ export function ExerciseFlowProvider({ children }) {
 
         shouldRestoreScroll,
         setShouldRestoreScroll,
+
+        editingTemplate,
+        setEditingTemplate,
+
+        editingWorkout,
+        setEditingWorkout,
       }}
     >
       {children}

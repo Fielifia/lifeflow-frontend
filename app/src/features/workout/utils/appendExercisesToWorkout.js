@@ -29,7 +29,9 @@ export async function appendExercisesToWorkout({ exercises, setWorkout }) {
       ...prev.exercises,
       ...results.filter(
         (newEx) =>
-          !prev.exercises.some((existing) => existing.id === newEx.id),
+          !prev.exercises.some(
+            (existing) => existing.id === newEx.id
+          ),
       ),
     ],
   }))

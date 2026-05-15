@@ -32,12 +32,12 @@ export default function Header({
   return (
     <div className="header">
       <div className="header-content">
-        <h2 className="close">
+        <h1 className="close">
           {title}
-        </h2>
+        </h1>
 
         {subtitle && (
-          <p className="muted small close">
+          <p className="muted medium close">
             {subtitle}
           </p>
         )}
