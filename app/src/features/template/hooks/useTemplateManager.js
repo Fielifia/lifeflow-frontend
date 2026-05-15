@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom'
 
 import {
   deleteTemplate,
-  getTemplateById,
 } from '../../../shared/api/templateApi'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
@@ -11,6 +10,7 @@ import { draftTemplateStorage } from '../../../shared/utils/storage/draftStorage
 import { workoutStorage } from '../../../shared/utils/storage/workoutStorage'
 import { appendExercisesToTemplate } from '../utils/appendExercisesToTemplate'
 import {
+  createTemplate,
   updateSavedTemplate
 } from '../utils/templatePersistence'
 
@@ -33,7 +33,6 @@ import {
  *  setTemplate: (
  *    updater: (prev: object) => object
  *  ) => void,
- *  loading: boolean,
  *  saving: boolean,
  *  success: boolean,
  *  error: string
@@ -48,8 +47,6 @@ export function useTemplateManager(
   const isCreate = !id
 
   // ===== STATE =====
-  const [loading, setLoading] =
-    useState(!isCreate)
 
   const [saving, setSaving] =
     useState(false)
@@ -107,39 +104,6 @@ export function useTemplateManager(
     draftTemplateStorage.set(template)
   }, [template, isCreate])
 
-  // ===== LOAD TEMPLATE =====
-  useEffect(() => {
-    if (isCreate) {
-      return
-    }
-
-    if (template.exercises.length > 0) {
-      setLoading(false)
-      return
-    }
-
-    const fetchTemplate = async () => {
-      try {
-        setLoading(true)
-
-        const data =
-          await getTemplateById(id)
-
-        setTemplate(data)
-
-      } catch {
-        setError(
-          'Could not load template',
-        )
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchTemplate()
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, isCreate])
 
   // ===== ADD FROM LIBRARY =====
   useEffect(() => {
@@ -190,7 +154,7 @@ export function useTemplateManager(
         setSuccess(false)
 
         if (isCreate) {
-          await saveCurrentTemplate({
+          await createTemplate({
             template,
           })
         } else {
@@ -217,36 +181,33 @@ export function useTemplateManager(
     }
 
   // ===== DELETE =====
-  const deleteCurrentTemplate =
-    async () => {
-      const confirmed =
-        window.confirm(
-          'Delete this template?',
-        )
+  const deleteCurrentTemplate = async () => {
+    const confirmed = window.confirm(
+      'Delete this template?',
+    )
 
-      if (!confirmed) {
-        return
-      }
-
-      try {
-        setError('')
-
-        await deleteTemplate(id)
-
-        navigate('/workouts')
-      } catch (err) {
-        setError(
-          err.response?.data?.error ||
-          'Could not delete template',
-        )
-      }
+    if (!confirmed) {
+      return
     }
+
+    try {
+      setError('')
+
+      await deleteTemplate(id)
+
+      navigate('/workouts')
+    } catch (err) {
+      setError(
+        err.response?.data?.error ||
+        'Could not delete template',
+      )
+    }
+  }
 
   return {
     template,
     setTemplate,
 
-    loading,
     saving,
     success,
     error,

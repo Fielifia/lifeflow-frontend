@@ -91,7 +91,7 @@ export default function WorkoutRunPage() {
         handleStartPause={handleStartPause}
         onFinishWorkout={saveWorkout}
         onSaveTemplate={saveAsTemplate}
-        discardWorkout={discardWorkout}
+        onDiscardWorkout={discardWorkout}
         saving={saving}
         hasExercises={workout.exercises.length > 0}
       />

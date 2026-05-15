@@ -23,8 +23,6 @@ export default function RecentWorkoutCard({
                 Math.round((workout.duration || 0) / 60)
               )} • {formatDate(workout.date)}</p>
           </div>
-
-          <button className="btn-clean btn-dots">⋮</button>
         </div>
 
         <div className="workout-meta">

@@ -11,7 +11,7 @@ import { buildTemplatePayload } from './buildTemplatePayload'
  * @returns {Promise<object>}
  * Saved template
  */
-export async function saveCurrentTemplate({
+export async function createTemplate({
   template,
 }) {
   const payload =

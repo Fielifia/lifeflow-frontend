@@ -1,79 +1,60 @@
-import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { getTemplateById } from '../../../shared/api/templateApi'
+
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+
 import BackButton from '../../../shared/ui/BackButton'
 import DataState from '../../../shared/ui/DataState'
 import Header from '../../../shared/ui/Header'
+
 import ExerciseItem from '../../workout/components/ExerciseItem'
-import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
 import TemplateControls from '../components/TemplateControls'
+
+import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
+import { useTemplateDetail } from '../hooks/useTemplateDetail'
 import { useTemplateManager } from '../hooks/useTemplateManager'
+
 /**
  * Displays detailed view of a template.
  * @returns {import('react').ReactElement} Template detail UI
  */
-export default function TemplateDetail() {
+export default function TemplateDetailPage() {
   const { id } = useParams()
+
   const navigate = useNavigate()
   const location = useLocation()
-  const { startWorkout } = useStartWorkout()
 
   const { setReturnTo } = useExerciseFlow()
 
+  const { startWorkout } = useStartWorkout()
+
+  const {
+    template,
+    loading,
+    error,
+  } = useTemplateDetail(id)
 
   const {
     success,
-
     deleteCurrentTemplate,
-  } = useTemplateManager(id, navigate)
-
-
-  const [template, setTemplate] = useState(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState('')
-
-  useEffect(() => {
-    if (template) return
-
-    const fetchTemplate = async () => {
-      try {
-        setLoading(true)
-
-        const data = await getTemplateById(id)
-
-        setTemplate(data)
-      } catch {
-        setError('Could not load template')
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchTemplate()
-  }, [id, template])
+  } = useTemplateManager(navigate, id)
 
   // ===== LOADING / ERROR / EMPTY =====
+
   if (loading || error || !template) {
     return (
       <div className="app">
-        <Header
-          title="Template"
+        <Header title="Template" />
 
+        <BackButton fallback="/workouts" />
+
+        <DataState
+          loading={loading}
+          error={error}
+          data={template ? [template] : []}
+          variant="card-workout"
+          emptyText="No template found"
+          count={1}
         />
-
-        <div className="card-base card-workout">
-          <BackButton fallback="/workouts" />
-
-          <DataState
-            loading={loading}
-            error={error}
-            data={template ? [template] : []}
-            variant="card-workout"
-            emptyText="No template found"
-            count={1}
-          />
-        </div>
       </div>
     )
   }
@@ -82,24 +63,40 @@ export default function TemplateDetail() {
     <div className="app">
       <Header
         title={template.name}
-        subtitle={`${template.exercises.length} exercises `}
+        subtitle={`${template.exercises.length} exercises`}
       />
+
       <BackButton fallback="/workouts" />
 
+      {/* CONTROLS */}
       <TemplateControls
         onStartWorkout={(e) => {
           e.stopPropagation?.()
+
           startWorkout({ template })
         }}
+
         onEditTemplate={() => {
           setReturnTo(location.pathname)
+
           navigate(`/templates/${template._id}/edit`)
         }}
+
         onDeleteTemplate={deleteCurrentTemplate}
       />
 
-      {success && <p className="muted center">Template saved ✔</p>}
-      {error && <p className="error center">{error}</p>}
+      {/* FEEDBACK */}
+      {success && (
+        <p className="muted center">
+          Template saved ✔
+        </p>
+      )}
+
+      {error && (
+        <p className="error center">
+          {error}
+        </p>
+      )}
 
       {/* EXERCISES */}
       {template.exercises.map((ex, i) => (
@@ -123,7 +120,6 @@ export default function TemplateDetail() {
           </p>
         </div>
       )}
-
     </div>
   )
 }

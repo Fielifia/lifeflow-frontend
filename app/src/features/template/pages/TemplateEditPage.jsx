@@ -75,8 +75,12 @@ export default function TemplateEditPage() {
       <TemplateControls
         onSaveTemplate={saveCurrentTemplate}
         saving={saving}
-        onDeleteTemplate={deleteCurrentTemplate}
+        onDeleteCurrentTemplate={deleteCurrentTemplate}
       />
+
+      {/* FEEDBACK */}
+      {success && <p className="muted center">Template saved ✔</p>}
+      {error && <p className="error center">{error}</p>}
 
       {/* ADD EXERCISE */}
       <button className="btn btn-standard btn-secondary btn-full" onClick={openLibrary}>
@@ -101,10 +105,6 @@ export default function TemplateEditPage() {
         />
       ))}
 
-
-      {/* FEEDBACK */}
-      {success && <p className="muted center">Template saved ✔</p>}
-      {error && <p className="error center">{error}</p>}
     </div>
   )
 }
