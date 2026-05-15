@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 import { useWorkoutLogic } from '../hooks/useWorkoutLogic'
 
@@ -18,7 +18,6 @@ import WorkoutHeader from '../components/WorkoutHeader'
  */
 export default function WorkoutRunPage() {
   const navigate = useNavigate()
-  const location = useLocation()
   const { id: workoutId } = useParams()
   const [flash, setFlash] = useState(false)
 
@@ -50,9 +49,9 @@ export default function WorkoutRunPage() {
 
     saveWorkout,
     saveAsTemplate,
-    
+
     discardWorkout,
-  } = useWorkoutLogic(navigate, location, workoutId)
+  } = useWorkoutLogic(navigate, workoutId)
 
   const {
     status,
