@@ -5,7 +5,7 @@ import { useWorkoutLogic } from '../hooks/useWorkoutLogic'
 
 import BackButton from '../../../shared/ui/BackButton'
 import Header from '../../../shared/ui/Header'
-import ExerciseItem from '../components/ExerciseItem'
+import ExerciseItem from '../../exercise/components/ExerciseItem'
 import RestTimer from '../components/RestTimer'
 import WorkoutControls from '../components/WorkoutControls'
 import WorkoutHeader from '../components/WorkoutHeader'

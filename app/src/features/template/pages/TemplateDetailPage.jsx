@@ -6,7 +6,7 @@ import BackButton from '../../../shared/ui/BackButton'
 import DataState from '../../../shared/ui/DataState'
 import Header from '../../../shared/ui/Header'
 
-import ExerciseItem from '../../workout/components/ExerciseItem'
+import ExerciseItem from '../../exercise/components/ExerciseItem'
 import TemplateControls from '../components/TemplateControls'
 
 import { useStartWorkout } from '../../workout/hooks/useStartWorkout'

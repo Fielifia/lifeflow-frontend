@@ -5,7 +5,7 @@ import { useWorkoutManager } from '../hooks/useWorkoutManager'
 import BackButton from '../../../shared/ui/BackButton'
 import Header from '../../../shared/ui/Header'
 
-import ExerciseItem from '../../workout/components/ExerciseItem'
+import ExerciseItem from '../../exercise/components/ExerciseItem'
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
 
 import WorkoutControls from '../../workout/components/WorkoutControls'
