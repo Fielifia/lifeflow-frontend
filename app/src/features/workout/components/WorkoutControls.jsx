@@ -1,4 +1,4 @@
-import LoadingButton from '../../../shared/ui/LoadingButton'
+import LoadingButton from '../../../shared/components/ui/LoadingButton'
 /**
  * Workout control buttons.
  * @param {object} props - Component props

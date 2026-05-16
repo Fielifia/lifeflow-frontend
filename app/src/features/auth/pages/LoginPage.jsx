@@ -1,8 +1,8 @@
-import { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
+import { useState } from 'react'
 import { login } from '../../../shared/api/authApi'
-import Header from '../../../shared/ui/Header'
-import LoadingButton from '../../../shared/ui/LoadingButton'
+import Header from '../../../shared/components/ui/Header'
+import LoadingButton from '../../../shared/components/ui/LoadingButton'
 
 /**
  * Login component for user authentication.
@@ -63,6 +63,7 @@ export default function LoginPage({ setUser }) {
             className="input-base input-auth"
             placeholder="Email"
             value={email}
+            onFocus={(e) => e.target.select()}
             onChange={(e) => {
               setEmail(e.target.value)
               setError('')
@@ -78,6 +79,7 @@ export default function LoginPage({ setUser }) {
               type={showPassword ? 'text' : 'password'}
               placeholder="Password"
               value={password}
+              onFocus={(e) => e.target.select()}
               onChange={(e) => {
                 setPassword(e.target.value)
                 setError('')
@@ -96,7 +98,11 @@ export default function LoginPage({ setUser }) {
             </button>
           </div>
 
-          <LoadingButton className="btn btn-standard btn-primary" loading={loading} onClick={handleLogin}>
+          <LoadingButton
+            className="btn btn-standard btn-primary"
+            loading={loading}
+            onClick={handleLogin}
+          >
             {loading ? 'Logging in...' : 'Login'}
           </LoadingButton>
         </form>

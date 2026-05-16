@@ -1,3 +1,6 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import ActionMenu from '../../../shared/components/ui/action-menu/ActionMenu'
 import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
 import TemplateControls from './TemplateControls'
 
@@ -11,23 +14,58 @@ import TemplateControls from './TemplateControls'
  * @param {() => void} props.onClick - Opens template details
  * @returns {import('react').ReactElement} Template card UI
  */
-export default function TemplateCard({ template, onClick }) {
+export default function TemplateCard({ template, onOpen, onDeleteTemplate }) {
+  const navigate = useNavigate()
   const exercises = template.exercises || []
   const { startWorkout } = useStartWorkout()
 
-  return (
-    <div className="card-base template-card clickable" onClick={onClick}>
+  const menuItems = [
+    {
+      label: 'Open',
+      onClick: () => onOpen(),
+    },
+    {
+      label: 'Edit',
+      onClick: () => navigate(`/templates/${template._id}/edit`),
+    },
+    {
+      label: 'Delete',
+      danger: true,
+      onClick: () => onDeleteTemplate(template._id),
+    },
+  ]
 
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  return (
+    <div
+      className={`
+      card-base
+      template-card
+      ${!menuOpen ? 'card-clickable' : ''}
+      ${menuOpen ? 'menu-open' : ''}
+    `}
+      onClick={() => {
+        if (menuOpen) {
+          return
+        }
+
+        onOpen()
+      }}
+      onMouseDown={(e) => {
+        if (menuOpen) {
+          e.preventDefault()
+        }
+      }}
+    >
       {/* HEADER */}
       <div className="template-card-header">
         <div className="template-card-header-content">
           <h3>{template.name}</h3>
-          <p className="muted small">
-            Last: X days ago
-          </p>
+          <p className="muted small">Last: X days ago</p>
         </div>
 
-        <button className="btn btn-clean btn-dots">⋮</button>
+        <ActionMenu items={menuItems} onOpenChange={setMenuOpen} />
       </div>
 
       <ul className="template-card-exercise-list">
@@ -37,9 +75,7 @@ export default function TemplateCard({ template, onClick }) {
       </ul>
 
       {exercises.length > 2 && (
-        <p className="muted small center">
-          And {exercises.length - 2} more ..
-        </p>
+        <p className="muted small center">And {exercises.length - 2} more ..</p>
       )}
 
       <TemplateControls

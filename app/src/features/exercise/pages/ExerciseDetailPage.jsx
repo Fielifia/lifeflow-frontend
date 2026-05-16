@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
-import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { getExerciseById } from '../../../shared/api/exerciseApi'
-import { normalizeExercise } from '../utils/exerciseAdapter'
+import BackButton from '../../../shared/components/ui/BackButton'
+import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { formatLabel } from '../../../shared/utils/format'
-import BackButton from '../../../shared/ui/BackButton'
+import { normalizeExercise } from '../utils/exerciseAdapter'
 
 /**
  * Displays detailed information about a selected exercise.

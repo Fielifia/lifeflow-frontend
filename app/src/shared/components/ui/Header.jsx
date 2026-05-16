@@ -4,7 +4,7 @@ import {
   UserLock,
   UserPlus
 } from 'lucide-react'
-import { userStorage } from '../utils/storage/userStorage'
+import { userStorage } from '../../utils/storage/userStorage'
 
 /**
  * Shared app header.

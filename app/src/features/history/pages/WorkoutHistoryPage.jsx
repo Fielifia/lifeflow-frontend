@@ -1,9 +1,9 @@
-import { useNavigate, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { getWorkoutsApi } from '../../../shared/api/workoutApi'
-import DataState from '../../../shared/ui/DataState'
-import Header from '../../../shared/ui/Header'
+import DataState from '../../../shared/components/ui/DataState'
+import Header from '../../../shared/components/ui/Header'
+import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import WorkoutCard from '../components/WorkoutCard'
 
 /**

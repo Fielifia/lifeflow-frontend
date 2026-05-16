@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { getTemplatesApi } from '../../../shared/api/templateApi'
+import DataState from '../../../shared/components/ui/DataState'
+import Header from '../../../shared/components/ui/Header'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
-import DataState from '../../../shared/ui/DataState'
-import Header from '../../../shared/ui/Header'
 import TemplateList from '../../template/components/TemplateList'
 
 /**

@@ -7,8 +7,8 @@ import { CATEGORY_ORDER } from '../utils/exerciseCategories'
 
 import ExerciseList from '../components/ExerciseList'
 
-import BackButton from '../../../shared/ui/BackButton'
-import DataState from '../../../shared/ui/DataState'
+import BackButton from '../../../shared/components/ui/BackButton'
+import DataState from '../../../shared/components/ui/DataState'
 
 const BASE_CATEGORIES = CATEGORY_ORDER
 

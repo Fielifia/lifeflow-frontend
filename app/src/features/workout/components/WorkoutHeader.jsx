@@ -1,5 +1,5 @@
-import { Pencil } from 'lucide-react'
 import DurationDisplay from './DurationDisplay'
+import ActionMenu from '../../../shared/components/ui/action-menu/ActionMenu'
 
 /**
  * Header for workout page.
@@ -16,7 +16,6 @@ import DurationDisplay from './DurationDisplay'
  * @param {boolean} props.isEditable - Whether workout can be edited
  * @param {boolean} props.showDuration - Whether duration should be displayed
  * @param props.startTime - Workout start time
- * @param props.adjustStartTime - Adjust start time
  * @returns {import('react').ReactElement} Header UI
  */
 export default function WorkoutHeader({
@@ -25,18 +24,18 @@ export default function WorkoutHeader({
   setIsEditing,
   onChangeName,
   elapsed,
-  status,
   startTime,
-  adjustStartTime,
   mode = 'run',
   duration,
   onChangeDuration,
   isEditable = true,
   showDuration = true,
+  menuItems,
 }) {
-
   return (
     <div className="workout-header">
+      <ActionMenu items={menuItems} align="right" />
+
       <div className="workout-name">
         {isEditing && isEditable ? (
           <input
@@ -56,14 +55,15 @@ export default function WorkoutHeader({
             }}
           />
         ) : (
-          <h2 className="close"
+          <h2
+            className="close"
             onClick={() => {
               if (isEditable) {
                 setIsEditing(true)
               }
             }}
           >
-            {name} {isEditable && <Pencil className="icon-small" />}
+            {name}
           </h2>
         )}
       </div>
@@ -72,9 +72,7 @@ export default function WorkoutHeader({
         <DurationDisplay
           mode={mode}
           elapsed={elapsed}
-          status={status}
           startTime={startTime}
-          adjustStartTime={adjustStartTime}
           duration={duration}
           onChangeDuration={onChangeDuration}
           isEditable={isEditable}

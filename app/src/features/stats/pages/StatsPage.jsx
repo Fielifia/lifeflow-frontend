@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import Header from '../../../shared/ui/Header'
+import Header from '../../../shared/components/ui/Header'
 
 import StatsHeader from '../components/StatsHeader'
 import StatsHero from '../components/StatsHero'

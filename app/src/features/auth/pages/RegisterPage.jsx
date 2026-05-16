@@ -1,8 +1,8 @@
+import { Eye, EyeOff } from 'lucide-react'
 import { useState } from 'react'
 import { register } from '../../../shared/api/authApi'
-import { Eye, EyeOff } from 'lucide-react'
-import Header from '../../../shared/ui/Header'
-import LoadingButton from '../../../shared/ui/LoadingButton'
+import Header from '../../../shared/components/ui/Header'
+import LoadingButton from '../../../shared/components/ui/LoadingButton'
 
 /**
  * Register component for creating a new user account.
@@ -82,6 +82,7 @@ export default function RegisterPage({ setUser }) {
             className="input-base input-auth"
             placeholder="Email"
             value={email}
+            onFocus={(e) => e.target.select()}
             onChange={(e) => {
               setEmail(e.target.value)
               setError('')
@@ -92,6 +93,7 @@ export default function RegisterPage({ setUser }) {
             className="input-base input-auth"
             placeholder="Username"
             value={username}
+            onFocus={(e) => e.target.select()}
             onChange={(e) => {
               setUsername(e.target.value)
               setError('')
@@ -104,6 +106,7 @@ export default function RegisterPage({ setUser }) {
               type={showPassword ? 'text' : 'password'}
               placeholder="Password"
               value={password}
+              onFocus={(e) => e.target.select()}
               onChange={(e) => {
                 setPassword(e.target.value)
                 setError('')
@@ -125,6 +128,7 @@ export default function RegisterPage({ setUser }) {
               type={showPassword ? 'text' : 'password'}
               placeholder="Confirm Password"
               value={confirmPassword}
+              onFocus={(e) => e.target.select()}
               onChange={(e) => {
                 setConfirmPassword(e.target.value)
                 setError('')
@@ -143,7 +147,11 @@ export default function RegisterPage({ setUser }) {
             </button>
           </div>
 
-          <LoadingButton className="btn btn-standard btn-primary" loading={loading} onClick={handleRegister}>
+          <LoadingButton
+            className="btn btn-standard btn-primary"
+            loading={loading}
+            onClick={handleRegister}
+          >
             Create account
           </LoadingButton>
         </form>

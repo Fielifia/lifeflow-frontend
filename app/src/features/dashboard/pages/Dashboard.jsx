@@ -1,5 +1,5 @@
-import DataState from '../../../shared/ui/DataState'
-import Header from '../../../shared/ui/Header'
+import DataState from '../../../shared/components/ui/DataState'
+import Header from '../../../shared/components/ui/Header'
 import { userStorage } from '../../../shared/utils/storage/userStorage'
 import DashboardContent from '../components/DashboardContent'
 import { useOverviewStats } from '../hooks/useOverviewStats'

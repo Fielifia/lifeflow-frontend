@@ -1,8 +1,8 @@
-import { useNavigate, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { getTemplatesApi, deleteTemplateApi } from '../../../shared/api/templateApi'
+import DataState from '../../../shared/components/ui/DataState'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
-import { getTemplatesApi } from '../../../shared/api/templateApi'
-import DataState from '../../../shared/ui/DataState'
 import TemplateCard from './TemplateCard'
 
 /**
@@ -46,6 +46,26 @@ export default function TemplateList({ limit = 5 }) {
 
   const visible = filteredTemplates.slice(0, visibleCount)
 
+  const handleDeleteTemplate = async (id) => {
+    const confirmed = window.confirm(
+      'Delete this template?'
+    )
+
+    if (!confirmed) {
+      return
+    }
+
+    try {
+      await deleteTemplateApi(id)
+
+      setTemplates((prev) =>
+        prev.filter((template) => template._id !== id)
+      )
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   return (
     <div className="page-section">
       <h3 className="close">My Templates</h3>
@@ -77,12 +97,12 @@ export default function TemplateList({ limit = 5 }) {
             <TemplateCard
               key={template._id}
               template={template}
+              onDeleteTemplate={handleDeleteTemplate}
               onClick={() => {
                 setReturnTo(location.pathname)
 
                 navigate(`/templates/${template._id}`)
-              }
-              }
+              }}
             />
           ))}
         </div>

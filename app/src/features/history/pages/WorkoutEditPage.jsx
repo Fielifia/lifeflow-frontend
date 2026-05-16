@@ -2,8 +2,8 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { useWorkoutManager } from '../hooks/useWorkoutManager'
 
-import BackButton from '../../../shared/ui/BackButton'
-import Header from '../../../shared/ui/Header'
+import BackButton from '../../../shared/components/ui/BackButton'
+import Header from '../../../shared/components/ui/Header'
 
 import ExerciseItem from '../../exercise/components/ExerciseItem'
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
@@ -28,7 +28,7 @@ export default function WorkoutEditPage() {
 
     isEditingName,
     setIsEditingName,
-    
+
     addSet,
     updateSet,
     removeExercise,

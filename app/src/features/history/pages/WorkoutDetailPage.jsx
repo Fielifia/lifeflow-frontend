@@ -7,9 +7,9 @@ import {
 import { useWorkoutDetail } from '../hooks/useWorkoutDetail'
 import { useWorkoutManager } from '../hooks/useWorkoutManager'
 
-import BackButton from '../../../shared/ui/BackButton'
-import DataState from '../../../shared/ui/DataState'
-import Header from '../../../shared/ui/Header'
+import BackButton from '../../../shared/components/ui/BackButton'
+import DataState from '../../../shared/components/ui/DataState'
+import Header from '../../../shared/components/ui/Header'
 import ExerciseItem from '../../exercise/components/ExerciseItem'
 import WorkoutControls from '../../workout/components/WorkoutControls'
 import WorkoutHeader from '../../workout/components/WorkoutHeader'

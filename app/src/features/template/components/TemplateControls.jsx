@@ -1,4 +1,4 @@
-import LoadingButton from '../../../shared/ui/LoadingButton'
+import LoadingButton from '../../../shared/components/ui/LoadingButton'
 
 /**
  * Template control buttons.

@@ -161,6 +161,7 @@ a:active {
 
 
 .app {
+  position: relative;
   max-width: 480px;
   margin: 0 auto 60px;
   padding: 12px 12px;
@@ -231,7 +232,6 @@ button {
 .btn {
   cursor: pointer;
   border-radius: 10px;
-  margin: 8px 0;
   transition: transform 0.08s ease, opacity 0.08s ease;
 }
 
@@ -269,6 +269,7 @@ button {
   background: var(--card-2);
   border: 1px solid var(--border);
   color: var(--text);
+  min-width: 70px;
 }
 
 .btn-secondary:hover {
@@ -294,7 +295,6 @@ button {
 }
 
 .btn-small {
-  cursor: pointer;
   border-radius: 10px;
   font-size: 12px;
   padding: 6px;
@@ -315,11 +315,6 @@ button {
   justify-content: center;
   cursor: pointer;
   padding: 0;
-}
-
-.btn-dots {
-  font-size: 20px;
-  color: var(--muted);
 }
 
 /* WRAPPER */
@@ -669,7 +664,7 @@ input[type="checkbox"]:hover {
 .workout-controls {
   display: flex;
   gap: 8px;
-  margin: 12px 0 0;
+  margin: 12px 0 24px;
 }
 
 .workout-exercise {
@@ -682,38 +677,34 @@ input[type="checkbox"]:hover {
   flex-direction: column;
 }
 
-.duration,
-.edit-duration {
-  display: flex;
-  gap: 6px;
-}
-
 .duration {
+  display: flex;
   flex-direction: column;
+  gap: 6px;
+  margin: 24px 0;
 }
 
 .duration-time {
   font-size: 34px;
 }
 
-.edit-duration {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  flex-wrap: wrap;
+.start-time {
+  font-size: 14px;
+  min-height: 1rem;
+  transition: opacity 0.15s ease;
 }
 
-.input-time {
-  background: transparent;
-  border: none;
-  color: inherit;
-  font: inherit;
+.start-time.hidden {
+  opacity: 0;
+}
+.start-time.visible {
+  opacity: 1;
 }
 
 .workout-header {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 12px;
   margin: 12px 0;
 }
 
@@ -726,6 +717,29 @@ input[type="checkbox"]:hover {
   width: 14px;
   cursor: pointer;
   color: var(--primary);
+}
+
+.modal-backdrop {
+  position: absolute;
+  background: var(--card);
+  border: 1px solid var(--border);
+  top: 10rem;
+  right: 12px;
+  width: 150px;
+  padding: 12px;
+  border-radius: 20px;
+  z-index: 100;
+}
+
+.modal-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 8px;
 }
 
 .exercise-item-header {
@@ -1235,12 +1249,6 @@ input[type="checkbox"]:hover {
   margin-bottom: 10px;
 }
 
-.dots {
-  display: flex;
-  justify-content: center;
-  gap: 6px;
-}
-
 .dot {
   width: 6px;
   height: 6px;
@@ -1537,8 +1545,17 @@ input[type="checkbox"]:hover {
   gap: 12px;
 }
 
+.template-card.menu-open {
+  transform: none !important;
+}
+
+.template-card.menu-open:active {
+  transform: none !important;
+}
+
 .template-card-header,
 .workout-card-header {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;

@@ -2,9 +2,9 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
-import BackButton from '../../../shared/ui/BackButton'
-import DataState from '../../../shared/ui/DataState'
-import Header from '../../../shared/ui/Header'
+import BackButton from '../../../shared/components/ui/BackButton'
+import DataState from '../../../shared/components/ui/DataState'
+import Header from '../../../shared/components/ui/Header'
 
 import ExerciseItem from '../../exercise/components/ExerciseItem'
 import TemplateControls from '../components/TemplateControls'
