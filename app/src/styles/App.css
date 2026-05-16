@@ -16,7 +16,7 @@
 
   --text: #fff;
   --muted: #b0b8bb;
-  --danger: #a83b3f;
+  --danger: #a83b3f8a;
   --border: rgba(255, 255, 255, 0.05);
 }
 
@@ -135,6 +135,10 @@ a:active {
   transition: transform 0.08s ease, opacity 0.08s ease;
 }
 
+.clickable:hover {
+  transform: scale(1.01);
+}
+
 .clickable:active {
   transform: scale(0.97);
   opacity: 0.85;
@@ -148,6 +152,8 @@ a:active {
 .card-clickable:active {
   transform: scale(0.98);
 }
+
+
 
 /* ============================= */
 /* ========== LAYOUT =========== */
@@ -226,7 +232,16 @@ button {
   cursor: pointer;
   border-radius: 10px;
   margin: 8px 0;
-  transition: 0.2s ease;
+  transition: transform 0.08s ease, opacity 0.08s ease;
+}
+
+.btn:hover {
+  transform: scale(1.01);
+}
+
+.btn:active {
+  transform: scale(0.97);
+  opacity: 0.85;
 }
 
 .btn-standard {
@@ -713,17 +728,30 @@ input[type="checkbox"]:hover {
   color: var(--primary);
 }
 
-.exercise-header-main {
+.exercise-item-header {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.exercise-header-main.controls {
+.exercise-item-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.exercise-item-title:hover {
+  opacity: 0.7;
+}
+
+
+.exercise-item-header .controls {
   margin-left: auto;
 }
 
-.exercise-header-main.controls .icon-small-trash {
+.exercise-item-header .controls .icon-small-trash {
   height: 17px;
   width: 17px;
   color: var(--danger);
@@ -768,20 +796,27 @@ input[type="checkbox"]:hover {
 .hold-indicator {
   position: absolute;
   inset: 0;
-  background: rgba(255, 0, 0, 0.08);
+  background: rgba(168, 59, 63, 0.08);
   pointer-events: none;
+  overflow: hidden;
 }
 
 .hold-progress {
   position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-  background: rgba(255, 0, 0, 0.4);
+  inset: 0;
+
+  background: linear-gradient(90deg,
+      #a83b3f1c,
+      #a83b3f8a);
+
   transform-origin: left;
   transform: scaleX(0);
+
   transition: transform 0.05s linear;
+
+  box-shadow:
+    0 0 10px #a83b3f2e,
+    0 0 20px rgba(220, 38, 38, 0.09)
 }
 
 .set-header {
@@ -1382,6 +1417,7 @@ input[type="checkbox"]:hover {
 /* ========== PER EXERCISE ==========*/
 .rest-label {
   position: relative;
+  display: flex;
   padding: 6px 8px;
   border-radius: 10px;
   background: var(--card-2);
@@ -1389,14 +1425,31 @@ input[type="checkbox"]:hover {
   font-size: 12px;
   width: 80px;
   align-items: center;
+  justify-content: center;
   cursor: pointer;
+  transition: background 0.2s ease;
+  gap: 8px;
 }
 
 .rest-label .icon-small {
   width: 12px;
   height: 12px;
-  margin: 0 12px 0 0;
   color: var(--primary-light);
+}
+
+.rest-label:hover {
+  background: var(--card-hover);
+}
+
+.rest-label.is-static {
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: default;
+}
+
+.rest-label.is-static:hover {
+  background: transparent;
 }
 
 .rest-badge {
@@ -1627,7 +1680,7 @@ input[type="checkbox"]:hover {
   color: white;
   border-color: transparent;
   box-shadow:
-      0 8px 24px rgba(0, 0, 0, 0.25);
+    0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
 .stats-range-btn:not(.active) {

@@ -27,7 +27,7 @@ export default function TemplateCard({ template, onClick }) {
           </p>
         </div>
 
-        <button className="btn-clean btn-dots">⋮</button>
+        <button className="btn btn-clean btn-dots">⋮</button>
       </div>
 
       <ul className="template-card-exercise-list">

@@ -26,7 +26,7 @@ export default function WorkoutCard({ workout, onClick }) {
             )} • {formatDate(workout.date)}</p>
         </div>
 
-        <button className="btn-clean btn-dots">⋮</button>
+        <button className="btn btn-clean btn-dots">⋮</button>
       </div>
 
       {/* EXERCISE PREVIEW */}

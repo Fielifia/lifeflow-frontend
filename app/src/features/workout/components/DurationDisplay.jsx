@@ -93,7 +93,7 @@ export default function DurationDisplay({
           ) : (
             isEditable && (
               <button
-                className="btn-clean muted small"
+                className="btn btn-clean muted small"
                 onClick={() => setEditing(true)}
               >
                 <ClipboardClock className="icon-small" />

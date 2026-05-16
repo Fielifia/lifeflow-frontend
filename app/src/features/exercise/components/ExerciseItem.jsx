@@ -103,36 +103,38 @@ export default function ExerciseItem({
     weight: 0,
     reps: 0,
   }
-  
+
   let currentBest = { ...historicalBest }
 
   return (
     <div className="workout-exercise">
       {/* HEADER */}
-      <div className="exercise-header-main">
-        <img
-          src={ex.image || ex.images?.[0] || '/placeholder.png'}
-          alt=""
-          className="exercise-img-small"
-          
-          onClick={() => {
-            navigate(
-              `/exercises/${ex.exerciseId || ex.id}`,
-              {
-                state: {
-                  from: window.location.pathname,
+      <div className="exercise-item-header">
+        <div className="exercise-item-title clickable">
+          <img
+            src={ex.image || ex.images?.[0] || '/placeholder.png'}
+            alt=""
+            className="exercise-img-small"
+
+            onClick={() => {
+              navigate(
+                `/exercises/${ex.exerciseId || ex.id}`,
+                {
+                  state: {
+                    from: window.location.pathname,
+                  },
                 },
-              },
-            )
-          }}
-        />
+              )
+            }}
+          />
 
-        <h2>{ex.name}</h2>
+          <h2>{ex.name}</h2>
+        </div>
 
-        <div className="exercise-header-main controls">
+        <div className="exercise-item-header controls">
           {/* REST TIME */}
           <div
-            className="rest-label"
+            className={`rest-label clickable ${!isEditable ? 'is-static' : ''}`}
             onClick={(e) => {
               if (!isEditable) return
 
@@ -176,7 +178,7 @@ export default function ExerciseItem({
 
           {isEditable && (
             <button
-              className="btn-secondary btn-small"
+              className="btn btn-secondary btn-small"
               onClick={(e) => {
                 e.stopPropagation()
                 removeExercise(i)
@@ -292,7 +294,7 @@ export default function ExerciseItem({
             {isEditable ? (
               <input
                 ref={(el) => (inputRefs.current[j] = el)}
-                className="input-base"
+                className="input-base clickable"
                 type="number"
                 value={set.weight ?? ''}
                 onFocus={(e) => e.target.select()}
@@ -313,7 +315,7 @@ export default function ExerciseItem({
             {isEditable ? (
               <div className="number-input">
                 <button
-                  className="btn-clean"
+                  className="btn btn-clean"
                   onClick={() =>
                     updateSet(i, j, 'reps', Math.max(0, (set.reps || 0) - 1))
                   }
@@ -322,7 +324,7 @@ export default function ExerciseItem({
                 </button>
 
                 <input
-                  className="input-base"
+                  className="input-base clickable"
                   type="number"
                   value={set.reps ?? ''}
                   onFocus={(e) => e.target.select()}
@@ -337,7 +339,7 @@ export default function ExerciseItem({
                 />
 
                 <button
-                  className="btn-clean"
+                  className="btn btn-clean"
                   onClick={() =>
                     updateSet(i, j, 'reps', (set.reps || 0) + 1)
                   }

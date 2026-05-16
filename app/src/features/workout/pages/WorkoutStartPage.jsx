@@ -63,7 +63,7 @@ export default function WorkoutStartPage() {
 
           {/* START / CONTINUE WORKOUT */}
           <button
-            className="hero-btn hero-btn-primary"
+            className="btn hero-btn hero-btn-primary"
             onClick={() => {
               start()
 
@@ -81,7 +81,7 @@ export default function WorkoutStartPage() {
 
           {/* TEMPLATE */}
           <button
-            className="hero-btn hero-btn-secondary"
+            className="btn hero-btn hero-btn-secondary"
             onClick={() =>
               navigate('/templates/create')
             }
