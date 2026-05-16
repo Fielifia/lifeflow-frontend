@@ -1,14 +1,14 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations.js'
-import { appendExercisesToWorkout } from '../utils/appendExercisesToWorkout.js'
-import { buildWorkoutExercise } from '../utils/buildWorkoutExercise.js'
-import { saveWorkoutAsTemplate, saveWorkoutSession } from '../utils/workoutPersistence.js'
+import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
+import { appendExercisesToWorkout } from '../utils/appendExercisesToWorkout'
+import { buildWorkoutExercise } from '../utils/buildWorkoutExercise'
+import { saveWorkoutAsTemplate, saveWorkoutSession } from '../utils/workoutPersistence'
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
-import { draftWorkoutStorage } from '../../../shared/utils/storage/draftStorage.js'
-import { EMPTY_WORKOUT } from '../constants.js'
+import { EMPTY_WORKOUT } from '../../../shared/utils/constants'
+import { draftWorkoutStorage } from '../../../shared/utils/storage/draftStorage'
 
 /**
  * Handles workout state, timers and actions.
@@ -126,7 +126,7 @@ export function useWorkoutLogic(navigate, workoutId) {
     })
 
     setSelectedTemplate(null)
-  }, [selectedTemplate, setSelectedTemplate])
+  }, [selectedTemplate, setSelectedTemplate, setWorkout])
 
   useEffect(() => {
     if (status === 'running' || status === 'paused') {

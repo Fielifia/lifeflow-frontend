@@ -10,7 +10,7 @@ import TemplateList from '../../template/components/TemplateList'
  * Entry page for starting workouts.
  * @returns {import('react').ReactElement} Workout start page UI
  */
-export default function WorkoutStart() {
+export default function WorkoutStartPage() {
   const navigate = useNavigate()
 
   const {

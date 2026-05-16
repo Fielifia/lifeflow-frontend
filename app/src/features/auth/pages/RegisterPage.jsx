@@ -9,7 +9,7 @@ import LoadingButton from '../../../shared/ui/LoadingButton'
  * @param {{ setUser: (user: object) => void }} props - Component props
  * @returns {import('react').ReactElement} Registration form UI
  */
-export default function Register({ setUser }) {
+export default function RegisterPage({ setUser }) {
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')

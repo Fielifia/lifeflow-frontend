@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
+import { EMPTY_TEMPLATE } from '../../../shared/utils/constants'
+
 import {
   createTemplateApi,
   deleteTemplateApi,
@@ -9,6 +11,8 @@ import {
 } from '../../../shared/api/templateApi'
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+
+import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 
 import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
 
@@ -63,14 +67,14 @@ import { buildTemplatePayload } from '../utils/buildTemplatePayload'
  */
 export function useTemplateManager(navigate, id) {
   const location = useLocation()
-
+  const { setDraftTemplate } = useWorkoutContext()
   const isCreate = !id
 
   // ===== STATE =====
 
   const [template, setTemplate] = useState(() => {
     if (!isCreate) {
-      return null
+      return EMPTY_TEMPLATE
     }
 
     try {
@@ -84,11 +88,7 @@ export function useTemplateManager(navigate, id) {
         notes: stored?.notes || '',
       }
     } catch {
-      return {
-        name: 'Template',
-        exercises: [],
-        notes: '',
-      }
+      return EMPTY_TEMPLATE
     }
   })
 
@@ -134,6 +134,7 @@ export function useTemplateManager(navigate, id) {
         setTemplate(data)
 
         setEditingTemplate(data)
+
       } catch {
         setError('Could not load template')
       } finally {
@@ -157,7 +158,12 @@ export function useTemplateManager(navigate, id) {
     }
 
     draftTemplateStorage.set(template)
-  }, [template, isCreate])
+
+    if (template?.exercises?.length > 0) {
+      draftTemplateStorage.set(template)
+      setDraftTemplate(template)
+    }
+  }, [template, isCreate, setDraftTemplate])
 
   // ===== ADD FROM LIBRARY =====
 
@@ -223,23 +229,18 @@ export function useTemplateManager(navigate, id) {
 
       const payload = buildTemplatePayload(template)
 
-      if (isCreate) {
-        await createTemplateApi(payload)
-
-        draftTemplateStorage.clear()
-      } else {
-        await updateTemplateApi(id, payload)
-
-        setEditingTemplate(null)
-      }
+      let saved
 
       if (isCreate) {
-        const created = await createTemplateApi(payload)
-        draftTemplateStorage.clear()
+        saved = await createTemplateApi(payload)
 
-        navigate(`/templates/${created._id}`)
+        draftTemplateStorage.clear()
+        setDraftTemplate(EMPTY_TEMPLATE)
+
+        navigate(`/templates/${saved._id}`)
       } else {
-        await updateTemplateApi(id, payload)
+        saved = await updateTemplateApi(id, payload)
+
         setEditingTemplate(null)
 
         navigate(`/templates/${id}`)
@@ -270,6 +271,8 @@ export function useTemplateManager(navigate, id) {
       await deleteTemplateApi(id)
 
       setEditingTemplate(null)
+      draftTemplateStorage.clear()
+      setDraftTemplate(EMPTY_TEMPLATE)
 
       navigate('/workouts')
     } catch (err) {

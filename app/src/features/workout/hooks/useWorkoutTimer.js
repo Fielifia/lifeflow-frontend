@@ -1,6 +1,6 @@
-import { useState, useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useToast } from '../../../shared/context/ToastContext'
-import { MAX_DURATION, INACTIVITY_LIMIT, WARNING_TIME } from '../constants.js'
+import { INACTIVITY_LIMIT, MAX_DURATION, WARNING_TIME } from '../../../shared/utils/constants'
 
 /**
  * Hook for managing a workout timer with pause/resume,
@@ -89,7 +89,7 @@ export function useWorkoutTimer() {
     return undefined
   }, [status, startTime, offset])
 
-  
+
   /**
    * Detects inactivity and pauses the timer if no activity
    * has been registered within the defined limit.

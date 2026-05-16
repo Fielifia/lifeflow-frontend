@@ -105,8 +105,7 @@ export default function ExerciseItem({
   }
   
   let currentBest = { ...historicalBest }
-  
-  console.log(ex)
+
   return (
     <div className="workout-exercise">
       {/* HEADER */}
