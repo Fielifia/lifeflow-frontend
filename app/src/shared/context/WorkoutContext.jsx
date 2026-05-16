@@ -1,6 +1,8 @@
-import { createContext, useContext, useState } from 'react'
-import { useWorkoutTimer } from '../../features/workout/hooks/useWorkoutTimer'
+import { createContext, useContext, useEffect, useState } from 'react'
+import { EMPTY_WORKOUT } from '../../features/workout/constants'
 import { useRestTimer } from '../../features/workout/hooks/useRestTimer'
+import { useWorkoutTimer } from '../../features/workout/hooks/useWorkoutTimer'
+import { draftWorkoutStorage} from '../utils/storage/draftStorage'
 
 const WorkoutContext = createContext()
 
@@ -22,7 +24,13 @@ export function WorkoutProvider({ children }) {
   const timer = useWorkoutTimer()
   const rest = useRestTimer()
 
-  const [activeWorkout, setActiveWorkout] = useState(null)
+  const [activeWorkout, setActiveWorkout] = useState(() => {
+    return draftWorkoutStorage.get() || EMPTY_WORKOUT
+  })
+
+  useEffect(() => {
+    draftWorkoutStorage.set(activeWorkout)
+  }, [activeWorkout])
 
   const [selectedTemplate, setSelectedTemplate] =
     useState(null)

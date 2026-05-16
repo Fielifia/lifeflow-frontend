@@ -75,18 +75,10 @@ export function useWorkoutLogic(navigate, workoutId) {
 
 
   // ===== INIT =====
-  const [workout, setWorkout] = useState(() => {
-    try {
-      const stored = draftWorkoutStorage.get()
-      return {
-        name: stored?.name?.trim() || 'Workout',
-        exercises: stored?.exercises || [],
-        notes: stored?.notes || '',
-      }
-    } catch {
-      return EMPTY_WORKOUT
-    }
-  })
+  const {
+    activeWorkout: workout,
+    setActiveWorkout: setWorkout,
+  } = useWorkoutContext()
 
   // ===== SAVE DRAFT =====
   useEffect(() => {

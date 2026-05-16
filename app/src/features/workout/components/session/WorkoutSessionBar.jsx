@@ -93,7 +93,6 @@ export default function WorkoutSessionBar({
               onClick={(e) => {
                 e.stopPropagation()
                 skipRest()
-                requestAnimationFrame(() => onExpand())
               }}
             >
               Skip
