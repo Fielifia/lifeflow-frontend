@@ -74,7 +74,7 @@ export function useTemplateManager(navigate, id) {
 
   const [template, setTemplate] = useState(() => {
     if (!isCreate) {
-      return EMPTY_TEMPLATE
+      return null
     }
 
     try {
