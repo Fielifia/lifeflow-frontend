@@ -59,7 +59,7 @@ export default function ExerciseItem({
   const [progress, setProgress] = useState(0)
   const timerRef = useRef(null)
 
-  const HOLD_DURATION = 600
+  const HOLD_DURATION = 1000
 
   const startHold = (j, e) => {
     if (['INPUT', 'BUTTON'].includes(e.target.tagName)) return
@@ -149,6 +149,7 @@ export default function ExerciseItem({
                 type="number"
                 autoFocus
                 value={safeRest}
+                onFocus={(e) => e.target.select()}
                 onBlur={(e) => {
                   const val = Number(e.target.value)
                   if (!isNaN(val)) onChangeRestTime(val)
@@ -295,6 +296,7 @@ export default function ExerciseItem({
                 className="input-base"
                 type="number"
                 value={set.weight ?? ''}
+                onFocus={(e) => e.target.select()}
                 onChange={(e) =>
                   updateSet(
                     i,
@@ -324,6 +326,7 @@ export default function ExerciseItem({
                   className="input-base"
                   type="number"
                   value={set.reps ?? ''}
+                  onFocus={(e) => e.target.select()}
                   onChange={(e) =>
                     updateSet(
                       i,
