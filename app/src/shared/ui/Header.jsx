@@ -4,6 +4,7 @@ import {
   UserLock,
   UserPlus
 } from 'lucide-react'
+import { userStorage } from '../utils/storage/userStorage'
 
 /**
  * Shared app header.
@@ -57,7 +58,8 @@ export default function Header({
             return
           }
 
-          localStorage.removeItem('token')
+          localStorage.removeItem('user')
+          userStorage.clear()
 
           window.location.href = '/login'
         }}

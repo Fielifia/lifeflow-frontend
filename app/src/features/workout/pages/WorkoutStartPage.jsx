@@ -4,10 +4,6 @@ import { getTemplatesApi } from '../../../shared/api/templateApi'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 import DataState from '../../../shared/ui/DataState'
 import Header from '../../../shared/ui/Header'
-import {
-  draftTemplateStorage,
-  draftWorkoutStorage,
-} from '../../../shared/utils/storage/draftStorage'
 import TemplateList from '../../template/components/TemplateList'
 
 /**
@@ -17,41 +13,23 @@ import TemplateList from '../../template/components/TemplateList'
 export default function WorkoutStart() {
   const navigate = useNavigate()
 
+  const {
+    start,
+
+    activeWorkout,
+
+    draftTemplate,
+  } = useWorkoutContext()
+
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [templates, setTemplates] = useState([])
 
-  const [draftTemplate, setDraftTemplate] = useState(null)
+  const hasWorkoutDraft =
+    activeWorkout?.exercises?.length > 0
 
-  const { start } = useWorkoutContext()
-
-  useEffect(() => {
-    try {
-      const stored = draftTemplateStorage.get()
-      if (stored?.exercises?.length > 0) {
-        setDraftTemplate(stored)
-      }
-    } catch {
-      setDraftTemplate(null)
-    }
-  }, [])
-
-  const hasTemplateDraft = draftTemplate?.exercises?.length > 0
-
-  const [draftWorkout, setDraftWorkout] = useState(null)
-
-  useEffect(() => {
-    try {
-      const stored = draftWorkoutStorage.get()
-      if (stored?.exercises?.length > 0) {
-        setDraftWorkout(stored)
-      }
-    } catch {
-      setDraftWorkout(null)
-    }
-  }, [])
-
-  const hasWorkoutDraft = draftWorkout?.exercises?.length > 0
+  const hasTemplateDraft =
+    draftTemplate?.exercises?.length > 0
 
   useEffect(() => {
     const fetchTemplates = async () => {
@@ -60,6 +38,7 @@ export default function WorkoutStart() {
         setError(null)
 
         const data = await getTemplatesApi({ limit: 5 })
+
         setTemplates(data.results || [])
       } catch (err) {
         console.error(err)
@@ -78,52 +57,37 @@ export default function WorkoutStart() {
         title="Start Workout"
         subtitle="Build your next session"
       />
+
       <div className="page-section">
         <div className="hero-actions">
+
+          {/* START / CONTINUE WORKOUT */}
           <button
             className="hero-btn hero-btn-primary"
             onClick={() => {
               start()
 
-              navigate(`/workouts/${Date.now()}/run`, {
-                state: {
-                  workout: hasWorkoutDraft
-                    ? {
-                      ...draftWorkout,
-                      exercises: draftWorkout.exercises.map((ex) => ({
-                        ...ex,
-                        sets: ex.sets.map((s) => ({
-                          ...s,
-                          completed: false,
-                        })),
-                      })),
-                    }
-                    : {
-                      name: '',
-                      exercises: [],
-                      notes: '',
-                    },
-                },
-              })
+              navigate(`/workouts/${Date.now()}/run`)
             }}
           >
             <span className="hero-icon">▷</span>
+
             <span>
               {hasWorkoutDraft
-                ? `Continue ${draftWorkout.name || 'Workout'}`
+                ? `Continue ${activeWorkout.name || 'Workout'}`
                 : 'Start Empty Workout'}
             </span>
           </button>
 
+          {/* TEMPLATE */}
           <button
             className="hero-btn hero-btn-secondary"
             onClick={() =>
-              navigate('/templates/create', {
-                state: hasTemplateDraft ? { draft: draftTemplate } : undefined,
-              })
+              navigate('/templates/create')
             }
           >
             <span className="hero-icon">+</span>
+
             <span>
               {hasTemplateDraft
                 ? `Continue ${draftTemplate.name || 'Template'}`

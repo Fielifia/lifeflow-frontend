@@ -139,7 +139,7 @@ export function useWorkoutLogic(navigate, workoutId) {
         exercises: workout.exercises,
       })
     } else {
-      setActiveWorkout(null)
+      setActiveWorkout(EMPTY_WORKOUT)
     }
   }, [
     status,
@@ -203,7 +203,7 @@ export function useWorkoutLogic(navigate, workoutId) {
 
       setIsEditingName(false)
 
-      setActiveWorkout(null)
+      setActiveWorkout(EMPTY_WORKOUT)
 
       draftWorkoutStorage.clear()
     } catch (err) {
@@ -247,7 +247,7 @@ export function useWorkoutLogic(navigate, workoutId) {
 
     setIsEditingName(false)
 
-    setActiveWorkout(null)
+    setActiveWorkout(EMPTY_WORKOUT)
 
     draftWorkoutStorage.clear()
 
