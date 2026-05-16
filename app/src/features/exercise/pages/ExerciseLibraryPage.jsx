@@ -139,7 +139,7 @@ export default function ExercisesLibraryPage() {
           className="input-base"
           placeholder="Search exercises..."
           value={search}
-          autoFocus="true"
+          onFocus={(e) => e.target.select()}
           onChange={(e) =>
             updateParams({
               search: e.target.value,

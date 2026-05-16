@@ -40,7 +40,11 @@ export default function TemplateList({ limit = 5 }) {
     fetchTemplates()
   }, [])
 
-  const visible = templates.slice(0, visibleCount)
+  const filteredTemplates = templates.filter((template) =>
+    template.name.toLowerCase().includes(search.toLowerCase())
+  )
+
+  const visible = filteredTemplates.slice(0, visibleCount)
 
   return (
     <div className="page-section">
@@ -51,6 +55,7 @@ export default function TemplateList({ limit = 5 }) {
         className="input-base"
         placeholder="Search templates..."
         value={search}
+        onFocus={(e) => e.target.select()}
         onChange={(e) => {
           setSearch(e.target.value)
           setVisibleCount(limit)
