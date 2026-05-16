@@ -4,7 +4,7 @@ import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext.jsx
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 import { draftWorkoutStorage } from '../../../shared/utils/storage/draftStorage.js'
 import { mapWorkoutToTemplate } from '../../template/utils/mapWorkoutToTemplate'
-import { DEFAULT_REST, DEFAULT_SETS, EMPTY_WORKOUT } from '../constants.js'
+import { DEFAULT_REST, DEFAULT_SETS, EMPTY_WORKOUT } from '../constants'
 import { cleanWorkoutForSave } from '../utils/cleanWorkoutForSave'
 import { workoutMutation } from '../utils/workoutMutations'
 import { usePreviousExercise } from './usePreviousExercise'
