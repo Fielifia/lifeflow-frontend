@@ -1,14 +1,13 @@
 import {
   useEffect,
+  useRef,
   useState,
 } from 'react'
 import { useLocation } from 'react-router-dom'
 
-import { useExerciseFlow }
-  from '../../../shared/context/ExerciseFlowContext'
+import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
-import { createTemplateApi }
-  from '../../../shared/api/templateApi'
+import { createTemplateApi } from '../../../shared/api/templateApi'
 
 import {
   deleteWorkoutApi,
@@ -16,17 +15,13 @@ import {
   updateWorkoutApi,
 } from '../../../shared/api/workoutApi'
 
-import { useExerciseMutations }
-  from '../../../shared/hooks/useExerciseMutations'
+import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
 
-import { buildWorkoutPayload }
-  from '../../workout/utils/buildWorkoutPayload'
+import { buildWorkoutPayload } from '../../workout/utils/buildWorkoutPayload'
 
-import { buildTemplatePayload }
-  from '../../template/utils/buildTemplatePayload'
+import { buildTemplatePayload } from '../../template/utils/buildTemplatePayload'
 
-import { appendExercisesToWorkout }
-  from '../../workout/utils/appendExercisesToWorkout'
+import { appendExercisesToWorkout } from '../../workout/utils/appendExercisesToWorkout'
 
 /**
  * Custom hook for editing workouts.
@@ -67,10 +62,17 @@ export function useWorkoutManager(
     setSelectedExercises,
 
     setReturnTo,
+    returnTo,
 
     editingWorkout,
     setEditingWorkout,
   } = useExerciseFlow()
+
+  // ===== ORIGINAL SNAPSHOT =====
+
+  const originalRef =
+    useRef(null)
+
 
   // ===== LOAD WORKOUT =====
 
@@ -80,6 +82,10 @@ export function useWorkoutManager(
       editingWorkout._id === workoutId
     ) {
       setWorkout(editingWorkout)
+
+      originalRef.current =
+        structuredClone(editingWorkout)
+
       setLoading(false)
 
       return
@@ -95,6 +101,10 @@ export function useWorkoutManager(
           )
 
         setWorkout(data)
+
+        originalRef.current =
+          structuredClone(data)
+
         setEditingWorkout(data)
       } catch (err) {
         setError(
@@ -180,7 +190,7 @@ export function useWorkoutManager(
       notes,
     }))
 
-  // ===== SAVE =====
+  // ===== SAVE WORKOUT =====
 
   const saveWorkout = async () => {
     try {
@@ -217,7 +227,7 @@ export function useWorkoutManager(
     }
   }
 
-  // ===== SAVE AS TEMPLATE =====
+  // ===== SAVE WORKOUT AS TEMPLATE =====
 
   const saveAsTemplate =
     async () => {
@@ -245,6 +255,35 @@ export function useWorkoutManager(
         setSaving(false)
       }
     }
+
+
+  // ===== DISCARD CHANGES (EDIT) =====
+
+  const discardChanges = () => {
+    if (!originalRef.current) {
+      return
+    }
+
+    const confirmed = window.confirm(
+      'Discard all changes?',
+    )
+
+    if (!confirmed) {
+      return
+    }
+
+    const restored =
+      structuredClone(originalRef.current)
+
+    setWorkout(restored)
+    setEditingWorkout(restored)
+
+    setIsEditingName(false)
+
+    if (returnTo) {
+      navigate(returnTo)
+    }
+  }
 
   // ===== DELETE =====
 
@@ -305,6 +344,7 @@ export function useWorkoutManager(
     saveWorkout,
     saveAsTemplate,
 
+    discardChanges,
     deleteWorkout,
   }
 }

@@ -75,6 +75,7 @@ export function useWorkoutLogic(navigate, workoutId) {
 
 
   // ===== INIT =====
+
   const {
     activeWorkout: workout,
     setActiveWorkout: setWorkout,
@@ -90,6 +91,7 @@ export function useWorkoutLogic(navigate, workoutId) {
   }, [workout])
 
   // ===== ADD FROM LIBRARY =====
+
   useEffect(() => {
     if (!selectedExercises?.length || hasAddedRef.current) {
       return
@@ -112,6 +114,7 @@ export function useWorkoutLogic(navigate, workoutId) {
   }, [selectedExercises])
 
   // ===== LOAD TEMPLATE =====
+
   useEffect(() => {
     if (!selectedTemplate) return
 
@@ -175,7 +178,8 @@ export function useWorkoutLogic(navigate, workoutId) {
     navigate(`/workouts/${workoutId}/exercises?select=true`)
   }
 
-  // ===== SAVE =====
+  // ===== SAVE WORKOUT =====
+
   const saveWorkout = async () => {
     try {
       setSaving(true)
@@ -217,7 +221,8 @@ export function useWorkoutLogic(navigate, workoutId) {
     }
   }
 
-  // ===== SAVE AS TEMPLATE =====
+  // ===== SAVE WORKOUT AS TEMPLATE =====
+
   const saveAsTemplate = async () => {
     try {
       await saveWorkoutAsTemplate({
@@ -232,6 +237,8 @@ export function useWorkoutLogic(navigate, workoutId) {
       )
     }
   }
+
+  // ===== DISCARD WORKOUT (CREATE) =====
 
   const discardWorkout = () => {
     const confirmed = window.confirm('Discard current workout?')
@@ -258,7 +265,6 @@ export function useWorkoutLogic(navigate, workoutId) {
     workout,
     setWorkout,
 
-    // Timer
     status,
     elapsed,
     startTime,
@@ -269,18 +275,19 @@ export function useWorkoutLogic(navigate, workoutId) {
     success,
     error,
 
-    updateExerciseNotes,
-    updateExerciseRest,
-
     isEditingName,
     setIsEditingName,
 
     openLibrary,
+
     addSet,
     updateSet,
     removeExercise,
     removeSet,
     toggleSetComplete,
+
+    updateExerciseRest,
+    updateExerciseNotes,
     updateWorkoutNotes,
 
     saveWorkout,

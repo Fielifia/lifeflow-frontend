@@ -6,8 +6,8 @@ import BackButton from '../../../shared/components/ui/BackButton'
 import DataState from '../../../shared/components/ui/DataState'
 import Header from '../../../shared/components/ui/Header'
 
+import WorkoutControls from '../../../shared/components/WorkoutControls'
 import ExerciseItem from '../../exercise/components/ExerciseItem'
-import TemplateControls from '../components/TemplateControls'
 
 import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
 import { useTemplateDetail } from '../hooks/useTemplateDetail'
@@ -27,16 +27,9 @@ export default function TemplateDetailPage() {
 
   const { startWorkout } = useStartWorkout()
 
-  const {
-    template,
-    loading,
-    error,
-  } = useTemplateDetail(id)
+  const { template, loading, error } = useTemplateDetail(id)
 
-  const {
-    success,
-    deleteTemplate,
-  } = useTemplateManager(navigate, id)
+  const { success, deleteTemplate } = useTemplateManager(navigate, id)
 
   // ===== LOADING / ERROR / EMPTY =====
 
@@ -69,38 +62,32 @@ export default function TemplateDetailPage() {
       <BackButton fallback="/workouts" />
 
       {/* CONTROLS */}
-      <TemplateControls
+      <WorkoutControls
+        variant="detail"
         onStartWorkout={(e) => {
           e.stopPropagation?.()
 
           startWorkout({ template })
         }}
-
-        onEditTemplate={() => {
+        onEdit={() => {
           setReturnTo(location.pathname)
 
           navigate(`/templates/${template._id}/edit`)
         }}
-
-        onDeleteTemplate={deleteTemplate}
+        onDelete={deleteTemplate}
+        editLabel="Edit template"
+        deleteLabel="Delete template"
       />
 
       {/* FEEDBACK */}
-      {success && (
-        <p className="muted center">
-          Template saved ✔
-        </p>
-      )}
+      {success && <p className="muted center">Template saved ✔</p>}
 
-      {error && (
-        <p className="error center">
-          {error}
-        </p>
-      )}
+      {error && <p className="error center">{error}</p>}
 
       {/* EXERCISES */}
       {template.exercises.map((ex, i) => (
         <ExerciseItem
+          mode="template"
           key={ex.id || i}
           ex={ex}
           i={i}
@@ -115,9 +102,7 @@ export default function TemplateDetailPage() {
         <div className="section">
           <h3>Notes</h3>
 
-          <p className="muted">
-            {template.notes}
-          </p>
+          <p className="muted">{template.notes}</p>
         </div>
       )}
     </div>

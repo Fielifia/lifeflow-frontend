@@ -1,5 +1,5 @@
+import WorkoutControls from '../../../shared/components/WorkoutControls'
 import { formatDate, formatDuration } from '../../../shared/utils/format'
-import WorkoutControls from '../../workout/components/WorkoutControls'
 import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
 
 /**
@@ -12,18 +12,15 @@ export default function WorkoutCard({ workout, onClick }) {
   const { startWorkout } = useStartWorkout()
 
   return (
-    <div
-      className="card-base workout-card clickable"
-      onClick={onClick}
-    >
+    <div className="card-base workout-card clickable" onClick={onClick}>
       {/* HEADER */}
       <div className="workout-card-header">
         <div className="workout-card-header-content">
           <h3>{workout.name}</h3>
           <p className="muted small">
-            {formatDuration(
-              Math.round((workout.duration || 0) / 60)
-            )} • {formatDate(workout.date)}</p>
+            {formatDuration(Math.round((workout.duration || 0) / 60))} •{' '}
+            {formatDate(workout.date)}
+          </p>
         </div>
 
         <button className="btn btn-clean btn-dots">⋮</button>
@@ -37,13 +34,12 @@ export default function WorkoutCard({ workout, onClick }) {
       </ul>
 
       {exercises.length > 2 && (
-        <p className="muted small center">
-          And {exercises.length - 2} more ..
-        </p>
+        <p className="muted small center">And {exercises.length - 2} more ..</p>
       )}
 
       {/* ACTION */}
       <WorkoutControls
+        variant="card"
         onStartWorkout={(e) => {
           e.stopPropagation()
           startWorkout({ workout })

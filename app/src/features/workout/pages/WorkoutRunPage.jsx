@@ -4,11 +4,11 @@ import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 import { useWorkoutLogic } from '../hooks/useWorkoutLogic'
 
 import BackButton from '../../../shared/components/ui/BackButton'
-import Header from '../../../shared/components/ui/Header'
 import DataState from '../../../shared/components/ui/DataState'
+import Header from '../../../shared/components/ui/Header'
+import WorkoutControls from '../../../shared/components/WorkoutControls'
 import ExerciseItem from '../../exercise/components/ExerciseItem'
 import RestTimer from '../components/RestTimer'
-import WorkoutControls from '../components/WorkoutControls'
 import WorkoutHeader from '../components/WorkoutHeader'
 
 /**
@@ -182,6 +182,7 @@ export default function WorkoutRunPage() {
 
       {/* TOP CONTROLS */}
       <WorkoutControls
+        variant="run"
         status={status}
         handleStartPause={handleStartPause}
         onFinishWorkout={saveWorkout}
@@ -190,6 +191,7 @@ export default function WorkoutRunPage() {
         saving={saving}
         hasExercises={workout.exercises.length > 0}
       />
+
       {success && <p className="muted center">Saved ✔</p>}
       {error && <p className="error center">{error}</p>}
 
@@ -219,7 +221,7 @@ export default function WorkoutRunPage() {
         <>
           {workout.exercises.map((ex, i) => (
             <ExerciseItem
-              showCheckbox
+              mode="run"
               key={ex.id}
               ex={ex}
               i={i}
@@ -234,13 +236,6 @@ export default function WorkoutRunPage() {
               onChangeRestTime={(value) => updateExerciseRest(i, value)}
             />
           ))}
-
-          <textarea
-            className="input-base textarea"
-            value={workout.notes}
-            placeholder="Workout Notes..."
-            onChange={(e) => updateWorkoutNotes(e.target.value)}
-          />
         </>
       </DataState>
 

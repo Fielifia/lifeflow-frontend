@@ -304,7 +304,8 @@ button {
 .back-btn {
   display: block;
   background: transparent;
-  border: 1px solid var(--border);
+  border: none;
+  font-size: 24px;
   color: var(--text);
 }
 

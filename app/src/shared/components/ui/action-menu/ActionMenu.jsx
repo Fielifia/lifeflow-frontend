@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-export default function ActionMenu({ items = [], onOpenChange }) {
+export default function ActionMenu({ items = [], onClickChange }) {
   const [open, setOpen] = useState(false)
   const menuRef = useRef(null)
 
@@ -19,8 +19,8 @@ export default function ActionMenu({ items = [], onOpenChange }) {
   }, [])
 
   useEffect(() => {
-    onOpenChange?.(open)
-  }, [open, onOpenChange])
+    onClickChange?.(open)
+  }, [open, onClickChange])
 
   const isTouchDevice = window.matchMedia('(hover: none)').matches
 

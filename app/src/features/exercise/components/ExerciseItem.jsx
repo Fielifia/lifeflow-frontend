@@ -40,16 +40,20 @@ export default function ExerciseItem({
   restTime,
   onChangeRestTime,
   updateExerciseNotes,
-  showCheckbox = true,
+  mode = 'run',
   isEditable = true,
 }) {
-
   const inputRefs = useRef([])
 
-  const gridClass =
-    showCheckbox && isEditable
-      ? 'set-grid-with-checkbox'
-      : 'set-grid-no-checkbox'
+  const isRunMode = mode === 'run'
+  // const isEditMode = mode === 'edit'
+  // const isTemplateMode = mode === 'template'
+
+  const gridClass = {
+    run: 'set-grid-run',
+    edit: 'set-grid-edit',
+    template: 'set-grid-template',
+  }[mode]
 
   const handleCheck = (j, checked) => {
     toggleSetComplete(i, j, checked)
@@ -107,7 +111,8 @@ export default function ExerciseItem({
   let currentBest = { ...historicalBest }
 
   return (
-    <div className="workout-exercise">
+    <div className={`workout-exercise ${mode}`}>
+      {' '}
       {/* HEADER */}
       <div className="exercise-item-header">
         <div className="exercise-item-title clickable">
@@ -115,16 +120,12 @@ export default function ExerciseItem({
             src={ex.image || ex.images?.[0] || '/placeholder.png'}
             alt=""
             className="exercise-img-small"
-
             onClick={() => {
-              navigate(
-                `/exercises/${ex.exerciseId || ex.id}`,
-                {
-                  state: {
-                    from: window.location.pathname,
-                  },
+              navigate(`/exercises/${ex.exerciseId || ex.id}`, {
+                state: {
+                  from: window.location.pathname,
                 },
-              )
+              })
             }}
           />
 
@@ -189,12 +190,8 @@ export default function ExerciseItem({
           )}
         </div>
       </div>
-
       {isEditable ? (
-        <form
-          className="exercise-notes"
-          onSubmit={(e) => e.preventDefault()}
-        >
+        <form className="exercise-notes" onSubmit={(e) => e.preventDefault()}>
           <input
             className="input-base input-exercise-notes"
             type="text"
@@ -205,17 +202,14 @@ export default function ExerciseItem({
         </form>
       ) : (
         ex.notes && (
-          <p className="muted small exercise-notes-static">
-            {ex.notes}
-          </p>
+          <p className="muted small exercise-notes-static">{ex.notes}</p>
         )
       )}
-
       {/* SET HEADER */}
       <div className={`set-header ${gridClass}`}>
         <span>Set</span>
 
-        {isEditable && <span>Previous</span>}
+        {isRunMode && <span>Previous</span>}
 
         <span>
           <Weight className="icon-small" />
@@ -228,22 +222,15 @@ export default function ExerciseItem({
           <span></span>
         </div>
 
-        {showCheckbox && isEditable && <span>✔</span>}
+        {isRunMode && isEditable && <span>✔</span>}
       </div>
-
       {/* SETS */}
-
       {ex.sets.map((set, j) => {
-
         const isHistoricalPB =
+          isRunMode &&
           set.completed &&
-          (
-            set.weight > currentBest.weight ||
-            (
-              set.weight === currentBest.weight &&
-              set.reps > currentBest.reps
-            )
-          )
+          (set.weight > currentBest.weight ||
+            (set.weight === currentBest.weight && set.reps > currentBest.reps))
 
         if (isHistoricalPB) {
           currentBest = {
@@ -273,16 +260,12 @@ export default function ExerciseItem({
                 />
               </div>
             )}
-            <span
-              className={`set-number ${isHistoricalPB ? 'pb' : ''}`}
-            >
-              {isHistoricalPB
-                ? <Trophy className="icon-small" />
-                : j + 1}
+            <span className={`set-number ${isHistoricalPB ? 'pb' : ''}`}>
+              {isHistoricalPB ? <Trophy className="icon-small" /> : j + 1}
             </span>
 
             {/* PREVIOUS */}
-            {isEditable && (
+            {isRunMode && (
               <span className="previous">
                 {set.prevWeight != null && set.prevReps != null
                   ? `${set.prevWeight}×${set.prevReps}`
@@ -294,7 +277,7 @@ export default function ExerciseItem({
             {isEditable ? (
               <input
                 ref={(el) => (inputRefs.current[j] = el)}
-                className="input-base clickable"
+                className="input-base"
                 type="number"
                 value={set.weight ?? ''}
                 onFocus={(e) => e.target.select()}
@@ -324,7 +307,7 @@ export default function ExerciseItem({
                 </button>
 
                 <input
-                  className="input-base clickable"
+                  className="input-base"
                   type="number"
                   value={set.reps ?? ''}
                   onFocus={(e) => e.target.select()}
@@ -340,9 +323,7 @@ export default function ExerciseItem({
 
                 <button
                   className="btn btn-clean"
-                  onClick={() =>
-                    updateSet(i, j, 'reps', (set.reps || 0) + 1)
-                  }
+                  onClick={() => updateSet(i, j, 'reps', (set.reps || 0) + 1)}
                 >
                   +
                 </button>
@@ -352,7 +333,7 @@ export default function ExerciseItem({
             )}
 
             {/* CHECKBOX */}
-            {showCheckbox && isEditable && (
+            {isRunMode && isEditable && (
               <input
                 type="checkbox"
                 className="checkbox"
@@ -363,7 +344,6 @@ export default function ExerciseItem({
           </div>
         )
       })}
-
       {/* ADD SET */}
       {isEditable && (
         <button

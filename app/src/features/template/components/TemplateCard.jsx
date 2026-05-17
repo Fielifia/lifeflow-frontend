@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import ActionMenu from '../../../shared/components/ui/action-menu/ActionMenu'
+import WorkoutControls from '../../../shared/components/WorkoutControls'
 import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
-import TemplateControls from './TemplateControls'
 
 /**
  * Displays a workout template preview card.
@@ -14,7 +14,7 @@ import TemplateControls from './TemplateControls'
  * @param {() => void} props.onClick - Opens template details
  * @returns {import('react').ReactElement} Template card UI
  */
-export default function TemplateCard({ template, onOpen, onDeleteTemplate }) {
+export default function TemplateCard({ template, onClick, onDeleteTemplate }) {
   const navigate = useNavigate()
   const exercises = template.exercises || []
   const { startWorkout } = useStartWorkout()
@@ -22,7 +22,7 @@ export default function TemplateCard({ template, onOpen, onDeleteTemplate }) {
   const menuItems = [
     {
       label: 'Open',
-      onClick: () => onOpen(),
+      onClick: () => onClick(),
     },
     {
       label: 'Edit',
@@ -50,7 +50,7 @@ export default function TemplateCard({ template, onOpen, onDeleteTemplate }) {
           return
         }
 
-        onOpen()
+        onClick()
       }}
       onMouseDown={(e) => {
         if (menuOpen) {
@@ -65,7 +65,7 @@ export default function TemplateCard({ template, onOpen, onDeleteTemplate }) {
           <p className="muted small">Last: X days ago</p>
         </div>
 
-        <ActionMenu items={menuItems} onOpenChange={setMenuOpen} />
+        <ActionMenu items={menuItems} onClickChange={setMenuOpen} />
       </div>
 
       <ul className="template-card-exercise-list">
@@ -78,7 +78,8 @@ export default function TemplateCard({ template, onOpen, onDeleteTemplate }) {
         <p className="muted small center">And {exercises.length - 2} more ..</p>
       )}
 
-      <TemplateControls
+      <WorkoutControls
+        variant="card"
         onStartWorkout={(e) => {
           e.stopPropagation()
           startWorkout({ template })

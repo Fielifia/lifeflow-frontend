@@ -1,17 +1,15 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { formatDate } from '../../../shared/utils/format'
-import {
-  saveWorkoutAsTemplate,
-} from '../../workout/utils/workoutPersistence'
+import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
 import { useWorkoutDetail } from '../hooks/useWorkoutDetail'
 import { useWorkoutManager } from '../hooks/useWorkoutManager'
 
 import BackButton from '../../../shared/components/ui/BackButton'
 import DataState from '../../../shared/components/ui/DataState'
 import Header from '../../../shared/components/ui/Header'
+import WorkoutControls from '../../../shared/components/WorkoutControls'
 import ExerciseItem from '../../exercise/components/ExerciseItem'
-import WorkoutControls from '../../workout/components/WorkoutControls'
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
 import WorkoutSummary from '../components/WorkoutSummary'
 
@@ -28,35 +26,16 @@ export default function WorkoutDetailPage() {
 
   const { setReturnTo } = useExerciseFlow()
 
-  const {
-    workout,
-    loading,
-    error,
-    stats,
-  } = useWorkoutDetail(id)
+  const { startWorkout } = useStartWorkout()
 
-  const {
-    success,
-    deleteWorkout,
-  } = useWorkoutManager(id, navigate)
+  const { workout, loading, error, stats } = useWorkoutDetail(id)
 
-  const handleSaveTemplate =
-    async () => {
-      try {
-        await saveWorkoutAsTemplate({
-          workout,
-        })
-      } catch (err) {
-        console.error(err)
-      }
-    }
+  const { success, deleteWorkout } = useWorkoutManager(id, navigate)
 
   if (loading || error || !workout) {
     return (
       <div className="app">
-        <Header
-          title='Workout'
-        />
+        <Header title="Workout" />
         <BackButton fallback="/workouts" />
 
         <DataState
@@ -73,10 +52,7 @@ export default function WorkoutDetailPage() {
 
   return (
     <div className="app">
-      <Header
-        title={workout.name}
-        subtitle={formatDate(workout.date)}
-      />
+      <Header title={workout.name} subtitle={formatDate(workout.date)} />
       <BackButton fallback="/history" />
 
       {/* HEADER */}
@@ -99,13 +75,20 @@ export default function WorkoutDetailPage() {
 
       {/* CONTROLS */}
       <WorkoutControls
-        onEditWorkout={() => {
+        variant="detail"
+        onStartWorkout={(e) => {
+          e.stopPropagation?.()
+
+          startWorkout({ workout })
+        }}
+        onEdit={() => {
           setReturnTo(location.pathname)
 
           navigate(`/workouts/${workout._id}/edit`)
         }}
-        onSaveWorkoutAsTemplate={handleSaveTemplate}
-        onDeleteWorkout={deleteWorkout}
+        onDelete={deleteWorkout}
+        editLabel="Edit workout"
+        deleteLabel="Delete workout"
       />
       {success && <p className="muted center">Workout saved ✔</p>}
       {error && <p className="error center">{error}</p>}
@@ -113,6 +96,7 @@ export default function WorkoutDetailPage() {
       {/* EXERCISES */}
       {workout.exercises.map((ex, i) => (
         <ExerciseItem
+          mode="workout"
           key={ex.id || i}
           ex={ex}
           i={i}
@@ -127,9 +111,7 @@ export default function WorkoutDetailPage() {
         <div className="section">
           <h3>Notes</h3>
 
-          <p className="muted">
-            {workout.notes}
-          </p>
+          <p className="muted">{workout.notes}</p>
         </div>
       )}
     </div>
