@@ -25,11 +25,9 @@ export default function WorkoutStartPage() {
   const [error, setError] = useState(null)
   const [templates, setTemplates] = useState([])
 
-  const hasWorkoutDraft =
-    activeWorkout?.exercises?.length > 0
+  const hasWorkoutDraft = activeWorkout?.exercises?.length > 0
 
-  const hasTemplateDraft =
-    draftTemplate?.exercises?.length > 0
+  const hasTemplateDraft = draftTemplate?.exercises?.length > 0
 
   useEffect(() => {
     const fetchTemplates = async () => {
@@ -53,14 +51,10 @@ export default function WorkoutStartPage() {
 
   return (
     <div className="app">
-      <Header
-        title="Start Workout"
-        subtitle="Build your next session"
-      />
+      <Header title="Start Workout" subtitle="Build your next session" />
 
-      <div className="page-section">
+      <div className="section">
         <div className="hero-actions">
-
           {/* START / CONTINUE WORKOUT */}
           <button
             className="btn hero-btn hero-btn-primary"
@@ -82,9 +76,7 @@ export default function WorkoutStartPage() {
           {/* TEMPLATE */}
           <button
             className="btn hero-btn hero-btn-secondary"
-            onClick={() =>
-              navigate('/templates/create')
-            }
+            onClick={() => navigate('/templates/create')}
           >
             <span className="hero-icon">+</span>
 

@@ -247,7 +247,7 @@ export default function ExerciseItem({
             onMouseLeave={isEditable ? cancelHold : undefined}
             onTouchStart={isEditable ? (e) => startHold(j, e) : undefined}
             onTouchEnd={isEditable ? cancelHold : undefined}
-            className={`set-row
+            className={`set-row ${gridClass}
             ${set.completed ? 'completed' : ''} 
             ${isHistoricalPB ? 'best-set' : ''}
           `}

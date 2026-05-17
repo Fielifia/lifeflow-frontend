@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { getTemplatesApi, deleteTemplateApi } from '../../../shared/api/templateApi'
+import {
+  deleteTemplateApi,
+  getTemplatesApi,
+} from '../../../shared/api/templateApi'
 import DataState from '../../../shared/components/ui/DataState'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import TemplateCard from './TemplateCard'
@@ -41,15 +44,13 @@ export default function TemplateList({ limit = 5 }) {
   }, [])
 
   const filteredTemplates = templates.filter((template) =>
-    template.name.toLowerCase().includes(search.toLowerCase())
+    template.name.toLowerCase().includes(search.toLowerCase()),
   )
 
   const visible = filteredTemplates.slice(0, visibleCount)
 
   const handleDeleteTemplate = async (id) => {
-    const confirmed = window.confirm(
-      'Delete this template?'
-    )
+    const confirmed = window.confirm('Delete this template?')
 
     if (!confirmed) {
       return
@@ -58,16 +59,14 @@ export default function TemplateList({ limit = 5 }) {
     try {
       await deleteTemplateApi(id)
 
-      setTemplates((prev) =>
-        prev.filter((template) => template._id !== id)
-      )
+      setTemplates((prev) => prev.filter((template) => template._id !== id))
     } catch (err) {
       console.error(err)
     }
   }
 
   return (
-    <div className="page-section">
+    <div className="section">
       <h3 className="close">My Templates</h3>
 
       {/* SEARCH */}
@@ -92,7 +91,7 @@ export default function TemplateList({ limit = 5 }) {
         }
         count={4}
       >
-        <div className="page-section">
+        <div className="section">
           {visible.map((template) => (
             <TemplateCard
               key={template._id}

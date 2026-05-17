@@ -167,13 +167,9 @@ a:active {
   padding: 12px 12px;
 }
 
-.page-section {
+.section {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-}
-
-.section {
   margin-bottom: 24px;
   gap: 12px;
 }
@@ -698,6 +694,7 @@ input[type="checkbox"]:hover {
 .start-time.hidden {
   opacity: 0;
 }
+
 .start-time.visible {
   opacity: 1;
 }
@@ -800,12 +797,21 @@ input[type="checkbox"]:hover {
   overflow: hidden;
 }
 
-.set-grid-with-checkbox {
-  grid-template-columns: 30px 2fr 2fr 3fr 30px;
+.set-grid-run, .set-row-run {
+  grid-template-columns:
+    40px 1fr 1fr 2fr 30px;
 }
 
-.set-grid-no-checkbox {
-  grid-template-columns: 30px 2fr 2fr 3fr;
+.set-grid-edit, .set-row-edit {
+  grid-template-columns:
+    1fr 2fr 3fr;
+}
+
+.set-grid-template {
+  grid-template-columns:
+    1fr 2fr 3fr;
+
+  gap: 10px;
 }
 
 .hold-indicator {

@@ -41,10 +41,7 @@ export default function WorkoutHistoryPage() {
 
   return (
     <div className="app">
-      <Header
-        title="Workout History"
-        subtitle="Your completed sessions"
-      />
+      <Header title="Workout History" subtitle="Your completed sessions" />
 
       <DataState
         loading={loading}
@@ -53,7 +50,7 @@ export default function WorkoutHistoryPage() {
         variant="card-workout"
         emptyText="No workouts yet"
       >
-        <div className="page-section">
+        <div className="section">
           {workouts.map((workout) => (
             <WorkoutCard
               key={workout._id}
@@ -62,8 +59,7 @@ export default function WorkoutHistoryPage() {
                 setReturnTo(location.pathname)
 
                 navigate(`/workouts/${workout._id}`)
-              }
-              }
+              }}
             />
           ))}
         </div>
