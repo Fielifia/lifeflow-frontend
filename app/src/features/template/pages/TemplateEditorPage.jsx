@@ -36,13 +36,7 @@ export default function TemplateEditorPage() {
     setIsEditingName,
 
     openLibrary,
-    addSet,
-    updateSet,
-    removeSet,
-    removeExercise,
-
-    updateExerciseRest,
-    updateExerciseNotes,
+    exerciseActions,
     updateTemplateNotes,
 
     hasUnsavedChanges,
@@ -138,13 +132,7 @@ export default function TemplateEditorPage() {
             ex={ex}
             i={i}
             navigate={navigate}
-            addSet={addSet}
-            updateSet={updateSet}
-            removeSet={removeSet}
-            removeExercise={removeExercise}
-            updateExerciseNotes={updateExerciseNotes}
-            restTime={ex.restTime}
-            onChangeRestTime={(value) => updateExerciseRest(i, value)}
+            actions={exerciseActions}
           />
         ))}
       </DataState>

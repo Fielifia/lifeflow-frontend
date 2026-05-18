@@ -172,7 +172,9 @@ export default function ExerciseItem({
             ) : (
               <span className="rest-badge">
                 {safeRest >= 60
-                  ? `${Math.floor(safeRest / 60)} min`
+                  ? safeRest % 60 === 0
+                    ? `${safeRest / 60} min`
+                    : `${Math.floor(safeRest / 60)}m ${safeRest % 60}s`
                   : `${safeRest}s`}
               </span>
             )}

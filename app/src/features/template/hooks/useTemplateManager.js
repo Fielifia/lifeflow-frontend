@@ -307,6 +307,15 @@ export function useTemplateManager(
     setTemplate,
   )
 
+  const exerciseActions = {
+    addSet,
+    updateSet,
+    removeSet,
+    removeExercise,
+    updateExerciseRest,
+    updateExerciseNotes,
+  }
+
   // ===== NOTES =====
 
   const updateTemplateNotes = (
@@ -454,13 +463,8 @@ export function useTemplateManager(
 
     openLibrary,
 
-    addSet,
-    updateSet,
-    removeSet,
-    removeExercise,
-
-    updateExerciseRest,
-    updateExerciseNotes,
+    exerciseActions,
+    
     updateTemplateNotes,
 
     hasUnsavedChanges,
