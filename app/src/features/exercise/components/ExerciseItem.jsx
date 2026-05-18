@@ -12,8 +12,6 @@ import { useRef, useState } from 'react'
  * @param {(i: number) => void} props.removeExercise - Removes exercise
  * @param {(i: number, j: number) => void} props.removeSet - Removes a set
  * @param {(i: number, j: number, checked: boolean) => void} props.toggleSetComplete - Toggles set completion
- * @param {number} props.restTime - Rest time in seconds
- * @param {(value: number) => void} props.onChangeRestTime - Updates rest time
  * @param {(index: number, notes: string) => void} props.updateExerciseNotes - Updates exercise notes
  * @param props.showCheckbox - Whether to show completion checkbox (default: true)
  * @description
@@ -32,14 +30,7 @@ export default function ExerciseItem({
   ex,
   i,
   navigate,
-  addSet,
-  updateSet,
-  removeExercise,
-  removeSet,
-  toggleSetComplete,
-  restTime,
-  onChangeRestTime,
-  updateExerciseNotes,
+  actions,
   mode = 'run',
   isEditable = true,
 }) {
@@ -48,6 +39,16 @@ export default function ExerciseItem({
   const isRunMode = mode === 'run'
   // const isEditMode = mode === 'edit'
   // const isTemplateMode = mode === 'template'
+
+  const {
+    addSet,
+    updateSet,
+    removeExercise,
+    removeSet,
+    toggleSetComplete,
+    updateExerciseNotes,
+    updateExerciseRest,
+  } = actions || {}
 
   const gridClass = {
     run: 'set-grid-run',
@@ -101,7 +102,7 @@ export default function ExerciseItem({
   }
 
   const [editingRest, setEditingRest] = useState(false)
-  const safeRest = restTime ?? 120
+  const safeRest = ex.restTime ?? 120
 
   const historicalBest = ex.historicalBest || {
     weight: 0,
@@ -154,7 +155,7 @@ export default function ExerciseItem({
                 onFocus={(e) => e.target.select()}
                 onBlur={(e) => {
                   const val = Number(e.target.value)
-                  if (!isNaN(val)) onChangeRestTime(val)
+                  if (!isNaN(val)) updateExerciseRest(i, val)
                   setEditingRest(false)
                 }}
                 onKeyDown={(e) => {
@@ -165,13 +166,13 @@ export default function ExerciseItem({
                 onClick={(e) => e.stopPropagation()}
                 onChange={(e) => {
                   const val = Number(e.target.value)
-                  if (!isNaN(val)) onChangeRestTime(val)
+                  if (!isNaN(val)) updateExerciseRest(i, val)
                 }}
               />
             ) : (
               <span className="rest-badge">
-                {restTime >= 60
-                  ? `${Math.floor(restTime / 60)} min`
+                {safeRest >= 60
+                  ? `${Math.floor(safeRest / 60)} min`
                   : `${safeRest}s`}
               </span>
             )}

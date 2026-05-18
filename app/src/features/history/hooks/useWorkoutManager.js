@@ -180,6 +180,16 @@ export function useWorkoutManager(
     setWorkout,
   )
 
+  const exerciseActions = {
+    addSet,
+    updateSet,
+    removeSet,
+    removeExercise,
+    toggleSetComplete,
+    updateExerciseRest,
+    updateExerciseNotes,
+  }
+
   // ===== NOTES =====
 
   const updateWorkoutNotes = (
@@ -330,15 +340,8 @@ export function useWorkoutManager(
 
     openLibrary,
 
-    addSet,
-    updateSet,
-    removeSet,
-
-    removeExercise,
-    toggleSetComplete,
-
-    updateExerciseRest,
-    updateExerciseNotes,
+    exerciseActions,
+  
     updateWorkoutNotes,
 
     saveWorkout,

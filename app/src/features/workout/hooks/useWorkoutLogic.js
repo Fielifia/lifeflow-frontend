@@ -159,15 +159,25 @@ export function useWorkoutLogic(navigate, workoutId) {
     updateSet,
     removeSet,
     removeExercise,
+    toggleSetComplete,
     updateExerciseRest,
     updateExerciseNotes,
-    toggleSetComplete,
   } = useExerciseMutations(setWorkout, {
     onSetCompleted: (rest) => {
       startRest(rest)
       registerActivity()
     },
   })
+
+  const exerciseActions = {
+    addSet,
+    updateSet,
+    removeSet,
+    removeExercise,
+    toggleSetComplete,
+    updateExerciseRest,
+    updateExerciseNotes,
+  }
 
   const updateWorkoutNotes = (notes) =>
     setWorkout((prev) => ({ ...prev, notes }))
@@ -280,14 +290,7 @@ export function useWorkoutLogic(navigate, workoutId) {
 
     openLibrary,
 
-    addSet,
-    updateSet,
-    removeExercise,
-    removeSet,
-    toggleSetComplete,
-
-    updateExerciseRest,
-    updateExerciseNotes,
+    exerciseActions,
     updateWorkoutNotes,
 
     saveWorkout,

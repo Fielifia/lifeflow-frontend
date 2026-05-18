@@ -44,14 +44,8 @@ export default function WorkoutRunPage() {
     adjustStartTime,
 
     openLibrary,
-    addSet,
-    updateSet,
-    removeExercise,
-    removeSet,
-    toggleSetComplete,
 
-    updateExerciseRest,
-    updateExerciseNotes,
+    exerciseActions,
     updateWorkoutNotes,
 
     saveWorkout,
@@ -226,14 +220,7 @@ export default function WorkoutRunPage() {
               ex={ex}
               i={i}
               navigate={navigate}
-              addSet={addSet}
-              updateSet={updateSet}
-              removeExercise={removeExercise}
-              removeSet={removeSet}
-              toggleSetComplete={toggleSetComplete}
-              updateExerciseNotes={updateExerciseNotes}
-              restTime={ex.restTime}
-              onChangeRestTime={(value) => updateExerciseRest(i, value)}
+              actions={exerciseActions}
             />
           ))}
         </>

@@ -31,18 +31,12 @@ export default function WorkoutEditPage() {
     isEditingName,
     setIsEditingName,
 
-    addSet,
-    updateSet,
-    removeExercise,
-    removeSet,
-    toggleSetComplete,
+    exerciseActions,
 
     startTime,
     adjustStartTime,
     openLibrary,
 
-    updateExerciseRest,
-    updateExerciseNotes,
     updateWorkoutNotes,
 
     saveWorkout,
@@ -106,14 +100,7 @@ export default function WorkoutEditPage() {
           ex={ex}
           i={i}
           navigate={navigate}
-          addSet={addSet}
-          updateSet={updateSet}
-          removeExercise={removeExercise}
-          removeSet={removeSet}
-          toggleSetComplete={toggleSetComplete}
-          updateExerciseNotes={updateExerciseNotes}
-          restTime={ex.restTime}
-          onChangeRestTime={(value) => updateExerciseRest(i, value)}
+          actions={exerciseActions}
         />
       ))}
 
