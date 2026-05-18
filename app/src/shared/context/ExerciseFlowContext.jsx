@@ -13,8 +13,7 @@ const ExerciseFlowContext = createContext()
  * @returns {import('react').ReactElement} Exercise flow context provider
  */
 export function ExerciseFlowProvider({ children }) {
-  const [selectedExercises, setSelectedExercises] =
-    useState([])
+  const [selectedExercises, setSelectedExercises] = useState([])
 
   const [returnTo, setReturnTo] = useState('/')
   const [scrollPosition, setScrollPosition] = useState(0)
@@ -55,13 +54,8 @@ export function ExerciseFlowProvider({ children }) {
 }
 
 /**
- * Hook for accessing exercise flow context.
- * @returns {{
- *   selectedExercises: Array,
- *   setSelectedExercises: import('react').Dispatch<import('react').SetStateAction<Array>>,
- *   returnTo: string,
- *   setReturnTo: import('react').Dispatch<import('react').SetStateAction<string>>
- * }} Exercise flow context values
+ * Hook for accessing exercise flow context values.
+ * @returns {object} Exercise flow context
  */
 export function useExerciseFlow() {
   return useContext(ExerciseFlowContext)

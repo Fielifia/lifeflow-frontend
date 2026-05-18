@@ -1,9 +1,4 @@
-import {
-  User,
-  UserCheck,
-  UserLock,
-  UserPlus
-} from 'lucide-react'
+import { User, UserCheck, UserLock, UserPlus } from 'lucide-react'
 import { userStorage } from '../../utils/storage/userStorage'
 
 /**
@@ -12,7 +7,7 @@ import { userStorage } from '../../utils/storage/userStorage'
  * @param {string} props.title - Header title
  * @param {string} [props.subtitle] - Header subtitle
  * @param {'guest' | 'login' | 'authenticated'} [props.variant] - Header profile icon variant
- * @param {() => void} [props.onProfileClick] - 
+ * @param {() => void} [props.onProfileClick] - Profile button click handler
  * @returns {import('react').ReactElement} Header
  */
 export default function Header({
@@ -33,15 +28,9 @@ export default function Header({
   return (
     <div className="header">
       <div className="header-content">
-        <h1 className="close">
-          {title}
-        </h1>
+        <h1 className="close">{title}</h1>
 
-        {subtitle && (
-          <p className="muted medium close">
-            {subtitle}
-          </p>
-        )}
+        {subtitle && <p className="muted medium close">{subtitle}</p>}
       </div>
 
       <button

@@ -4,24 +4,18 @@ import {
   useState,
 } from 'react'
 import { useLocation } from 'react-router-dom'
-
-import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
-
 import { createTemplateApi } from '../../../shared/api/templateApi'
-
 import {
   deleteWorkoutApi,
   getWorkoutByIdApi,
   updateWorkoutApi,
 } from '../../../shared/api/workoutApi'
+import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
 import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
-
-import { buildWorkoutPayload } from '../../workout/utils/buildWorkoutPayload'
-
 import { buildTemplatePayload } from '../../template/utils/buildTemplatePayload'
-
 import { appendExercisesToWorkout } from '../../workout/utils/appendExercisesToWorkout'
+import { buildWorkoutPayload } from '../../workout/utils/buildWorkoutPayload'
 
 /**
  * Custom hook for editing workouts.
@@ -341,7 +335,7 @@ export function useWorkoutManager(
     openLibrary,
 
     exerciseActions,
-  
+
     updateWorkoutNotes,
 
     saveWorkout,

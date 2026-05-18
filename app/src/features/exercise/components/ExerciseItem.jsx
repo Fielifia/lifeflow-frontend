@@ -7,13 +7,9 @@ import { useRef, useState } from 'react'
  * @param {{ id: string, name: string, image?: string, sets: Array }} props.ex - Exercise data
  * @param {number} props.i - Exercise index
  * @param {(path: string) => void} props.navigate - Navigation function
- * @param {(i: number) => void} props.addSet - Adds a new set
- * @param {(i: number, j: number, field: string, value: number | '') => void} props.updateSet - Updates set values
- * @param {(i: number) => void} props.removeExercise - Removes exercise
- * @param {(i: number, j: number) => void} props.removeSet - Removes a set
- * @param {(i: number, j: number, checked: boolean) => void} props.toggleSetComplete - Toggles set completion
- * @param {(index: number, notes: string) => void} props.updateExerciseNotes - Updates exercise notes
- * @param props.showCheckbox - Whether to show completion checkbox (default: true)
+ * @param {object} props.actions - Exercise mutation handlers
+ * @param {'run' | 'edit' | 'template'} [props.mode] - Exercise item mode
+ * @param {boolean} [props.isEditable] - Whether exercise can be edited
  * @description
  * Displays an exercise with its sets, allowing users to:
  * - View exercise details (name, image)

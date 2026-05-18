@@ -1,7 +1,10 @@
 /**
- * A button component that displays a loading state while an operation is in progress.
- * @param {{ loading: boolean, children: import('react').ReactNode }} param0 - The component props
- * @returns {import('react').ReactElement} The loading button UI
+ * Button with loading state.
+ * @param {object} props - Component props
+ * @param {boolean} props.loading - Whether button is loading
+ * @param {string} [props.loadingText] - Optional loading text
+ * @param {import('react').ReactNode} props.children - Button content
+ * @returns {import('react').ReactElement} Loading button UI
  */
 export default function LoadingButton({
   loading,
@@ -13,9 +16,7 @@ export default function LoadingButton({
     <button {...props} disabled={loading || props.disabled}>
       {loading && <span className="spinner"></span>}
 
-      <span>
-        {loading ? loadingText || children : children}
-      </span>
+      <span>{loading ? loadingText || children : children}</span>
     </button>
   )
 }

@@ -1,14 +1,18 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
-import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
-import { appendExercisesToWorkout } from '../utils/appendExercisesToWorkout'
-import { buildWorkoutExercise } from '../utils/buildWorkoutExercise'
-import { saveWorkoutAsTemplate, saveWorkoutSession } from '../utils/workoutPersistence'
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
+
+import { appendExercisesToWorkout } from '../utils/appendExercisesToWorkout'
+
+import { draftWorkoutStorage } from '../../../shared/utils/storage/draftStorage'
+
+import { buildWorkoutExercise } from '../utils/buildWorkoutExercise'
+
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 import { EMPTY_WORKOUT } from '../../../shared/utils/constants'
-import { draftWorkoutStorage } from '../../../shared/utils/storage/draftStorage'
+import { saveWorkoutAsTemplate, saveWorkoutSession } from '../utils/workoutPersistence'
 
 /**
  * Handles workout state, timers and actions.
@@ -22,23 +26,20 @@ import { draftWorkoutStorage } from '../../../shared/utils/storage/draftStorage'
  *  error: string,
  *  status: string,
  *  elapsed: number,
- *  updateExerciseRest: (index: number, value: number) => void,
  *  isEditingName: boolean,
  *  setIsEditingName: (value: boolean) => void,
  *  handleStartPause: () => void,
  *  openLibrary: () => void,
- *  addSet: (index: number) => void,
- *  updateSet: (exIndex: number, setIndex: number, field: string, value: number | '') => void,
- *  removeExercise: (index: number) => void,
- *  removeSet: (exIndex: number, setIndex: number) => void,
- *  toggleSetComplete: (exIndex: number, setIndex: number, checked: boolean) => void,
+ *  exerciseActions: object,
  *  updateWorkoutNotes: (notes: string) => void,
  *  saveWorkout: () => Promise<void>
  * }} Workout logic API
  */
 export function useWorkoutLogic(navigate, workoutId) {
   const location = useLocation()
+
   // ===== STATE =====
+
   const [saving, setSaving] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
@@ -169,6 +170,8 @@ export function useWorkoutLogic(navigate, workoutId) {
     },
   })
 
+  // ===== EXERCISE ACTIONS =====
+
   const exerciseActions = {
     addSet,
     updateSet,
@@ -270,6 +273,8 @@ export function useWorkoutLogic(navigate, workoutId) {
 
     navigate('/workouts')
   }
+
+  // ===== RETURN =====
 
   return {
     workout,

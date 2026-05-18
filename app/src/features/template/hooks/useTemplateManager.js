@@ -9,12 +9,11 @@ import {
 } from '../../../shared/api/templateApi'
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
-
 import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
 
-import { draftTemplateStorage } from '../../../shared/utils/storage/draftStorage'
-
 import { appendExercisesToTemplate } from '../utils/appendExercisesToTemplate'
+
+import { draftTemplateStorage } from '../../../shared/utils/storage/draftStorage'
 
 import { buildTemplatePayload } from '../utils/buildTemplatePayload'
 
@@ -27,13 +26,10 @@ const EMPTY_TEMPLATE = {
 /**
  * Handles template creation, editing,
  * exercise flow and template persistence.
- *
  * @param {(path: string) => void} navigate
  * React Router navigation function.
- *
  * @param {string | undefined} id
  * Template id for edit mode.
- *
  * @returns {{
  *  template: object | null,
  *  setTemplate: import('react').Dispatch<
@@ -48,26 +44,7 @@ const EMPTY_TEMPLATE = {
  *    import('react').SetStateAction<boolean>
  *  >,
  *  openLibrary: () => void,
- *  addSet: (index: number) => void,
- *  updateSet: (
- *    exIndex: number,
- *    setIndex: number,
- *    field: string,
- *    value: number | ''
- *  ) => void,
- *  removeSet: (
- *    exIndex: number,
- *    setIndex: number
- *  ) => void,
- *  removeExercise: (index: number) => void,
- *  updateExerciseRest: (
- *    index: number,
- *    value: number
- *  ) => void,
- *  updateExerciseNotes: (
- *    index: number,
- *    notes: string
- *  ) => void,
+ *  exerciseActions: object,
  *  updateTemplateNotes: (
  *    notes: string
  *  ) => void,
@@ -464,7 +441,7 @@ export function useTemplateManager(
     openLibrary,
 
     exerciseActions,
-    
+
     updateTemplateNotes,
 
     hasUnsavedChanges,

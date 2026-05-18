@@ -9,8 +9,9 @@ import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import TemplateCard from './TemplateCard'
 
 /**
- * Displays a list of templates.
- * @param {{ templates: Array<object> }} props - Template list data
+ * Displays a list of workout templates.
+ * @param {object} props - Component props
+ * @param {number} [props.limit] - Initial number of visible templates
  * @returns {import('react').ReactElement} Template list UI
  */
 export default function TemplateList({ limit = 5 }) {
