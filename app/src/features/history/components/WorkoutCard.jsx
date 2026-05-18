@@ -12,7 +12,13 @@ import WorkoutControls from '../../../shared/components/WorkoutControls'
 
 /**
  * Displays a summary card for a workout.
- * @param {{ workout: { _id: string, name?: string, createdAt: string, duration: number, exercises: Array } }} props - Component props
+ * 
+ * Shows workout name, exercise preview list,
+ * and quick actions such as starting a workout.
+ * @param {object} props - Component props
+ * @param {object} props.workout - Workout data
+ * @param {() => void} [props.onClick] - Opens workout details
+ * @param {(id: string) => void} [props.onDeleteWorkout] - Deletes workout
  * @returns {import('react').ReactElement} Workout card UI
  */
 export default function WorkoutCard({

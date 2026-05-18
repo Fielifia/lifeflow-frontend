@@ -1,15 +1,20 @@
 /**
  * Calculates muscle group distribution for a workout.
  * @param {object} workout - Workout object
- * @returns {Array<{ muscle: string, percentage: number, sets: number }>} - Muscle split
+ * @returns {Array<{ muscle: string, percentage: number, sets: number }>} - Muscle group distribution
  */
 export function calculateMuscleSplit(workout) {
+  
   if (!workout?.exercises) return []
 
   const muscleMap = {}
 
   workout.exercises.forEach((ex) => {
-    const muscle = ex.primaryMuscles?.[0] || 'Other'
+    const muscle =
+      ex.muscle ||
+      ex.primaryMuscles?.[0] ||
+      ex.bodyPart ||
+    'Other'
     const setCount = ex.sets?.length || 0
 
     muscleMap[muscle] = (muscleMap[muscle] || 0) + setCount

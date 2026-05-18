@@ -6,7 +6,7 @@ import {
 } from '../../../shared/utils/constants'
 
 /**
- * Builds a workout-ready exercise object.
+ * Builds a normalized workout exercise object.
  *
  * Adds:
  * - normalized frontend shape
@@ -14,16 +14,12 @@ import {
  * - historical PB
  * - completed state
  * - default sets/rest values
- * @param {object} ex
- * Exercise data
- * @param {object|null} prev
- * Previous workout data
+ * @param {object} ex - Exercise data
+ * @param {object|null} prev - Previous workout data
  * @param {{
  *  resetCompleted?: boolean
- * }} [options]
- * Build options
- * @returns {object}
- * Workout exercise
+ * }} [options] - Build options
+ * @returns {object} Normalized workout exercise
  */
 export function buildWorkoutExercise(
   ex,
@@ -50,7 +46,11 @@ export function buildWorkoutExercise(
       prevWeight: s.weight,
     }))
 
-    historicalBest = prev.bestSet
+    historicalBest = prev.bestSet || {
+      weight: 0,
+      reps: 0,
+    }
+
   } else if (ex.sets?.length) {
     sets = ex.sets.map((s) => ({
       ...s,

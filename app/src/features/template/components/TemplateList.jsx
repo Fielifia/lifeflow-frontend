@@ -12,6 +12,7 @@ import TemplateCard from './TemplateCard'
  * Displays a list of workout templates.
  * @param {object} props - Component props
  * @param {Array<object>} props.templates - Template list
+ * @param {(id: string) => void} [props.onDeleteTemplate] - Deletes template
  * @param {number} [props.limit=5] - Visible template increment count
  * @returns {import('react').ReactElement} Template list UI
  */
@@ -71,14 +72,13 @@ export default function TemplateList({
       </div>
 
       {/* SHOW MORE */}
-      
+
       {visibleCount < filteredTemplates.length && (
         <button
           className="btn btn-standard btn-primary"
           onClick={() => setVisibleCount((prev) => prev + limit)}
         >
-          Show more (+{Math.min(limit, filteredTemplates.length - visibleCount)}
-          )
+          Show more (+{Math.min(limit, filteredTemplates.length - visibleCount)}          )
         </button>
       )}
     </div>

@@ -1,17 +1,20 @@
-import { buildWorkoutExercise } from './buildWorkoutExercise'
 import { getPreviousExerciseApi } from '../../../shared/api/workoutApi'
+import { buildWorkoutExercise } from './buildWorkoutExercise'
 
 /**
  * Appends exercises to workout state.
- * Fetches previous exercise data (if any)
- * and converts exercises into
- * workout-ready frontend shape.
+ *
+ * For each exercise:
+ * - fetches previous workout data
+ * - builds normalized workout exercise objects
+ * - prevents duplicate exercises
  * @param {{
  *  exercises: object[],
  *  setWorkout: import('react').Dispatch<
  *    import('react').SetStateAction<object>
  *  >
  * }} params - Append exercise dependencies
+ * @returns {Promise<void>}
  */
 export async function appendExercisesToWorkout({ exercises, setWorkout }) {
   const results = await Promise.all(
@@ -21,13 +24,17 @@ export async function appendExercisesToWorkout({ exercises, setWorkout }) {
     }),
   )
 
-  setWorkout((prev) => ({
-    ...prev,
-    exercises: [
-      ...prev.exercises,
-      ...results.filter(
-        (newEx) => !prev.exercises.some((existing) => existing.exerciseId === newEx.exerciseId),
-      ),
-    ],
-  }))
+  setWorkout((prev) => {
+    const uniqueExercises = results.filter(
+      (newEx) =>
+        !prev.exercises.some(
+          (existing) => existing.exerciseId === newEx.exerciseId,
+        ),
+    )
+
+    return {
+      ...prev,
+      exercises: [...prev.exercises, ...uniqueExercises],
+    }
+  })
 }

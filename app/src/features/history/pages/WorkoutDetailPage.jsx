@@ -1,5 +1,11 @@
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import {
+  useLocation,
+  useNavigate,
+  useParams
+} from 'react-router-dom'
+
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+import { calculateMuscleSplit } from '../../../shared/utils/calculateMuscleSplit'
 import { formatDate } from '../../../shared/utils/format'
 import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
 import { useWorkoutDetail } from '../hooks/useWorkoutDetail'
@@ -9,14 +15,21 @@ import BackButton from '../../../shared/components/ui/BackButton'
 import DataState from '../../../shared/components/ui/DataState'
 import Header from '../../../shared/components/ui/Header'
 import WorkoutControls from '../../../shared/components/WorkoutControls'
+
 import ExerciseItem from '../../exercise/components/ExerciseItem'
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
 import WorkoutSummary from '../components/WorkoutSummary'
 
 /**
- * Page for displaying detailed information about a single workout.
+ * Page for displaying detailed information about a completed workout.
  *
- * Fetches workout by ID and displays completed workout details.
+ * Handles:
+ * - Workout loading state
+ * - Workout summary statistics
+ * - Muscle split calculation
+ * - Workout actions (restart, edit, delete)
+ * - Exercise list rendering
+ *
  * @returns {import('react').ReactElement} Workout detail page UI
  */
 export default function WorkoutDetailPage() {
@@ -29,6 +42,8 @@ export default function WorkoutDetailPage() {
   const { startWorkout } = useStartWorkout()
 
   const { workout, loading, error, stats } = useWorkoutDetail(id)
+
+  const muscleSplit = calculateMuscleSplit(workout)
 
   const { success, deleteWorkout } = useWorkoutManager(id, navigate)
 
@@ -52,10 +67,14 @@ export default function WorkoutDetailPage() {
 
   return (
     <div className="app">
+
+      {/* HEADER */}
+
       <Header title={workout.name} subtitle={formatDate(workout.date)} />
       <BackButton fallback="/history" />
 
-      {/* HEADER */}
+      {/* WORKOUT HEADER */}
+
       <WorkoutHeader
         name={workout.name}
         mode="history"
@@ -65,15 +84,18 @@ export default function WorkoutDetailPage() {
       />
 
       {/* SUMMARY */}
+
       <WorkoutSummary
-        exerciseCount={workout.exercises.length}
+        exerciseCount={stats.exerciseCount}
         totalSets={stats.totalSets}
         totalReps={stats.totalReps}
         totalVolume={stats.totalVolume}
         personalBests={stats.personalBests}
+        muscleSplit={muscleSplit}
       />
 
       {/* CONTROLS */}
+
       <WorkoutControls
         variant="detail"
         onStartWorkout={(e) => {
@@ -95,6 +117,7 @@ export default function WorkoutDetailPage() {
       {error && <p className="error center">{error}</p>}
 
       {/* EXERCISES */}
+
       {workout.exercises.map((ex, i) => (
         <ExerciseItem
           mode="workout"
@@ -108,6 +131,7 @@ export default function WorkoutDetailPage() {
       ))}
 
       {/* NOTES */}
+
       {workout.notes && (
         <div className="section">
           <h3>Notes</h3>

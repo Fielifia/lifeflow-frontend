@@ -1,17 +1,21 @@
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import {
+  useLocation,
+  useNavigate,
+  useParams
+} from 'react-router-dom'
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
+import { useTemplateDetail } from '../hooks/useTemplateDetail'
+import { useTemplateManager } from '../hooks/useTemplateManager'
 
 import BackButton from '../../../shared/components/ui/BackButton'
 import DataState from '../../../shared/components/ui/DataState'
 import Header from '../../../shared/components/ui/Header'
-
 import WorkoutControls from '../../../shared/components/WorkoutControls'
+
 import ExerciseItem from '../../exercise/components/ExerciseItem'
 
-import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
-import { useTemplateDetail } from '../hooks/useTemplateDetail'
-import { useTemplateManager } from '../hooks/useTemplateManager'
 
 /**
  * Displays detailed view of a template.

@@ -13,7 +13,8 @@ import WorkoutControls from '../../../shared/components/WorkoutControls'
  * and quick actions such as starting a workout.
  * @param {object} props - Component props
  * @param {object} props.template - Template data
- * @param {() => void} props.onClick - Opens template details
+ * @param {() => void} [props.onClick] - Opens template details
+ * @param {(id: string) => void} [props.onDeleteTemplate] - Deletes template
  * @returns {import('react').ReactElement} Template card UI
  */
 export default function TemplateCard({
@@ -69,7 +70,7 @@ export default function TemplateCard({
       }}
     >
 
-      {/* HEADER */}
+      {/* TEMPLATE HEADER */}
 
       <div className="template-card-header">
         <div className="template-card-header-content">

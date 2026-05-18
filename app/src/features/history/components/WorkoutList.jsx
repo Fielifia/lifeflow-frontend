@@ -12,6 +12,7 @@ import WorkoutCard from './WorkoutCard'
  * Displays a list of workouts.
  * @param {object} props - Component props
  * @param {Array<object>} props.workouts - Workout list
+ * @param {(id: string) => void} [props.onDeleteWorkout] - Deletes workout
  * @param {number} [props.limit=10] - Visible workout increment count
  * @returns {import('react').ReactElement} Workout list UI
  */
@@ -70,7 +71,7 @@ export default function WorkoutList({
       </div>
 
       {/* SHOW MORE */}
-      
+
       {visibleCount < filteredWorkouts.length && (
         <button
           className="btn btn-standard btn-primary"

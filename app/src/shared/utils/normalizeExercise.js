@@ -9,6 +9,9 @@
  * @param {object} ex - Raw exercise object
  * @param {string} [ex.id] - Frontend exercise id
  * @param {string} [ex.exerciseId] - Backend exercise id
+ * @param {string} [ex.muscle] - Primary muscle group
+ * @param {string[]} [ex.primaryMuscles] - Exercise primary muscles
+ * @param {string} [ex.bodyPart] - Exercise body part
  * @param {string[]} [ex.images] - Exercise image array
  * @param {string} [ex.image] - Single exercise image
  * @param {number} [ex.restTime] - Frontend rest time
@@ -17,6 +20,7 @@
  * @param {Array} [ex.sets] - Exercise sets
  * @returns {{
  *  id: string,
+ *  muscle: string,
  *  images: string[],
  *  restTime: number,
  *  notes: string,
@@ -29,6 +33,8 @@ export function normalizeExercise(ex) {
 
     id: ex.exerciseId || ex.id,
     exerciseId: ex.exerciseId || ex.id,
+
+    muscle: ex.muscle || ex.primaryMuscles?.[0] || ex.bodyPart || 'Other',
 
     images:
       ex.images?.length
