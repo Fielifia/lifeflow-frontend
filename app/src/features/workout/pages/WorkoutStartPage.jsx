@@ -1,14 +1,18 @@
 import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+
+import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+
 import { getTemplatesApi } from '../../../shared/api/templateApi'
 import DataState from '../../../shared/components/ui/DataState'
 import Header from '../../../shared/components/ui/Header'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
-import TemplateList from '../../template/components/TemplateList'
 import {
+  draftWorkoutStorage,
   hasTemplateDraftContent,
   hasWorkoutDraftContent,
 } from '../../../shared/utils/storage/draftStorage'
+import TemplateList from '../../template/components/TemplateList'
 
 /**
  * Entry page for starting workouts.
@@ -16,20 +20,18 @@ import {
  */
 export default function WorkoutStartPage() {
   const navigate = useNavigate()
+  const location = useLocation()
 
-  const {
-    start,
+  const { setReturnTo } = useExerciseFlow()
 
-    activeWorkout,
-
-    draftTemplate,
-  } = useWorkoutContext()
+  const { start, draftTemplate } = useWorkoutContext()
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [templates, setTemplates] = useState([])
 
-  const hasWorkoutDraft = hasWorkoutDraftContent(activeWorkout)
+  const workout = draftWorkoutStorage.get()
+  const hasWorkoutDraft = hasWorkoutDraftContent(workout)
 
   const hasTemplateDraft = hasTemplateDraftContent(draftTemplate)
 
@@ -72,7 +74,7 @@ export default function WorkoutStartPage() {
 
             <span>
               {hasWorkoutDraft
-                ? `Continue ${activeWorkout.name || 'Workout'}`
+                ? `Continue ${workout.name || 'Workout'}`
                 : 'Start Empty Workout'}
             </span>
           </button>
@@ -80,7 +82,11 @@ export default function WorkoutStartPage() {
           {/* TEMPLATE */}
           <button
             className="btn hero-btn hero-btn-secondary"
-            onClick={() => navigate('/templates/create')}
+            onClick={() => {
+              setReturnTo(location.pathname)
+
+              navigate('/templates/create')}
+            }
           >
             <span className="hero-icon">+</span>
 

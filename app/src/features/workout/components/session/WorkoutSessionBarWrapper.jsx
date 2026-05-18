@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useWorkoutContext } from '../../../../shared/context/WorkoutContext'
 import { hasWorkoutDraftContent } from '../../../../shared/utils/storage/draftStorage'
+import { draftWorkoutStorage } from '../../../../shared/utils/storage/draftStorage'
 import WorkoutSessionBar from './WorkoutSessionBar'
 
 /**
@@ -10,38 +11,29 @@ import WorkoutSessionBar from './WorkoutSessionBar'
  * @returns {import('react').ReactElement|null} Workout session bar UI
  */
 export default function WorkoutSessionBarWrapper() {
-  const {
-    activeWorkout,
-    elapsed,
-    status,
-    isResting,
-    restRemaining,
-    adjustRest,
-    skipRest,
-  } = useWorkoutContext()
-  
+  const { isResting, restRemaining, adjustRest, skipRest } = useWorkoutContext()
+
   const location = useLocation()
   const navigate = useNavigate()
 
+  const workout = draftWorkoutStorage.get()
+
   const isWorkoutPage = location.pathname.includes('/run')
 
-  const hasActiveWorkout = hasWorkoutDraftContent(activeWorkout)
-  
+  const hasActiveWorkout = hasWorkoutDraftContent(workout)
+
   if (!hasActiveWorkout || isWorkoutPage) {
     return null
   }
 
   return (
     <WorkoutSessionBar
-      elapsed={elapsed}
-      status={status}
-      workoutName={activeWorkout.name}
-      currentExercise={activeWorkout.currentExercise}
+      workout={workout}
       isResting={isResting}
       restRemaining={restRemaining}
       adjustRest={adjustRest}
       skipRest={skipRest}
-      onExpand={() => navigate(`/workouts/${activeWorkout.id}/run`)}
+      onExpand={() => navigate('/workouts/current/run')}
     />
   )
 }

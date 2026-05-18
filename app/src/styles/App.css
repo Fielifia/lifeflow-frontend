@@ -797,12 +797,14 @@ input[type="checkbox"]:hover {
   overflow: hidden;
 }
 
-.set-grid-run, .set-row-run {
+.set-grid-run,
+.set-row-run {
   grid-template-columns:
     40px 1fr 1fr 2fr 30px;
 }
 
-.set-grid-edit, .set-row-edit {
+.set-grid-edit,
+.set-row-edit {
   grid-template-columns:
     1fr 2fr 3fr;
 }
@@ -905,7 +907,13 @@ input[type="checkbox"]:hover {
   padding: 12px 24px;
   gap: 24px;
 
-  background: rgba(23, 36, 42, 0.75);
+  background: linear-gradient(135deg,
+      var(--primary),
+      rgba(25, 104, 106, 0.85));
+
+  box-shadow: 0 4px 20px rgba(25, 104, 106, 0.2);
+  animation: subtle-pulse 2s ease-in-out infinite;
+
   backdrop-filter: blur(6px);
 
   border: 1px solid var(--border);
@@ -1007,11 +1015,8 @@ input[type="checkbox"]:hover {
 /* ============================= */
 
 .workout-session-bar.rest-active {
-  background: linear-gradient(135deg,
-      var(--primary),
-      rgba(25, 104, 106, 0.85));
-
-  box-shadow: 0 4px 20px rgba(25, 104, 106, 0.2);
+  background: rgba(23, 36, 42, 0.75);
+  backdrop-filter: blur(6px);
   animation: subtle-pulse 2s ease-in-out infinite;
 }
 

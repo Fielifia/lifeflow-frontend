@@ -1,12 +1,11 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useRestTimer } from '../../features/workout/hooks/useRestTimer'
 import { useWorkoutTimer } from '../../features/workout/hooks/useWorkoutTimer'
-import { EMPTY_TEMPLATE, EMPTY_WORKOUT } from '../utils/constants'
+import { EMPTY_TEMPLATE } from '../utils/constants'
 import {
   draftTemplateStorage,
-  draftWorkoutStorage,
+
   hasTemplateDraftContent,
-  hasWorkoutDraftContent,
 } from '../utils/storage/draftStorage'
 
 const WorkoutContext = createContext()
@@ -29,17 +28,17 @@ export function WorkoutProvider({ children }) {
   const timer = useWorkoutTimer()
   const rest = useRestTimer()
 
-  const [activeWorkout, setActiveWorkout] = useState(() => {
-    return draftWorkoutStorage.get() || EMPTY_WORKOUT
-  })
+  // const [activeWorkout, setActiveWorkout] = useState(() => {
+  //   return draftWorkoutStorage.get() || EMPTY_WORKOUT
+  // })
 
-  useEffect(() => {
-    if (hasWorkoutDraftContent(activeWorkout)) {
-      draftWorkoutStorage.set(activeWorkout)
-    } else {
-      draftWorkoutStorage.clear()
-    }
-  }, [activeWorkout])
+  // useEffect(() => {
+  //   if (hasWorkoutDraftContent(activeWorkout)) {
+  //     draftWorkoutStorage.set(activeWorkout)
+  //   } else {
+  //     draftWorkoutStorage.clear()
+  //   }
+  // }, [activeWorkout])
 
   const [draftTemplate, setDraftTemplate] = useState(() => {
     return draftTemplateStorage.get() || EMPTY_TEMPLATE
@@ -75,8 +74,8 @@ export function WorkoutProvider({ children }) {
         skipRest: rest.skip,
         resetRest: rest.reset,
 
-        activeWorkout,
-        setActiveWorkout,
+        // activeWorkout,
+        // setActiveWorkout,
 
         draftTemplate,
         setDraftTemplate,

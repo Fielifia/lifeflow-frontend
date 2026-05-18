@@ -66,8 +66,6 @@ export function useWorkoutLogic(navigate, workoutId) {
     startRest,
     resetRest,
 
-    setActiveWorkout,
-
     selectedTemplate,
     setSelectedTemplate,
 
@@ -77,10 +75,9 @@ export function useWorkoutLogic(navigate, workoutId) {
 
   // ===== INIT =====
 
-  const {
-    activeWorkout: workout,
-    setActiveWorkout: setWorkout,
-  } = useWorkoutContext()
+  const [workout, setWorkout] = useState(() => {
+    return draftWorkoutStorage.get() || EMPTY_WORKOUT
+  })
 
   // ===== SAVE DRAFT =====
   useEffect(() => {
@@ -132,28 +129,28 @@ export function useWorkoutLogic(navigate, workoutId) {
     setSelectedTemplate(null)
   }, [selectedTemplate, setSelectedTemplate, setWorkout])
 
-  useEffect(() => {
-    if (status === 'running' || status === 'paused') {
-      setActiveWorkout({
-        id: workoutId,
-        name: workout.name,
-        status,
-        elapsed,
-        startTime,
-        exercises: workout.exercises,
-      })
-    } else {
-      setActiveWorkout(EMPTY_WORKOUT)
-    }
-  }, [
-    status,
-    elapsed,
-    startTime,
-    workout.name,
-    workout.exercises,
-    setActiveWorkout,
-    workoutId,
-  ])
+  // useEffect(() => {
+  //   if (status === 'running' || status === 'paused') {
+  //     setActiveWorkout({
+  //       id: workoutId,
+  //       name: workout.name,
+  //       status,
+  //       elapsed,
+  //       startTime,
+  //       exercises: workout.exercises,
+  //     })
+  //   } else {
+  //     setActiveWorkout(EMPTY_WORKOUT)
+  //   }
+  // }, [
+  //   status,
+  //   elapsed,
+  //   startTime,
+  //   workout.name,
+  //   workout.exercises,
+  //   setActiveWorkout,
+  //   workoutId,
+  // ])
 
   const {
     addSet,
@@ -220,7 +217,7 @@ export function useWorkoutLogic(navigate, workoutId) {
 
       setIsEditingName(false)
 
-      setActiveWorkout(EMPTY_WORKOUT)
+      // setActiveWorkout(EMPTY_WORKOUT)
 
       draftWorkoutStorage.clear()
     } catch (err) {
@@ -267,7 +264,7 @@ export function useWorkoutLogic(navigate, workoutId) {
 
     setIsEditingName(false)
 
-    setActiveWorkout(EMPTY_WORKOUT)
+    // setActiveWorkout(EMPTY_WORKOUT)
 
     draftWorkoutStorage.clear()
 

@@ -1,5 +1,5 @@
-import { useWorkoutContext } from '../../../../shared/context/WorkoutContext'
 import { ChevronUp } from 'lucide-react'
+import { useWorkoutContext } from '../../../../shared/context/WorkoutContext'
 
 /**
  * Workout session bar display and controls.
@@ -12,15 +12,16 @@ import { ChevronUp } from 'lucide-react'
  * @returns {import('react').ReactElement} Workout session bar UI
  */
 export default function WorkoutSessionBar({
+  workout,
   isResting,
   restRemaining,
   adjustRest,
   skipRest,
   onExpand,
 }) {
-  const { elapsed, status, activeWorkout } = useWorkoutContext()
+  const { elapsed, status } = useWorkoutContext()
 
-  const workoutName = activeWorkout?.name || 'Workout'
+  const workoutName = workout?.name || 'Workout'
 
   const minutes = Math.floor(elapsed / 60)
   const seconds = elapsed % 60
@@ -29,12 +30,12 @@ export default function WorkoutSessionBar({
     seconds,
   ).padStart(2, '0')}`
 
-  const exercises = activeWorkout?.exercises || []
+  const exercises = workout?.exercises || []
 
   let lastCompletedIndex = -1
 
   exercises.forEach((ex, i) => {
-    if (ex.sets?.some((s) => s.completed)) {
+    if (ex.sets?.some((set) => set.completed)) {
       lastCompletedIndex = i
     }
   })
@@ -43,23 +44,23 @@ export default function WorkoutSessionBar({
 
   for (let i = lastCompletedIndex + 1; i < exercises.length; i++) {
     const ex = exercises[i]
-    const isFullyCompleted = ex.sets?.every((s) => s.completed)
 
-    if (!isFullyCompleted) {
+    const hasIncompleteSets = ex.sets?.some((set) => !set.completed)
+
+    if (hasIncompleteSets) {
       nextExercise = ex
       break
     }
   }
 
   if (!nextExercise) {
-    nextExercise = exercises.find(
-      (ex) => !ex.sets?.every((s) => s.completed)
+    nextExercise = exercises.find((ex) =>
+      ex.sets?.some((set) => !set.completed),
     )
   }
 
-  const currentExercise = nextExercise
-    ? `Next: ${nextExercise.name}`
-    : 'Done ✔'
+  const currentExercise = nextExercise ? `Next: ${nextExercise.name}` : 'Done ✔'
+  
 
   return (
     <div
@@ -82,11 +83,25 @@ export default function WorkoutSessionBar({
 
         {isResting && (
           <div className="rest-controls">
-            <button onClick={(e) => { e.stopPropagation(); adjustRest(-15) }}>−</button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                adjustRest(-15)
+              }}
+            >
+              −
+            </button>
 
             <span className="rest-time">{restRemaining}s</span>
 
-            <button onClick={(e) => { e.stopPropagation(); adjustRest(15) }}>+</button>
+            <button
+              onClick={(e) => {
+                e.stopPropagation()
+                adjustRest(15)
+              }}
+            >
+              +
+            </button>
 
             <button
               className="skip"
