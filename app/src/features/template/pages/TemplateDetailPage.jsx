@@ -33,7 +33,7 @@ export default function TemplateDetailPage() {
 
   const { template, loading, error } = useTemplateDetail(id)
 
-  const { success, deleteTemplate } = useTemplateManager(navigate, id)
+  const { success, deleteTemplate } = useTemplateManager(id, navigate)
 
   // ===== LOADING / ERROR / EMPTY =====
 

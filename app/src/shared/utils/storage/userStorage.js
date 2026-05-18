@@ -1,4 +1,5 @@
-import { safeStorage } from './storage'
+import { STORAGE_KEYS } from '../constants'
+import { safeStorage } from './safeStorage'
 
 /**
  * Storage helper for authenticated user data.
@@ -9,7 +10,7 @@ export const userStorage = {
    * @returns {object|null} User data or null
    */
   get() {
-    return safeStorage.get('user')
+    return safeStorage.get(STORAGE_KEYS.USER)
   },
 
   /**
@@ -17,13 +18,13 @@ export const userStorage = {
    * @param {object} user - User data
    */
   set(user) {
-    safeStorage.set('user', user)
+    safeStorage.set(STORAGE_KEYS.USER, user)
   },
 
   /**
    * Clears stored user session.
    */
   clear() {
-    safeStorage.remove('user')
+    safeStorage.remove(STORAGE_KEYS.USER)
   },
 }

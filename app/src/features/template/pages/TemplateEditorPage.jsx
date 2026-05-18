@@ -16,8 +16,8 @@ import WorkoutControls from '../../../shared/components/WorkoutControls'
  * @returns {import('react').ReactElement} - Template create/edit UI
  */
 export default function TemplateEditorPage() {
-  const navigate = useNavigate()
   const { id } = useParams()
+  const navigate = useNavigate()
 
   const isCreate = !id
 
@@ -44,7 +44,7 @@ export default function TemplateEditorPage() {
     saveTemplate,
     discardTemplate,
     discardChanges,
-  } = useTemplateManager(navigate, id)
+  } = useTemplateManager(id, navigate)
 
   // ===== LOADING =====
   if (loading) {

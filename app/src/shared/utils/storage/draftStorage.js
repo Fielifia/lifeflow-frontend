@@ -1,4 +1,5 @@
-import { safeStorage } from './storage'
+import { STORAGE_KEYS } from '../constants'
+import { safeStorage } from './safeStorage'
 
 /**
  * Storage helper for workout drafts.
@@ -9,7 +10,7 @@ export const draftWorkoutStorage = {
    * @returns {object|null} Workout draft or null
    */
   get() {
-    return safeStorage.get('draftWorkout')
+    return safeStorage.get(STORAGE_KEYS.DRAFT_WORKOUT)
   },
 
   /**
@@ -17,14 +18,14 @@ export const draftWorkoutStorage = {
    * @param {object} data - Workout draft data
    */
   set(data) {
-    safeStorage.set('draftWorkout', data)
+    safeStorage.set(STORAGE_KEYS.DRAFT_WORKOUT, data)
   },
 
   /**
    * Removes workout draft.
    */
   clear() {
-    safeStorage.remove('draftWorkout')
+    safeStorage.remove(STORAGE_KEYS.DRAFT_WORKOUT)
   },
 }
 
@@ -37,7 +38,7 @@ export const draftTemplateStorage = {
    * @returns {object|null} Template draft or null
    */
   get() {
-    return safeStorage.get('draftTemplate')
+    return safeStorage.get(STORAGE_KEYS.DRAFT_TEMPLATE)
   },
 
   /**
@@ -45,14 +46,14 @@ export const draftTemplateStorage = {
    * @param {object} data - Template draft data
    */
   set(data) {
-    safeStorage.set('draftTemplate', data)
+    safeStorage.set(STORAGE_KEYS.DRAFT_TEMPLATE, data)
   },
 
   /**
    * Removes template draft.
    */
   clear() {
-    safeStorage.remove('draftTemplate')
+    safeStorage.remove(STORAGE_KEYS.DRAFT_TEMPLATE)
   },
 }
 
@@ -67,11 +68,11 @@ export function hasWorkoutDraftContent(workout) {
   }
 
   return (
-    workout.exercises?.length > 0
-    || workout.notes?.trim()
-    || (
-      workout.name
-      && workout.name !== 'Workout'
+    workout.exercises?.length > 0 ||
+    workout.notes?.trim() ||
+    (
+      workout.name &&
+      workout.name !== 'Workout'
     )
   )
 }
@@ -87,11 +88,11 @@ export function hasTemplateDraftContent(template) {
   }
 
   return (
-    template.exercises?.length > 0
-    || template.notes?.trim()
-    || (
-      template.name
-      && template.name !== 'Template'
+    template.exercises?.length > 0 ||
+    template.notes?.trim() ||
+    (
+      template.name &&
+      template.name !== 'Template'
     )
   )
 }

@@ -1,3 +1,9 @@
+export const STORAGE_KEYS = {
+  USER: 'user',
+  DRAFT_WORKOUT: 'draftWorkout',
+  DRAFT_TEMPLATE: 'draftTemplate',
+}
+
 // ===== WORKOUT DEFAULTS =====
 
 // Default rest duration between sets (seconds)
