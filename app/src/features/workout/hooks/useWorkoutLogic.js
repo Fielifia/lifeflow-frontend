@@ -129,29 +129,6 @@ export function useWorkoutLogic(navigate, workoutId) {
     setSelectedTemplate(null)
   }, [selectedTemplate, setSelectedTemplate, setWorkout])
 
-  // useEffect(() => {
-  //   if (status === 'running' || status === 'paused') {
-  //     setActiveWorkout({
-  //       id: workoutId,
-  //       name: workout.name,
-  //       status,
-  //       elapsed,
-  //       startTime,
-  //       exercises: workout.exercises,
-  //     })
-  //   } else {
-  //     setActiveWorkout(EMPTY_WORKOUT)
-  //   }
-  // }, [
-  //   status,
-  //   elapsed,
-  //   startTime,
-  //   workout.name,
-  //   workout.exercises,
-  //   setActiveWorkout,
-  //   workoutId,
-  // ])
-
   const {
     addSet,
     updateSet,
@@ -217,8 +194,6 @@ export function useWorkoutLogic(navigate, workoutId) {
 
       setIsEditingName(false)
 
-      // setActiveWorkout(EMPTY_WORKOUT)
-
       draftWorkoutStorage.clear()
     } catch (err) {
       setError(
@@ -264,7 +239,6 @@ export function useWorkoutLogic(navigate, workoutId) {
 
     setIsEditingName(false)
 
-    // setActiveWorkout(EMPTY_WORKOUT)
 
     draftWorkoutStorage.clear()
 

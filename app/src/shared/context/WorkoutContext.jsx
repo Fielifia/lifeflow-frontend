@@ -28,18 +28,6 @@ export function WorkoutProvider({ children }) {
   const timer = useWorkoutTimer()
   const rest = useRestTimer()
 
-  // const [activeWorkout, setActiveWorkout] = useState(() => {
-  //   return draftWorkoutStorage.get() || EMPTY_WORKOUT
-  // })
-
-  // useEffect(() => {
-  //   if (hasWorkoutDraftContent(activeWorkout)) {
-  //     draftWorkoutStorage.set(activeWorkout)
-  //   } else {
-  //     draftWorkoutStorage.clear()
-  //   }
-  // }, [activeWorkout])
-
   const [draftTemplate, setDraftTemplate] = useState(() => {
     return draftTemplateStorage.get() || EMPTY_TEMPLATE
   })
@@ -73,9 +61,6 @@ export function WorkoutProvider({ children }) {
         adjustRest: rest.adjust,
         skipRest: rest.skip,
         resetRest: rest.reset,
-
-        // activeWorkout,
-        // setActiveWorkout,
 
         draftTemplate,
         setDraftTemplate,

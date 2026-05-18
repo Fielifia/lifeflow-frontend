@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+import { useStartWorkout } from '../hooks/useStartWorkout'
 
 import { getTemplatesApi } from '../../../shared/api/templateApi'
 import DataState from '../../../shared/components/ui/DataState'
@@ -24,11 +25,12 @@ export default function WorkoutStartPage() {
 
   const { setReturnTo } = useExerciseFlow()
 
-  const { start, draftTemplate } = useWorkoutContext()
-
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [templates, setTemplates] = useState([])
+
+  const { draftTemplate } = useWorkoutContext()
+  const { startWorkout } = useStartWorkout()
 
   const workout = draftWorkoutStorage.get()
   const hasWorkoutDraft = hasWorkoutDraftContent(workout)
@@ -61,13 +63,17 @@ export default function WorkoutStartPage() {
 
       <div className="section">
         <div className="hero-actions">
+          
           {/* START / CONTINUE WORKOUT */}
           <button
             className="btn hero-btn hero-btn-primary"
             onClick={() => {
-              start()
+              if (!hasWorkoutDraft) {
+                startWorkout({})
+                return
+              }
 
-              navigate(`/workouts/${Date.now()}/run`)
+              navigate('/workouts/current/run')
             }}
           >
             <span className="hero-icon">▷</span>
@@ -85,8 +91,8 @@ export default function WorkoutStartPage() {
             onClick={() => {
               setReturnTo(location.pathname)
 
-              navigate('/templates/create')}
-            }
+              navigate('/templates/create')
+            }}
           >
             <span className="hero-icon">+</span>
 

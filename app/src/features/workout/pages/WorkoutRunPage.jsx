@@ -1,5 +1,7 @@
 import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
+
+import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 import { useWorkoutLogic } from '../hooks/useWorkoutLogic'
 
@@ -19,6 +21,8 @@ import WorkoutHeader from '../components/WorkoutHeader'
  */
 export default function WorkoutRunPage() {
   const navigate = useNavigate()
+  const { returnTo } = useExerciseFlow()
+
   const { id: workoutId } = useParams()
   const [flash, setFlash] = useState(false)
 
@@ -116,7 +120,7 @@ export default function WorkoutRunPage() {
     <div className={`app ${flash ? 'flash' : ''}`}>
       <Header title={workout.name} subtitle="In progress" />
 
-      <BackButton fallback="/workouts" />
+      <BackButton fallback={returnTo || '/workouts'} warnOnUnsavedChanges />
 
       {/* HEADER */}
       <WorkoutHeader

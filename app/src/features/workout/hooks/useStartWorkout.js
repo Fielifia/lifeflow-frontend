@@ -16,7 +16,11 @@ import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
  */
 export function useStartWorkout() {
   const navigate = useNavigate()
-  const { setSelectedWorkout, setSelectedTemplate } = useWorkoutContext()
+  const {
+    setSelectedWorkout,
+    setSelectedTemplate,
+    start,
+  } = useWorkoutContext()
 
   const startWorkout = ({ workout = null, template = null }) => {
     const workoutId = Date.now()
@@ -24,6 +28,7 @@ export function useStartWorkout() {
     if (workout) setSelectedWorkout(workout)
     if (template) setSelectedTemplate(template)
 
+    start()
     navigate(`/workouts/${workoutId}/run`)
   }
 

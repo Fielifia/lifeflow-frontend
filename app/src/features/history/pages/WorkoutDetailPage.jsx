@@ -77,6 +77,7 @@ export default function WorkoutDetailPage() {
       <WorkoutControls
         variant="detail"
         onStartWorkout={(e) => {
+          setReturnTo(location.pathname)
           e.stopPropagation?.()
 
           startWorkout({ workout })

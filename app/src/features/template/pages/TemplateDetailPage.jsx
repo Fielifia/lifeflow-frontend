@@ -65,6 +65,7 @@ export default function TemplateDetailPage() {
       <WorkoutControls
         variant="detail"
         onStartWorkout={(e) => {
+          setReturnTo(location.pathname)
           e.stopPropagation?.()
 
           startWorkout({ template })

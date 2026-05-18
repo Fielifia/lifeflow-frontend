@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { useToast } from '../../../shared/context/ToastContext'
-import { INACTIVITY_LIMIT, MAX_DURATION, WARNING_TIME } from '../../../shared/utils/constants'
+import {
+  INACTIVITY_LIMIT,
+  MAX_DURATION,
+  WARNING_TIME
+} from '../../../shared/utils/constants'
 
 /**
  * Hook for managing a workout timer with pause/resume,
@@ -19,7 +23,7 @@ import { INACTIVITY_LIMIT, MAX_DURATION, WARNING_TIME } from '../../../shared/ut
  * - Activity tracking
  * - Max duration cap (3 hours)
  * @returns {{
- *   status: 'idle' | 'running' | 'paused' | 'stopped',
+ *   status: 'idle' | 'running' | 'paused',
  *   elapsed: number,
  *   startTime: number | null,
  *   start: () => void,
@@ -28,7 +32,7 @@ import { INACTIVITY_LIMIT, MAX_DURATION, WARNING_TIME } from '../../../shared/ut
  *   stop: () => void,
  * adjustStartTime: (newStartTimestamp: number) => void,
  *   registerActivity: () => void
- * }} - Workout Time UI
+ * }} Workout timer state and controls
  */
 export function useWorkoutTimer() {
   const [status, setStatus] = useState('idle')
@@ -46,7 +50,8 @@ export function useWorkoutTimer() {
   const toast = useToast()
 
   /**
-   * Recalculate elapsed time when base timing values change.
+   * Recalculates elapsed duration when
+   * start time or pause offset changes.
    */
   useEffect(() => {
     if (!startTime) return
@@ -75,7 +80,7 @@ export function useWorkoutTimer() {
 
         if (seconds >= MAX_DURATION) {
           setElapsed(MAX_DURATION)
-          setStatus('stopped')
+          setStatus('idle')
           clearInterval(intervalRef.current)
           alert('Workout reached 3 hours. Still active?')
           return
@@ -117,7 +122,8 @@ export function useWorkoutTimer() {
   }, [status, lastActivity, toast])
 
   /**
-   * Track activity
+   * Registers user activity to prevent
+   * inactivity auto-pause.
    */
   const registerActivity = () => {
     setLastActivity(Date.now())
@@ -146,9 +152,8 @@ export function useWorkoutTimer() {
   }, [status])
 
   /**
-   * Detects inactivity and pauses the timer if no activity
-   * has been registered within the defined limit.
-   * Shows a warning toast shortly before pausing.
+   * Handles start, pause and resume actions
+   * depending on current timer state.
    */
   const handleStartPause = () => {
     if (status === 'running') {
@@ -170,7 +175,7 @@ export function useWorkoutTimer() {
       return
     }
 
-    if (status === 'idle' || status === 'stopped') {
+    if (status === 'idle') {
       const now = Date.now()
 
       setStartTime(now)
@@ -197,7 +202,7 @@ export function useWorkoutTimer() {
   }
 
   /**
-   * Resets the timer completely and clears persisted state.
+   * Resets the timer to its initial state.
    */
   const reset = () => {
     const now = Date.now()
@@ -211,11 +216,10 @@ export function useWorkoutTimer() {
   }
 
   /**
-   * Stops the timer without resetting values.
-   * Useful when saving or discarding a workout.
+   * Stops the timer without resetting elapsed values.
    */
   const stop = () => {
-    setStatus('stopped')
+    setStatus('idle')
     clearInterval(intervalRef.current)
     clearInterval(inactivityRef.current)
   }
