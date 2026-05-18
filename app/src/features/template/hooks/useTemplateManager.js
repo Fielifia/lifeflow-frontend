@@ -57,8 +57,8 @@ const EMPTY_TEMPLATE = {
  * Template manager state/actions.
  */
 export function useTemplateManager(
-  navigate,
   id,
+  navigate,
 ) {
   const location = useLocation()
 

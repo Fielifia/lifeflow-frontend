@@ -1,8 +1,10 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+
+import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
+
 import ActionMenu from '../../../shared/components/ui/action-menu/ActionMenu'
 import WorkoutControls from '../../../shared/components/WorkoutControls'
-import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
 
 /**
  * Displays a workout template preview card.
@@ -14,10 +16,17 @@ import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
  * @param {() => void} props.onClick - Opens template details
  * @returns {import('react').ReactElement} Template card UI
  */
-export default function TemplateCard({ template, onClick, onDeleteTemplate }) {
+export default function TemplateCard({
+  template,
+  onClick,
+  onDeleteTemplate
+}) {
+
   const navigate = useNavigate()
-  const exercises = template.exercises || []
+
   const { startWorkout } = useStartWorkout()
+
+  const exercises = template.exercises || []
 
   const menuItems = [
     {
@@ -38,6 +47,7 @@ export default function TemplateCard({ template, onClick, onDeleteTemplate }) {
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
+
     <div
       className={`
       card-base
@@ -58,15 +68,22 @@ export default function TemplateCard({ template, onClick, onDeleteTemplate }) {
         }
       }}
     >
+
       {/* HEADER */}
+
       <div className="template-card-header">
         <div className="template-card-header-content">
           <h3>{template.name}</h3>
+
           <p className="muted small">Last: X days ago</p>
         </div>
 
+        {/* ACTION MENU */}
+
         <ActionMenu items={menuItems} onClickChange={setMenuOpen} />
       </div>
+
+      {/* EXERCISE PREVIEW */}
 
       <ul className="template-card-exercise-list">
         {exercises.slice(0, 3).map((ex, i) => (
@@ -78,6 +95,8 @@ export default function TemplateCard({ template, onClick, onDeleteTemplate }) {
         <p className="muted small center">And {exercises.length - 2} more ..</p>
       )}
 
+      {/* ACTION */}
+
       <WorkoutControls
         variant="card"
         onStartWorkout={(e) => {
@@ -86,6 +105,7 @@ export default function TemplateCard({ template, onClick, onDeleteTemplate }) {
         }}
         hasExercises={exercises.length > 0}
       />
+
     </div>
   )
 }

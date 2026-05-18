@@ -6,19 +6,19 @@ import {
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
-import TemplateCard from './TemplateCard'
+import WorkoutCard from './WorkoutCard'
 
 /**
- * Displays a list of workout templates.
+ * Displays a list of workouts.
  * @param {object} props - Component props
- * @param {Array<object>} props.templates - Template list
- * @param {number} [props.limit=5] - Visible template increment count
- * @returns {import('react').ReactElement} Template list UI
+ * @param {Array<object>} props.workouts - Workout list
+ * @param {number} [props.limit=10] - Visible workout increment count
+ * @returns {import('react').ReactElement} Workout list UI
  */
-export default function TemplateList({
-  templates = [],
-  limit = 5,
-  onDeleteTemplate,
+export default function WorkoutList({
+  workouts = [],
+  limit = 10,
+  onDeleteWorkout,
 }) {
 
   const navigate = useNavigate()
@@ -30,21 +30,20 @@ export default function TemplateList({
 
   const [visibleCount, setVisibleCount] = useState(limit)
 
-  const filteredTemplates = templates.filter((template) =>
-    template.name.toLowerCase().includes(search.toLowerCase()),
+  const filteredWorkouts = workouts.filter((workout) =>
+    workout.name.toLowerCase().includes(search.toLowerCase()),
   )
 
-  const visible = filteredTemplates.slice(0, visibleCount)
+  const visible = filteredWorkouts.slice(0, visibleCount)
 
   return (
     <div className="section">
-      <h3 className="close">My Templates</h3>
 
       {/* SEARCH */}
 
       <input
         className="input-base"
-        placeholder="Search templates..."
+        placeholder="Search workouts..."
         value={search}
         onFocus={(e) => e.target.select()}
         onChange={(e) => {
@@ -53,18 +52,18 @@ export default function TemplateList({
         }}
       />
 
-      {/* TEMPLATES */}
+      {/* WORKOUTS */}
 
       <div className="section">
-        {visible.map((template) => (
-          <TemplateCard
-            key={template._id}
-            template={template}
-            onDeleteTemplate={onDeleteTemplate}
+        {visible.map((workout) => (
+          <WorkoutCard
+            key={workout._id}
+            workout={workout}
+            onDeleteWorkout={onDeleteWorkout}
             onClick={() => {
               setReturnTo(location.pathname)
 
-              navigate(`/templates/${template._id}`)
+              navigate(`/workouts/${workout._id}`)
             }}
           />
         ))}
@@ -72,13 +71,12 @@ export default function TemplateList({
 
       {/* SHOW MORE */}
       
-      {visibleCount < filteredTemplates.length && (
+      {visibleCount < filteredWorkouts.length && (
         <button
           className="btn btn-standard btn-primary"
           onClick={() => setVisibleCount((prev) => prev + limit)}
         >
-          Show more (+{Math.min(limit, filteredTemplates.length - visibleCount)}
-          )
+          Show more (+{Math.min(limit, filteredWorkouts.length - visibleCount)})
         </button>
       )}
     </div>

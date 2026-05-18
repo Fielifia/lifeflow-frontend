@@ -19,12 +19,12 @@ import { buildWorkoutPayload } from '../../workout/utils/buildWorkoutPayload'
 
 /**
  * Custom hook for editing workouts.
- * @param {string} workoutId - Workout ID.
+ * @param {string} id - Workout ID.
  * @param {(path: string) => void} navigate - React Router navigate function.
  * @returns {object} Workout state and mutation handlers.
  */
 export function useWorkoutManager(
-  workoutId,
+  id,
   navigate,
 ) {
   const location = useLocation()
@@ -73,7 +73,7 @@ export function useWorkoutManager(
   useEffect(() => {
     if (
       editingWorkout &&
-      editingWorkout._id === workoutId
+      editingWorkout._id === id
     ) {
       setWorkout(editingWorkout)
 
@@ -91,7 +91,7 @@ export function useWorkoutManager(
 
         const data =
           await getWorkoutByIdApi(
-            workoutId,
+            id,
           )
 
         setWorkout(data)
@@ -110,11 +110,11 @@ export function useWorkoutManager(
       }
     }
 
-    if (workoutId) {
+    if (id) {
       fetchWorkout()
     }
   }, [
-    workoutId,
+    id,
     editingWorkout,
     setEditingWorkout,
   ])
@@ -210,7 +210,7 @@ export function useWorkoutManager(
 
       const updated =
         await updateWorkoutApi(
-          workoutId,
+          id,
           payload,
         )
 
@@ -306,7 +306,7 @@ export function useWorkoutManager(
         setError('')
 
         await deleteWorkoutApi(
-          workoutId,
+          id,
         )
 
         setEditingWorkout(null)

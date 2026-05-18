@@ -1,5 +1,9 @@
 import { useNavigate } from 'react-router-dom'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
+import {
+  draftWorkoutStorage,
+  hasWorkoutDraftContent,
+} from '../../../shared/utils/storage/draftStorage'
 
 /**
  * Handles workout session startup flow.
@@ -20,16 +24,32 @@ export function useStartWorkout() {
     setSelectedWorkout,
     setSelectedTemplate,
     start,
+    resetTimer,
+    resetRest,
   } = useWorkoutContext()
 
   const startWorkout = ({ workout = null, template = null }) => {
-    const workoutId = Date.now()
+    const activeWorkout = draftWorkoutStorage.get()
+
+    if (hasWorkoutDraftContent(activeWorkout)) {
+      const confirmed = window.confirm(
+        'Discard current workout and start a new one?',
+      )
+
+      if (!confirmed) {
+        return
+      }
+
+      resetTimer()
+      resetRest()
+      draftWorkoutStorage.clear()
+    }
 
     if (workout) setSelectedWorkout(workout)
     if (template) setSelectedTemplate(template)
 
     start()
-    navigate(`/workouts/${workoutId}/run`)
+    navigate('/workouts/current/run')
   }
 
   return { startWorkout }

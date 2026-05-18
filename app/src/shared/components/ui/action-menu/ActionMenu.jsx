@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
+import { EllipsisVertical } from 'lucide-react'
 
 export default function ActionMenu({ items = [], onClickChange }) {
   const [open, setOpen] = useState(false)
@@ -41,13 +42,13 @@ export default function ActionMenu({ items = [], onClickChange }) {
     >
       <button
         type="button"
-        className={`btn btn-clean btn-dots ${open ? 'hidden' : ''}`}
+        className={`btn btn-dots ${open ? 'hidden' : ''}`}
         onClick={(e) => {
           e.stopPropagation()
           setOpen((prev) => !prev)
         }}
       >
-        ⋮
+        <EllipsisVertical className="action-menu-dots" />
       </button>
 
       {open && (

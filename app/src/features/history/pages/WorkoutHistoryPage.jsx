@@ -1,33 +1,36 @@
 import { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+
 import { getWorkoutsApi } from '../../../shared/api/workoutApi'
+import { useWorkoutManager } from '../hooks/useWorkoutManager'
+
 import DataState from '../../../shared/components/ui/DataState'
 import Header from '../../../shared/components/ui/Header'
-import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
-import WorkoutCard from '../components/WorkoutCard'
+
+import WorkoutList from '../components/WorkoutList'
 
 /**
  * Page for displaying user's workout history.
- *
- * Fetches workouts from API and renders a list of workout cards.
+ * Fetches workouts from API and renders workout history.
  * @returns {import('react').ReactElement} Workout history page UI
  */
 export default function WorkoutHistoryPage() {
-  const navigate = useNavigate()
-  const location = useLocation()
-
-  const { setReturnTo } = useExerciseFlow()
-
   const [workouts, setWorkouts] = useState([])
+
   const [loading, setLoading] = useState(true)
+
   const [error, setError] = useState(null)
+
+  const { deleteWorkout } = useWorkoutManager()
 
   useEffect(() => {
     const fetch = async () => {
       try {
         setLoading(true)
+
         setError(null)
+
         const data = await getWorkoutsApi()
+
         setWorkouts(Array.isArray(data) ? data : data.results || [])
       } catch (err) {
         setError(err)
@@ -38,6 +41,16 @@ export default function WorkoutHistoryPage() {
 
     fetch()
   }, [])
+
+  const handleDeleteWorkout = async (id) => {
+    const deleted = await deleteWorkout(id)
+
+    if (!deleted) {
+      return
+    }
+
+    setWorkouts((prev) => prev.filter((workout) => workout._id !== id))
+  }
 
   return (
     <div className="app">
@@ -50,19 +63,11 @@ export default function WorkoutHistoryPage() {
         variant="card-workout"
         emptyText="No workouts yet"
       >
-        <div className="section">
-          {workouts.map((workout) => (
-            <WorkoutCard
-              key={workout._id}
-              workout={workout}
-              onClick={() => {
-                setReturnTo(location.pathname)
-
-                navigate(`/workouts/${workout._id}`)
-              }}
-            />
-          ))}
-        </div>
+        <WorkoutList
+          workouts={workouts}
+          limit={10}
+          onDeleteWorkout={handleDeleteWorkout}
+        />
       </DataState>
     </div>
   )

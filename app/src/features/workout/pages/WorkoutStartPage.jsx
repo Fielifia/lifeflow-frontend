@@ -4,15 +4,21 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { useStartWorkout } from '../hooks/useStartWorkout'
 
-import { getTemplatesApi } from '../../../shared/api/templateApi'
+import {
+  getTemplatesApi,
+  deleteTemplateApi,
+} from '../../../shared/api/templateApi'
+
 import DataState from '../../../shared/components/ui/DataState'
 import Header from '../../../shared/components/ui/Header'
+
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 import {
   draftWorkoutStorage,
   hasTemplateDraftContent,
   hasWorkoutDraftContent,
 } from '../../../shared/utils/storage/draftStorage'
+
 import TemplateList from '../../template/components/TemplateList'
 
 /**
@@ -25,14 +31,16 @@ export default function WorkoutStartPage() {
 
   const { setReturnTo } = useExerciseFlow()
 
+  const { draftTemplate } = useWorkoutContext()
+
+  const { startWorkout } = useStartWorkout()
+
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [templates, setTemplates] = useState([])
 
-  const { draftTemplate } = useWorkoutContext()
-  const { startWorkout } = useStartWorkout()
-
   const workout = draftWorkoutStorage.get()
+
   const hasWorkoutDraft = hasWorkoutDraftContent(workout)
 
   const hasTemplateDraft = hasTemplateDraftContent(draftTemplate)
@@ -45,7 +53,7 @@ export default function WorkoutStartPage() {
 
         const data = await getTemplatesApi({ limit: 5 })
 
-        setTemplates(data.results || [])
+        setTemplates(Array.isArray(data) ? data : data.results || [])
       } catch (err) {
         console.error(err)
         setError('Failed to load templates')
@@ -57,13 +65,28 @@ export default function WorkoutStartPage() {
     fetchTemplates()
   }, [])
 
+  const handleDeleteTemplate = async (id) => {
+    const confirmed = window.confirm('Delete this template?')
+
+    if (!confirmed) {
+      return
+    }
+
+    try {
+      await deleteTemplateApi(id)
+
+      setTemplates((prev) => prev.filter((template) => template._id !== id))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   return (
     <div className="app">
       <Header title="Start Workout" subtitle="Build your next session" />
 
       <div className="section">
         <div className="hero-actions">
-          
           {/* START / CONTINUE WORKOUT */}
           <button
             className="btn hero-btn hero-btn-primary"
@@ -113,7 +136,11 @@ export default function WorkoutStartPage() {
             emptyText="No templates found"
             count={4}
           >
-            <TemplateList templates={templates.slice(0, 3)} />
+            <TemplateList
+              templates={templates.slice(0, 3)}
+              limit={3}
+              onDeleteTemplate={handleDeleteTemplate}
+            />
           </DataState>
         </div>
       </div>
