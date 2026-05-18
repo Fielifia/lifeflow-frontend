@@ -55,3 +55,43 @@ export const draftTemplateStorage = {
     safeStorage.remove('draftTemplate')
   },
 }
+
+/**
+ * Checks whether a workout draft contains meaningful data.
+ * @param {object} workout - Workout draft
+ * @returns {boolean} True if draft should be persisted
+ */
+export function hasWorkoutDraftContent(workout) {
+  if (!workout) {
+    return false
+  }
+
+  return (
+    workout.exercises?.length > 0
+    || workout.notes?.trim()
+    || (
+      workout.name
+      && workout.name !== 'Workout'
+    )
+  )
+}
+
+/**
+ * Checks whether a template draft contains meaningful data.
+ * @param {object} template - Template draft
+ * @returns {boolean} True if draft should be persisted
+ */
+export function hasTemplateDraftContent(template) {
+  if (!template) {
+    return false
+  }
+
+  return (
+    template.exercises?.length > 0
+    || template.notes?.trim()
+    || (
+      template.name
+      && template.name !== 'Template'
+    )
+  )
+}

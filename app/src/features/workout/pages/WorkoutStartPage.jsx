@@ -5,6 +5,10 @@ import DataState from '../../../shared/components/ui/DataState'
 import Header from '../../../shared/components/ui/Header'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 import TemplateList from '../../template/components/TemplateList'
+import {
+  hasTemplateDraftContent,
+  hasWorkoutDraftContent,
+} from '../../../shared/utils/storage/draftStorage'
 
 /**
  * Entry page for starting workouts.
@@ -25,9 +29,9 @@ export default function WorkoutStartPage() {
   const [error, setError] = useState(null)
   const [templates, setTemplates] = useState([])
 
-  const hasWorkoutDraft = activeWorkout?.exercises?.length > 0
+  const hasWorkoutDraft = hasWorkoutDraftContent(activeWorkout)
 
-  const hasTemplateDraft = draftTemplate?.exercises?.length > 0
+  const hasTemplateDraft = hasTemplateDraftContent(draftTemplate)
 
   useEffect(() => {
     const fetchTemplates = async () => {

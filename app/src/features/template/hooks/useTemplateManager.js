@@ -154,9 +154,7 @@ export function useTemplateManager(
       setTemplate(editingTemplate)
 
       setOriginalTemplate(
-        structuredClone(
-          editingTemplate,
-        ),
+        JSON.parse(JSON.stringify(editingTemplate)),
       )
 
       setLoading(false)
