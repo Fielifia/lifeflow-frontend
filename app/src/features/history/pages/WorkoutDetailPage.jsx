@@ -67,7 +67,9 @@ export default function WorkoutDetailPage() {
   if (loading || error || !workout) {
     return (
       <div className="app">
+        
         <Header title="Workout" />
+
         <BackButton fallback="/workouts" />
 
         <DataState
@@ -130,8 +132,8 @@ export default function WorkoutDetailPage() {
           navigate(`/workouts/${workout._id}/edit`)
         }}
         onDelete={handleDeleteWorkout}
-        editLabel="Edit workout"
-        deleteLabel="Delete workout"
+        editLabel="Edit Workout"
+        deleteLabel="Delete"
       />
 
 

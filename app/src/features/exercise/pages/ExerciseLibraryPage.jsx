@@ -109,7 +109,7 @@ export default function ExercisesLibraryPage() {
   }
 
   // ===== RESTORE SCROLL =====
-  
+
   useEffect(() => {
     if (!shouldRestoreScroll) {
       return undefined
@@ -255,7 +255,7 @@ export default function ExercisesLibraryPage() {
 
         {isSelectMode && selectedExercises.length > 0 && (
           <button
-            className="btn btn-standard btn-primary"
+            className="btn btn-md btn-primary"
             onClick={() => {
               navigate(returnTo || '/')
             }}
@@ -265,10 +265,10 @@ export default function ExercisesLibraryPage() {
         )}
 
         {/* LOAD MORE */}
-        
+
         {visibleCount < filtered.length && (
           <button
-            className="btn btn-standard btn-primary"
+            className="btn btn-md btn-primary"
             onClick={() =>
               updateParams({
                 limit: visibleCount + 20,

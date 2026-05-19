@@ -81,11 +81,11 @@ export default function TemplateDetailPage() {
         subtitle={`${template.exercises.length} exercises`}
       />
 
+      {/* BACK BUTTON */}
+
+      <BackButton fallback="/workouts" />
+      
       <div className="section">
-
-        {/* BACK BUTTON */}
-
-        <BackButton fallback="/workouts" />
 
         {/* CONTROLS */}
 
@@ -103,8 +103,8 @@ export default function TemplateDetailPage() {
             navigate(`/templates/${template._id}/edit`)
           }}
           onDelete={handleDeleteTemplate}
-          editLabel="Edit template"
-          deleteLabel="Delete template"
+          editLabel="Edit Template"
+          deleteLabel="Delete"
         />
 
         {/* FEEDBACK */}

@@ -87,16 +87,16 @@ export default function TemplateEditorPage() {
         subtitle={isCreate ? 'Create Template' : 'Edit Template'}
       />
 
+      {/* BACK BUTTON */}
+
+      <BackButton
+        fallback={returnTo || '/workouts'}
+        warnOnUnsavedChanges
+        hasUnsavedChanges={hasUnsavedChanges}
+        onDiscardChanges={discardChanges}
+      />
+
       <div className="section">
-
-        {/* BACK BUTTON */}
-
-        <BackButton
-          fallback={returnTo || '/workouts'}
-          warnOnUnsavedChanges
-          hasUnsavedChanges={hasUnsavedChanges}
-          onDiscardChanges={discardChanges}
-        />
 
         {/* WORKOUT HEADER */}
         <WorkoutHeader
@@ -122,7 +122,7 @@ export default function TemplateEditorPage() {
           onDiscardChanges={!isCreate ? discardChanges : undefined}
           onDiscardTemplate={isCreate ? discardTemplate : undefined}
           saveLabel="Save template"
-          discardLabel="Discard template"
+          discardLabel="Discard"
           cancelLabel="Cancel"
           hasExercises={template.exercises.length > 0}
         />
@@ -135,7 +135,7 @@ export default function TemplateEditorPage() {
         {/* ADD EXERCISE */}
 
         <button
-          className="btn btn-standard btn-secondary btn-full"
+          className="btn btn-md btn-secondary btn-full"
           onClick={openLibrary}
         >
           Add exercise

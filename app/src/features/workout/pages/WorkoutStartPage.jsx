@@ -24,6 +24,8 @@ import {
   hasWorkoutDraftContent,
 } from '../../../shared/utils/storage/draftStorage'
 
+import Button from '../../../shared/components/ui/button/Button'
+
 import DataState from '../../../shared/components/ui/DataState'
 
 import Header from '../../../shared/components/ui/Header'
@@ -99,10 +101,12 @@ export default function WorkoutStartPage() {
 
         <div className="hero-actions">
 
+
           {/* START / CONTINUE WORKOUT */}
 
-          <button
-            className="btn btn-cta btn-cta-primary"
+          <Button
+            variant="primary"
+            cta
             onClick={() => {
               if (!hasWorkoutDraft) {
                 startWorkout({})
@@ -119,12 +123,13 @@ export default function WorkoutStartPage() {
                 ? `Continue ${workout.name || 'Workout'}`
                 : 'Start Empty Workout'}
             </span>
-          </button>
+          </Button>
 
           {/* CREATE TEMPLATE */}
 
-          <button
-            className="btn btn-cta btn-cta-secondary"
+          <Button
+            variant="secondary"
+            cta
             onClick={() => {
               setReturnTo(location.pathname)
 
@@ -138,7 +143,9 @@ export default function WorkoutStartPage() {
                 ? `Continue ${draftTemplate.name || 'Template'}`
                 : 'New Workout Template'}
             </span>
-          </button>
+          </Button>
+
+
         </div>
 
       </div>

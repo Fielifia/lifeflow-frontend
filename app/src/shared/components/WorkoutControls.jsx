@@ -1,4 +1,4 @@
-import LoadingButton from './ui/LoadingButton'
+import Button from './ui/button/Button'
 
 /**
  * Workout / template control buttons.
@@ -70,12 +70,13 @@ export default function WorkoutControls({
         <>
           {/* START WORKOUT */}
           {onStartWorkout && (
-            <button
-              className="btn btn-standard btn-primary btn-full"
+            <Button
+              variant="primary"
+              fullWidth
               onClick={onStartWorkout}
             >
               Start workout
-            </button>
+            </Button>
           )}
         </>
       )}
@@ -88,41 +89,41 @@ export default function WorkoutControls({
         <>
           {/* START / PAUSE / RESUME */}
           {handleStartPause && (
-            <button
-              className="btn btn-standard btn-secondary workout-toggle-btn"
-              onClick={handleStartPause}
-              disabled={saving}
+            <Button
+              variant="secondary"
+              className="workout-toggle-btn"
             >
               {status === 'running'
                 ? '❚❚ Pause'
                 : status === 'paused'
                   ? '▶ Resume'
                   : '▶ Start'}
-            </button>
+            </Button>
           )}
 
           {/* FINISH & SAVE */}
 
           {onFinishWorkout && (
-            <LoadingButton
-              className="btn btn-standard btn-primary"
+            <Button
+              variant="primary"
+              fullWidth
               loading={saving}
               disabled={!hasExercises}
               onClick={onFinishWorkout}
             >
               Finish & Save
-            </LoadingButton>
+            </Button>
           )}
 
           {/* DISCARD */}
 
           {onDiscardWorkout && (
-            <button
-              className="btn btn-danger btn-full"
+            <Button
+              variant="danger"
               onClick={onDiscardWorkout}
             >
-              Discard workout
-            </button>
+              Discard
+            </Button>
           )}
         </>
       )}
@@ -136,46 +137,48 @@ export default function WorkoutControls({
           {/* START WORKOUT */}
 
           {onStartWorkout && (
-            <button
-              className="btn btn-standard btn-primary btn-full"
+            <Button
+              variant="primary"
+              fullWidth
               onClick={onStartWorkout}
             >
               Start workout
-            </button>
+            </Button>
           )}
 
           {/* EDIT */}
 
           {onEdit && (
-            <button
-              className="btn btn-standard btn-secondary btn-full"
+            <Button
+              variant="secondary"
+              fullWidth
               onClick={onEdit}
             >
               {editLabel}
-            </button>
+            </Button>
           )}
 
           {/* SECONDARY ACTION */}
 
           {onSecondaryAction && (
-            <button
-              className="btn btn-standard btn-secondary"
+            <Button
+              variant="secondary"
               onClick={onSecondaryAction}
             >
               {secondaryActionLabel}
-            </button>
+            </Button>
           )}
 
           {/* DELETE */}
 
           {onDelete && (
-            <LoadingButton
-              className="btn btn-standard btn-danger"
+            <Button
+              variant="danger"
               loading={loading}
               onClick={onDelete}
             >
               {deleteLabel}
-            </LoadingButton>
+            </Button>
           )}
         </>
       )}
@@ -188,44 +191,46 @@ export default function WorkoutControls({
         <>
           {/* SAVE */}
           {onSave && (
-            <LoadingButton
-              className="btn btn-standard btn-primary"
+            <Button
+              variant="primary"
+              fullWidth
               loading={saving}
               disabled={!hasExercises}
               onClick={onSave}
             >
               {saveLabel}
-            </LoadingButton>
+            </Button>
           )}
 
           {/* SECONDARY ACTION */}
           {onSecondaryAction && (
-            <button
-              className="btn btn-standard btn-secondary btn-full"
+            <Button
+              variant="secondary"
+              fullWidth
               onClick={onSecondaryAction}
             >
               {secondaryActionLabel}
-            </button>
+            </Button>
           )}
 
           {/* DISCARD */}
           {onDiscardTemplate && (
-            <button
-              className="btn btn-standard btn-secondary btn-danger"
+            <Button
+              variant="danger"
               onClick={onDiscardTemplate}
             >
               {discardLabel}
-            </button>
+            </Button>
           )}
 
           {/* DISCARD */}
           {onDiscardChanges && (
-            <button
-              className="btn btn-standard btn-secondary btn-danger"
+            <Button
+              variant="danger"
               onClick={onDiscardChanges}
             >
               {cancelLabel}
-            </button>
+            </Button>
           )}
         </>
       )}

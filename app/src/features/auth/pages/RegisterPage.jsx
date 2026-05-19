@@ -1,8 +1,12 @@
 import { Eye, EyeOff } from 'lucide-react'
+
 import { useState } from 'react'
+
 import { register } from '../../../shared/api/authApi'
+
+import Button from '../../../shared/components/ui/button/Button'
+
 import Header from '../../../shared/components/ui/Header'
-import LoadingButton from '../../../shared/components/ui/LoadingButton'
 
 /**
  * Register component for creating a new user account.
@@ -147,13 +151,13 @@ export default function RegisterPage({ setUser }) {
             </button>
           </div>
 
-          <LoadingButton
-            className="btn btn-standard btn-primary"
+          <Button
+            className="btn btn-md btn-primary"
             loading={loading}
             onClick={handleRegister}
           >
             Create account
-          </LoadingButton>
+          </Button>
         </form>
 
         {error && <p className="error">{error}</p>}

@@ -1,8 +1,12 @@
 import { Eye, EyeOff } from 'lucide-react'
+
 import { useState } from 'react'
+
 import { login } from '../../../shared/api/authApi'
+
+import Button from '../../../shared/components/ui/button/Button'
+
 import Header from '../../../shared/components/ui/Header'
-import LoadingButton from '../../../shared/components/ui/LoadingButton'
 
 /**
  * Login component for user authentication.
@@ -98,13 +102,13 @@ export default function LoginPage({ setUser }) {
             </button>
           </div>
 
-          <LoadingButton
-            className="btn btn-standard btn-primary"
+          <Button
+            className="btn btn-md btn-primary"
             loading={loading}
             onClick={handleLogin}
           >
             {loading ? 'Logging in...' : 'Login'}
-          </LoadingButton>
+          </Button>
         </form>
 
         {error && <p className="error">{error}</p>}

@@ -74,7 +74,7 @@ export default function WorkoutList({
 
       {visibleCount < filteredWorkouts.length && (
         <button
-          className="btn btn-standard btn-primary"
+          className="btn btn-md btn-primary"
           onClick={() => setVisibleCount((prev) => prev + limit)}
         >
           Show more (+{Math.min(limit, filteredWorkouts.length - visibleCount)})

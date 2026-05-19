@@ -296,7 +296,7 @@ export default function ExerciseItem({
 
       {isEditable && (
         <button
-          className="btn btn-standard btn-secondary btn-full"
+          className="btn btn-md btn-secondary btn-full"
           onClick={() => addSet(i)}
         >
           Add set

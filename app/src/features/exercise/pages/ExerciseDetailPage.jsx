@@ -88,12 +88,12 @@ export default function ExerciseDetail() {
   if (loading || error || !ex) {
     return (
       <div className="app">
-        
+
         <Header title="Exercise" />
 
-        <div className="section">
+        <BackButton fallback={fallback} />
 
-          <BackButton fallback={fallback} />
+        <div className="section">
 
           <DataState
             loading={loading}
@@ -111,18 +111,21 @@ export default function ExerciseDetail() {
   return (
     <div className="app">
 
-      {/* Header */}
+      {/* HEADER */}
 
       <Header
         title="Exercise"
         subtitle="Details"
       />
 
+      {/* BACK BUTTON */}
+
+      <BackButton fallback={fallback} />
+
       <div className="section">
 
-        <BackButton fallback={fallback} />
 
-        {/* Title */}
+        {/* TITLE */}
 
         <div className="section">
           <h2>{ex.name}</h2>
@@ -137,7 +140,7 @@ export default function ExerciseDetail() {
           </p>
         </div>
 
-        {/* Image */}
+        {/* IMAGE */}
 
         <div className="container">
           <img
@@ -149,7 +152,7 @@ export default function ExerciseDetail() {
             className="detail-img"
           />
 
-          {/* dots indicator */}
+          {/* DOTS INDICATOR */}
 
           {ex.images?.length > 1 && (
             <div className="dots">
@@ -163,7 +166,7 @@ export default function ExerciseDetail() {
           )}
         </div>
 
-        {/* Info cards */}
+        {/* INFO CARDS */}
 
         <div className="section exercise-overview">
           <div className="card-base">
@@ -177,7 +180,7 @@ export default function ExerciseDetail() {
           </div>
         </div>
 
-        {/* Instructions */}
+        {/* INSTRUCTIONS */}
 
         <div className="section">
           <h3>Instructions</h3>

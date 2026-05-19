@@ -204,7 +204,7 @@ export default function WorkoutRunPage() {
       <div className="section">
         {/* ADD EXERCISE */}
         <button
-          className="btn btn-standard btn-secondary btn-full"
+          className="btn btn-md btn-secondary btn-full"
           onClick={openLibrary}
         >
           Add exercise

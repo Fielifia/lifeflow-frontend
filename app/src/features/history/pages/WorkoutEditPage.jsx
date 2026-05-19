@@ -115,9 +115,9 @@ export default function WorkoutEditPage() {
         saving={saving}
         onSave={saveWorkout}
         onSecondaryAction={saveAsTemplate}
-        secondaryActionLabel="Save as template"
+        secondaryActionLabel="Save As Template"
         onDiscardChanges={discardChanges}
-        saveLabel="Save workout"
+        saveLabel="Save Workout"
         discardLabel="Cancel"
         hasExercises={workout.exercises.length > 0}
       />
@@ -130,7 +130,7 @@ export default function WorkoutEditPage() {
       {/* ADD EXERCISE */}
 
       <button
-        className="btn btn-standard btn-secondary btn-full"
+        className="btn btn-md btn-secondary btn-full"
         onClick={openLibrary}
       >
         Add exercise

@@ -1,0 +1,117 @@
+/* ===== BASE ===== */
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  border-radius: 12px;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.08s ease,
+    opacity 0.08s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.btn:hover {
+  transform: scale(1.01);
+}
+
+.btn:active {
+  transform: scale(0.97);
+  opacity: 0.9;
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ===== SIZES ===== */
+
+.btn-sm {
+  min-height: 34px;
+  padding: 6px 10px;
+  font-size: 12px;
+}
+
+.btn-md {
+  min-height: 46px;
+  padding: 14px;
+  font-size: 13px;
+}
+
+.btn-lg {
+  min-height: 56px;
+  padding: 18px;
+  font-size: 14px;
+}
+
+/* ===== CTA ===== */
+
+.btn-cta {
+  flex-direction: column;
+
+  min-height: 90px;
+  padding: 18px;
+
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* ===== VARIANTS ===== */
+
+.btn-primary {
+  border: none;
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-light);
+}
+
+.btn-secondary {
+  background: var(--card-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+.btn-secondary:hover {
+  border-color: var(--primary);
+}
+
+.btn-danger {
+  background: var(--danger);
+  border: 1px solid transparent;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #b91c1c;
+}
+
+.btn-clean {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  padding: 0;
+}
+
+/* ===== MODIFIERS ===== */
+
+.btn-full {
+  width: 100%;
+}
+
+.btn-loading {
+  pointer-events: none;
+}
