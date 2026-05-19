@@ -1,9 +1,30 @@
-import { useEffect, useRef, useState } from 'react'
+import {
+  useEffect,
+  useRef,
+  useState
+
+} from 'react'
+
 import { EllipsisVertical } from 'lucide-react'
 
+/**
+ * Dropdown action menu for contextual actions.
+ * @param {object} props - Component props
+ * @param {Array<{
+ *  label:string,
+ *  onClick?:()=>void,
+ *  icon?:import('lucide-react').LucideIcon,
+ *  danger?:boolean
+ * }>} props.items - Menu actions
+ * @param {(open:boolean)=>void} [props.onClickChange] - Open state callback
+ * @returns {import('react').ReactElement} Action menu UI
+ */
 export default function ActionMenu({ items = [], onClickChange }) {
+
   const [open, setOpen] = useState(false)
   const menuRef = useRef(null)
+
+  // ===== CLOSE ON OUTSIDE CLICK =====
 
   useEffect(() => {
     const handleClickOutside = (e) => {
@@ -19,10 +40,15 @@ export default function ActionMenu({ items = [], onClickChange }) {
     }
   }, [])
 
+  // ===== OPEN STATE CALLBACK =====
+
   useEffect(() => {
     onClickChange?.(open)
   }, [open, onClickChange])
 
+
+  // ===== DEVICE DETECTION =====
+  
   const isTouchDevice = window.matchMedia('(hover: none)').matches
 
   return (

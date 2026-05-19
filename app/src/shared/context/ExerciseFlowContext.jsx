@@ -1,4 +1,8 @@
-import { createContext, useContext, useState } from 'react'
+import {
+  createContext,
+  useContext,
+  useState
+} from 'react'
 
 /**
  * Context for managing selected exercises
@@ -9,21 +13,32 @@ const ExerciseFlowContext = createContext()
 /**
  * Provides shared exercise flow state.
  * @param {object} props - Component props
- * @param {import('react').React.ReactNode} props.children - Child components
+ * @param {import('react').ReactNode} props.children - Child components
  * @returns {import('react').ReactElement} Exercise flow context provider
  */
 export function ExerciseFlowProvider({ children }) {
+
+  // ===== EXERCISE SELECTION =====
+
   const [selectedExercises, setSelectedExercises] = useState([])
+
+  // ===== NAVIGATION FLOW =====
 
   const [returnTo, setReturnTo] = useState('/')
   const [scrollPosition, setScrollPosition] = useState(0)
+
+  // ===== SCROLL RESTORATION =====
+
   const [shouldRestoreScroll, setShouldRestoreScroll] = useState(false)
   const [libraryReturnTo, setLibraryReturnTo] = useState('/exercises')
+
+  // ===== EDITING STATE =====
 
   const [editingTemplate, setEditingTemplate] = useState(null)
   const [editingWorkout, setEditingWorkout] = useState(null)
 
   return (
+
     <ExerciseFlowContext.Provider
       value={{
         selectedExercises,
@@ -48,8 +63,11 @@ export function ExerciseFlowProvider({ children }) {
         setEditingWorkout,
       }}
     >
+
       {children}
+
     </ExerciseFlowContext.Provider>
+    
   )
 }
 

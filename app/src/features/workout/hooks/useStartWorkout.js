@@ -45,8 +45,15 @@ export function useStartWorkout() {
       draftWorkoutStorage.clear()
     }
 
-    if (workout) setSelectedWorkout(workout)
-    if (template) setSelectedTemplate(template)
+    if (workout) {
+      setSelectedWorkout(workout)
+      setSelectedTemplate(null)
+    }
+
+    if (template) {
+      setSelectedTemplate(template)
+      setSelectedWorkout(null)
+    }
 
     start()
     navigate('/workouts/current/run')

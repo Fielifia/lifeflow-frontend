@@ -7,17 +7,14 @@ import LoadingButton from './ui/LoadingButton'
  * - run: Active workout session
  * - detail: Saved workout/template detail page
  * - editor: Workout/template editor page
- *
  * @param {object} props - Component props
- * @param {'run' | 'detail' | 'editor'} [props.variant] - Controls layout variant
- *
+ * @param {'card' | 'run' | 'detail' | 'editor'} [props.variant] - Controls layout variant
  * @param {'idle' | 'running' | 'paused'} [props.status] - Current workout timer status
  * @param {() => void} [props.handleStartPause] - Starts or pauses workout timer
- *
  * @param {() => void} [props.onStartWorkout] - Starts workout
  * @param {() => void} [props.onFinishWorkout] - Finishes and saves active workout
  * @param {() => void} [props.onDiscardWorkout] - Discards active workout
- *  @param {() => void} [props.onDiscardTemplate] - Discards template in create mode
+ * @param {() => void} [props.onDiscardTemplate] - Discards template in create mode
  * @param {() => void} [props.onDiscardChanges] - Discards current changes in workout/template edit
  * @param {() => void} [props.onEdit] - Opens edit page
  * @param {() => void} [props.onSave] - Saves changes
@@ -27,11 +24,10 @@ import LoadingButton from './ui/LoadingButton'
  * @param {string} [props.saveLabel] - Save button label
  * @param {string} [props.deleteLabel] - Delete button label
  * @param {string} [props.discardLabel] - Discard button label
- * @param {string} [props.discardChangesLabel] - Discard changes button label
- * @param {() => void} [props.onSecondaryAction] - Optional secondary action
+ * @param {string} [props.cancelLabel] - Discard changes button label
  * @param {string} [props.secondaryActionLabel] - Secondary action button label
  * @param {boolean} [props.saving] - Whether save action is in progress
- * @param {boolean} [props.loading] - Whether delete/load action is in progress
+ * @param {boolean} [props.loading] - Whether delete action is in progress
  * @param {boolean} [props.hasExercises] - Whether content contains exercises
  * @returns {import('react').ReactElement} Controls UI
  */

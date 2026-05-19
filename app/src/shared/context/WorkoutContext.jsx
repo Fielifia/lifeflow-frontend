@@ -14,6 +14,9 @@ import {
   hasTemplateDraftContent,
 } from '../utils/storage/draftStorage'
 
+/**
+ * Shared workout session context.
+ */
 const WorkoutContext = createContext()
 
 /**
@@ -31,8 +34,13 @@ export function useWorkoutContext() {
  * @returns {import('react').ReactElement} Workout provider UI
  */
 export function WorkoutProvider({ children }) {
+  
+  // ===== TIMERS =====
+
   const timer = useWorkoutTimer()
   const rest = useRestTimer()
+
+  // ===== TEMPLATE DRAFT =====
 
   const [draftTemplate, setDraftTemplate] = useState(() => {
     return draftTemplateStorage.get() || EMPTY_TEMPLATE
@@ -46,11 +54,14 @@ export function WorkoutProvider({ children }) {
     }
   }, [draftTemplate])
 
+  // ===== WORKOUT SOURCES =====
+
   const [selectedTemplate, setSelectedTemplate] = useState(null)
 
   const [selectedWorkout, setSelectedWorkout] = useState(null)
 
   return (
+
     <WorkoutContext.Provider
       value={{
         status: timer.status,
@@ -80,7 +91,10 @@ export function WorkoutProvider({ children }) {
         registerActivity: timer.registerActivity,
       }}
     >
+
       {children}
+
     </WorkoutContext.Provider>
+
   )
 }

@@ -1,14 +1,22 @@
 import { NavLink } from 'react-router-dom'
-import { House, Dumbbell, History, ChartNoAxesCombined } from 'lucide-react'
+
+import {
+  House,
+  Dumbbell,
+  History,
+  ChartNoAxesCombined
+
+} from 'lucide-react'
 
 /**
- * Navigation bar for switching between views.
+ * Bottom navigation bar for main app routes.
  * @returns {import('react').ReactElement} Navigation UI
  */
 export default function Navbar() {
 
   return (
     <div className="navbar">
+
       <NavLink
         to="/"
         className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
@@ -16,7 +24,6 @@ export default function Navbar() {
         <House className="nav-icon" />
         Home
       </NavLink>
-
 
       <NavLink
         to="/workouts"
@@ -41,6 +48,7 @@ export default function Navbar() {
         <ChartNoAxesCombined className="nav-icon" />
         Stats
       </NavLink>
+
     </div>
   )
 }

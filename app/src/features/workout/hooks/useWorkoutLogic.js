@@ -1,7 +1,12 @@
-import { useEffect, useRef, useState } from 'react'
+import {
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import { useLocation } from 'react-router-dom'
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+
 import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
 
 import { appendExercisesToWorkout } from '../utils/appendExercisesToWorkout'
@@ -11,29 +16,106 @@ import { draftWorkoutStorage } from '../../../shared/utils/storage/draftStorage'
 import { buildWorkoutExercise } from '../utils/buildWorkoutExercise'
 
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
+
 import { EMPTY_WORKOUT } from '../../../shared/utils/constants'
+
 import { saveWorkoutAsTemplate, saveWorkoutSession } from '../utils/workoutPersistence'
 
 /**
- * Handles workout state, timers and actions.
- * @param {(path: string, options?: object) => void} navigate - Navigation function
- * @param workoutId - Workout id
+ * Handles active workout session state,
+ * timers, persistence and exercise flow logic.
+ *
+ * Responsibilities:
+ * - managing active workout state
+ * - initializing workouts from templates/workout history
+ * - handling temporary exercise library flow state
+ * - persisting workout draft state
+ * - handling workout timers and rest timers
+ * - managing exercise mutations and completion logic
+ * - saving workouts and templates
+ * - discarding active workout sessions
+ * @param {(path: string, options?: object) => void} navigate
+ * React Router navigation function.
+ * @param {string} workoutId
+ * Current workout route id.
  * @returns {{
  *  workout: object,
- * setWorkout: (updater: (prev: object) => object) => void,
+ *
+ *  setWorkout: import('react').Dispatch<
+ *    import('react').SetStateAction<object>
+ *  >,
+ *
+ *  status: 'idle' | 'running' | 'paused',
+ *  elapsed: number,
+ *  startTime: number | null,
+ *
+ *  adjustStartTime: (
+ *    offsetMs: number
+ *  ) => void,
+ *
+ *  handleStartPause: () => void,
+ *
  *  saving: boolean,
  *  success: boolean,
  *  error: string,
- *  status: string,
- *  elapsed: number,
+ *
  *  isEditingName: boolean,
- *  setIsEditingName: (value: boolean) => void,
- *  handleStartPause: () => void,
+ *
+ *  setIsEditingName: import('react').Dispatch<
+ *    import('react').SetStateAction<boolean>
+ *  >,
+ *
  *  openLibrary: () => void,
- *  exerciseActions: object,
- *  updateWorkoutNotes: (notes: string) => void,
- *  saveWorkout: () => Promise<void>
- * }} Workout logic API
+ *
+ *  exerciseActions: {
+ *    addSet: (
+ *      index: number
+ *    ) => void,
+ *
+ *    updateSet: (
+ *      exIndex: number,
+ *      setIndex: number,
+ *      field: string,
+ *      value: string | number | boolean
+ *    ) => void,
+ *
+ *    removeSet: (
+ *      exIndex: number,
+ *      setIndex: number
+ *    ) => void,
+ *
+ *    removeExercise: (
+ *      index: number
+ *    ) => void,
+ *
+ *    toggleSetComplete: (
+ *      exIndex: number,
+ *      setIndex: number,
+ *      checked: boolean
+ *    ) => void,
+ *
+ *    updateExerciseRest: (
+ *      index: number,
+ *      value: number
+ *    ) => void,
+ *
+ *    updateExerciseNotes: (
+ *      index: number,
+ *      notes: string
+ *    ) => void,
+ *  },
+ *
+ *  updateWorkoutNotes: (
+ *    notes: string
+ *  ) => void,
+ *
+ *  saveWorkout: () => Promise<void>,
+ *
+ *  saveAsTemplate: () => Promise<void>,
+ *
+ *  discardWorkout: () => void,
+ * }}
+ * Workout logic state and actions.
  */
 export function useWorkoutLogic(navigate, workoutId) {
   const location = useLocation()
@@ -68,6 +150,9 @@ export function useWorkoutLogic(navigate, workoutId) {
 
     selectedTemplate,
     setSelectedTemplate,
+
+    selectedWorkout,
+    setSelectedWorkout,
 
     registerActivity,
   } = useWorkoutContext()
@@ -143,6 +228,24 @@ export function useWorkoutLogic(navigate, workoutId) {
       registerActivity()
     },
   })
+
+  // ===== LOAD WORKOUT =====
+
+  useEffect(() => {
+    if (!selectedWorkout) return
+
+    setWorkout({
+      name: selectedWorkout.name,
+      notes: selectedWorkout.notes || '',
+      exercises: selectedWorkout.exercises.map((ex) =>
+        buildWorkoutExercise(ex, null, {
+          resetCompleted: true,
+        }),
+      ),
+    })
+
+    setSelectedWorkout(null)
+  }, [selectedWorkout, setSelectedWorkout, setWorkout])
 
   // ===== EXERCISE ACTIONS =====
 

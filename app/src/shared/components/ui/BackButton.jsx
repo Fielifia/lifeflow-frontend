@@ -4,11 +4,11 @@ import { ArrowLeft } from 'lucide-react'
 /**
  * Reusable back button.
  * @param {object} props - Component props
- * @param {string} [props.fallback='/']
+ * @param {string} [props.fallback]
  * Fallback navigation path
- * @param {boolean} [props.warnOnUnsavedChanges=false]
+ * @param {boolean} [props.warnOnUnsavedChanges]
  * Whether to warn before navigation
- * @param {boolean} [props.hasUnsavedChanges=false]
+ * @param {boolean} [props.hasUnsavedChanges]
  * Whether unsaved changes exist
  * @param {() => void} [props.onDiscard]
  * Callback triggered when user confirms discard
