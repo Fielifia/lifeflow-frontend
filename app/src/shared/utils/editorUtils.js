@@ -9,8 +9,7 @@
  * Workout or template object
  * @param {string} defaultName
  * Default fallback name
- * @returns {boolean}
- * True if object contains meaningful content
+ * @returns {boolean} True if object contains meaningful content
  */
 export function hasMeaningfulContent(
   item,

@@ -70,10 +70,8 @@ export function hasWorkoutDraftContent(workout) {
   return (
     workout.exercises?.length > 0 ||
     workout.notes?.trim() ||
-    (
-      workout.name &&
-      workout.name !== 'Workout'
-    )
+    workout.name &&
+    workout.name !== 'Workout'
   )
 }
 
@@ -90,9 +88,7 @@ export function hasTemplateDraftContent(template) {
   return (
     template.exercises?.length > 0 ||
     template.notes?.trim() ||
-    (
       template.name &&
       template.name !== 'Template'
-    )
   )
 }

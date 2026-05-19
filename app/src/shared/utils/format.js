@@ -97,12 +97,16 @@ export function formatDate(date) {
     return ''
   }
 
+  // ===== DATE REFERENCES =====
+
   const workoutDate = new Date(date)
 
   const today = new Date()
   const yesterday = new Date()
 
   yesterday.setDate(today.getDate() - 1)
+
+  // ===== RELATIVE DATES =====
 
   const isToday =
     workoutDate.toDateString() === today.toDateString()
@@ -125,6 +129,8 @@ export function formatDate(date) {
     diffTime / (1000 * 60 * 60 * 24),
   )
 
+  // ===== FALLBACK FORMAT =====
+  
   if (diffDays === 1) {
     return '1 day ago'
   }

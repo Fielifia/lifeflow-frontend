@@ -25,6 +25,7 @@ export const safeStorage = {
     try {
       localStorage.setItem(key, JSON.stringify(value))
     } catch {
+      // Ignore storage write failures
     }
   },
 

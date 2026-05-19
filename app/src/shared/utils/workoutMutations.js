@@ -21,7 +21,9 @@ export const workoutMutation = {
     return {
       ...workout,
       exercises: workout.exercises.map((ex, i) => {
-        if (i !== index) return ex
+        if (i !== index) {
+          return ex
+        }
 
         const last = ex.sets.at(-1)
 
@@ -50,12 +52,16 @@ export const workoutMutation = {
     return {
       ...workout,
       exercises: workout.exercises.map((ex, i) => {
-        if (i !== exIndex) return ex
+        if (i !== exIndex) {
+          return ex
+        }
 
         return {
           ...ex,
           sets: ex.sets.map((set, j) => {
-            if (j !== setIndex) return set
+            if (j !== setIndex) {
+              return set
+            }
 
             return {
               ...set,
@@ -79,8 +85,13 @@ export const workoutMutation = {
     return {
       ...workout,
       exercises: workout.exercises.map((ex, i) => {
-        if (i !== exIndex) return ex
-        if (ex.sets.length === 1) return ex
+        if (i !== exIndex) {
+          return ex
+        }
+
+        if (ex.sets.length === 1) {
+          return ex
+        }
 
         return {
           ...ex,
@@ -152,7 +163,9 @@ export const workoutMutation = {
     return {
       ...workout,
       exercises: workout.exercises.map((ex, i) => {
-        if (i !== index) return ex
+        if (i !== index) {
+          return ex
+        }
 
         return {
           ...ex,

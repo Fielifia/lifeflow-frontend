@@ -9,9 +9,18 @@ import { calculateMuscleSplit } from './calculateMuscleSplit'
  *   totalVolume: number,
  *   personalBests: number,
  *   duration: number,
+ *   exerciseCount: number,
+ *   muscleSplit: Array<{
+ *     muscle:string,
+ *     percentage:number,
+ *     sets:number
+ *   }>
  * }} - Stats
  */
 export function calculateWorkoutStats(workout) {
+
+  // ===== EMPTY STATE =====
+  
   if (!workout?.exercises) {
     return {
       exerciseCount: 0,
@@ -20,9 +29,11 @@ export function calculateWorkoutStats(workout) {
       totalVolume: 0,
       personalBests: 0,
       duration: 0,
-      muscleSplit: 0
+      muscleSplit: []
     }
   }
+
+  // ===== AGGREGATED STATS =====
 
   const exerciseCount = workout.exercises.length
 
@@ -49,6 +60,8 @@ export function calculateWorkoutStats(workout) {
     0,
   )
 
+  // ===== RETURN =====
+
   return {
     exerciseCount,
     totalSets,
@@ -56,6 +69,6 @@ export function calculateWorkoutStats(workout) {
     totalVolume,
     personalBests: workout.personalBests || 0,
     duration: workout.duration || 0,
-    muscleSplit: calculateMuscleSplit(workout)
+    muscleSplit: calculateMuscleSplit(workout),
   }
 }

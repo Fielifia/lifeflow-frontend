@@ -35,7 +35,7 @@ export function serializeWorkoutExercise(ex) {
 
     notes: ex.notes || '',
 
-    rest: ex.restTime || 0,
+    rest: ex.restTime ?? 0,
 
     sets: ex.sets || [],
   }

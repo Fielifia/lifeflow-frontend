@@ -3,6 +3,7 @@ import { normalizeExercise } from '../utils/normalizeExercise'
 import API from './api'
 
 // ===== GET WORKOUTS =====
+
 export const getWorkoutsApi = async () => {
   const res = await API.get('/workouts')
 
@@ -22,12 +23,14 @@ export const getWorkoutsApi = async () => {
 }
 
 // ===== CREATE WORKOUT =====
+
 export const createWorkoutApi = async (data) => {
   const res = await API.post('/workouts', data)
   return res.data
 }
 
 // ===== GET WORKOUT BY ID =====
+
 export const getWorkoutByIdApi = async (id) => {
   const res = await API.get(`/workouts/${id}`)
   return {
@@ -41,6 +44,7 @@ export const getWorkoutByIdApi = async (id) => {
 }
 
 // ===== GET PREVIOUS EXERCISE DATA =====
+
 export const getPreviousExerciseApi = async (exerciseId) => {
   try {
     const res = await API.get(`/workouts/exercises/${exerciseId}/previous`)
@@ -60,12 +64,14 @@ export const getPreviousExerciseApi = async (exerciseId) => {
 }
 
 // ===== UPDATE WORKOUT =====
+
 export const updateWorkoutApi = async (id, data) => {
   const res = await API.put(`/workouts/${id}`, data)
   return res.data
 }
 
 // ===== DELETE WORKOUT =====
+
 export const deleteWorkoutApi = async (id) => {
   const res = await API.delete(`/workouts/${id}`)
   return res.data

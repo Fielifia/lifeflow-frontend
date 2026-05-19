@@ -20,6 +20,7 @@
  * @param {Array} [ex.sets] - Exercise sets
  * @returns {{
  *  id: string,
+ *  exerciseId:string,
  *  muscle: string,
  *  images: string[],
  *  restTime: number,
@@ -31,10 +32,16 @@ export function normalizeExercise(ex) {
   return {
     ...ex,
 
+    // ===== ID NORMALIZATION =====
+    
     id: ex.exerciseId || ex.id,
     exerciseId: ex.exerciseId || ex.id,
 
+    // ===== MUSCLE NORMALIZATION =====
+
     muscle: ex.muscle || ex.primaryMuscles?.[0] || ex.bodyPart || 'Other',
+
+    // ===== IMAGE NORMALIZATION =====
 
     images:
       ex.images?.length
@@ -42,6 +49,8 @@ export function normalizeExercise(ex) {
         : ex.image
           ? [ex.image]
           : [],
+
+    // ===== FALLBACK VALUES =====
 
     restTime: ex.restTime ?? ex.rest ?? 120,
 
