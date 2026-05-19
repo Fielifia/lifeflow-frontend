@@ -8,8 +8,8 @@ import {
 } from 'react-router-dom'
 
 import {
-  getTemplatesApi,
   deleteTemplateApi,
+  getTemplatesApi,
 } from '../../../shared/api/templateApi'
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
@@ -102,7 +102,7 @@ export default function WorkoutStartPage() {
           {/* START / CONTINUE WORKOUT */}
 
           <button
-            className="btn hero-btn hero-btn-primary"
+            className="btn btn-cta btn-cta-primary"
             onClick={() => {
               if (!hasWorkoutDraft) {
                 startWorkout({})
@@ -124,7 +124,7 @@ export default function WorkoutStartPage() {
           {/* CREATE TEMPLATE */}
 
           <button
-            className="btn hero-btn hero-btn-secondary"
+            className="btn btn-cta btn-cta-secondary"
             onClick={() => {
               setReturnTo(location.pathname)
 

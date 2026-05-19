@@ -362,7 +362,7 @@ button {
 }
 
 /* BASE */
-.hero-btn {
+.btn-cta {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -384,13 +384,13 @@ button {
 }
 
 /* ACTIVE FEEDBACK */
-.hero-btn:active {
+.btn-cta:active {
   transform: scale(0.97);
   opacity: 0.9;
 }
 
 /* PRIMARY */
-.hero-btn-primary {
+.btn-cta-primary {
   background: var(--primary);
   border: none;
 }
