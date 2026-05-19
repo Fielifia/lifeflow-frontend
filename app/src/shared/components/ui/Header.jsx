@@ -46,7 +46,7 @@ export default function Header({
       {/* PROFILE BUTTON */}
 
       <button
-        className="btn-clean header-profile-btn"
+        className="icon-btn"
         onClick={() => {
           if (onProfileClick) {
             onProfileClick()

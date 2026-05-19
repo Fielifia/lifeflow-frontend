@@ -48,6 +48,7 @@ export default function BackButton({
   return (
     <Button
       variant="ghost"
+      className="back-btn"
       size="icon"
       onClick={handleBack}
     >

@@ -319,20 +319,6 @@ button {
   margin: 0;
 }
 
-.back-btn {
-  display: flex;
-  background: transparent;
-  border: none;
-  height: 32px;
-  color: var(--text);
-  justify-content: left;
-}
-
-.back-btn .back-icon {
-  width: 24px;
-  height: 24px;
-}
-
 .btn-clean {
   background: none;
   border: none;

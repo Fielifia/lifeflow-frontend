@@ -97,7 +97,7 @@ export default function LoginPage({ setUser }) {
 
             <button
               type="button"
-              className="password-toggle"
+              className="icon-btn password-toggle"
               onClick={() => setShowPassword((prev) => !prev)}
             >
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
