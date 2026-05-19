@@ -118,7 +118,8 @@ button {
   color: var(--text);
 }
 
-/* BACK BUTTON */
+/* BACK */
+
 .back-btn {
   display: flex;
   background: transparent;

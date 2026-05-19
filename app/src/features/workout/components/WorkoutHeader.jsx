@@ -32,6 +32,7 @@ export default function WorkoutHeader({
   showDuration = true,
   menuItems,
 }) {
+  
   return (
     <div className="workout-header">
       <ActionMenu items={menuItems} align="right" />

@@ -4,6 +4,8 @@ import {
 
 import { useHoldToDelete } from '../hooks/useHoldToDelete'
 
+import Button from '../../../shared/components/ui/button/Button'
+
 
 /**
  * Displays a single editable exercise set row.
@@ -107,9 +109,9 @@ export default function ExerciseSetRow({
 
       {isEditable && !isWorkoutMode ? (
         <div className="number-input">
-          <button
+          <Button
+            variant="ghost"
             type="button"
-            className="btn btn-clean"
             onClick={() =>
               updateSet(
                 i,
@@ -120,7 +122,7 @@ export default function ExerciseSetRow({
             }
           >
             −
-          </button>
+          </Button>
 
           <input
             className="input-base"
@@ -139,9 +141,9 @@ export default function ExerciseSetRow({
             }
           />
 
-          <button
+          <Button
+            variant="ghost"
             type="button"
-            className="btn btn-clean"
             onClick={() =>
               updateSet(
                 i,
@@ -152,7 +154,7 @@ export default function ExerciseSetRow({
             }
           >
             +
-          </button>
+          </Button>
         </div>
       ) : isEditable ? (
         <input
