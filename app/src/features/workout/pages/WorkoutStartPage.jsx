@@ -1,23 +1,32 @@
-import { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
-
-import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
-import { useStartWorkout } from '../hooks/useStartWorkout'
+import {
+  useEffect,
+  useState
+} from 'react'
+import {
+  useLocation,
+  useNavigate
+} from 'react-router-dom'
 
 import {
   getTemplatesApi,
   deleteTemplateApi,
 } from '../../../shared/api/templateApi'
 
-import DataState from '../../../shared/components/ui/DataState'
-import Header from '../../../shared/components/ui/Header'
+import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+
+import { useStartWorkout } from '../hooks/useStartWorkout'
 
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
+
 import {
   draftWorkoutStorage,
   hasTemplateDraftContent,
   hasWorkoutDraftContent,
 } from '../../../shared/utils/storage/draftStorage'
+
+import DataState from '../../../shared/components/ui/DataState'
+
+import Header from '../../../shared/components/ui/Header'
 
 import TemplateList from '../../template/components/TemplateList'
 
@@ -83,11 +92,15 @@ export default function WorkoutStartPage() {
 
   return (
     <div className="app">
+
       <Header title="Start Workout" subtitle="Build your next session" />
 
       <div className="section">
+
         <div className="hero-actions">
+
           {/* START / CONTINUE WORKOUT */}
+
           <button
             className="btn hero-btn hero-btn-primary"
             onClick={() => {
@@ -108,7 +121,8 @@ export default function WorkoutStartPage() {
             </span>
           </button>
 
-          {/* TEMPLATE */}
+          {/* CREATE TEMPLATE */}
+
           <button
             className="btn hero-btn hero-btn-secondary"
             onClick={() => {
@@ -127,21 +141,28 @@ export default function WorkoutStartPage() {
           </button>
         </div>
 
-        <div className="section template">
-          <DataState
-            loading={loading}
-            error={error}
-            data={templates}
-            variant="card-template"
-            emptyText="No templates found"
-            count={5}
-          >
-            <TemplateList
-              templates={templates.slice(0, 5)}
-              onDeleteTemplate={handleDeleteTemplate}
-            />
-          </DataState>
-        </div>
+      </div>
+
+      <div className="section template">
+
+        {/* TEMPLATE LIST */}
+
+        <DataState
+          loading={loading}
+          error={error}
+          data={templates}
+          variant="template-list"
+          emptyText="No templates found"
+          count={5}
+        >
+
+          <TemplateList
+            templates={templates.slice(0, 5)}
+            onDeleteTemplate={handleDeleteTemplate}
+          />
+
+        </DataState>
+
       </div>
     </div>
   )

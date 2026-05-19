@@ -1,5 +1,6 @@
 import { useState } from 'react'
 
+import DataState from '../../../shared/components/ui/DataState'
 import Header from '../../../shared/components/ui/Header'
 
 import StatsHeader from '../components/StatsHeader'
@@ -16,8 +17,8 @@ export default function StatsPage() {
 
   const {
     stats,
-    // loading,
-    // error,
+    loading,
+    error,
   } = useStatistics(range)
 
   return (
@@ -27,16 +28,29 @@ export default function StatsPage() {
         subtitle="Your progress"
       />
 
-      <StatsHeader
-        selectedRange={range}
-        onChangeRange={setRange}
-      />
+      <div className="section">
 
-      <p className="quote">"Every workout is a step closer to your best self"</p>
+        <StatsHeader
+          selectedRange={range}
+          onChangeRange={setRange}
+        />
+        <p className="quote">"Every workout is a step closer to your best self"</p>
+        <DataState
+          loading={loading}
+          error={error}
+          data={stats}
+          variant="card-template"
+          emptyText="No statistics yet"
+          count={1}
+        >
 
-      <StatsHero
-        stats={stats}
-      />
+          <StatsHero
+            stats={stats}
+          />
+
+        </DataState>
+
+      </div>
     </div>
   )
 }

@@ -42,16 +42,19 @@ export default function TemplateDetailPage() {
       <div className="app">
         <Header title="Template" />
 
-        <BackButton fallback="/workouts" />
+        <div className="section">
 
-        <DataState
-          loading={loading}
-          error={error}
-          data={template ? [template] : []}
-          variant="card-workout"
-          emptyText="No template found"
-          count={1}
-        />
+          <BackButton fallback="/workouts" />
+
+          <DataState
+            loading={loading}
+            error={error}
+            data={template ? [template] : []}
+            variant="card-workout"
+            emptyText="No template found"
+            count={1}
+          />
+        </div>
       </div>
     )
   }
@@ -66,58 +69,62 @@ export default function TemplateDetailPage() {
         subtitle={`${template.exercises.length} exercises`}
       />
 
-      {/* BACK BUTTON */}
+      <div className="section">
 
-      <BackButton fallback="/workouts" />
+        {/* BACK BUTTON */}
 
-      {/* CONTROLS */}
+        <BackButton fallback="/workouts" />
 
-      <WorkoutControls
-        variant="detail"
-        onStartWorkout={(e) => {
-          setReturnTo(location.pathname)
-          e.stopPropagation?.()
+        {/* CONTROLS */}
 
-          startWorkout({ template })
-        }}
-        onEdit={() => {
-          setReturnTo(location.pathname)
+        <WorkoutControls
+          variant="detail"
+          onStartWorkout={(e) => {
+            setReturnTo(location.pathname)
+            e.stopPropagation?.()
 
-          navigate(`/templates/${template._id}/edit`)
-        }}
-        onDelete={deleteTemplate}
-        editLabel="Edit template"
-        deleteLabel="Delete template"
-      />
+            startWorkout({ template })
+          }}
+          onEdit={() => {
+            setReturnTo(location.pathname)
 
-      {/* FEEDBACK */}
-      {success && <p className="muted center">Template saved ✔</p>}
-
-      {error && <p className="error center">{error}</p>}
-
-      {/* EXERCISES */}
-
-      {template.exercises.map((ex, i) => (
-        <ExerciseItem
-          mode="template"
-          key={ex.id || i}
-          ex={ex}
-          i={i}
-          navigate={navigate}
-          isEditable={false}
-          showCheckbox={false}
+            navigate(`/templates/${template._id}/edit`)
+          }}
+          onDelete={deleteTemplate}
+          editLabel="Edit template"
+          deleteLabel="Delete template"
         />
-      ))}
 
-      {/* NOTES */}
-      
-      {template.notes && (
-        <div className="section">
-          <h3>Notes</h3>
+        {/* FEEDBACK */}
+        {success && <p className="muted center">Template saved ✔</p>}
 
-          <p className="muted">{template.notes}</p>
-        </div>
-      )}
+        {error && <p className="error center">{error}</p>}
+
+        {/* EXERCISES */}
+
+        {template.exercises.map((ex, i) => (
+          <ExerciseItem
+            mode="template"
+            key={ex.id || i}
+            ex={ex}
+            i={i}
+            navigate={navigate}
+            isEditable={false}
+            showCheckbox={false}
+          />
+        ))}
+
+        {/* NOTES */}
+
+        {template.notes && (
+          <div className="section">
+            <h3>Notes</h3>
+
+            <p className="muted">{template.notes}</p>
+          </div>
+        )}
+
+      </div>
     </div>
   )
 }

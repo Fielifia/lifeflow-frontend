@@ -21,19 +21,24 @@ export default function Dashboard() {
       <Header
         title="LifeFlow Fitness"
       />
-      <DataState
-        loading={loading}
-        error={error}
-        data={stats}
-        variant="card"
-        emptyText="No statistics available yet"
-      >
-        <DashboardContent
-          stats={stats}
-          user={user}
-          recentWorkouts={workouts}
-        />
-      </DataState>
+
+      <div className="section">
+
+        <DataState
+          loading={loading}
+          error={error}
+          data={stats}
+          variant="card"
+          emptyText="No statistics available yet"
+        >
+          <DashboardContent
+            stats={stats}
+            user={user}
+            recentWorkouts={workouts}
+          />
+        </DataState>
+        
+      </div>
     </div>
   )
 }

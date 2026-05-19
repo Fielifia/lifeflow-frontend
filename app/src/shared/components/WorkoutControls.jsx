@@ -64,7 +64,8 @@ export default function WorkoutControls({
   hasExercises = false,
 }) {
   return (
-    <div className="workout-controls">
+    <div className={`workout-controls-${variant}`}>
+
       {/* =========================
                 CARD
       ========================== */}
@@ -105,6 +106,7 @@ export default function WorkoutControls({
           )}
 
           {/* FINISH & SAVE */}
+
           {onFinishWorkout && (
             <LoadingButton
               className="btn btn-standard btn-primary"
@@ -117,6 +119,7 @@ export default function WorkoutControls({
           )}
 
           {/* DISCARD */}
+
           {onDiscardWorkout && (
             <button
               className="btn btn-danger btn-full"
@@ -135,6 +138,7 @@ export default function WorkoutControls({
       {variant === 'detail' && (
         <>
           {/* START WORKOUT */}
+
           {onStartWorkout && (
             <button
               className="btn btn-standard btn-primary btn-full"
@@ -145,6 +149,7 @@ export default function WorkoutControls({
           )}
 
           {/* EDIT */}
+
           {onEdit && (
             <button
               className="btn btn-standard btn-secondary btn-full"
@@ -155,9 +160,10 @@ export default function WorkoutControls({
           )}
 
           {/* SECONDARY ACTION */}
+
           {onSecondaryAction && (
             <button
-              className="btn btn-standard btn-secondary btn-full"
+              className="btn btn-standard btn-secondary"
               onClick={onSecondaryAction}
             >
               {secondaryActionLabel}
@@ -165,9 +171,10 @@ export default function WorkoutControls({
           )}
 
           {/* DELETE */}
+
           {onDelete && (
             <LoadingButton
-              className="btn btn-standard btn-danger btn-full"
+              className="btn btn-standard btn-danger"
               loading={loading}
               onClick={onDelete}
             >
@@ -186,7 +193,7 @@ export default function WorkoutControls({
           {/* SAVE */}
           {onSave && (
             <LoadingButton
-              className="btn btn-standard btn-primary btn-full"
+              className="btn btn-standard btn-primary"
               loading={saving}
               disabled={!hasExercises}
               onClick={onSave}
@@ -208,7 +215,7 @@ export default function WorkoutControls({
           {/* DISCARD */}
           {onDiscardTemplate && (
             <button
-              className="btn btn-standard btn-danger btn-full"
+              className="btn btn-standard btn-secondary btn-danger"
               onClick={onDiscardTemplate}
             >
               {discardLabel}
@@ -218,7 +225,7 @@ export default function WorkoutControls({
           {/* DISCARD */}
           {onDiscardChanges && (
             <button
-              className="btn btn-danger btn-full"
+              className="btn btn-standard btn-secondary btn-danger"
               onClick={onDiscardChanges}
             >
               {cancelLabel}

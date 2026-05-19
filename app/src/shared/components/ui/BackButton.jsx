@@ -47,7 +47,7 @@ export default function BackButton({
       onClick={handleBack}
       className="btn back-btn"
     >
-      <ArrowLeft />
+      <ArrowLeft className="back-icon" />
     </button>
   )
 }

@@ -11,6 +11,7 @@
   --primary-light: #478688;
 
   --bg: #111a20;
+  --dark: rgba(19, 28, 33, 0.9);
   --card: #131c21;
   --card-2: #172128;
 
@@ -90,11 +91,26 @@ h4 {
 /* ============================= */
 
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
 
-  margin-bottom: 48px;
+  display: flex;
+  max-width: 480px;
+  margin: 0 auto 40px;
+  padding: 0 24px;
+  height: 70px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  background: var(--dark);
+  border-bottom: 1px solid var(--border);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+
+  z-index: 100;
 }
 
 .header-content {
@@ -105,7 +121,18 @@ h4 {
 
 .header-profile-btn {
   opacity: 0.8;
+  transition: .1s ease-in;
 }
+
+.header-profile-btn:hover {
+  opacity: 1;
+  transform: scale(1.02);
+}
+
+.header-profile-btn .profile-icon {
+  color: var(--primary-light);
+}
+
 
 /* ============================= */
 /* ========== LINKS ============ */
@@ -163,14 +190,20 @@ a:active {
 .app {
   position: relative;
   max-width: 480px;
+  height: 100%;
   margin: 0 auto 60px;
   padding: 12px 12px;
+
+  background: var(--bg);
+}
+
+.app:nth-child(1) {
+  padding-top: 60px;
 }
 
 .section {
   display: flex;
   flex-direction: column;
-  margin-bottom: 24px;
   gap: 12px;
 }
 
@@ -298,11 +331,17 @@ button {
 }
 
 .back-btn {
-  display: block;
+  display: flex;
   background: transparent;
   border: none;
-  font-size: 24px;
+  height: 32px;
   color: var(--text);
+  justify-content: left;
+}
+
+.back-btn .back-icon {
+  width: 24px;
+  height: 24px;
 }
 
 .btn-clean {
@@ -377,11 +416,15 @@ button {
 }
 
 .skeleton-card-exercise {
-  height: 90px;
+  height: 110px;
 }
 
 .skeleton-card-template {
   height: 266px;
+}
+
+.skeleton-card-template:nth-child(1) {
+  margin-top: 82px;
 }
 
 .empty-state {
@@ -614,19 +657,23 @@ input[type="checkbox"]:hover {
 /* ============================= */
 
 .navbar {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 8px 4px;
-  background: rgba(23, 36, 42, 0.95);
-  backdrop-filter: blur(10px);
-  border-top: 1px solid var(--border);
-  max-width: 480px;
-  margin: 0 auto;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 8px 4px;
+
+  background: var(--dark);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border);
+
+  max-width: 480px;
+  margin: 0 auto;
   z-index: 100;
 }
 
@@ -661,7 +708,27 @@ input[type="checkbox"]:hover {
 .workout-controls {
   display: flex;
   gap: 8px;
-  margin: 12px 0 24px;
+  margin: 12px 0 0;
+}
+
+.workout-controls-card {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.workout-controls-run {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.workout-controls-detail,
+.workout-controls-editor {
+  display: flex;
+  gap: 8px;
+  margin: 24px 0;
+  height: 60px;
 }
 
 .workout-exercise {
@@ -809,10 +876,13 @@ input[type="checkbox"]:hover {
     1fr 2fr 3fr;
 }
 
+.set-grid-workout {
+  grid-template-columns: 48px 80px minmax(80px, 1fr) 40px;
+}
+
 .set-grid-template {
   grid-template-columns:
     1fr 2fr 3fr;
-
   gap: 10px;
 }
 
@@ -878,11 +948,8 @@ input[type="checkbox"]:hover {
   font-size: 14px;
 }
 
-.set-number {
-  text-align: center;
-}
-
-.set-number.pb .icon-small {
+.set-number.pb .icon-small,
+.set-pb .icon-small {
   color: var(--primary-light);
   width: 18px;
   height: 18px;

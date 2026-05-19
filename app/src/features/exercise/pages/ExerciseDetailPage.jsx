@@ -1,16 +1,34 @@
-import { useEffect, useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import {
+  useEffect,
+  useState
+} from 'react'
+import {
+  useLocation,
+  useParams
+} from 'react-router-dom'
+
 import { getExerciseById } from '../../../shared/api/exerciseApi'
-import BackButton from '../../../shared/components/ui/BackButton'
+
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+
 import { formatLabel } from '../../../shared/utils/format'
+
 import { normalizeExercise } from '../utils/exerciseAdapter'
+
+import BackButton from '../../../shared/components/ui/BackButton'
+
+import Header from '../../../shared/components/ui/Header'
+
+import DataState from '../../../shared/components/ui/DataState'
+
 
 /**
  * Displays detailed information about a selected exercise.
  *
- * Fetches exercise data, handles image rotation, and displays instructions.
- * @returns {import('react').ReactElement} Exercise detail UI
+ * Fetches exercise data by ID, handles loading/error states,
+ * rotates exercise images automatically, and displays
+ * exercise metadata and instructions.
+ * @returns {import('react').ReactElement} Exercise detail page
  */
 export default function ExerciseDetail() {
   const { id } = useParams()
@@ -21,11 +39,24 @@ export default function ExerciseDetail() {
 
   const { libraryReturnTo } = useExerciseFlow()
 
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
   useEffect(() => {
     if (!id) return
+
     const fetchData = async () => {
-      const data = await getExerciseById(id)
-      setExercise(normalizeExercise(data))
+      try {
+        setLoading(true)
+        setError(null)
+
+        const data = await getExerciseById(id)
+        setExercise(normalizeExercise(data))
+      } catch (err) {
+        setError(err)
+      } finally {
+        setLoading(false)
+      }
     }
 
     fetchData()
@@ -47,80 +78,118 @@ export default function ExerciseDetail() {
     }
   }, [ex])
 
-  if (!ex) return <p className="center">Loading...</p>
-
-  const imageSrc = ex.images?.[currentImage] || '/placeholder.png'
+  const imageSrc = ex?.images?.[currentImage] || '/placeholder.png'
 
   const fallback =
     location.state?.from ||
     libraryReturnTo ||
     '/exercises'
 
+  if (loading || error || !ex) {
+    return (
+      <div className="app">
+        
+        <Header title="Exercise" />
+
+        <div className="section">
+
+          <BackButton fallback={fallback} />
+
+          <DataState
+            loading={loading}
+            error={error}
+            data={ex ? [ex] : []}
+            variant="card-workout"
+            emptyText="No exercise found"
+            count={1}
+          />
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="app">
+
       {/* Header */}
 
-      <BackButton fallback={fallback} />
+      <Header
+        title="Exercise"
+        subtitle="Details"
+      />
 
-      {/* Title */}
       <div className="section">
-        <h2>{ex.name}</h2>
 
-        <p className="muted">
-          {formatLabel(ex.bodyPart)}
-          {ex.muscle && ex.muscle !== ex.bodyPart && (
-            <> • {formatLabel(ex.muscle)}</>
-          )}
-          {' • '}
-          {formatLabel(ex.equipment)}
-        </p>
-      </div>
-      {/* Image */}
-      <div className="container">
-        <img
-          src={imageSrc}
-          alt={ex.name}
-          onError={(e) => {
-            e.currentTarget.src = '/placeholder.png'
-          }}
-          className="detail-img"
-        />
+        <BackButton fallback={fallback} />
 
-        {/* dots indicator */}
-        {ex.images?.length > 1 && (
-          <div className="dots">
-            {ex.images.map((_, i) => (
-              <span
-                key={i}
-                className={i === currentImage ? 'dot active' : 'dot'}
-              />
-            ))}
-          </div>
-        )}
-      </div>
-      {/* Info cards */}
-      <div className="section exercise-overview">
-        <div className="card-base">
-          <p className="stat-label">Muscle</p>
-          <p>{ex.muscle}</p>
+        {/* Title */}
+
+        <div className="section">
+          <h2>{ex.name}</h2>
+
+          <p className="muted">
+            {formatLabel(ex.bodyPart)}
+            {ex.muscle && ex.muscle !== ex.bodyPart && (
+              <> • {formatLabel(ex.muscle)}</>
+            )}
+            {' • '}
+            {formatLabel(ex.equipment)}
+          </p>
         </div>
 
-        <div className="card-base">
-          <p className="stat-label">Equipment</p>
-          <p>{ex.equipment}</p>
-        </div>
-      </div>
-      {/* Instructions */}
-      <div className="section">
-        <h3>Instructions</h3>
+        {/* Image */}
 
         <div className="container">
-          {ex.instructions?.map((step, i) => (
-            <div key={i} className="instruction-step">
-              <span className="step-number">{i + 1}</span>
-              <p>{step}</p>
+          <img
+            src={imageSrc}
+            alt={ex.name}
+            onError={(e) => {
+              e.currentTarget.src = '/placeholder.png'
+            }}
+            className="detail-img"
+          />
+
+          {/* dots indicator */}
+
+          {ex.images?.length > 1 && (
+            <div className="dots">
+              {ex.images.map((_, i) => (
+                <span
+                  key={i}
+                  className={i === currentImage ? 'dot active' : 'dot'}
+                />
+              ))}
             </div>
-          ))}
+          )}
+        </div>
+
+        {/* Info cards */}
+
+        <div className="section exercise-overview">
+          <div className="card-base">
+            <p className="stat-label">Muscle</p>
+            <p>{ex.muscle}</p>
+          </div>
+
+          <div className="card-base">
+            <p className="stat-label">Equipment</p>
+            <p>{ex.equipment}</p>
+          </div>
+        </div>
+
+        {/* Instructions */}
+
+        <div className="section">
+          <h3>Instructions</h3>
+
+          <div className="container">
+            {ex.instructions?.map((step, i) => (
+              <div key={i} className="instruction-step">
+                <span className="step-number">{i + 1}</span>
+                <p>{step}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

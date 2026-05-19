@@ -2,24 +2,32 @@ import { Clock, Trash2, Trophy, Weight } from 'lucide-react'
 import { useRef, useState } from 'react'
 
 /**
- * Exercise item in workout.
- * @param {object} props - Component props
- * @param {{ id: string, name: string, image?: string, sets: Array }} props.ex - Exercise data
- * @param {number} props.i - Exercise index
- * @param {(path: string) => void} props.navigate - Navigation function
- * @param {object} props.actions - Exercise mutation handlers
- * @param {'run' | 'edit' | 'template'} [props.mode] - Exercise item mode
- * @param {boolean} [props.isEditable] - Whether exercise can be edited
- * @description
- * Displays an exercise with its sets, allowing users to:
- * - View exercise details (name, image)
- * - Add, update, and remove sets (weight and reps)
- * - Mark sets as completed
- * - Set rest time for the exercise
+ * Displays a workout or template exercise item with editable sets,
+ * notes, rest timer handling, progression tracking, and exercise actions.
  *
- * Integrates with workout logic to manage state and navigation:
- * - Navigates to Exercise Library for selecting exercises
- * - Updates workout state with exercises and sets
+ * Supported modes:
+ * - run: active workout mode with previous values, rep controls, and completion checkboxes
+ * - workout: workout detail/history mode with PB indicators and reduced workout controls
+ * - edit: editable workout editing mode
+ * - template: editable template mode
+ *
+ * @param {object} props - Component props
+ * @param {{
+ *   id: string,
+ *   exerciseId?: string,
+ *   name: string,
+ *   image?: string,
+ *   images?: string[],
+ *   notes?: string,
+ *   restTime?: number,
+ *   historicalBest?: { weight: number, reps: number },
+ *   sets: Array<object>
+ * }} props.ex - Exercise data
+ * @param {number} props.i - Exercise index
+ * @param {(path: string, options?: object) => void} props.navigate - Navigation function
+ * @param {object} props.actions - Exercise mutation handlers
+ * @param {'run' | 'workout' | 'edit' | 'template'} [props.mode='run'] - Exercise item mode
+ * @param {boolean} [props.isEditable=true] - Whether exercise fields can be edited
  * @returns {import('react').ReactElement} Exercise item UI
  */
 export default function ExerciseItem({
@@ -33,8 +41,7 @@ export default function ExerciseItem({
   const inputRefs = useRef([])
 
   const isRunMode = mode === 'run'
-  // const isEditMode = mode === 'edit'
-  // const isTemplateMode = mode === 'template'
+  const isWorkoutMode = mode === 'workout'
 
   const {
     addSet,
@@ -48,6 +55,7 @@ export default function ExerciseItem({
 
   const gridClass = {
     run: 'set-grid-run',
+    workout: 'set-grid-workout',
     edit: 'set-grid-edit',
     template: 'set-grid-template',
   }[mode]
@@ -64,6 +72,7 @@ export default function ExerciseItem({
 
   const startHold = (j, e) => {
     if (['INPUT', 'BUTTON'].includes(e.target.tagName)) return
+
     setHoldingSet(j)
     setProgress(0)
 
@@ -98,6 +107,7 @@ export default function ExerciseItem({
   }
 
   const [editingRest, setEditingRest] = useState(false)
+
   const safeRest = ex.restTime ?? 120
 
   const historicalBest = ex.historicalBest || {
@@ -109,8 +119,8 @@ export default function ExerciseItem({
 
   return (
     <div className={`workout-exercise ${mode}`}>
-      {' '}
-      {/* HEADER */}
+      {/* EXERCISE ITEM HEADER */}
+
       <div className="exercise-item-header">
         <div className="exercise-item-title clickable">
           <img
@@ -131,6 +141,7 @@ export default function ExerciseItem({
 
         <div className="exercise-item-header controls">
           {/* REST TIME */}
+
           <div
             className={`rest-label clickable ${!isEditable ? 'is-static' : ''}`}
             onClick={(e) => {
@@ -151,7 +162,11 @@ export default function ExerciseItem({
                 onFocus={(e) => e.target.select()}
                 onBlur={(e) => {
                   const val = Number(e.target.value)
-                  if (!isNaN(val)) updateExerciseRest(i, val)
+
+                  if (!isNaN(val)) {
+                    updateExerciseRest(i, val)
+                  }
+
                   setEditingRest(false)
                 }}
                 onKeyDown={(e) => {
@@ -162,7 +177,10 @@ export default function ExerciseItem({
                 onClick={(e) => e.stopPropagation()}
                 onChange={(e) => {
                   const val = Number(e.target.value)
-                  if (!isNaN(val)) updateExerciseRest(i, val)
+
+                  if (!isNaN(val)) {
+                    updateExerciseRest(i, val)
+                  }
                 }}
               />
             ) : (
@@ -175,6 +193,8 @@ export default function ExerciseItem({
               </span>
             )}
           </div>
+
+          {/* REMOVE EXERCISE */}
 
           {isEditable && (
             <button
@@ -189,8 +209,14 @@ export default function ExerciseItem({
           )}
         </div>
       </div>
+
+      {/* EXERCISE NOTES */}
+
       {isEditable ? (
-        <form className="exercise-notes" onSubmit={(e) => e.preventDefault()}>
+        <form
+          className="exercise-notes"
+          onSubmit={(e) => e.preventDefault()}
+        >
           <input
             className="input-base input-exercise-notes"
             type="text"
@@ -201,35 +227,48 @@ export default function ExerciseItem({
         </form>
       ) : (
         ex.notes && (
-          <p className="muted small exercise-notes-static">{ex.notes}</p>
+          <p className="muted small exercise-notes-static">
+            {ex.notes}
+          </p>
         )
       )}
+
       {/* SET HEADER */}
+
       <div className={`set-header ${gridClass}`}>
-        <span>Set</span>
+        <span className="set-header-cell">Set</span>
 
-        {isRunMode && <span>Previous</span>}
+        {isRunMode && (
+          <span className="set-header-cell">Previous</span>
+        )}
 
-        <span>
+        <span className="set-header-cell">
           <Weight className="icon-small" />
           kg
         </span>
 
-        <div className="reps-grid">
-          <span></span>
-          <span>Reps</span>
-          <span></span>
-        </div>
+        <span className="set-header-cell">
+          Reps
+        </span>
 
-        {isRunMode && isEditable && <span>✔</span>}
+        {isRunMode && isEditable && (
+          <span className="set-header-cell">✔</span>
+        )}
+
+        {isWorkoutMode && (
+          <span className="set-header-cell">Pb</span>
+        )}
       </div>
+
       {/* SETS */}
+
       {ex.sets.map((set, j) => {
         const isHistoricalPB =
-          isRunMode &&
+          (isRunMode || isWorkoutMode) &&
           set.completed &&
           (set.weight > currentBest.weight ||
-            (set.weight === currentBest.weight && set.reps > currentBest.reps))
+            (set.weight === currentBest.weight &&
+              set.reps > currentBest.reps))
 
         if (isHistoricalPB) {
           currentBest = {
@@ -247,9 +286,9 @@ export default function ExerciseItem({
             onTouchStart={isEditable ? (e) => startHold(j, e) : undefined}
             onTouchEnd={isEditable ? cancelHold : undefined}
             className={`set-row ${gridClass}
-            ${set.completed ? 'completed' : ''} 
-            ${isHistoricalPB ? 'best-set' : ''}
-          `}
+              ${set.completed ? 'completed' : ''}
+              ${isHistoricalPB ? 'best-set' : ''}
+            `}
           >
             {holdingSet === j && (
               <div className="hold-indicator">
@@ -259,11 +298,15 @@ export default function ExerciseItem({
                 />
               </div>
             )}
+
             <span className={`set-number ${isHistoricalPB ? 'pb' : ''}`}>
-              {isHistoricalPB ? <Trophy className="icon-small" /> : j + 1}
+              {isRunMode && isHistoricalPB
+                ? <Trophy className="icon-small" />
+                : j + 1}
             </span>
 
             {/* PREVIOUS */}
+
             {isRunMode && (
               <span className="previous">
                 {set.prevWeight != null && set.prevReps != null
@@ -273,6 +316,7 @@ export default function ExerciseItem({
             )}
 
             {/* WEIGHT */}
+
             {isEditable ? (
               <input
                 ref={(el) => (inputRefs.current[j] = el)}
@@ -285,7 +329,9 @@ export default function ExerciseItem({
                     i,
                     j,
                     'weight',
-                    e.target.value === '' ? '' : Number(e.target.value),
+                    e.target.value === ''
+                      ? ''
+                      : Number(e.target.value),
                   )
                 }
               />
@@ -294,12 +340,19 @@ export default function ExerciseItem({
             )}
 
             {/* REPS */}
-            {isEditable ? (
+
+            {isEditable && !isWorkoutMode ? (
               <div className="number-input">
                 <button
+                  type="button"
                   className="btn btn-clean"
                   onClick={() =>
-                    updateSet(i, j, 'reps', Math.max(0, (set.reps || 0) - 1))
+                    updateSet(
+                      i,
+                      j,
+                      'reps',
+                      Math.max(0, (set.reps || 0) - 1),
+                    )
                   }
                 >
                   −
@@ -315,23 +368,59 @@ export default function ExerciseItem({
                       i,
                       j,
                       'reps',
-                      e.target.value === '' ? '' : Number(e.target.value),
+                      e.target.value === ''
+                        ? ''
+                        : Number(e.target.value),
                     )
                   }
                 />
 
                 <button
+                  type="button"
                   className="btn btn-clean"
-                  onClick={() => updateSet(i, j, 'reps', (set.reps || 0) + 1)}
+                  onClick={() =>
+                    updateSet(
+                      i,
+                      j,
+                      'reps',
+                      (set.reps || 0) + 1,
+                    )
+                  }
                 >
                   +
                 </button>
               </div>
+            ) : isEditable ? (
+              <input
+                className="input-base"
+                type="number"
+                value={set.reps ?? ''}
+                onFocus={(e) => e.target.select()}
+                onChange={(e) =>
+                  updateSet(
+                    i,
+                    j,
+                    'reps',
+                    e.target.value === ''
+                      ? ''
+                      : Number(e.target.value),
+                  )
+                }
+              />
             ) : (
               <span>{set.reps ?? '-'}</span>
             )}
 
+            {isWorkoutMode && (
+              <span className="set-pb">
+                {isHistoricalPB && (
+                  <Trophy className="icon-small" />
+                )}
+              </span>
+            )}
+
             {/* CHECKBOX */}
+
             {isRunMode && isEditable && (
               <input
                 type="checkbox"
@@ -343,7 +432,9 @@ export default function ExerciseItem({
           </div>
         )
       })}
+
       {/* ADD SET */}
+
       {isEditable && (
         <button
           className="btn btn-standard btn-secondary btn-full"

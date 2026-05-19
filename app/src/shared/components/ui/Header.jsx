@@ -53,7 +53,7 @@ export default function Header({
           window.location.href = '/login'
         }}
       >
-        <Icon size={22} />
+        <Icon className="profile-icon" />
       </button>
     </div>
   )

@@ -54,22 +54,32 @@ export default function WorkoutHistoryPage() {
 
   return (
     <div className="app">
+
+      {/* HEADER */}
+
       <Header title="Workout History" subtitle="Your completed sessions" />
 
-      <DataState
-        loading={loading}
-        error={error}
-        data={workouts}
-        variant="card-workout"
-        emptyText="No workouts yet"
-        count={10}
-      >
-        <WorkoutList
-          workouts={workouts}
-          limit={10}
-          onDeleteWorkout={handleDeleteWorkout}
-        />
-      </DataState>
+      <div className="section">
+
+        <DataState
+          loading={loading}
+          error={error}
+          data={workouts}
+          variant="card-workout"
+          emptyText="No workouts yet"
+          count={10}
+        >
+
+          {/* WORKOUTS */}
+
+          <WorkoutList
+            workouts={workouts}
+            limit={10}
+            onDeleteWorkout={handleDeleteWorkout}
+          />
+        </DataState>
+
+      </div>
     </div>
   )
 }

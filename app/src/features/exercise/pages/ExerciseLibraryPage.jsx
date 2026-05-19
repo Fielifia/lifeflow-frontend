@@ -1,14 +1,20 @@
 import { useEffect } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import {
+  useNavigate,
+  useSearchParams
+} from 'react-router-dom'
+
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+
 import useExercises from '../hooks/useExercises'
 
 import { CATEGORY_ORDER } from '../utils/exerciseCategories'
 
-import ExerciseList from '../components/ExerciseList'
-
 import BackButton from '../../../shared/components/ui/BackButton'
+
 import DataState from '../../../shared/components/ui/DataState'
+
+import ExerciseList from '../components/ExerciseList'
 
 const BASE_CATEGORIES = CATEGORY_ORDER
 
@@ -121,11 +127,15 @@ export default function ExercisesLibraryPage() {
 
   return (
     <div className="app">
+
+      {/* BACK BUTTON */}
+
       <BackButton
         fallback={returnTo || '/'}
       />
 
       <div className="section">
+
         <h2>{isSelectMode ? 'Select exercise' : 'Exercise Library'}</h2>
 
         {isSelectMode && (
@@ -135,6 +145,7 @@ export default function ExercisesLibraryPage() {
         )}
 
         {/* SEARCH */}
+
         <input
           className="input-base"
           placeholder="Search exercises..."
@@ -149,6 +160,7 @@ export default function ExercisesLibraryPage() {
         />
 
         {/* FILTERS */}
+
         <div className="filters">
           <select
             className="select-base"
@@ -212,6 +224,7 @@ export default function ExercisesLibraryPage() {
         </div>
 
         {/* DATA */}
+
         <DataState
           loading={loading}
           error={error}
@@ -228,6 +241,7 @@ export default function ExercisesLibraryPage() {
         </DataState>
 
         {/* ADD BUTTON */}
+
         {isSelectMode && selectedExercises.length > 0 && (
           <button
             className="btn btn-standard btn-primary"
@@ -240,6 +254,7 @@ export default function ExercisesLibraryPage() {
         )}
 
         {/* LOAD MORE */}
+        
         {visibleCount < filtered.length && (
           <button
             className="btn btn-standard btn-primary"
