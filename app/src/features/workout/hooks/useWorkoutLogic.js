@@ -236,7 +236,7 @@ export function useWorkoutLogic(navigate, workoutId) {
 
     setWorkout({
       name: selectedWorkout.name,
-      notes: selectedWorkout.notes || '',
+      notes: '',
       exercises: selectedWorkout.exercises.map((ex) =>
         buildWorkoutExercise(ex, null, {
           resetCompleted: true,
