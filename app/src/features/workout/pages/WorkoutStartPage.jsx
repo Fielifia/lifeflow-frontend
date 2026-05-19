@@ -134,11 +134,10 @@ export default function WorkoutStartPage() {
             data={templates}
             variant="card-template"
             emptyText="No templates found"
-            count={4}
+            count={5}
           >
             <TemplateList
-              templates={templates.slice(0, 3)}
-              limit={3}
+              templates={templates.slice(0, 5)}
               onDeleteTemplate={handleDeleteTemplate}
             />
           </DataState>

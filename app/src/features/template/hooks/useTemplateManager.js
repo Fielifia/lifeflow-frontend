@@ -1,4 +1,9 @@
-import { useEffect, useState } from 'react'
+import {
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
+
 import { useLocation } from 'react-router-dom'
 
 import {
@@ -9,11 +14,15 @@ import {
 } from '../../../shared/api/templateApi'
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+
 import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
 
-import { appendExercisesToTemplate } from '../utils/appendExercisesToTemplate'
-
 import { draftTemplateStorage } from '../../../shared/utils/storage/draftStorage'
+
+import { hasMeaningfulContent }
+  from '../../../shared/utils/editorUtils'
+
+import { appendExercisesToTemplate } from '../utils/appendExercisesToTemplate'
 
 import { buildTemplatePayload } from '../utils/buildTemplatePayload'
 
@@ -26,10 +35,10 @@ const EMPTY_TEMPLATE = {
 /**
  * Handles template creation, editing,
  * exercise flow and template persistence.
- * @param {(path: string) => void} navigate
- * React Router navigation function.
  * @param {string | undefined} id
  * Template id for edit mode.
+ * @param {(path: string) => void} navigate
+ * React Router navigation function.
  * @returns {{
  *  template: object | null,
  *  setTemplate: import('react').Dispatch<
@@ -45,9 +54,7 @@ const EMPTY_TEMPLATE = {
  *  >,
  *  openLibrary: () => void,
  *  exerciseActions: object,
- *  updateTemplateNotes: (
- *    notes: string
- *  ) => void,
+ *  updateTemplateNotes: (notes: string) => void,
  *  hasUnsavedChanges: boolean,
  *  saveTemplate: () => Promise<void>,
  *  discardTemplate: () => void,
@@ -92,11 +99,6 @@ export function useTemplateManager(
       }
     })
 
-  const [
-    originalTemplate,
-    setOriginalTemplate,
-  ] = useState(null)
-
   const [loading, setLoading] =
     useState(!isCreate)
 
@@ -119,25 +121,30 @@ export function useTemplateManager(
     setSelectedExercises,
 
     setReturnTo,
+    returnTo,
 
     editingTemplate,
     setEditingTemplate,
   } = useExerciseFlow()
 
-  // ===== INITIAL SNAPSHOT =====
+  // ===== ORIGINAL SNAPSHOT =====
+
+  const originalRef = useRef(null)
+
+  // ===== CREATE SNAPSHOT =====
 
   useEffect(() => {
     if (
-      !originalTemplate &&
-      template
+      isCreate &&
+      template &&
+      !originalRef.current
     ) {
-      setOriginalTemplate(
-        structuredClone(template),
-      )
+      originalRef.current =
+        structuredClone(template)
     }
   }, [
+    isCreate,
     template,
-    originalTemplate,
   ])
 
   // ===== LOAD TEMPLATE =====
@@ -153,9 +160,8 @@ export function useTemplateManager(
     ) {
       setTemplate(editingTemplate)
 
-      setOriginalTemplate(
-        JSON.parse(JSON.stringify(editingTemplate)),
-      )
+      originalRef.current =
+        structuredClone(editingTemplate)
 
       setLoading(false)
 
@@ -166,6 +172,7 @@ export function useTemplateManager(
       async () => {
         try {
           setLoading(true)
+          setError('')
 
           const data =
             await getTemplateByIdApi(
@@ -174,9 +181,22 @@ export function useTemplateManager(
 
           setTemplate(data)
 
-          setOriginalTemplate(
-            structuredClone(data),
+          const normalized =
+            structuredClone(data)
+
+          setTemplate(normalized)
+
+          originalRef.current =
+            structuredClone(normalized)
+
+          console.log(
+            JSON.stringify(template),
           )
+
+          console.log(
+            JSON.stringify(originalRef.current),
+          )
+
         } catch {
           setError(
             'Could not load template',
@@ -230,43 +250,30 @@ export function useTemplateManager(
     setSelectedExercises,
   ])
 
-  // ===== KEEP EDIT CACHE UPDATED =====
-
-  useEffect(() => {
-    if (
-      isCreate ||
-      !template
-    ) {
-      return
-    }
-
-    setEditingTemplate(template)
-  }, [
-    template,
-    isCreate,
-    setEditingTemplate,
-  ])
-
   // ===== UNSAVED CHANGES =====
 
   const hasUnsavedChanges =
-    !template
-    && !originalTemplate
-    && JSON.stringify(template)
-    !== JSON.stringify(
-      originalTemplate,
+    Boolean(
+      template &&
+      originalRef.current &&
+      hasMeaningfulContent(
+        template,
+        'Template',
+      ) &&
+      JSON.stringify(template)
+      !== JSON.stringify(
+        originalRef.current,
+      )
     )
 
   // ===== OPEN LIBRARY =====
 
   const openLibrary = () => {
-    setReturnTo(
-      location.pathname,
-    )
+    setEditingTemplate(template)
 
-    navigate(
-      '/exercises?select=true',
-    )
+    setReturnTo(location.pathname)
+
+    navigate('/exercises?select=true')
   }
 
   // ===== EXERCISE MUTATIONS =====
@@ -323,6 +330,9 @@ export function useTemplateManager(
 
           draftTemplateStorage.clear()
 
+          originalRef.current =
+            structuredClone(template)
+
           navigate(
             `/templates/${created._id}`,
           )
@@ -331,6 +341,9 @@ export function useTemplateManager(
             id,
             payload,
           )
+
+          originalRef.current =
+            structuredClone(template)
 
           setEditingTemplate(null)
 
@@ -351,7 +364,7 @@ export function useTemplateManager(
       }
     }
 
-  // ===== DISCARD CREATE =====
+  // ===== DISCARD TEMPLATE (CREATE) =====
 
   const discardTemplate = () => {
     const confirmed =
@@ -368,10 +381,10 @@ export function useTemplateManager(
     navigate('/workouts')
   }
 
-  // ===== DISCARD EDIT =====
+  // ===== DISCARD CHANGES (EDIT) =====
 
   const discardChanges = () => {
-    if (!originalTemplate) {
+    if (!originalRef.current) {
       return
     }
 
@@ -384,13 +397,18 @@ export function useTemplateManager(
       return
     }
 
-    setTemplate(
+    const restored =
       structuredClone(
-        originalTemplate,
-      ),
-    )
+        originalRef.current,
+      )
 
+    setTemplate(restored)
+    setEditingTemplate(restored)
     setIsEditingName(false)
+
+    if (returnTo) {
+      navigate(returnTo)
+    }
   }
 
   // ===== DELETE =====

@@ -5,19 +5,21 @@ import {
 } from 'react-router-dom'
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+import { useWorkoutManager } from '../hooks/useWorkoutManager'
+
 import { calculateMuscleSplit } from '../../../shared/utils/calculateMuscleSplit'
 import { formatDate } from '../../../shared/utils/format'
 import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
 import { useWorkoutDetail } from '../hooks/useWorkoutDetail'
-import { useWorkoutManager } from '../hooks/useWorkoutManager'
 
 import BackButton from '../../../shared/components/ui/BackButton'
 import DataState from '../../../shared/components/ui/DataState'
 import Header from '../../../shared/components/ui/Header'
 import WorkoutControls from '../../../shared/components/WorkoutControls'
 
-import ExerciseItem from '../../exercise/components/ExerciseItem'
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
+
+import ExerciseItem from '../../exercise/components/ExerciseItem'
 import WorkoutSummary from '../components/WorkoutSummary'
 
 /**
@@ -47,6 +49,8 @@ export default function WorkoutDetailPage() {
 
   const { success, deleteWorkout } = useWorkoutManager(id, navigate)
 
+  // ===== LOADING / ERROR / EMPTY =====
+
   if (loading || error || !workout) {
     return (
       <div className="app">
@@ -71,6 +75,9 @@ export default function WorkoutDetailPage() {
       {/* HEADER */}
 
       <Header title={workout.name} subtitle={formatDate(workout.date)} />
+
+      {/* BACK BUTTON */}
+
       <BackButton fallback="/history" />
 
       {/* WORKOUT HEADER */}
@@ -113,7 +120,11 @@ export default function WorkoutDetailPage() {
         editLabel="Edit workout"
         deleteLabel="Delete workout"
       />
-      {success && <p className="muted center">Workout saved ✔</p>}
+
+
+      {/* FEEDBACK */}
+      {success && <p className="muted center">Template saved ✔</p>}
+
       {error && <p className="error center">{error}</p>}
 
       {/* EXERCISES */}

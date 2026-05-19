@@ -78,7 +78,7 @@ export default function TemplateList({
           className="btn btn-standard btn-primary"
           onClick={() => setVisibleCount((prev) => prev + limit)}
         >
-          Show more (+{Math.min(limit, filteredTemplates.length - visibleCount)}          )
+          Show more (+{Math.min(limit, filteredTemplates.length - visibleCount)})
         </button>
       )}
     </div>

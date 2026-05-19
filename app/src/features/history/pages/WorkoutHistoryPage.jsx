@@ -62,6 +62,7 @@ export default function WorkoutHistoryPage() {
         data={workouts}
         variant="card-workout"
         emptyText="No workouts yet"
+        count={10}
       >
         <WorkoutList
           workouts={workouts}

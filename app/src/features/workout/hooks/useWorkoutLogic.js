@@ -226,6 +226,7 @@ export function useWorkoutLogic(navigate, workoutId) {
   // ===== DISCARD WORKOUT (CREATE) =====
 
   const discardWorkout = () => {
+
     const confirmed = window.confirm('Discard current workout?')
 
     if (!confirmed) {
@@ -238,7 +239,6 @@ export function useWorkoutLogic(navigate, workoutId) {
     resetRest()
 
     setIsEditingName(false)
-
 
     draftWorkoutStorage.clear()
 

@@ -58,14 +58,20 @@ export default function TemplateDetailPage() {
 
   return (
     <div className="app">
+
+      {/* HEADER */}
+
       <Header
         title={template.name}
         subtitle={`${template.exercises.length} exercises`}
       />
 
+      {/* BACK BUTTON */}
+
       <BackButton fallback="/workouts" />
 
       {/* CONTROLS */}
+
       <WorkoutControls
         variant="detail"
         onStartWorkout={(e) => {
@@ -90,6 +96,7 @@ export default function TemplateDetailPage() {
       {error && <p className="error center">{error}</p>}
 
       {/* EXERCISES */}
+
       {template.exercises.map((ex, i) => (
         <ExerciseItem
           mode="template"
@@ -103,6 +110,7 @@ export default function TemplateDetailPage() {
       ))}
 
       {/* NOTES */}
+      
       {template.notes && (
         <div className="section">
           <h3>Notes</h3>

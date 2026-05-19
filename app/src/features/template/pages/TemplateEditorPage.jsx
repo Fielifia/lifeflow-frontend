@@ -1,24 +1,29 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import {
+  useNavigate,
+  useParams
+} from 'react-router-dom'
+
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { useTemplateManager } from '../hooks/useTemplateManager'
 
 import BackButton from '../../../shared/components/ui/BackButton'
 import DataState from '../../../shared/components/ui/DataState'
 import Header from '../../../shared/components/ui/Header'
+import WorkoutControls from '../../../shared/components/WorkoutControls'
 
-import ExerciseItem from '../../exercise/components/ExerciseItem'
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
 
-import WorkoutControls from '../../../shared/components/WorkoutControls'
+import ExerciseItem from '../../exercise/components/ExerciseItem'
+
 
 /**
  * Page for creating and editing workout templates.
  * @returns {import('react').ReactElement} - Template create/edit UI
  */
 export default function TemplateEditorPage() {
-  const { id } = useParams()
   const navigate = useNavigate()
 
+  const { id } = useParams()
   const isCreate = !id
 
   const { returnTo } = useExerciseFlow()
@@ -37,49 +42,57 @@ export default function TemplateEditorPage() {
 
     openLibrary,
     exerciseActions,
+
     updateTemplateNotes,
 
     hasUnsavedChanges,
 
     saveTemplate,
     discardTemplate,
+
     discardChanges,
   } = useTemplateManager(id, navigate)
 
-  // ===== LOADING =====
-  if (loading) {
-    return (
-      <div className="app">
-        <Header title="Template" />
-        <p className="center">Loading...</p>
-      </div>
-    )
-  }
+  // ===== LOADING / ERROR / EMPTY =====
 
-  // ===== EMPTY =====
-  if (!template) {
+  if (loading || error || !template) {
     return (
       <div className="app">
         <Header title="Template" />
-        <p className="center">Template not found</p>
+        <BackButton fallback="/workouts" />
+
+        <DataState
+          loading={loading}
+          error={error}
+          data={template ? [template] : []}
+          variant="card-workout"
+          emptyText="No template found"
+          count={1}
+        />
       </div>
     )
   }
 
   return (
     <div className="app">
+
+      {/* HEADER */}
+
       <Header
         title={template.name}
         subtitle={isCreate ? 'Create Template' : 'Edit Template'}
       />
 
+      {/* BACK BUTTON */}
+
       <BackButton
         fallback={returnTo || '/workouts'}
         warnOnUnsavedChanges
         hasUnsavedChanges={hasUnsavedChanges}
+        onDiscardChanges={discardChanges}
       />
 
-      {/* HEADER */}
+      {/* WORKOUT HEADER */}
       <WorkoutHeader
         name={template.name}
         isEditing={isEditingName}
@@ -95,23 +108,26 @@ export default function TemplateEditorPage() {
       />
 
       {/* CONTROLS */}
+
       <WorkoutControls
         variant="editor"
+        saving={saving}
         onSave={saveTemplate}
-        onDiscardTemplate={isCreate ? discardTemplate : undefined}
         onDiscardChanges={!isCreate ? discardChanges : undefined}
+        onDiscardTemplate={isCreate ? discardTemplate : undefined}
         saveLabel="Save template"
         discardLabel="Discard template"
         cancelLabel="Cancel"
-        saving={saving}
         hasExercises={template.exercises.length > 0}
       />
 
       {/* FEEDBACK */}
+
       {success && <p className="muted center">Template saved ✔</p>}
       {error && <p className="error center">{error}</p>}
 
       {/* ADD EXERCISE */}
+
       <button
         className="btn btn-standard btn-secondary btn-full"
         onClick={openLibrary}
@@ -119,12 +135,15 @@ export default function TemplateEditorPage() {
         Add exercise
       </button>
 
-      {/* EXERCISES */}
+      {/* EMPTY TEMPLATE */}
 
       <DataState
         data={template.exercises}
         emptyText="Add your first exercise to start building your template."
       >
+
+        {/* EXERCISES */}
+
         {template.exercises.map((ex, i) => (
           <ExerciseItem
             mode="template"
@@ -138,6 +157,7 @@ export default function TemplateEditorPage() {
       </DataState>
 
       {/* NOTES */}
+
       {template.exercises.length > 0 && (
         <textarea
           className="input-base textarea"
@@ -146,6 +166,7 @@ export default function TemplateEditorPage() {
           onChange={(e) => updateTemplateNotes(e.target.value)}
         />
       )}
+
     </div>
   )
 }

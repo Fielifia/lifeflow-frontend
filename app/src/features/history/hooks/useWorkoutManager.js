@@ -3,18 +3,27 @@ import {
   useRef,
   useState,
 } from 'react'
+
 import { useLocation } from 'react-router-dom'
+
 import { createTemplateApi } from '../../../shared/api/templateApi'
 import {
   deleteWorkoutApi,
   getWorkoutByIdApi,
   updateWorkoutApi,
 } from '../../../shared/api/workoutApi'
+
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
 import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
-import { buildTemplatePayload } from '../../template/utils/buildTemplatePayload'
+
+import { hasMeaningfulContent }
+  from '../../../shared/utils/editorUtils'
+
 import { appendExercisesToWorkout } from '../../workout/utils/appendExercisesToWorkout'
+
+import { buildTemplatePayload } from '../../template/utils/buildTemplatePayload'
+
 import { buildWorkoutPayload } from '../../workout/utils/buildWorkoutPayload'
 
 /**
@@ -64,9 +73,21 @@ export function useWorkoutManager(
 
   // ===== ORIGINAL SNAPSHOT =====
 
-  const originalRef =
-    useRef(null)
+  const originalRef = useRef(null)
 
+  // ===== CREATE SNAPSHOT =====
+
+  useEffect(() => {
+    if (
+      workout &&
+      !originalRef.current
+    ) {
+      originalRef.current =
+        structuredClone(workout)
+    }
+  }, [
+    workout,
+  ])
 
   // ===== LOAD WORKOUT =====
 
@@ -121,14 +142,14 @@ export function useWorkoutManager(
 
   // ===== KEEP EDIT CACHE UPDATED =====
 
-  useEffect(() => {
-    if (workout) {
-      setEditingWorkout(workout)
-    }
-  }, [
-    workout,
-    setEditingWorkout,
-  ])
+  // useEffect(() => {
+  //   if (workout) {
+  //     setEditingWorkout(workout)
+  //   }
+  // }, [
+  //   workout,
+  //   setEditingWorkout,
+  // ])
 
   // ===== ADD FROM LIBRARY =====
 
@@ -148,16 +169,32 @@ export function useWorkoutManager(
     setSelectedExercises,
   ])
 
+  // ===== UNSAVED CHANGES =====
+
+  const hasUnsavedChanges =
+    Boolean(
+      workout &&
+      originalRef.current &&
+      hasMeaningfulContent(
+        workout,
+        'Workout',
+      ) &&
+      JSON.stringify(workout)
+      !== JSON.stringify(
+        originalRef.current,
+      )
+    )
+
   // ===== OPEN LIBRARY =====
 
   const openLibrary = () => {
+    setEditingWorkout(workout)
+
     setSelectedExercises([])
 
     setReturnTo(location.pathname)
 
-    navigate(
-      '/exercises?select=true',
-    )
+    navigate('/exercises?select=true')
   }
 
   // ===== MUTATIONS =====
@@ -264,6 +301,7 @@ export function useWorkoutManager(
   // ===== DISCARD CHANGES (EDIT) =====
 
   const discardChanges = () => {
+
     if (!originalRef.current) {
       return
     }
@@ -281,7 +319,6 @@ export function useWorkoutManager(
 
     setWorkout(restored)
     setEditingWorkout(restored)
-
     setIsEditingName(false)
 
     if (returnTo) {
@@ -337,6 +374,8 @@ export function useWorkoutManager(
     exerciseActions,
 
     updateWorkoutNotes,
+
+    hasUnsavedChanges,
 
     saveWorkout,
     saveAsTemplate,
