@@ -714,7 +714,7 @@ input[type="checkbox"]:hover {
 .workout-controls-card {
   display: flex;
   gap: 8px;
-  margin-bottom: 12px;
+  margin-top: 12px;
 }
 
 .workout-controls-run {

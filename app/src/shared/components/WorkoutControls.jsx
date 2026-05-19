@@ -17,11 +17,11 @@ import LoadingButton from './ui/LoadingButton'
  * @param {() => void} [props.onStartWorkout] - Starts workout
  * @param {() => void} [props.onFinishWorkout] - Finishes and saves active workout
  * @param {() => void} [props.onDiscardWorkout] - Discards active workout
- * @param {() => void} [props.onDiscardChanges] - Discards current changes in workout
+ *  @param {() => void} [props.onDiscardTemplate] - Discards template in create mode
+ * @param {() => void} [props.onDiscardChanges] - Discards current changes in workout/template edit
  * @param {() => void} [props.onEdit] - Opens edit page
  * @param {() => void} [props.onSave] - Saves changes
  * @param {() => void} [props.onDelete] - Deletes entity
- * @param {() => void} [props.onDiscard] - Discards editor changes
  * @param {() => void} [props.onSecondaryAction] - Optional secondary action
  * @param {string} [props.editLabel] - Edit button label
  * @param {string} [props.saveLabel] - Save button label
@@ -44,8 +44,8 @@ export default function WorkoutControls({
   onStartWorkout,
   onFinishWorkout,
   onDiscardWorkout,
-  onDiscardChanges,
   onDiscardTemplate,
+  onDiscardChanges,
 
   onEdit,
   onSave,

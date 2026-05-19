@@ -33,7 +33,19 @@ export default function TemplateDetailPage() {
 
   const { template, loading, error } = useTemplateDetail(id)
 
-  const { success, deleteTemplate } = useTemplateManager(id, navigate)
+  const { success, deleteTemplate } = useTemplateManager()
+
+  const handleDeleteTemplate =
+    async () => {
+      const deleted =
+        await deleteTemplate(template._id)
+
+      if (!deleted) {
+        return
+      }
+
+      navigate('/workouts')
+    }
 
   // ===== LOADING / ERROR / EMPTY =====
 
@@ -90,7 +102,7 @@ export default function TemplateDetailPage() {
 
             navigate(`/templates/${template._id}/edit`)
           }}
-          onDelete={deleteTemplate}
+          onDelete={handleDeleteTemplate}
           editLabel="Edit template"
           deleteLabel="Delete template"
         />

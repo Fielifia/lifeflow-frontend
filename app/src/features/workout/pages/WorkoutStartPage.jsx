@@ -60,7 +60,7 @@ export default function WorkoutStartPage() {
         setLoading(true)
         setError(null)
 
-        const data = await getTemplatesApi({ limit: 5 })
+        const data = await getTemplatesApi({ limit: 100 })
 
         setTemplates(Array.isArray(data) ? data : data.results || [])
       } catch (err) {
@@ -157,7 +157,8 @@ export default function WorkoutStartPage() {
         >
 
           <TemplateList
-            templates={templates.slice(0, 5)}
+            templates={templates}
+            limit={5}
             onDeleteTemplate={handleDeleteTemplate}
           />
 

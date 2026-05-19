@@ -442,34 +442,36 @@ export function useTemplateManager(
   // ===== DELETE =====
 
   const deleteTemplate =
-    async () => {
+    async (templateId = id) => {
       const confirmed =
         window.confirm(
           'Delete this template?',
         )
 
       if (!confirmed) {
-        return
+        return false
       }
 
       try {
         setError('')
 
         await deleteTemplateApi(
-          id,
+          templateId,
         )
 
         setEditingTemplate(null)
 
-        navigate('/workouts')
+        return true
       } catch (err) {
         setError(
           err.response?.data?.error
           || 'Could not delete template',
         )
+
+        return false
       }
     }
-
+    
   return {
     template,
     setTemplate,

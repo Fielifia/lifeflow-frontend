@@ -47,7 +47,20 @@ export default function WorkoutDetailPage() {
 
   const muscleSplit = calculateMuscleSplit(workout)
 
-  const { success, deleteWorkout } = useWorkoutManager(id, navigate)
+  const { success, deleteWorkout } =
+    useWorkoutManager(id, navigate)
+
+  const handleDeleteWorkout =
+    async () => {
+      const deleted =
+        await deleteWorkout()
+
+      if (!deleted) {
+        return
+      }
+
+      navigate('/history')
+    }
 
   // ===== LOADING / ERROR / EMPTY =====
 
@@ -116,7 +129,7 @@ export default function WorkoutDetailPage() {
 
           navigate(`/workouts/${workout._id}/edit`)
         }}
-        onDelete={deleteWorkout}
+        onDelete={handleDeleteWorkout}
         editLabel="Edit workout"
         deleteLabel="Delete workout"
       />

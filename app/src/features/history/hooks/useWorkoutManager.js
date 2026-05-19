@@ -393,31 +393,33 @@ export function useWorkoutManager(
   // ===== DELETE =====
 
   const deleteWorkout =
-    async () => {
+    async (workoutId = id) => {
       const confirmed =
         window.confirm(
           'Delete this workout?',
         )
 
       if (!confirmed) {
-        return
+        return false
       }
 
       try {
         setError('')
 
         await deleteWorkoutApi(
-          id,
+          workoutId,
         )
 
         setEditingWorkout(null)
 
-        navigate('/history')
+        return true
       } catch (err) {
         setError(
           err.response?.data?.error ||
           'Could not delete workout',
         )
+
+        return false
       }
     }
 
