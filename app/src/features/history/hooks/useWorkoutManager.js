@@ -27,10 +27,85 @@ import { buildTemplatePayload } from '../../template/utils/buildTemplatePayload'
 import { buildWorkoutPayload } from '../../workout/utils/buildWorkoutPayload'
 
 /**
- * Custom hook for editing workouts.
- * @param {string} id - Workout ID.
- * @param {(path: string) => void} navigate - React Router navigate function.
- * @returns {object} Workout state and mutation handlers.
+ * Handles workout editing,
+ * persistence and exercise management.
+ *
+ * Responsibilities:
+ * - loading existing workouts
+ * - managing workout editor state
+ * - handling exercise mutations
+ * - temporary exercise library flow state
+ * - save/discard/delete actions
+ * - unsaved changes detection
+ * @param {string} id
+ * Workout id.
+ * @param {(path: string, options?: object) => void} navigate
+ * React Router navigation function.
+ * @returns {{
+ *  workout: object | null,
+ *  setWorkout: import('react').Dispatch<
+ *    import('react').SetStateAction<object | null>
+ *  >,
+ *
+ *  loading: boolean,
+ *  saving: boolean,
+ *  success: boolean,
+ *  error: string,
+ *
+ *  isEditingName: boolean,
+ *  setIsEditingName: import('react').Dispatch<
+ *    import('react').SetStateAction<boolean>
+ *  >,
+ *
+ *  openLibrary: () => void,
+ *
+ *  exerciseActions: {
+ *    addSet: (
+ *      index: number
+ *    ) => void,
+ *
+ *    updateSet: (
+ *      exIndex: number,
+ *      setIndex: number,
+ *      field: string,
+ *      value: string | number | boolean
+ *    ) => void,
+ *
+ *    removeSet: (
+ *      exIndex: number,
+ *      setIndex: number
+ *    ) => void,
+ *
+ *    removeExercise: (
+ *      index: number
+ *    ) => void,
+ *
+ *    updateExerciseRest: (
+ *      index: number,
+ *      value: number
+ *    ) => void,
+ *
+ *    updateExerciseNotes: (
+ *      index: number,
+ *      notes: string
+ *    ) => void,
+ *  },
+ *
+ *  updateWorkoutNotes: (
+ *    notes: string
+ *  ) => void,
+ *
+ *  hasUnsavedChanges: boolean,
+ *
+ *  saveWorkout: () => Promise<void>,
+ *
+ *  discardChanges: () => void,
+ *
+ *  deleteWorkout: (
+ *    workoutId?: string
+ *  ) => Promise<boolean>,
+ * }}
+ * Workout manager state and actions.
  */
 export function useWorkoutManager(
   id,
@@ -140,17 +215,6 @@ export function useWorkoutManager(
     setEditingWorkout,
   ])
 
-  // ===== KEEP EDIT CACHE UPDATED =====
-
-  // useEffect(() => {
-  //   if (workout) {
-  //     setEditingWorkout(workout)
-  //   }
-  // }, [
-  //   workout,
-  //   setEditingWorkout,
-  // ])
-
   // ===== ADD FROM LIBRARY =====
 
   useEffect(() => {
@@ -185,7 +249,7 @@ export function useWorkoutManager(
       )
     )
 
-  // ===== OPEN LIBRARY =====
+  // ===== OPEN LIBRARY FLOW =====
 
   const openLibrary = () => {
     setEditingWorkout(workout)
@@ -298,7 +362,7 @@ export function useWorkoutManager(
     }
 
 
-  // ===== DISCARD CHANGES (EDIT) =====
+  // ===== DISCARD CHANGES & RESTORE STATE (EDIT) =====
 
   const discardChanges = () => {
 

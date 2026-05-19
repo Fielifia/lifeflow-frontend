@@ -19,6 +19,8 @@ import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations
 
 import { draftTemplateStorage } from '../../../shared/utils/storage/draftStorage'
 
+import { EMPTY_TEMPLATE } from '../../../shared/utils/constants'
+
 import { hasMeaningfulContent }
   from '../../../shared/utils/editorUtils'
 
@@ -26,42 +28,91 @@ import { appendExercisesToTemplate } from '../utils/appendExercisesToTemplate'
 
 import { buildTemplatePayload } from '../utils/buildTemplatePayload'
 
-const EMPTY_TEMPLATE = {
-  name: 'Template',
-  exercises: [],
-  notes: '',
-}
 
 /**
  * Handles template creation, editing,
  * exercise flow and template persistence.
+ *
+ * Responsibilities:
+ * - loading existing templates
+ * - managing local editor state
+ * - handling add/remove/update exercise actions
+ * - draft persistence for create flow
+ * - temporary cross-page workflow state
+ * - save/discard/delete actions
+ * - unsaved changes detection
+ *
  * @param {string | undefined} id
  * Template id for edit mode.
- * @param {(path: string) => void} navigate
+ *
+ * @param {(path: string, options?: object) => void} navigate
  * React Router navigation function.
+ *
  * @returns {{
  *  template: object | null,
  *  setTemplate: import('react').Dispatch<
  *    import('react').SetStateAction<object | null>
  *  >,
+ *
  *  loading: boolean,
  *  saving: boolean,
  *  success: boolean,
  *  error: string,
+ *
  *  isEditingName: boolean,
  *  setIsEditingName: import('react').Dispatch<
  *    import('react').SetStateAction<boolean>
  *  >,
+ *
  *  openLibrary: () => void,
- *  exerciseActions: object,
- *  updateTemplateNotes: (notes: string) => void,
+ *
+ *  exerciseActions: {
+ *    addSet: (
+ *      index: number
+ *    ) => void,
+ *
+ *    updateSet: (
+ *      exIndex: number,
+ *      setIndex: number,
+ *      field: string,
+ *      value: string | number | boolean
+ *    ) => void,
+ *
+ *    removeSet: (
+ *      exIndex: number,
+ *      setIndex: number
+ *    ) => void,
+ *
+ *    removeExercise: (
+ *      index: number
+ *    ) => void,
+ *
+ *    updateExerciseRest: (
+ *      index: number,
+ *      value: number
+ *    ) => void,
+ *
+ *    updateExerciseNotes: (
+ *      index: number,
+ *      notes: string
+ *    ) => void,
+ *  },
+ *
+ *  updateTemplateNotes: (
+ *    notes: string
+ *  ) => void,
+ *
  *  hasUnsavedChanges: boolean,
+ *
  *  saveTemplate: () => Promise<void>,
+ *
  *  discardTemplate: () => void,
+ *
  *  discardChanges: () => void,
+ *
  *  deleteTemplate: () => Promise<void>,
  * }}
- * Template manager state/actions.
+ * Template manager state and actions.
  */
 export function useTemplateManager(
   id,
@@ -79,24 +130,10 @@ export function useTemplateManager(
         return null
       }
 
-      try {
-        const stored =
-          draftTemplateStorage.get()
-
-        return {
-          name:
-            stored?.name?.trim()
-            || 'Template',
-
-          exercises:
-            stored?.exercises || [],
-
-          notes:
-            stored?.notes || '',
-        }
-      } catch {
-        return EMPTY_TEMPLATE
-      }
+      return (
+        draftTemplateStorage.get()
+        || EMPTY_TEMPLATE
+      )
     })
 
   const [loading, setLoading] =
@@ -179,8 +216,6 @@ export function useTemplateManager(
               id,
             )
 
-          setTemplate(data)
-
           const normalized =
             structuredClone(data)
 
@@ -188,14 +223,6 @@ export function useTemplateManager(
 
           originalRef.current =
             structuredClone(normalized)
-
-          console.log(
-            JSON.stringify(template),
-          )
-
-          console.log(
-            JSON.stringify(originalRef.current),
-          )
 
         } catch {
           setError(
@@ -266,7 +293,7 @@ export function useTemplateManager(
       )
     )
 
-  // ===== OPEN LIBRARY =====
+  // ===== OPEN LIBRARY FLOW =====
 
   const openLibrary = () => {
     setEditingTemplate(template)
@@ -381,9 +408,10 @@ export function useTemplateManager(
     navigate('/workouts')
   }
 
-  // ===== DISCARD CHANGES (EDIT) =====
+  // ===== DISCARD CHANGES & RESTORE STATE (EDIT) =====
 
   const discardChanges = () => {
+
     if (!originalRef.current) {
       return
     }

@@ -1,10 +1,16 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext,
+  useContext,
+  useEffect,
+  useState } from 'react'
+
 import { useRestTimer } from '../../features/workout/hooks/useRestTimer'
+
 import { useWorkoutTimer } from '../../features/workout/hooks/useWorkoutTimer'
+
 import { EMPTY_TEMPLATE } from '../utils/constants'
+
 import {
   draftTemplateStorage,
-
   hasTemplateDraftContent,
 } from '../utils/storage/draftStorage'
 
