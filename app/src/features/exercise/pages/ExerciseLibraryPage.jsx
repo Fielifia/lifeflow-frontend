@@ -20,7 +20,7 @@ const BASE_CATEGORIES = CATEGORY_ORDER
 
 /**
  * Exercise library view with filtering, search, and pagination.
- * @returns {import('react').ReactElement} - Exercise Library UI
+ * @returns {import('react').ReactElement} Exercise Library UI
  */
 export default function ExercisesLibraryPage() {
   const navigate = useNavigate()

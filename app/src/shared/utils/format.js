@@ -130,7 +130,7 @@ export function formatDate(date) {
   )
 
   // ===== FALLBACK FORMAT =====
-  
+
   if (diffDays === 1) {
     return '1 day ago'
   }
@@ -143,4 +143,23 @@ export function formatDate(date) {
     month: 'short',
     day: 'numeric',
   })
+}
+
+/**
+ * Formats rest duration in seconds.
+ * @param {number} seconds - Rest duration in seconds
+ * @returns {string} Formatted rest duration
+ */
+export function formatRestTime(seconds) {
+  if (!seconds && seconds !== 0) {
+    return '0s'
+  }
+
+  if (seconds >= 60) {
+    return seconds % 60 === 0
+      ? `${seconds / 60} min`
+      : `${Math.floor(seconds / 60)}m ${seconds % 60}s`
+  }
+
+  return `${seconds}s`
 }

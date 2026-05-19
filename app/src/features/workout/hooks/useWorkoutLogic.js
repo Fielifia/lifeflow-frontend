@@ -199,20 +199,24 @@ export function useWorkoutLogic(navigate, workoutId) {
   // ===== LOAD TEMPLATE =====
 
   useEffect(() => {
-    if (!selectedTemplate) return
-
+    if (!selectedTemplate) {
+      return
+    }
+  
+    const template = selectedTemplate
+  
+    setSelectedTemplate(null)
+  
     setWorkout({
-      name: selectedTemplate.name,
+      name: template.name,
       notes: '',
-      exercises: selectedTemplate.exercises.map((ex) =>
+      exercises: template.exercises.map((ex) =>
         buildWorkoutExercise(ex, null, {
           resetCompleted: true,
         }),
       ),
     })
-
-    setSelectedTemplate(null)
-  }, [selectedTemplate, setSelectedTemplate, setWorkout])
+  }, [selectedTemplate, setSelectedTemplate])
 
   const {
     addSet,
@@ -230,22 +234,26 @@ export function useWorkoutLogic(navigate, workoutId) {
   })
 
   // ===== LOAD WORKOUT =====
-
+  
   useEffect(() => {
-    if (!selectedWorkout) return
+    if (!selectedWorkout) {
+      return
+    }
+
+    const workoutData = selectedWorkout
+
+    setSelectedWorkout(null)
 
     setWorkout({
-      name: selectedWorkout.name,
+      name: workoutData.name,
       notes: '',
-      exercises: selectedWorkout.exercises.map((ex) =>
+      exercises: workoutData.exercises.map((ex) =>
         buildWorkoutExercise(ex, null, {
           resetCompleted: true,
         }),
       ),
     })
-
-    setSelectedWorkout(null)
-  }, [selectedWorkout, setSelectedWorkout, setWorkout])
+  }, [selectedWorkout, setSelectedWorkout])
 
   // ===== EXERCISE ACTIONS =====
 

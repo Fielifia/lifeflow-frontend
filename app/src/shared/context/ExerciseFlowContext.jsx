@@ -22,13 +22,13 @@ export function ExerciseFlowProvider({ children }) {
 
   const [selectedExercises, setSelectedExercises] = useState([])
 
-  // ===== NAVIGATION FLOW =====
+  // ===== NAVIGATION =====
 
   const [returnTo, setReturnTo] = useState('/')
   
   const [libraryReturnTo, setLibraryReturnTo] = useState('/exercises')
   
-  // ===== SCROLL RESTORATION =====
+  // ===== SCROLL =====
   
   const [scrollPosition, setScrollPosition] = useState(0)
 

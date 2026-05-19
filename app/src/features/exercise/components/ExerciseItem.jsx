@@ -1,15 +1,26 @@
-import { Clock, Trash2, Trophy, Weight } from 'lucide-react'
-import { useRef, useState } from 'react'
+import {
+  Clock,
+  Trash2,
+  Weight
+} from 'lucide-react'
+
+import {
+  useRef,
+  useState
+} from 'react'
+
+import { formatRestTime } from '../../../shared/utils/format'
+
+import ExerciseSetRow from './ExerciseSetRow'
 
 /**
- * Displays a workout or template exercise item with editable sets,
- * notes, rest timer handling, progression tracking, and exercise actions.
+ * Displays an editable workout/template exercise item.
  *
- * Supported modes:
- * - run: active workout mode with previous values, rep controls, and completion checkboxes
- * - workout: workout detail/history mode with PB indicators and reduced workout controls
- * - edit: editable workout editing mode
- * - template: editable template mode
+ * Modes:
+ * - run
+ * - workout
+ * - edit
+ * - template
  *
  * @param {object} props - Component props
  * @param {{
@@ -46,12 +57,18 @@ export default function ExerciseItem({
   const {
     addSet,
     updateSet,
-    removeExercise,
     removeSet,
     toggleSetComplete,
+    removeExercise,
     updateExerciseNotes,
     updateExerciseRest,
   } = actions || {}
+
+  const setActions = {
+    updateSet,
+    removeSet,
+    toggleSetComplete,
+  }
 
   const gridClass = {
     run: 'set-grid-run',
@@ -59,48 +76,6 @@ export default function ExerciseItem({
     edit: 'set-grid-edit',
     template: 'set-grid-template',
   }[mode]
-
-  const handleCheck = (j, checked) => {
-    toggleSetComplete(i, j, checked)
-  }
-
-  const [holdingSet, setHoldingSet] = useState(null)
-  const [progress, setProgress] = useState(0)
-  const timerRef = useRef(null)
-
-  const HOLD_DURATION = 1000
-
-  const startHold = (j, e) => {
-    if (['INPUT', 'BUTTON'].includes(e.target.tagName)) return
-
-    setHoldingSet(j)
-    setProgress(0)
-
-    const start = Date.now()
-
-    timerRef.current = setInterval(() => {
-      const elapsed = Date.now() - start
-      const p = Math.min(elapsed / HOLD_DURATION, 1)
-
-      setProgress(p)
-
-      if (p === 1) {
-        clearInterval(timerRef.current)
-        removeSet(i, j)
-        resetHold()
-      }
-    }, 16)
-  }
-
-  const cancelHold = () => {
-    clearInterval(timerRef.current)
-    resetHold()
-  }
-
-  const resetHold = () => {
-    setHoldingSet(null)
-    setProgress(0)
-  }
 
   const addExerciseNotes = (notes) => {
     updateExerciseNotes(i, notes)
@@ -115,10 +90,33 @@ export default function ExerciseItem({
     reps: 0,
   }
 
-  let currentBest = { ...historicalBest }
+
+  const bests = ex.sets.reduce((acc, currentSet, index) => {
+    const previousBest = acc[index - 1] || historicalBest
+
+    const isPB =
+      currentSet.completed &&
+      (
+        currentSet.weight > previousBest.weight ||
+        (
+          currentSet.weight === previousBest.weight &&
+          currentSet.reps > previousBest.reps
+        )
+      )
+
+    acc[index] = isPB
+      ? {
+        weight: currentSet.weight,
+        reps: currentSet.reps,
+      }
+      : previousBest
+
+    return acc
+  }, [])
 
   return (
     <div className={`workout-exercise ${mode}`}>
+
       {/* EXERCISE ITEM HEADER */}
 
       <div className="exercise-item-header">
@@ -140,6 +138,7 @@ export default function ExerciseItem({
         </div>
 
         <div className="exercise-item-header controls">
+
           {/* REST TIME */}
 
           <div
@@ -185,11 +184,7 @@ export default function ExerciseItem({
               />
             ) : (
               <span className="rest-badge">
-                {safeRest >= 60
-                  ? safeRest % 60 === 0
-                    ? `${safeRest / 60} min`
-                    : `${Math.floor(safeRest / 60)}m ${safeRest % 60}s`
-                  : `${safeRest}s`}
+                {formatRestTime(safeRest)}
               </span>
             )}
           </div>
@@ -263,173 +258,37 @@ export default function ExerciseItem({
       {/* SETS */}
 
       {ex.sets.map((set, j) => {
+
+        const previousBest =
+          j === 0
+            ? historicalBest
+            : bests[j - 1]
+
         const isHistoricalPB =
           (isRunMode || isWorkoutMode) &&
           set.completed &&
-          (set.weight > currentBest.weight ||
-            (set.weight === currentBest.weight &&
-              set.reps > currentBest.reps))
-
-        if (isHistoricalPB) {
-          currentBest = {
-            weight: set.weight,
-            reps: set.reps,
-          }
-        }
+          (
+            set.weight > previousBest.weight ||
+            (
+              set.weight === previousBest.weight &&
+              set.reps > previousBest.reps
+            )
+          )
 
         return (
-          <div
+          <ExerciseSetRow
             key={j}
-            onMouseDown={isEditable ? (e) => startHold(j, e) : undefined}
-            onMouseUp={isEditable ? cancelHold : undefined}
-            onMouseLeave={isEditable ? cancelHold : undefined}
-            onTouchStart={isEditable ? (e) => startHold(j, e) : undefined}
-            onTouchEnd={isEditable ? cancelHold : undefined}
-            className={`set-row ${gridClass}
-              ${set.completed ? 'completed' : ''}
-              ${isHistoricalPB ? 'best-set' : ''}
-            `}
-          >
-            {holdingSet === j && (
-              <div className="hold-indicator">
-                <div
-                  className="hold-progress"
-                  style={{ transform: `scaleX(${progress})` }}
-                />
-              </div>
-            )}
-
-            <span className={`set-number ${isHistoricalPB ? 'pb' : ''}`}>
-              {isRunMode && isHistoricalPB
-                ? <Trophy className="icon-small" />
-                : j + 1}
-            </span>
-
-            {/* PREVIOUS */}
-
-            {isRunMode && (
-              <span className="previous">
-                {set.prevWeight != null && set.prevReps != null
-                  ? `${set.prevWeight}×${set.prevReps}`
-                  : '–'}
-              </span>
-            )}
-
-            {/* WEIGHT */}
-
-            {isEditable ? (
-              <input
-                ref={(el) => (inputRefs.current[j] = el)}
-                className="input-base"
-                type="number"
-                value={set.weight ?? ''}
-                onFocus={(e) => e.target.select()}
-                onChange={(e) =>
-                  updateSet(
-                    i,
-                    j,
-                    'weight',
-                    e.target.value === ''
-                      ? ''
-                      : Number(e.target.value),
-                  )
-                }
-              />
-            ) : (
-              <span>{set.weight ?? '-'}</span>
-            )}
-
-            {/* REPS */}
-
-            {isEditable && !isWorkoutMode ? (
-              <div className="number-input">
-                <button
-                  type="button"
-                  className="btn btn-clean"
-                  onClick={() =>
-                    updateSet(
-                      i,
-                      j,
-                      'reps',
-                      Math.max(0, (set.reps || 0) - 1),
-                    )
-                  }
-                >
-                  −
-                </button>
-
-                <input
-                  className="input-base"
-                  type="number"
-                  value={set.reps ?? ''}
-                  onFocus={(e) => e.target.select()}
-                  onChange={(e) =>
-                    updateSet(
-                      i,
-                      j,
-                      'reps',
-                      e.target.value === ''
-                        ? ''
-                        : Number(e.target.value),
-                    )
-                  }
-                />
-
-                <button
-                  type="button"
-                  className="btn btn-clean"
-                  onClick={() =>
-                    updateSet(
-                      i,
-                      j,
-                      'reps',
-                      (set.reps || 0) + 1,
-                    )
-                  }
-                >
-                  +
-                </button>
-              </div>
-            ) : isEditable ? (
-              <input
-                className="input-base"
-                type="number"
-                value={set.reps ?? ''}
-                onFocus={(e) => e.target.select()}
-                onChange={(e) =>
-                  updateSet(
-                    i,
-                    j,
-                    'reps',
-                    e.target.value === ''
-                      ? ''
-                      : Number(e.target.value),
-                  )
-                }
-              />
-            ) : (
-              <span>{set.reps ?? '-'}</span>
-            )}
-
-            {isWorkoutMode && (
-              <span className="set-pb">
-                {isHistoricalPB && (
-                  <Trophy className="icon-small" />
-                )}
-              </span>
-            )}
-
-            {/* CHECKBOX */}
-
-            {isRunMode && isEditable && (
-              <input
-                type="checkbox"
-                className="checkbox"
-                checked={set.completed}
-                onChange={(e) => handleCheck(j, e.target.checked)}
-              />
-            )}
-          </div>
+            set={set}
+            i={i}
+            j={j}
+            actions={setActions}
+            isEditable={isEditable}
+            isRunMode={isRunMode}
+            isWorkoutMode={isWorkoutMode}
+            isHistoricalPB={isHistoricalPB}
+            gridClass={gridClass}
+            inputRefs={inputRefs}
+          />
         )
       })}
 
