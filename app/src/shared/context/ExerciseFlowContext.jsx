@@ -25,16 +25,19 @@ export function ExerciseFlowProvider({ children }) {
   // ===== NAVIGATION FLOW =====
 
   const [returnTo, setReturnTo] = useState('/')
+  
+  const [libraryReturnTo, setLibraryReturnTo] = useState('/exercises')
+  
+  // ===== SCROLL RESTORATION =====
+  
   const [scrollPosition, setScrollPosition] = useState(0)
 
-  // ===== SCROLL RESTORATION =====
-
   const [shouldRestoreScroll, setShouldRestoreScroll] = useState(false)
-  const [libraryReturnTo, setLibraryReturnTo] = useState('/exercises')
 
   // ===== EDITING STATE =====
 
   const [editingTemplate, setEditingTemplate] = useState(null)
+ 
   const [editingWorkout, setEditingWorkout] = useState(null)
 
   return (
@@ -63,11 +66,10 @@ export function ExerciseFlowProvider({ children }) {
         setEditingWorkout,
       }}
     >
-
+      
       {children}
 
     </ExerciseFlowContext.Provider>
-    
   )
 }
 

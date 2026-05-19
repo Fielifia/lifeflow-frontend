@@ -108,17 +108,28 @@ export default function ExercisesLibraryPage() {
     setSearchParams(params)
   }
 
+  // ===== RESTORE SCROLL =====
+  
   useEffect(() => {
     if (!shouldRestoreScroll) {
       return undefined
     }
 
-    const timeout = setTimeout(() => {
-      window.scrollTo(0, scrollPosition)
-      setShouldRestoreScroll(false)
-    }, 50)
+    let attempts = 0
 
-    return () => clearTimeout(timeout)
+    const interval = setInterval(() => {
+      window.scrollTo(0, scrollPosition)
+
+      attempts += 1
+
+      if (attempts >= 10) {
+        clearInterval(interval)
+        setShouldRestoreScroll(false)
+      }
+    }, 100)
+
+    return () => clearInterval(interval)
+
   }, [
     shouldRestoreScroll,
     scrollPosition,
