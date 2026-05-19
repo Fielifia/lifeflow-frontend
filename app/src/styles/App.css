@@ -197,6 +197,10 @@ a:active {
   background: var(--bg);
 }
 
+.app-start {
+  margin: 60px auto 30px;
+}
+
 .app:nth-child(1) {
   padding-top: 60px;
 }
@@ -226,18 +230,6 @@ a:active {
   border-radius: 14px;
   padding: 12px;
   border: 1px solid var(--border);
-}
-
-.card-base.card-auth,
-.card-base.card-auth form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 12px;
-}
-
-.card-base.card-auth h2 {
-  text-align: center;
 }
 
 .container {
@@ -692,10 +684,16 @@ input[type="checkbox"]:hover {
 /* ========== AUTH ========== */
 /* ============================= */
 
+.card-base.card-auth,
 .card-base.card-auth form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 24px;
+  padding: 12px;
+}
+
+.card-base.card-auth h2 {
+  text-align: center;
 }
 
 /* ============================= */

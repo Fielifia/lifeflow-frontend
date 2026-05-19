@@ -66,7 +66,7 @@ export default function RegisterPage({ setUser }) {
   const [showPassword, setShowPassword] = useState(false)
 
   return (
-    <div className="app">
+    <div className="app-start">
       <Header
         title="Create Account"
         subtitle="Start your fitness journey"
@@ -152,7 +152,8 @@ export default function RegisterPage({ setUser }) {
           </div>
 
           <Button
-            className="btn btn-md btn-primary"
+            variant="primary"
+            size="md"
             loading={loading}
             onClick={handleRegister}
           >

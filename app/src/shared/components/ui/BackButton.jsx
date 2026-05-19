@@ -1,5 +1,8 @@
 import { useNavigate } from 'react-router-dom'
+
 import { ArrowLeft } from 'lucide-react'
+
+import Button from './button/Button'
 
 /**
  * Reusable back button.
@@ -43,11 +46,12 @@ export default function BackButton({
   }
 
   return (
-    <button
+    <Button
+      variant="ghost"
+      size="icon"
       onClick={handleBack}
-      className="btn back-btn"
     >
-      <ArrowLeft className="back-icon" />
-    </button>
+      <ArrowLeft />
+    </Button>
   )
 }

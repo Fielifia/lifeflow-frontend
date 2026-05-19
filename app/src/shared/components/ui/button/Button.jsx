@@ -3,15 +3,15 @@
  * Handles variants, sizes, loading and layout modifiers.
  * @param {object} props - Component props
  * @param {import('react').ReactNode} props.children - Button content
- * @param {'primary'|'secondary'|'danger'|'clean'} [props.variant]
- * @param {'sm'|'md'|'lg'} [props.size]
+ * @param {'primary'|'secondary'|'danger'|'ghost'|'cta'} [props.variant]
+ * @param {'sm'|'md'|'lg'|'icon'} [props.size]
  * @param {boolean} [props.fullWidth]
  * @param {boolean} [props.loading]
  * @param {boolean} [props.disabled]
- * @param {boolean} [props.cta]
  * @param {string} [props.className]
  * @param {'button'|'submit'|'reset'} [props.type]
- * @param {() => void} [props.onClick]
+ * @param {import('react').ReactNode} [props.leftIcon]
+ * @param {(event: React.MouseEvent<HTMLButtonElement>) => void} [props.onClick]
  * @returns {import('react').ReactElement} Button UI
  */
 export default function Button({
@@ -21,9 +21,9 @@ export default function Button({
   fullWidth = false,
   loading = false,
   disabled = false,
-  cta = false,
   className = '',
   type = 'button',
+  leftIcon,
   onClick,
 }) {
   const classes = [
@@ -31,9 +31,7 @@ export default function Button({
 
     `btn-${variant}`,
 
-    cta
-      ? 'btn-cta'
-      : `btn-${size}`,
+    `btn-${size}`,
 
     fullWidth
       ? 'btn-full'
@@ -55,9 +53,14 @@ export default function Button({
       disabled={disabled || loading}
       onClick={onClick}
     >
-      {loading
-        ? 'Loading...'
-        : children}
+      {loading ? (
+        <span className="spinner" />
+      ) : (
+        <>
+          {leftIcon}
+          {children}
+        </>
+      )}
     </button>
   )
 }

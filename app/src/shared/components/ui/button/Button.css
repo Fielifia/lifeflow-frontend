@@ -1,18 +1,25 @@
-/* ===== BASE ===== */
+/* ============================= */
+/* ========== BUTTONS ========== */
+/* ============================= */
 
 button {
   -webkit-tap-highlight-color: transparent;
-}
-
-.btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
 
+  font-family: inherit;
+}
+
+/* BASE */
+
+.btn {
+  cursor: pointer;
+
   border-radius: 12px;
 
-  cursor: pointer;
+  border: 1px solid transparent;
 
   transition:
     transform 0.08s ease,
@@ -27,57 +34,59 @@ button {
 
 .btn:active {
   transform: scale(0.97);
-  opacity: 0.9;
+  opacity: 0.85;
 }
 
 .btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
+  transform: none;
 }
 
-/* ===== SIZES ===== */
+/* ============================= */
+/* ============ SIZE =========== */
+/* ============================= */
 
 .btn-sm {
-  min-height: 34px;
-  padding: 6px 10px;
+  padding: 8px 12px;
   font-size: 12px;
 }
 
 .btn-md {
-  min-height: 46px;
   padding: 14px;
   font-size: 13px;
 }
 
 .btn-lg {
-  min-height: 56px;
   padding: 18px;
   font-size: 14px;
+  min-height: 60px;
 }
 
-/* ===== CTA ===== */
-
-.btn-cta {
-  flex-direction: column;
-
-  min-height: 90px;
-  padding: 18px;
-
-  font-size: 13px;
-  font-weight: 500;
+.btn-icon {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  flex-shrink: 0;
 }
 
-/* ===== VARIANTS ===== */
+/* ============================= */
+/* ========= VARIANTS ========== */
+/* ============================= */
+
+/* PRIMARY */
 
 .btn-primary {
-  border: none;
   background: var(--primary);
   color: white;
+  border: none;
 }
 
 .btn-primary:hover {
   background: var(--primary-light);
 }
+
+/* SECONDARY */
 
 .btn-secondary {
   background: var(--card-2);
@@ -89,6 +98,8 @@ button {
   border-color: var(--primary);
 }
 
+/* DANGER */
+
 .btn-danger {
   background: var(--danger);
   border: 1px solid transparent;
@@ -99,14 +110,47 @@ button {
   background: #b91c1c;
 }
 
-.btn-clean {
+/* GHOST */
+
+.btn-ghost {
   background: transparent;
   border: none;
   color: var(--text);
-  padding: 0;
 }
 
-/* ===== MODIFIERS ===== */
+/* CTA */
+
+.btn-cta {
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  height: 90px;
+
+  border-radius: 14px;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  background: var(--card-2);
+
+  border: 1px solid var(--border);
+
+  color: var(--text);
+}
+
+.btn-cta.btn-primary {
+  background: var(--primary);
+  border: none;
+}
+
+/* ============================= */
+/* ========= MODIFIERS ========= */
+/* ============================= */
 
 .btn-full {
   width: 100%;
@@ -114,4 +158,18 @@ button {
 
 .btn-loading {
   pointer-events: none;
+}
+
+/* ============================= */
+/* ============ ICONS ========== */
+/* ============================= */
+
+.btn-icon-left {
+  display: flex;
+  align-items: center;
+}
+
+.hero-icon {
+  font-size: 22px;
+  line-height: 1;
 }

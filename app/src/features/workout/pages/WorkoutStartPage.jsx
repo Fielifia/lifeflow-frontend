@@ -105,8 +105,7 @@ export default function WorkoutStartPage() {
           {/* START / CONTINUE WORKOUT */}
 
           <Button
-            variant="primary"
-            cta
+            variant="cta"
             onClick={() => {
               if (!hasWorkoutDraft) {
                 startWorkout({})
@@ -128,8 +127,7 @@ export default function WorkoutStartPage() {
           {/* CREATE TEMPLATE */}
 
           <Button
-            variant="secondary"
-            cta
+            variant="cta"
             onClick={() => {
               setReturnTo(location.pathname)
 

@@ -72,6 +72,7 @@ export default function WorkoutControls({
           {onStartWorkout && (
             <Button
               variant="primary"
+              size="md"
               fullWidth
               onClick={onStartWorkout}
             >
@@ -91,13 +92,21 @@ export default function WorkoutControls({
           {handleStartPause && (
             <Button
               variant="secondary"
-              className="workout-toggle-btn"
+              size="lg"
+              onClick={handleStartPause}
+              disabled={saving}
             >
-              {status === 'running'
-                ? '❚❚ Pause'
-                : status === 'paused'
-                  ? '▶ Resume'
-                  : '▶ Start'}
+              <span className="toggle-symbol">
+                {status === 'running' ? '❚❚' : '▶'}
+              </span>
+
+              <span>
+                {status === 'running'
+                  ? 'Pause'
+                  : status === 'paused'
+                    ? 'Resume'
+                    : 'Start'}
+              </span>
             </Button>
           )}
 
@@ -106,6 +115,7 @@ export default function WorkoutControls({
           {onFinishWorkout && (
             <Button
               variant="primary"
+              size="lg"
               fullWidth
               loading={saving}
               disabled={!hasExercises}
@@ -120,6 +130,7 @@ export default function WorkoutControls({
           {onDiscardWorkout && (
             <Button
               variant="danger"
+              size="lg"
               onClick={onDiscardWorkout}
             >
               Discard
@@ -139,6 +150,7 @@ export default function WorkoutControls({
           {onStartWorkout && (
             <Button
               variant="primary"
+              size="lg"
               fullWidth
               onClick={onStartWorkout}
             >
@@ -151,6 +163,7 @@ export default function WorkoutControls({
           {onEdit && (
             <Button
               variant="secondary"
+              size="lg"
               fullWidth
               onClick={onEdit}
             >
@@ -163,6 +176,7 @@ export default function WorkoutControls({
           {onSecondaryAction && (
             <Button
               variant="secondary"
+              size="lg"
               onClick={onSecondaryAction}
             >
               {secondaryActionLabel}
@@ -174,6 +188,7 @@ export default function WorkoutControls({
           {onDelete && (
             <Button
               variant="danger"
+              size="lg"
               loading={loading}
               onClick={onDelete}
             >
@@ -193,6 +208,7 @@ export default function WorkoutControls({
           {onSave && (
             <Button
               variant="primary"
+              size="lg"
               fullWidth
               loading={saving}
               disabled={!hasExercises}
@@ -206,6 +222,7 @@ export default function WorkoutControls({
           {onSecondaryAction && (
             <Button
               variant="secondary"
+              size="lg"
               fullWidth
               onClick={onSecondaryAction}
             >
@@ -217,6 +234,7 @@ export default function WorkoutControls({
           {onDiscardTemplate && (
             <Button
               variant="danger"
+              size="lg"
               onClick={onDiscardTemplate}
             >
               {discardLabel}
@@ -227,6 +245,7 @@ export default function WorkoutControls({
           {onDiscardChanges && (
             <Button
               variant="danger"
+              size="lg"
               onClick={onDiscardChanges}
             >
               {cancelLabel}

@@ -49,12 +49,14 @@ export default function LoginPage({ setUser }) {
   const [showPassword, setShowPassword] = useState(false)
 
   return (
-    <div className="app">
+    <div className="app-start">
+
       <Header
         title="Welcome Back"
         subtitle="Login to continue"
         variant="login"
       />
+
       <div className="card-base card-auth">
         <h2 className="center">Login</h2>
         <form
@@ -103,11 +105,12 @@ export default function LoginPage({ setUser }) {
           </div>
 
           <Button
-            className="btn btn-md btn-primary"
+            variant="primary"
+            size="md"
             loading={loading}
             onClick={handleLogin}
           >
-            {loading ? 'Logging in...' : 'Login'}
+            Log In
           </Button>
         </form>
 
