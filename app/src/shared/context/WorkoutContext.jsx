@@ -56,10 +56,6 @@ export function WorkoutProvider({ children }) {
 
   // ===== WORKOUT SOURCES =====
 
-  const [selectedTemplate, setSelectedTemplate] = useState(null)
-
-  const [selectedWorkout, setSelectedWorkout] = useState(null)
-
   return (
 
     <WorkoutContext.Provider
@@ -81,12 +77,6 @@ export function WorkoutProvider({ children }) {
 
         draftTemplate,
         setDraftTemplate,
-
-        selectedTemplate,
-        setSelectedTemplate,
-
-        selectedWorkout,
-        setSelectedWorkout,
 
         registerActivity: timer.registerActivity,
       }}

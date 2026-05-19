@@ -13,8 +13,6 @@ import { appendExercisesToWorkout } from '../utils/appendExercisesToWorkout'
 
 import { draftWorkoutStorage } from '../../../shared/utils/storage/draftStorage'
 
-import { buildWorkoutExercise } from '../utils/buildWorkoutExercise'
-
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 
 import { EMPTY_WORKOUT } from '../../../shared/utils/constants'
@@ -148,12 +146,6 @@ export function useWorkoutLogic(navigate, workoutId) {
     startRest,
     resetRest,
 
-    selectedTemplate,
-    setSelectedTemplate,
-
-    selectedWorkout,
-    setSelectedWorkout,
-
     registerActivity,
   } = useWorkoutContext()
 
@@ -196,28 +188,6 @@ export function useWorkoutLogic(navigate, workoutId) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedExercises])
 
-  // ===== LOAD TEMPLATE =====
-
-  useEffect(() => {
-    if (!selectedTemplate) {
-      return
-    }
-  
-    const template = selectedTemplate
-  
-    setSelectedTemplate(null)
-  
-    setWorkout({
-      name: template.name,
-      notes: '',
-      exercises: template.exercises.map((ex) =>
-        buildWorkoutExercise(ex, null, {
-          resetCompleted: true,
-        }),
-      ),
-    })
-  }, [selectedTemplate, setSelectedTemplate])
-
   const {
     addSet,
     updateSet,
@@ -232,28 +202,6 @@ export function useWorkoutLogic(navigate, workoutId) {
       registerActivity()
     },
   })
-
-  // ===== LOAD WORKOUT =====
-  
-  useEffect(() => {
-    if (!selectedWorkout) {
-      return
-    }
-
-    const workoutData = selectedWorkout
-
-    setSelectedWorkout(null)
-
-    setWorkout({
-      name: workoutData.name,
-      notes: '',
-      exercises: workoutData.exercises.map((ex) =>
-        buildWorkoutExercise(ex, null, {
-          resetCompleted: true,
-        }),
-      ),
-    })
-  }, [selectedWorkout, setSelectedWorkout])
 
   // ===== EXERCISE ACTIONS =====
 

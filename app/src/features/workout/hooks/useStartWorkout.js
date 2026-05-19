@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
+import { buildWorkoutExercise } from '../utils/buildWorkoutExercise'
 import {
   draftWorkoutStorage,
   hasWorkoutDraftContent,
@@ -21,17 +22,21 @@ import {
 export function useStartWorkout() {
   const navigate = useNavigate()
   const {
-    setSelectedWorkout,
-    setSelectedTemplate,
     start,
     resetTimer,
     resetRest,
   } = useWorkoutContext()
 
-  const startWorkout = ({ workout = null, template = null }) => {
-    const activeWorkout = draftWorkoutStorage.get()
+  const startWorkout = ({
+    workout = null,
+    template = null,
+  }) => {
+    const activeWorkout =
+      draftWorkoutStorage.get()
 
-    if (hasWorkoutDraftContent(activeWorkout)) {
+    if (
+      hasWorkoutDraftContent(activeWorkout)
+    ) {
       const confirmed = window.confirm(
         'Discard current workout and start a new one?',
       )
@@ -42,20 +47,50 @@ export function useStartWorkout() {
 
       resetTimer()
       resetRest()
+
       draftWorkoutStorage.clear()
     }
 
-    if (workout) {
-      setSelectedWorkout(workout)
-      setSelectedTemplate(null)
-    }
+    let preparedWorkout = null
+
+    // ===== FROM TEMPLATE =====
 
     if (template) {
-      setSelectedTemplate(template)
-      setSelectedWorkout(null)
+      preparedWorkout = {
+        name: template.name,
+        notes: '',
+        exercises:
+          template.exercises.map((ex) =>
+            buildWorkoutExercise(ex, null, {
+              resetCompleted: true,
+            }),
+          ),
+      }
+    }
+
+    // ===== FROM WORKOUT =====
+
+    if (workout) {
+      preparedWorkout = {
+        name: workout.name,
+        notes: '',
+        exercises:
+          workout.exercises.map((ex) =>
+            buildWorkoutExercise(ex, null, {
+              resetCompleted: true,
+            }),
+          ),
+      }
+    }
+
+    if (preparedWorkout) {
+      draftWorkoutStorage.set(
+        preparedWorkout,
+      )
     }
 
     start()
+
     navigate('/workouts/current/run')
   }
 
