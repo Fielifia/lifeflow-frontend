@@ -2,16 +2,26 @@ import { useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
+
 import { useWorkoutLogic } from '../hooks/useWorkoutLogic'
 
 import BackButton from '../../../shared/components/ui/BackButton'
+
 import Header from '../../../shared/components/ui/Header'
+
 import DataState from '../../../shared/components/ui/skeleton/DataState'
+
 import WorkoutControls from '../../../shared/components/WorkoutControls'
+
 import ExerciseItem from '../../exercise/components/ExerciseItem'
+
 import RestTimer from '../components/time/RestTimer'
+
 import WorkoutHeader from '../components/WorkoutHeader'
+
+import EditStartTimeModal from '../components/time/EditStartTimeModal'
 
 /**
  * Workout page for creating and tracking a workout session.
@@ -123,6 +133,7 @@ export default function WorkoutRunPage() {
       <BackButton fallback={returnTo || '/workouts'} warnOnUnsavedChanges />
 
       {/* HEADER */}
+
       <WorkoutHeader
         name={workout.name}
         startTime={startTime}
@@ -137,74 +148,20 @@ export default function WorkoutRunPage() {
       />
 
       {showStartTimeModal && (
-        <div
-          className="modal-overlay"
-          onClick={() => setShowStartTimeModal(false)}
-        >
-          <div
-            className="modal-card"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h3>Edit start time</h3>
-
-            <div className="modal-card-content">
-              <input
-                type="time"
-                className="input-base"
-                value={tempStartTime}
-                autoFocus
-                onFocus={(e) => e.target.select()}
-                onChange={(e) => setTempStartTime(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter') {
-                    e.preventDefault()
-
-                    const [hours, minutes] = tempStartTime.split(':')
-
-                    const updated = new Date(startTime)
-
-                    updated.setHours(Number(hours))
-                    updated.setMinutes(Number(minutes))
-                    updated.setSeconds(0)
-
-                    adjustStartTime(updated.getTime())
-
-                    setShowStartTimeModal(false)
-                  }
-                }}
-              />
-
-              <button
-                className="btn btn-sm btn-primary"
-                onClick={() => {
-                  const [hours, minutes] = tempStartTime.split(':')
-
-                  const updated = new Date(startTime)
-
-                  updated.setHours(Number(hours))
-                  updated.setMinutes(Number(minutes))
-                  updated.setSeconds(0)
-
-                  adjustStartTime(updated.getTime())
-
-                  setShowStartTimeModal(false)
-                }}
-              >
-                Save
-              </button>
-
-              <button
-                className="btn btn-sm btn-secondary"
-                onClick={() => setShowStartTimeModal(false)}
-              >
-                Cancel
-              </button>
-            </div>
-          </div>
-        </div>
+        <EditStartTimeModal
+          startTime={startTime}
+          tempStartTime={tempStartTime}
+          setTempStartTime={setTempStartTime}
+          onClose={() => setShowStartTimeModal(false)}
+          onSave={(updatedTime) => {
+            adjustStartTime(updatedTime)
+            setShowStartTimeModal(false)
+          }}
+        />
       )}
 
       {/* TOP CONTROLS */}
+
       <WorkoutControls
         variant="run"
         status={status}
@@ -220,6 +177,7 @@ export default function WorkoutRunPage() {
       {error && <p className="error center">{error}</p>}
 
       {/* REST TIMER */}
+
       <RestTimer
         isResting={isResting}
         restRemaining={restRemaining}
