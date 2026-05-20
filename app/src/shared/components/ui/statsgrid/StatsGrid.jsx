@@ -1,60 +1,27 @@
-import StatsGrid from '../../../shared/components/ui/StatsGrid'
+import StatCard from './StatCard'
+
 /**
- * Workout summary statistics cards.
+ * Reusable statistics grid.
  * @param {object} props - Component props
- * @param {number} props.exerciseCount - Total exercises
- * @param {number} props.totalSets - Total sets
- * @param {number} props.totalReps - Total reps
- * @param {number} props.totalVolume - Total training volume
- * @param {number} props.personalBests - Total personal bests
- * @param {Array<{ muscle: string, percentage: number, sets: number }>} [props.muscleSplit] - Workout muscle distribution
- * @returns {import('react').ReactElement} Workout summary UI
+ * @param {Array<object>} props.items - Stat items
+ * @returns {import('react').ReactElement} Stats grid UI
  */
-export default function WorkoutSummary({
-  exerciseCount,
-  totalSets,
-  totalReps,
-  totalVolume,
-  personalBests,
-  muscleSplit = [],
+export default function StatsGrid({
+  items = [],
 }) {
-
-
-
   return (
-    <>
+    <div className="grid-base stats-grid">
 
-      {/* EXERCISES */}
+      {items.map((item) => (
+        <StatCard
+          key={item.label}
+          icon={item.icon}
+          label={item.label}
+          value={item.value}
+          emphasis={item.emphasis}
+        />
+      ))}
 
-      <StatsGrid
-        items={[
-          {
-            label: 'Exercises',
-            value: exerciseCount,
-          },
-          {
-            label: 'Sets',
-            value: totalSets,
-          },
-          {
-            label: 'Reps',
-            value: totalReps,
-          },
-          {
-            label: 'Volume',
-            value: `${totalVolume} kg`,
-          },
-          {
-            label: 'Personal Best',
-            value: `${personalBests}`,
-          },
-          {
-            label: 'Muscle Split',
-            value: `${muscleSplit}`,
-          },
-        ]}
-      />
-
-    </>
+    </div>
   )
 }

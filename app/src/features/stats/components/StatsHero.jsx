@@ -1,19 +1,7 @@
-import {
-  Award,
-  Clock3,
-  Dumbbell,
-  TrendingUp,
-  Weight,
-  Activity,
-} from 'lucide-react'
+import { Dumbbell, Activity, TrendingUp, Weight, Award, Clock3 } from 'lucide-react'
 
-import StatCard from '../components/StatCard'
-
-import {
-  formatDuration,
-  formatNumber,
-  formatWeight,
-} from '../../../shared/utils/format'
+import StatsGrid from '../../../shared/components/ui/statsgrid/StatsGrid'
+import { formatDuration, formatNumber, formatWeight } from '../../../shared/utils/format'
 
 /**
  * Statistics overview metrics.
@@ -24,52 +12,49 @@ import {
 export default function StatsHero({
   stats,
 }) {
+
+  const monthlyMinutes =
+    stats?.currentMonth?.durationMinutes ?? 0
+
   return (
-    <div className="grid-base stats-grid">
 
-      <StatCard
-        icon={Dumbbell}
-        label="Workouts"
-        value={stats?.workouts ?? 0}
-        emphasis="large"
-      />
-
-      <StatCard
-        icon={Activity}
-        label="Total Time"
-        value={formatDuration(
-          stats?.durationMinutes ?? 0
-        )}
-        emphasis="large"
-      />
-
-      <StatCard
-        icon={TrendingUp}
-        label={`Sets / ${formatNumber(stats?.reps ?? 0)} reps`}
-        value={`${formatNumber(
-          stats?.sets ?? 0
-        )}`}
-      />
-
-      <StatCard
-        icon={Weight}
-        label="Volume"
-        value={formatWeight(
-          stats?.volumeKg ?? 0
-        )}
-      />
-
-      <StatCard
-        icon={Award}
-        label="Personal Bests"
-        value={stats?.personalBests ?? 0}
-      />
-
-      <StatCard
-        icon={Clock3}
-        label="Days since last workout"
-        value={stats?.daysSinceLastWorkout}
-      />
-    </div>
+    <StatsGrid
+      items={[
+        {
+          icon: Dumbbell,
+          label: 'Workouts',
+          value: stats?.currentMonth?.workouts ?? 0,
+          emphasis: 'large',
+        },
+        {
+          icon: Activity,
+          label: 'Total time',
+          value: formatDuration(monthlyMinutes),
+          emphasis: 'large',
+        },
+        {
+          icon: TrendingUp,
+          label: `Sets / ${formatNumber(stats?.currentMonth?.reps ?? 0)} Reps`,
+          value: formatNumber(stats?.currentMonth?.sets ?? 0),
+          emphasis: 'large',
+        },
+        {
+          icon: Weight,
+          label: 'Total volume',
+          value: formatWeight(stats?.currentMonth?.volumeKg),
+          emphasis: 'large',
+        },
+        {
+          icon: Award,
+          label: 'Personal Bests',
+          value: stats?.currentMonth?.personalBests ?? 0,
+        },
+        {
+          icon: Clock3,
+          label: 'Days since last workout',
+          value: stats?.daysSinceLastWorkout,
+        },
+      ]}
+    />
   )
 }
