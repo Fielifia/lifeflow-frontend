@@ -10,7 +10,7 @@ import Header from '../../../shared/components/ui/Header'
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 import WorkoutControls from '../../../shared/components/WorkoutControls'
 import ExerciseItem from '../../exercise/components/ExerciseItem'
-import RestTimer from '../components/RestTimer'
+import RestTimer from '../components/time/RestTimer'
 import WorkoutHeader from '../components/WorkoutHeader'
 
 /**

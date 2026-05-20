@@ -5,6 +5,7 @@
  * @param {number} props.startTime - Workout start timestamp
  * @param {number} props.duration - Workout duration in seconds
  * @param {string} props.mode - Display mode
+ * @param {string} props.label - Optional label
  * @returns {import('react').ReactElement} Duration display UI
  */
 export default function DurationDisplay({

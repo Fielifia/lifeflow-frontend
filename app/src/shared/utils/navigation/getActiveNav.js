@@ -7,7 +7,6 @@
  * - Workout: workout flow, templates, exercises
  * - History: completed workout history and workout details
  * - Stats: statistics pages
- *
  * @param {string} pathname - Current route pathname
  * @returns {'home' | 'workout' | 'history' | 'stats'} Active navbar key
  */

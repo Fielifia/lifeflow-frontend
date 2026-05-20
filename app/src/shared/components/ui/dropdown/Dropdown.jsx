@@ -10,7 +10,6 @@ import { ChevronDown, Check } from 'lucide-react'
 
 /**
  * Reusable custom dropdown component.
- *
  * @param {object} props - Component props
  * @param {string} props.label - Default dropdown label
  * @param {Array<{

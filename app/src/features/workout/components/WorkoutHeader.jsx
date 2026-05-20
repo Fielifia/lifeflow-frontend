@@ -1,4 +1,4 @@
-import DurationDisplay from './DurationDisplay'
+import DurationDisplay from './time/DurationDisplay'
 import ActionMenu from '../../../shared/components/ui/action-menu/ActionMenu'
 
 /**
