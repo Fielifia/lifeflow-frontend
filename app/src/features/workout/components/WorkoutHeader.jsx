@@ -27,6 +27,7 @@ export default function WorkoutHeader({
   startTime,
   mode = 'run',
   duration,
+  durationLabel,
   onChangeDuration,
   isEditable = true,
   showDuration = true,
@@ -75,6 +76,7 @@ export default function WorkoutHeader({
           elapsed={elapsed}
           startTime={startTime}
           duration={duration}
+          label={durationLabel}
           onChangeDuration={onChangeDuration}
           isEditable={isEditable}
         />

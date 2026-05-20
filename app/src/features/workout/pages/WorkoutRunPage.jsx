@@ -137,20 +137,45 @@ export default function WorkoutRunPage() {
       />
 
       {showStartTimeModal && (
-        <div className="modal-backdrop">
-          <div className="modal-card">
+        <div
+          className="modal-overlay"
+          onClick={() => setShowStartTimeModal(false)}
+        >
+          <div
+            className="modal-card"
+            onClick={(e) => e.stopPropagation()}
+          >
             <h3>Edit start time</h3>
 
-            <input
-              type="time"
-              className="input-base"
-              value={tempStartTime}
-              onChange={(e) => setTempStartTime(e.target.value)}
-            />
+            <div className="modal-card-content">
+              <input
+                type="time"
+                className="input-base"
+                value={tempStartTime}
+                autoFocus
+                onFocus={(e) => e.target.select()}
+                onChange={(e) => setTempStartTime(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    e.preventDefault()
 
-            <div className="modal-actions">
+                    const [hours, minutes] = tempStartTime.split(':')
+
+                    const updated = new Date(startTime)
+
+                    updated.setHours(Number(hours))
+                    updated.setMinutes(Number(minutes))
+                    updated.setSeconds(0)
+
+                    adjustStartTime(updated.getTime())
+
+                    setShowStartTimeModal(false)
+                  }
+                }}
+              />
+
               <button
-                className="btn btn-small btn-primary"
+                className="btn btn-sm btn-primary"
                 onClick={() => {
                   const [hours, minutes] = tempStartTime.split(':')
 
@@ -167,8 +192,9 @@ export default function WorkoutRunPage() {
               >
                 Save
               </button>
+
               <button
-                className="btn btn-small btn-secondary"
+                className="btn btn-sm btn-secondary"
                 onClick={() => setShowStartTimeModal(false)}
               >
                 Cancel

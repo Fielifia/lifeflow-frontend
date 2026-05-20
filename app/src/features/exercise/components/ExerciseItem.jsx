@@ -189,7 +189,7 @@ export default function ExerciseItem({
 
           {isEditable && (
             <button
-              className="btn btn-secondary btn-small"
+              className="btn btn-secondary btn-sm"
               onClick={(e) => {
                 e.stopPropagation()
                 removeExercise(i)

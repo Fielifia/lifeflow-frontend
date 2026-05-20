@@ -12,6 +12,7 @@ export default function DurationDisplay({
   startTime,
   duration,
   mode = 'run',
+  label,
 }) {
 
   const total =
@@ -36,6 +37,13 @@ export default function DurationDisplay({
 
   return (
     <div className="duration">
+
+      {label && (
+        <p className="muted small close">
+          {label}
+        </p>
+      )}
+
       <div className="duration-time">
         <strong>{formatted}</strong>
       </div>

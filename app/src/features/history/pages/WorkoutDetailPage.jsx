@@ -102,6 +102,7 @@ export default function WorkoutDetailPage() {
         duration={workout.duration}
         isEditable={false}
         showDuration
+        durationLabel="Completed in"
       />
 
       {/* SUMMARY */}
