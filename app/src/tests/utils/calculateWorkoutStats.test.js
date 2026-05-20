@@ -97,7 +97,7 @@ describe('calculateWorkoutStats', () => {
       duration: 0,
       exerciseCount: 0,
       muscleSplit: [],
-      })
+    })
   })
 
   test('handles string values safely', () => {

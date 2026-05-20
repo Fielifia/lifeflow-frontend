@@ -17,6 +17,7 @@ import { serializeWorkoutExercise }
  * }} workout - Frontend workout state
  * @param {number} elapsed
  * Workout duration in seconds
+ * @param startTime - WOrkout start time
  * @returns {object} Workout payload
  */
 export function buildWorkoutPayload(
