@@ -7,8 +7,8 @@ import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { useTemplateManager } from '../hooks/useTemplateManager'
 
 import BackButton from '../../../shared/components/ui/BackButton'
-import DataState from '../../../shared/components/ui/DataState'
 import Header from '../../../shared/components/ui/Header'
+import DataState from '../../../shared/components/ui/skeleton/DataState'
 import WorkoutControls from '../../../shared/components/WorkoutControls'
 
 import WorkoutHeader from '../../workout/components/WorkoutHeader'

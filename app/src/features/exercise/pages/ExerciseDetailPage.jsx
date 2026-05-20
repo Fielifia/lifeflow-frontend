@@ -19,7 +19,7 @@ import BackButton from '../../../shared/components/ui/BackButton'
 
 import Header from '../../../shared/components/ui/Header'
 
-import DataState from '../../../shared/components/ui/DataState'
+import DataState from '../../../shared/components/ui/skeleton/DataState'
 
 
 /**

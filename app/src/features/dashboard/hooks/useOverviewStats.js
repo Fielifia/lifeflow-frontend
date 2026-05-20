@@ -9,7 +9,10 @@ export const useOverviewStats = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
+        console.log('FETCH START')
+        
         const data = await getOverviewStats()
+        console.log('FETCH DONE')
 
         setStats(data)
       } catch (error) {

@@ -1,7 +1,7 @@
 import { useState } from 'react'
 
-import DataState from '../../../shared/components/ui/DataState'
 import Header from '../../../shared/components/ui/Header'
+import DataState from '../../../shared/components/ui/skeleton/DataState'
 
 import StatsHeader from '../components/StatsHeader'
 import StatsHero from '../components/StatsHero'

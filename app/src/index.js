@@ -2,13 +2,13 @@
  * Entry point of the React application. This file renders the main App component into the DOM and sets up performance reporting.
  * @module index
  */
-import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
-import './styles/App.css'
 import './shared/components/ui/action-menu/ActionMenu.css'
 import './shared/components/ui/button/Button.css'
+import './shared/components/ui/skeleton/Skeleton.css'
+import './styles/App.css'
 
 // --- Render the App component into the root DOM element ---
 ReactDOM.createRoot(document.getElementById('root')).render(

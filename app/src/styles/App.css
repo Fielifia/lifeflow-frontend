@@ -376,75 +376,7 @@ button {
   line-height: 1;
 } */
 
-/* ============================= */
-/* ========== LOADING ========== */
-/* ============================= */
 
-.skeleton {
-  background: linear-gradient(90deg,
-      #232f35 25%,
-      #2e3a40 50%,
-      #232f35 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.2s infinite;
-  border-radius: 12px;
-}
-
-.skeleton-card-exercise {
-  height: 110px;
-}
-
-.skeleton-card-template {
-  height: 266px;
-}
-
-.skeleton-card-template:nth-child(1) {
-  margin-top: 82px;
-}
-
-.empty-state {
-  padding: 12px;
-}
-
-.skeleton-row {
-  height: 40px;
-}
-
-.skeleton-text {
-  height: 16px;
-  width: 60%;
-}
-
-.skeleton-container {
-  display: grid;
-  gap: 12px;
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: 200% 0
-  }
-
-  100% {
-    background-position: -200% 0
-  }
-}
-
-.spinner {
-  width: 16px;
-  height: 16px;
-  border: 2px solid #ccc;
-  border-top: 2px solid var(--primary);
-  border-radius: 50%;
-  animation: spin 0.6s linear infinite;
-  display: inline-block;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
 
 /* ============================= */
 /* ========== INPUTS =========== */
@@ -1127,9 +1059,6 @@ input[type="checkbox"]:hover {
   opacity: 0.85;
 }
 
-/* ============================= */
-/* ===== OPTIONAL POLISH ======= */
-/* ============================= */
 
 /* hover effect */
 .workout-session-bar:hover {

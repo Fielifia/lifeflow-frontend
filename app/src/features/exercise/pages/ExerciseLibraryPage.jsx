@@ -12,7 +12,7 @@ import { CATEGORY_ORDER } from '../utils/exerciseCategories'
 
 import BackButton from '../../../shared/components/ui/BackButton'
 
-import DataState from '../../../shared/components/ui/DataState'
+import DataState from '../../../shared/components/ui/skeleton/DataState'
 
 import ExerciseList from '../components/ExerciseList'
 

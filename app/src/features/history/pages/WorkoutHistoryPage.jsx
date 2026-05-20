@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react'
 import { getWorkoutsApi } from '../../../shared/api/workoutApi'
 import { useWorkoutManager } from '../hooks/useWorkoutManager'
 
-import DataState from '../../../shared/components/ui/DataState'
 import Header from '../../../shared/components/ui/Header'
+import DataState from '../../../shared/components/ui/skeleton/DataState'
 
 import WorkoutList from '../components/WorkoutList'
 

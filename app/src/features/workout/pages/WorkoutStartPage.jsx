@@ -26,7 +26,7 @@ import {
 
 import Button from '../../../shared/components/ui/button/Button'
 
-import DataState from '../../../shared/components/ui/DataState'
+import DataState from '../../../shared/components/ui/skeleton/DataState'
 
 import Header from '../../../shared/components/ui/Header'
 

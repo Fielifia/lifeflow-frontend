@@ -1,5 +1,5 @@
-import DataState from '../../../shared/components/ui/DataState'
 import Header from '../../../shared/components/ui/Header'
+import DashboardSkeleton from '../../../shared/components/ui/skeleton/DashboardSkeleton'
 import { userStorage } from '../../../shared/utils/storage/userStorage'
 import DashboardContent from '../components/DashboardContent'
 import { useOverviewStats } from '../hooks/useOverviewStats'
@@ -16,6 +16,17 @@ export default function Dashboard() {
 
   const { workouts } = useWorkouts({ limit: 3 })
 
+  if (loading) {
+    return (
+      <DashboardSkeleton
+        loading={loading}
+        error={error}
+        data={stats}
+        variant="dashboard"
+      />
+    )
+  }
+
   return (
     <div className="app">
       <Header
@@ -24,20 +35,14 @@ export default function Dashboard() {
 
       <div className="section">
 
-        <DataState
-          loading={loading}
-          error={error}
-          data={stats}
-          variant="card"
-          emptyText="No statistics available yet"
-        >
-          <DashboardContent
-            stats={stats}
-            user={user}
-            recentWorkouts={workouts}
-          />
-        </DataState>
-        
+
+        <DashboardContent
+          stats={stats}
+          user={user}
+          recentWorkouts={workouts}
+        />
+
+
       </div>
     </div>
   )
