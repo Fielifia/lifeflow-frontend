@@ -11,7 +11,7 @@ export default function Skeleton({ variant = 'card', count = 12 }) {
 
     <div className="skeleton-container">
       {Array.from({ length: count }).map((_, i) => (
-        <div key={i} className={`skeleton skeleton-${variant}`} />
+        <div key={i} className={`skeleton skeleton-card skeleton-${variant}`} />
       ))}
 
     </div>

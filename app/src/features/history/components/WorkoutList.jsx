@@ -6,6 +6,8 @@ import {
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
+import DataState from '../../../shared/components/ui/skeleton/DataState'
+
 import WorkoutCard from './WorkoutCard'
 
 /**
@@ -18,6 +20,8 @@ import WorkoutCard from './WorkoutCard'
  */
 export default function WorkoutList({
   workouts = [],
+  loading,
+  error,
   limit = 10,
   onDeleteWorkout,
 }) {
@@ -55,20 +59,32 @@ export default function WorkoutList({
 
       {/* WORKOUTS */}
 
-      <div className="section">
-        {visible.map((workout) => (
-          <WorkoutCard
-            key={workout._id}
-            workout={workout}
-            onDeleteWorkout={onDeleteWorkout}
-            onClick={() => {
-              setReturnTo(location.pathname)
+      <DataState
+        loading={loading}
+        error={error}
+        data={workouts}
+        variant="card-workout"
+        emptyText="No workouts yet"
+        count={5}
+      >
 
-              navigate(`/workouts/${workout._id}`)
-            }}
-          />
-        ))}
-      </div>
+        <div className="section">
+
+          {visible.map((workout) => (
+            <WorkoutCard
+              key={workout._id}
+              workout={workout}
+              onDeleteWorkout={onDeleteWorkout}
+              onClick={() => {
+                setReturnTo(location.pathname)
+
+                navigate(`/workouts/${workout._id}`)
+              }}
+            />
+          ))}
+        </div>
+
+      </DataState>
 
       {/* SHOW MORE */}
 

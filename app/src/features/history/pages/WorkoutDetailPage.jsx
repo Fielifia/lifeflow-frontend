@@ -31,7 +31,6 @@ import WorkoutSummary from '../components/WorkoutSummary'
  * - Muscle split calculation
  * - Workout actions (restart, edit, delete)
  * - Exercise list rendering
- *
  * @returns {import('react').ReactElement} Workout detail page UI
  */
 export default function WorkoutDetailPage() {
@@ -138,8 +137,8 @@ export default function WorkoutDetailPage() {
 
 
       {/* FEEDBACK */}
-      {success && <p className="muted center">Template saved ✔</p>}
 
+      {success && <p className="muted center">Template saved ✔</p>}
       {error && <p className="error center">{error}</p>}
 
       {/* EXERCISES */}

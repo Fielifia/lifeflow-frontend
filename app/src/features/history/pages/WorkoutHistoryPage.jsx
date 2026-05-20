@@ -4,7 +4,6 @@ import { getWorkoutsApi } from '../../../shared/api/workoutApi'
 import { useWorkoutManager } from '../hooks/useWorkoutManager'
 
 import Header from '../../../shared/components/ui/Header'
-import DataState from '../../../shared/components/ui/skeleton/DataState'
 
 import WorkoutList from '../components/WorkoutList'
 
@@ -61,23 +60,15 @@ export default function WorkoutHistoryPage() {
 
       <div className="section">
 
-        <DataState
+        {/* WORKOUTS */}
+
+        <WorkoutList
+          workouts={workouts}
           loading={loading}
           error={error}
-          data={workouts}
-          variant="card-workout"
-          emptyText="No workouts yet"
-          count={10}
-        >
-
-          {/* WORKOUTS */}
-
-          <WorkoutList
-            workouts={workouts}
-            limit={10}
-            onDeleteWorkout={handleDeleteWorkout}
-          />
-        </DataState>
+          limit={10}
+          onDeleteWorkout={handleDeleteWorkout}
+        />
 
       </div>
     </div>

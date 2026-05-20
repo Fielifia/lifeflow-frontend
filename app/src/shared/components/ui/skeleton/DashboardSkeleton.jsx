@@ -87,6 +87,7 @@ export default function DashboardSkeleton() {
         </div>
 
         {/* Quick access */}
+
         <div className="section">
           <h3>Quick Access</h3>
 
@@ -102,6 +103,7 @@ export default function DashboardSkeleton() {
         </div>
 
         {/* Monthly goal */}
+
         <div className="section">
           <h3>Monthly Goal</h3>
 
@@ -113,6 +115,7 @@ export default function DashboardSkeleton() {
         </div>
 
         {/* Recent workouts */}
+        
         <div className="section">
           <h3>Recent Workouts</h3>
 

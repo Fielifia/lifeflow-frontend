@@ -26,7 +26,6 @@ import {
 
 import Button from '../../../shared/components/ui/button/Button'
 
-import DataState from '../../../shared/components/ui/skeleton/DataState'
 
 import Header from '../../../shared/components/ui/Header'
 
@@ -152,22 +151,13 @@ export default function WorkoutStartPage() {
 
         {/* TEMPLATE LIST */}
 
-        <DataState
+        <TemplateList
+          templates={templates}
           loading={loading}
           error={error}
-          data={templates}
-          variant="template-list"
-          emptyText="No templates found"
-          count={5}
-        >
-
-          <TemplateList
-            templates={templates}
-            limit={5}
-            onDeleteTemplate={handleDeleteTemplate}
-          />
-
-        </DataState>
+          limit={5}
+          onDeleteTemplate={handleDeleteTemplate}
+        />
 
       </div>
     </div>

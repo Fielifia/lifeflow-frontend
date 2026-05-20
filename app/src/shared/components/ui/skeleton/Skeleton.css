@@ -141,15 +141,16 @@
 }
 
 .skeleton-card-exercise {
-  height: 110px;
+  height: 109px;
+}
+
+.skeleton-card-workout {
+  height: 237px;
 }
 
 .skeleton-card-template {
   height: 266px;
-}
-
-.skeleton-card-template:nth-child(1) {
-  margin-top: 82px;
+  margin-top: 0;
 }
 
 .empty-state {

@@ -6,6 +6,8 @@ import {
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
+import DataState from '../../../shared/components/ui/skeleton/DataState'
+
 import TemplateCard from './TemplateCard'
 
 /**
@@ -18,6 +20,8 @@ import TemplateCard from './TemplateCard'
  */
 export default function TemplateList({
   templates = [],
+  loading,
+  error,
   limit = 5,
   onDeleteTemplate,
 }) {
@@ -56,20 +60,32 @@ export default function TemplateList({
 
       {/* TEMPLATES */}
 
-      <div className="section">
-        {visible.map((template) => (
-          <TemplateCard
-            key={template._id}
-            template={template}
-            onDeleteTemplate={onDeleteTemplate}
-            onClick={() => {
-              setReturnTo(location.pathname)
+      <DataState
+        loading={loading}
+        error={error}
+        data={filteredTemplates}
+        variant="card-template"
+        emptyText="No templates found"
+        count={5}
+      >
 
-              navigate(`/templates/${template._id}`)
-            }}
-          />
-        ))}
-      </div>
+        <div className="section">
+          
+          {visible.map((template) => (
+            <TemplateCard
+              key={template._id}
+              template={template}
+              onDeleteTemplate={onDeleteTemplate}
+              onClick={() => {
+                setReturnTo(location.pathname)
+
+                navigate(`/templates/${template._id}`)
+              }}
+            />
+          ))}
+        </div>
+
+      </DataState>
 
       {/* SHOW MORE */}
 
