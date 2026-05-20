@@ -7,7 +7,7 @@ import {
   useParams
 } from 'react-router-dom'
 
-import { getExerciseById } from '../../../shared/api/exerciseApi'
+import { getExerciseByIdApi } from '../../../shared/api/exerciseApi'
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
@@ -50,7 +50,7 @@ export default function ExerciseDetail() {
         setLoading(true)
         setError(null)
 
-        const data = await getExerciseById(id)
+        const data = await getExerciseByIdApi(id)
         setExercise(normalizeExercise(data))
       } catch (err) {
         setError(err.message || 'Failed to load exercise')

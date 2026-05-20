@@ -15,7 +15,7 @@ export const getExercisesApi = async (params = {}) => {
  * @param {string} id - Exercise id
  * @returns {Promise<object>} Exercise data
  */
-export const getExerciseById = async (id) => {
+export const getExerciseByIdApi = async (id) => {
   const res = await API.get(`/exercises/${id}`)
   return res.data
 }
