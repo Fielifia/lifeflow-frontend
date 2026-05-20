@@ -1,3 +1,13 @@
+/**
+ * Modal for editing workout start time.
+ * @param {object} props - Component props
+ * @param {number} props.startTime - Current workout start time
+ * @param {string} props.tempStartTime - Temporary time input value
+ * @param {(value: string) => void} props.setTempStartTime - Updates temporary time value
+ * @param {() => void} props.onClose - Closes modal
+ * @param {(timestamp: number) => void} props.onSave - Saves updated start time
+ * @returns {import('react').ReactElement} Edit start time modal UI
+ */
 export default function EditStartTimeModal({
   startTime,
   tempStartTime,
@@ -5,6 +15,8 @@ export default function EditStartTimeModal({
   onClose,
   onSave,
 }) {
+
+  // ===== HANDLE SAVE =====
 
   const handleSave = () => {
     const [hours, minutes] = tempStartTime.split(':')
@@ -20,10 +32,21 @@ export default function EditStartTimeModal({
 
   return (
     <div className="modal-overlay" onClick={onClose}>
+
+      {/* MODAL */}
+
       <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+
+        {/* HEADER */}
+
         <h3>Edit start time</h3>
 
+        {/* CONTENT */}
+
         <div className="modal-card-content">
+
+          {/* INPUT */}
+
           <input
             type="time"
             className="input-base"
@@ -39,12 +62,16 @@ export default function EditStartTimeModal({
             }}
           />
 
+          {/* SAVE */}
+
           <button
             className="btn btn-sm btn-primary"
             onClick={handleSave}
           >
             Save
           </button>
+
+          {/* CANCEL */}
 
           <button
             className="btn btn-sm btn-secondary"
