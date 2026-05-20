@@ -22,6 +22,7 @@ import { serializeWorkoutExercise }
 export function buildWorkoutPayload(
   workout,
   elapsed,
+  startTime,
 ) {
   const exercises =
     workout.exercises
@@ -48,6 +49,8 @@ export function buildWorkoutPayload(
       workout.notes || '',
 
     duration: elapsed,
+
+    startTime: startTime,
 
     exercises,
   }

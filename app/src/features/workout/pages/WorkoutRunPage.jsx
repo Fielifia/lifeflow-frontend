@@ -37,6 +37,7 @@ export default function WorkoutRunPage() {
   const [flash, setFlash] = useState(false)
 
   const [showStartTimeModal, setShowStartTimeModal] = useState(false)
+
   const [tempStartTime, setTempStartTime] = useState('')
 
   const [restTimerEnabled, setRestTimerEnabled] = useState(true)
@@ -66,7 +67,7 @@ export default function WorkoutRunPage() {
     saveAsTemplate,
 
     discardWorkout,
-  } = useWorkoutLogic(navigate, workoutId)
+  } = useWorkoutLogic(workoutId, navigate)
 
   const {
     status,
@@ -146,6 +147,8 @@ export default function WorkoutRunPage() {
         showDuration={true}
         menuItems={workoutMenuItems}
       />
+
+      {/* START TIME MODAL */}
 
       {showStartTimeModal && (
         <EditStartTimeModal

@@ -4,6 +4,7 @@ describe('appendExercisesToTemplate', () => {
   test('appends exercises instead of replacing existing ones', async () => {
     const selectedExercises = [
       {
+        id: 'local-flyes',
         exerciseId: 'flyes',
         name: 'Chest Flyes',
       },
@@ -14,6 +15,7 @@ describe('appendExercisesToTemplate', () => {
 
       exercises: [
         {
+          id: 'local-bench',
           exerciseId: 'bench',
           name: 'Bench Press',
         },

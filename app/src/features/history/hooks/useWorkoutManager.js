@@ -307,6 +307,7 @@ export function useWorkoutManager(
         buildWorkoutPayload(
           workout,
           workout.duration,
+          workout.startTime,
         )
 
       const updated =

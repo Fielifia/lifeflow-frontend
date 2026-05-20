@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import {
   useNavigate,
   useParams
@@ -11,9 +12,11 @@ import Header from '../../../shared/components/ui/Header'
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 import WorkoutControls from '../../../shared/components/WorkoutControls'
 
-import WorkoutHeader from '../../workout/components/WorkoutHeader'
-
 import ExerciseItem from '../../exercise/components/ExerciseItem'
+
+import WorkoutHeader from '../../workout/components/WorkoutHeader'
+import EditStartTimeModal from '../../workout/components/time/EditStartTimeModal'
+
 
 /**
  * Page for editing a completed workout.
@@ -25,6 +28,13 @@ export default function WorkoutEditPage() {
   const { id } = useParams()
 
   const { returnTo } = useExerciseFlow()
+
+  const [showStartTimeModal, setShowStartTimeModal] = useState(false)
+
+  const [tempStartTime, setTempStartTime] = useState('')
+
+  const [restTimerEnabled, setRestTimerEnabled] = useState(true)
+  const [defaultRestTime] = useState(120)
 
   const {
     workout,
@@ -54,6 +64,55 @@ export default function WorkoutEditPage() {
 
     discardChanges,
   } = useWorkoutManager(id, navigate)
+
+  const workoutMenuItems = [
+    {
+      label: 'Rename',
+      onClick: () => setIsEditingName(true),
+    },
+
+    {
+      label: 'Edit start time',
+      onClick: () => {
+        const current = new Date(startTime)
+
+        const hours = String(current.getHours()).padStart(2, '0')
+
+        const minutes = String(current.getMinutes()).padStart(2, '0')
+
+        setTempStartTime(`${hours}:${minutes}`)
+
+        setShowStartTimeModal(true)
+      },
+    },
+
+    {
+      divider: true,
+    },
+
+    {
+      label: 'Rest timer',
+      type: 'toggle',
+      value: restTimerEnabled,
+      onChange: setRestTimerEnabled,
+      closeOnClick: false,
+    },
+
+    {
+      label: 'Default rest time',
+      subtitle: `${defaultRestTime}s`,
+      onClick: () => console.log('default rest'),
+    },
+
+    {
+      divider: true,
+    },
+
+    {
+      label: 'Save as template',
+      onClick: saveAsTemplate,
+    },
+  ]
 
   // ===== LOADING / ERROR / EMPTY =====
 
@@ -92,21 +151,35 @@ export default function WorkoutEditPage() {
       />
 
       {/* WORKOUT HEADER */}
+
       <WorkoutHeader
         name={workout.name}
+        startTime={workout.startTime}
         isEditing={isEditingName}
         setIsEditing={setIsEditingName}
         onChangeName={(value) =>
           setWorkout((prev) => ({ ...prev, name: value }))
         }
         mode="edit"
-        startTime={startTime}
-        adjustStartTime={adjustStartTime}
         duration={workout.duration}
-        onChangeDuration={(value) =>
-          setWorkout((prev) => ({ ...prev, duration: value }))
-        }
+        showDuration={true}
+        menuItems={workoutMenuItems}
       />
+
+      {/* START TIME MODAL */}
+
+      {showStartTimeModal && (
+        <EditStartTimeModal
+          startTime={startTime}
+          tempStartTime={tempStartTime}
+          setTempStartTime={setTempStartTime}
+          onClose={() => setShowStartTimeModal(false)}
+          onSave={(updatedTime) => {
+            adjustStartTime(updatedTime)
+            setShowStartTimeModal(false)
+          }}
+        />
+      )}
 
       {/* CONTROLS */}
 

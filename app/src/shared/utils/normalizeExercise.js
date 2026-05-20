@@ -34,7 +34,7 @@ export function normalizeExercise(ex) {
 
     // ===== ID NORMALIZATION =====
     
-    id: ex.exerciseId || ex.id,
+    id: ex.id || crypto.randomUUID(),
     exerciseId: ex.exerciseId || ex.id,
 
     // ===== MUSCLE NORMALIZATION =====

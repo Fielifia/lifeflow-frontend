@@ -115,7 +115,7 @@ import { saveWorkoutAsTemplate, saveWorkoutSession } from '../utils/workoutPersi
  * }}
  * Workout logic state and actions.
  */
-export function useWorkoutLogic(navigate, workoutId) {
+export function useWorkoutLogic(workoutId, navigate) {
   const location = useLocation()
 
   // ===== STATE =====
@@ -236,6 +236,7 @@ export function useWorkoutLogic(navigate, workoutId) {
         await saveWorkoutSession({
           workout,
           elapsed,
+          startTime,
         })
 
       setSuccess(true)
