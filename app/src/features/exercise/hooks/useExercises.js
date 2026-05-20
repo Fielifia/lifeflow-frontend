@@ -1,10 +1,10 @@
 import {
   useEffect,
-  useState,
-  useMemo
+  useMemo,
+  useState
 } from 'react'
 
-import { getExercises } from '../../../shared/api/exerciseApi'
+import { getExercisesApi } from '../../../shared/api/exerciseApi'
 
 import { normalizeExercise } from '../utils/exerciseAdapter'
 
@@ -13,13 +13,15 @@ import { CATEGORIES } from '../utils/exerciseCategories'
 const SPECIAL = CATEGORIES.SPECIAL
 
 /**
- * Custom hook for fetching, filtering, and paginating exercise data.
+ * Custom hook for fetching, filtering,
+ * and paginating exercise data.
  * @param {object} filters - Filter and pagination settings.
  * @param {string} filters.search - Exercise search query.
  * @param {string} filters.sort - Selected sorting option.
  * @param {string} filters.bodyPart - Selected body part filter.
  * @param {string} filters.muscleGroup - Selected muscle group filter.
  * @param {string} filters.equipment - Selected equipment filter.
+ * @param {string} filters.category - Selected category filter.
  * @param {number} filters.visibleCount - Number of visible exercises.
  * @returns {{
  *  loading: boolean,
@@ -52,23 +54,14 @@ export default function useExercises(filters) {
         setLoading(true)
         setError(null)
 
-        const all = []
-        let page = 1
-        let hasMore = true
-        const LIMIT = 100
+        const data = await getExercisesApi({
+          limit: 1000,
+          sort,
+        })
 
-        while (hasMore) {
-          const data = await getExercises({ limit: LIMIT, page })
-          all.push(...data.results)
-
-          if (data.results.length < LIMIT) {
-            hasMore = false
-          }
-
-          page++
-        }
-
-        setExercises(all.map(normalizeExercise))
+        setExercises(
+          data.results.map(normalizeExercise),
+        )
       } catch (err) {
         setError('Failed to load exercises')
       } finally {
@@ -77,7 +70,7 @@ export default function useExercises(filters) {
     }
 
     fetchExercises()
-  }, [])
+  }, [sort])
 
   // ===== FILTERED =====
 
@@ -110,27 +103,15 @@ export default function useExercises(filters) {
         e.name.toLowerCase().includes(search.toLowerCase()),
       )
 
-    switch (sort) {
-    case 'z-a':
-      return [...filteredExercises].sort((a, b) =>
-        b.name.localeCompare(a.name),
-      )
-
-    case 'a-z':
-    default:
-      return [...filteredExercises].sort((a, b) =>
-        a.name.localeCompare(b.name),
-      )
-    }
+    return filteredExercises
 
   }, [
     exercises,
-    sort,
+    search,
     bodyPart,
     muscleGroup,
     equipment,
     category,
-    search,
   ])
 
   const visibleExercises = useMemo(() => {

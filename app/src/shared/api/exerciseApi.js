@@ -5,7 +5,7 @@ import API from './api'
  * @param {object} [params] - Query parameters
  * @returns {Promise<object>} Exercise response
  */
-export const getExercises = async (params = {}) => {
+export const getExercisesApi = async (params = {}) => {
   const res = await API.get('/exercises', { params })
   return res.data
 }

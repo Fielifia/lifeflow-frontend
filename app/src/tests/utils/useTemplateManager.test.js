@@ -6,6 +6,9 @@ import { getTemplateByIdApi } from '../../shared/api/templateApi'
 
 import { useExerciseFlow } from '../../shared/context/ExerciseFlowContext'
 
+global.structuredClone = (value) =>
+  JSON.parse(JSON.stringify(value))
+
 jest.mock(
   'react-router-dom',
   () => ({
@@ -66,8 +69,8 @@ describe('useTemplateManager', () => {
 
       const { result } = renderHook(() =>
         useTemplateManager(
-          jest.fn(),
           'template-1',
+          jest.fn(),
         ),
       )
 
