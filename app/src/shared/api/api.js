@@ -1,15 +1,17 @@
 /**
- * API module for making HTTP requests to the backend server.
- *
- * This module uses Axios to create a pre-configured instance for making API calls.
- * @module api/api
+ * Shared Axios API instance.
+ * Handles base URL and authentication headers.
  */
 import axios from 'axios'
 import { userStorage } from '../utils/storage/userStorage'
 
+// ===== API INSTANCE =====
+
 const API = axios.create({
   baseURL: process.env.REACT_APP_API_URL || '/api',
 })
+
+// ===== AUTH INTERCEPTOR =====
 
 API.interceptors.request.use((config) => {
   const storedUser = userStorage.get()

@@ -7,7 +7,7 @@ import SkeletonGrid from './SkeletonGrid'
  * @param {boolean} props.loading - Indicates if data is loading
  * @param {string|null} props.error - Error message if request failed
  * @param {object|Array|null} props.data - Data used to determine empty state
- * @param {'card'|'list'} [props.variant] - Skeleton variant
+ * @param {string} [props.variant] - Skeleton variant - Skeleton variant
  * @param {string} [props.emptyText] - Empty state text
  * @param {number} [props.count] - Number of skeleton items
  * @param {import('react').ReactNode} props.children - Rendered content
@@ -22,9 +22,14 @@ export default function DataState({
   count = 6,
   children,
 }) {
+
+  // ===== LOADING =====
+
   if (loading) {
     return <SkeletonGrid variant={variant} count={count} />
   }
+
+  // ===== ERROR =====
 
   if (error) {
     return (
@@ -33,6 +38,8 @@ export default function DataState({
       </div>
     )
   }
+
+  // ===== EMPTY =====
 
   const isEmpty =
     !data ||
@@ -50,6 +57,8 @@ export default function DataState({
       </div>
     )
   }
+
+  // ===== CONTENT =====
 
   return children
 }

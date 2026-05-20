@@ -1,3 +1,5 @@
+import { calculateMuscleSplit } from './calculateMuscleSplit'
+
 /**
  * Calculates summary statistics for a workout.
  * @param {object} workout - Workout object
@@ -7,18 +9,33 @@
  *   totalVolume: number,
  *   personalBests: number,
  *   duration: number,
+ *   exerciseCount: number,
+ *   muscleSplit: Array<{
+ *     muscle:string,
+ *     percentage:number,
+ *     sets:number
+ *   }>
  * }} - Stats
  */
 export function calculateWorkoutStats(workout) {
+
+  // ===== EMPTY STATE =====
+  
   if (!workout?.exercises) {
     return {
+      exerciseCount: 0,
       totalSets: 0,
       totalReps: 0,
       totalVolume: 0,
       personalBests: 0,
       duration: 0,
+      muscleSplit: []
     }
   }
+
+  // ===== AGGREGATED STATS =====
+
+  const exerciseCount = workout.exercises.length
 
   const totalSets = workout.exercises.reduce(
     (sum, ex) => sum + ex.sets.length,
@@ -43,11 +60,15 @@ export function calculateWorkoutStats(workout) {
     0,
   )
 
+  // ===== RETURN =====
+
   return {
+    exerciseCount,
     totalSets,
     totalReps,
     totalVolume,
     personalBests: workout.personalBests || 0,
     duration: workout.duration || 0,
+    muscleSplit: calculateMuscleSplit(workout),
   }
 }

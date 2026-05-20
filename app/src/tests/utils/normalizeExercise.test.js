@@ -80,7 +80,7 @@ describe('normalizeExercise', () => {
 
     const result = normalizeExercise(raw)
 
-    expect(result.equipment).toBe('Body Only')
+    expect(result.equipment).toBe('Body Weight')
     expect(result.category).toBe('Strength')
   })
 

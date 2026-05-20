@@ -4,15 +4,16 @@ import {
   UserLock,
   UserPlus
 } from 'lucide-react'
-import { userStorage } from '../utils/storage/userStorage'
+
+import { userStorage } from '../../utils/storage/userStorage'
 
 /**
  * Shared app header.
  * @param {object} props - Component props
  * @param {string} props.title - Header title
  * @param {string} [props.subtitle] - Header subtitle
- * @param {'guest' | 'login' | 'authenticated'} [props.variant] - Header profile icon variant
- * @param {() => void} [props.onProfileClick] - 
+ * @param {'guest'|'register'|'login'|'authenticated'} [props.variant] - Icon variant
+ * @param {() => void} [props.onProfileClick] - Profile button click handler
  * @returns {import('react').ReactElement} Header
  */
 export default function Header({
@@ -31,21 +32,21 @@ export default function Header({
   const Icon = ICONS[variant] || User
 
   return (
-    <div className="header">
-      <div className="header-content">
-        <h1 className="close">
-          {title}
-        </h1>
 
-        {subtitle && (
-          <p className="muted medium close">
-            {subtitle}
-          </p>
-        )}
+    <div className="header">
+
+      {/* HEADER CONTENT */}
+
+      <div className="header-content">
+        <h1 className="close">{title}</h1>
+
+        {subtitle && <p className="muted medium close">{subtitle}</p>}
       </div>
 
+      {/* PROFILE BUTTON */}
+
       <button
-        className="btn-clean header-profile-btn"
+        className="icon-btn"
         onClick={() => {
           if (onProfileClick) {
             onProfileClick()
@@ -64,8 +65,9 @@ export default function Header({
           window.location.href = '/login'
         }}
       >
-        <Icon size={22} />
+        <Icon className="profile-icon" />
       </button>
     </div>
+    
   )
 }

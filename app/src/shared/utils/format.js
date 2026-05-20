@@ -1,9 +1,19 @@
 /**
+ * Shared formatting utilities for workout,
+ * exercise and statistics UI.
+ */
+
+/**
  * Capitalizes each word in a string.
- * @param {string} str - The input string to format
- * @returns {string} The formatted string with capitalized words
+ * Returns an empty string if input is missing.
+ * @param {string} str - Input string
+ * @returns {string} Formatted string
  */
 export function formatName(str) {
+  if (!str) {
+    return ''
+  }
+
   return str
     .split(' ')
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
@@ -12,17 +22,11 @@ export function formatName(str) {
 
 /**
  * Formats a label string by capitalizing each word.
- * Returns an empty string if input is undefined or empty.
- * @param {string} str - The label to format
- * @returns {string} The formatted label
+ * @param {string} str - Label string
+ * @returns {string} Formatted label
  */
 export function formatLabel(str) {
-  if (!str) return ''
-
-  return str
-    .split(' ')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ')
+  return formatName(str)
 }
 
 /**
@@ -50,8 +54,8 @@ export function formatDuration(minutes) {
 }
 
 /**
- * Formats large numbers with separators.
- * @param {number} value - The value to format
+ * Formats numbers using locale separators.
+ * @param {number} value - Numeric value
  * @returns {string} Formatted number
  */
 export function formatNumber(value) {
@@ -59,9 +63,9 @@ export function formatNumber(value) {
 }
 
 /**
- * Formats workout volume.
- * @param {number} kg - The value to format
- * @returns {string} Formatted volume
+ * Formats weight values using compact units.
+ * @param {number} kg - Weight value in kilograms
+ * @returns {string} Formatted weight
  */
 export function formatWeight(kg) {
   if (!kg) {
@@ -83,7 +87,6 @@ export function formatWeight(kg) {
   return `${kg} kg`
 }
 
-
 /**
  * Formats workout date into relative text.
  * @param {string|Date} date - Workout date
@@ -94,12 +97,16 @@ export function formatDate(date) {
     return ''
   }
 
+  // ===== DATE REFERENCES =====
+
   const workoutDate = new Date(date)
 
   const today = new Date()
   const yesterday = new Date()
 
   yesterday.setDate(today.getDate() - 1)
+
+  // ===== RELATIVE DATES =====
 
   const isToday =
     workoutDate.toDateString() === today.toDateString()
@@ -119,8 +126,14 @@ export function formatDate(date) {
     today.getTime() - workoutDate.getTime()
 
   const diffDays = Math.floor(
-    diffTime / (1000 * 60 * 60 * 24)
+    diffTime / (1000 * 60 * 60 * 24),
   )
+
+  // ===== FALLBACK FORMAT =====
+
+  if (diffDays === 1) {
+    return '1 day ago'
+  }
 
   if (diffDays < 7) {
     return `${diffDays} days ago`
@@ -130,4 +143,23 @@ export function formatDate(date) {
     month: 'short',
     day: 'numeric',
   })
+}
+
+/**
+ * Formats rest duration in seconds.
+ * @param {number} seconds - Rest duration in seconds
+ * @returns {string} Formatted rest duration
+ */
+export function formatRestTime(seconds) {
+  if (!seconds && seconds !== 0) {
+    return '0s'
+  }
+
+  if (seconds >= 60) {
+    return seconds % 60 === 0
+      ? `${seconds / 60} min`
+      : `${Math.floor(seconds / 60)}m ${seconds % 60}s`
+  }
+
+  return `${seconds}s`
 }

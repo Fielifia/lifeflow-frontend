@@ -1,56 +1,54 @@
-import { useNavigate, useLocation } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
+import {
+  useLocation,
+  useNavigate
+} from 'react-router-dom'
+
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
-import { getTemplatesApi } from '../../../shared/api/templateApi'
-import DataState from '../../../shared/ui/DataState'
+
+import DataState from '../../../shared/components/ui/skeleton/DataState'
+
 import TemplateCard from './TemplateCard'
 
 /**
- * Displays a list of templates.
- * @param {{ templates: Array<object> }} props - Template list data
- * @returns {import('react').ReactElement} Template list UI
+ * Displays a searchable list of workout templates with incremental loading.
+ * @param {object} props - Component props.
+ * @param {Array<object>} props.templates - Template list.
+ * @param {boolean} props.loading - Loading state.
+ * @param {string | null} props.error - Error message.
+ * @param {number} props.limit - Number of templates to show per increment.
+ * @param {(id: string) => void} [props.onDeleteTemplate] - Deletes a template.
+ * @returns {import('react').ReactElement} Template list UI.
  */
-export default function TemplateList({ limit = 5 }) {
+export default function TemplateList({
+  templates = [],
+  loading,
+  error,
+  limit = 5,
+  onDeleteTemplate,
+}) {
+
   const navigate = useNavigate()
   const location = useLocation()
 
   const { setReturnTo } = useExerciseFlow()
 
-  const [templates, setTemplates] = useState([])
   const [search, setSearch] = useState('')
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
 
   const [visibleCount, setVisibleCount] = useState(limit)
 
-  useEffect(() => {
-    const fetchTemplates = async () => {
-      try {
-        setLoading(true)
-        setError(null)
-        const data = await getTemplatesApi({ limit: 100 })
-        setTemplates(Array.isArray(data) ? data : data.results || [])
-      } catch (err) {
-        setError(err)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    fetchTemplates()
-  }, [])
-
   const filteredTemplates = templates.filter((template) =>
-    template.name.toLowerCase().includes(search.toLowerCase())
+    template.name.toLowerCase().includes(search.toLowerCase()),
   )
 
   const visible = filteredTemplates.slice(0, visibleCount)
 
   return (
-    <div className="page-section">
+    <div className="section">
       <h3 className="close">My Templates</h3>
 
       {/* SEARCH */}
+
       <input
         className="input-base"
         placeholder="Search templates..."
@@ -62,39 +60,43 @@ export default function TemplateList({ limit = 5 }) {
         }}
       />
 
+      {/* TEMPLATES */}
+
       <DataState
         loading={loading}
         error={error}
-        data={templates}
+        data={filteredTemplates}
         variant="card-template"
-        emptyText={
-          search ? `No templates found for "${search}"` : 'No templates yet'
-        }
-        count={4}
+        emptyText="No templates found"
+        count={5}
       >
-        <div className="page-section">
+
+        <div className="section">
+          
           {visible.map((template) => (
             <TemplateCard
               key={template._id}
               template={template}
+              onDeleteTemplate={onDeleteTemplate}
               onClick={() => {
                 setReturnTo(location.pathname)
 
                 navigate(`/templates/${template._id}`)
-              }
-              }
+              }}
             />
           ))}
         </div>
+
       </DataState>
 
       {/* SHOW MORE */}
-      {visibleCount < templates.length && (
+
+      {visibleCount < filteredTemplates.length && (
         <button
-          className="btn btn-standard btn-primary"
+          className="btn btn-md btn-primary"
           onClick={() => setVisibleCount((prev) => prev + limit)}
         >
-          Show more (+{Math.min(limit, templates.length - visibleCount)})
+          Show more (+{Math.min(limit, filteredTemplates.length - visibleCount)})
         </button>
       )}
     </div>

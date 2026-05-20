@@ -1,5 +1,5 @@
-import DataState from '../../../shared/ui/DataState'
-import Header from '../../../shared/ui/Header'
+import Header from '../../../shared/components/ui/Header'
+import DashboardSkeleton from '../../../shared/components/ui/skeleton/DashboardSkeleton'
 import { userStorage } from '../../../shared/utils/storage/userStorage'
 import DashboardContent from '../components/DashboardContent'
 import { useOverviewStats } from '../hooks/useOverviewStats'
@@ -16,24 +16,34 @@ export default function Dashboard() {
 
   const { workouts } = useWorkouts({ limit: 3 })
 
+  if (loading) {
+    return (
+      <DashboardSkeleton
+        loading={loading}
+        error={error}
+        data={stats}
+        variant="dashboard"
+      />
+    )
+  }
+
   return (
     <div className="app">
       <Header
         title="LifeFlow Fitness"
       />
-      <DataState
-        loading={loading}
-        error={error}
-        data={stats}
-        variant="card"
-        emptyText="No statistics available yet"
-      >
+
+      <div className="section">
+
+
         <DashboardContent
           stats={stats}
           user={user}
           recentWorkouts={workouts}
         />
-      </DataState>
+
+
+      </div>
     </div>
   )
 }

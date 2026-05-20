@@ -1,28 +1,41 @@
 import { useState } from 'react'
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes
+} from 'react-router-dom'
+import { userStorage } from './shared/utils/storage/userStorage'
 
 import Login from './features/auth/pages/LoginPage'
 import Register from './features/auth/pages/RegisterPage'
+
 import Dashboard from './features/dashboard/pages/Dashboard'
+
 import ExerciseDetailPage from './features/exercise/pages/ExerciseDetailPage'
-import {
-  default as ExerciseLibraryPage,
-} from './features/exercise/pages/ExerciseLibraryPage'
+import { default as ExerciseLibraryPage, } from './features/exercise/pages/ExerciseLibraryPage'
+
+import WorkoutRunPage from './features/workout/pages/WorkoutRunPage'
+import WorkoutStartPage from './features/workout/pages/WorkoutStartPage'
+
 import WorkoutDetailPage from './features/history/pages/WorkoutDetailPage'
 import WorkoutEditPage from './features/history/pages/WorkoutEditPage'
 import WorkoutHistoryPage from './features/history/pages/WorkoutHistoryPage'
-import StatsPage from './features/stats/pages/StatsPage'
+
 import TemplateDetailPage from './features/template/pages/TemplateDetailPage'
 import TemplateEditorPage from './features/template/pages/TemplateEditorPage'
+
+import StatsPage from './features/stats/pages/StatsPage'
+
 import WorkoutSessionBarWrapper from './features/workout/components/session/WorkoutSessionBarWrapper'
-import WorkoutRunPage from './features/workout/pages/WorkoutRunPage'
-import WorkoutStartPage from './features/workout/pages/WorkoutStartPage'
+
+import Navbar from './shared/components/ui/Navbar'
+import DataState from './shared/components/ui/skeleton/DataState'
+
+import { ExerciseFlowProvider } from './shared/context/ExerciseFlowContext'
 import { ToastProvider } from './shared/context/ToastContext'
 import { WorkoutProvider } from './shared/context/WorkoutContext'
-import { ExerciseFlowProvider } from './shared/context/ExerciseFlowContext'
-import DataState from './shared/ui/DataState'
-import Navbar from './shared/ui/Navbar'
-import { userStorage } from './shared/utils/storage/userStorage'
+
 
 /**
  * Root application component handling authentication and routing.

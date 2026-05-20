@@ -1,44 +1,125 @@
-import { useEffect, useRef, useState } from 'react'
+import {
+  useEffect,
+  useRef,
+  useState
+} from 'react'
 import { useLocation } from 'react-router-dom'
-import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
-import { appendExercisesToWorkout } from '../utils/appendExercisesToWorkout'
-import { buildWorkoutExercise } from '../utils/buildWorkoutExercise'
-import { saveWorkoutAsTemplate, saveWorkoutSession } from '../utils/workoutPersistence'
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
-import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
-import { EMPTY_WORKOUT } from '../../../shared/utils/constants'
+
+import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
+
+import { appendExercisesToWorkout } from '../utils/appendExercisesToWorkout'
+
 import { draftWorkoutStorage } from '../../../shared/utils/storage/draftStorage'
 
+import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
+
+import { EMPTY_WORKOUT } from '../../../shared/utils/constants'
+
+import { saveWorkoutAsTemplate, saveWorkoutSession } from '../utils/workoutPersistence'
+
 /**
- * Handles workout state, timers and actions.
- * @param {(path: string, options?: object) => void} navigate - Navigation function
- * @param workoutId - Workout id
+ * Handles active workout session state,
+ * timers, persistence and exercise flow logic.
+ *
+ * Responsibilities:
+ * - managing active workout state
+ * - initializing workouts from templates/workout history
+ * - handling temporary exercise library flow state
+ * - persisting workout draft state
+ * - handling workout timers and rest timers
+ * - managing exercise mutations and completion logic
+ * - saving workouts and templates
+ * - discarding active workout sessions
+ * @param {string} workoutId - Workout id
+ * @param {(path: string, options?: object) => void} navigate
+ * React Router navigation function.
+ * Current workout route id.
  * @returns {{
  *  workout: object,
- * setWorkout: (updater: (prev: object) => object) => void,
+ *
+ *  setWorkout: import('react').Dispatch<
+ *    import('react').SetStateAction<object>
+ *  >,
+ *
+ *  status: 'idle' | 'running' | 'paused',
+ *  elapsed: number,
+ *  startTime: number | null,
+ *
+ *  adjustStartTime: (
+ *    offsetMs: number
+ *  ) => void,
+ *
+ *  handleStartPause: () => void,
+ *
  *  saving: boolean,
  *  success: boolean,
  *  error: string,
- *  status: string,
- *  elapsed: number,
- *  updateExerciseRest: (index: number, value: number) => void,
+ *
  *  isEditingName: boolean,
- *  setIsEditingName: (value: boolean) => void,
- *  handleStartPause: () => void,
+ *
+ *  setIsEditingName: import('react').Dispatch<
+ *    import('react').SetStateAction<boolean>
+ *  >,
+ *
  *  openLibrary: () => void,
- *  addSet: (index: number) => void,
- *  updateSet: (exIndex: number, setIndex: number, field: string, value: number | '') => void,
- *  removeExercise: (index: number) => void,
- *  removeSet: (exIndex: number, setIndex: number) => void,
- *  toggleSetComplete: (exIndex: number, setIndex: number, checked: boolean) => void,
- *  updateWorkoutNotes: (notes: string) => void,
- *  saveWorkout: () => Promise<void>
- * }} Workout logic API
+ *
+ *  exerciseActions: {
+ *    addSet: (
+ *      index: number
+ *    ) => void,
+ *
+ *    updateSet: (
+ *      exIndex: number,
+ *      setIndex: number,
+ *      field: string,
+ *      value: string | number | boolean
+ *    ) => void,
+ *
+ *    removeSet: (
+ *      exIndex: number,
+ *      setIndex: number
+ *    ) => void,
+ *
+ *    removeExercise: (
+ *      index: number
+ *    ) => void,
+ *
+ *    toggleSetComplete: (
+ *      exIndex: number,
+ *      setIndex: number,
+ *      checked: boolean
+ *    ) => void,
+ *
+ *    updateExerciseRest: (
+ *      index: number,
+ *      value: number
+ *    ) => void,
+ *
+ *    updateExerciseNotes: (
+ *      index: number,
+ *      notes: string
+ *    ) => void,
+ *  },
+ *
+ *  updateWorkoutNotes: (
+ *    notes: string
+ *  ) => void,
+ *
+ *  saveWorkout: () => Promise<void>,
+ *
+ *  saveAsTemplate: () => Promise<void>,
+ *
+ *  discardWorkout: () => void,
+ * }}
+ * Workout logic state and actions.
  */
-export function useWorkoutLogic(navigate, workoutId) {
+export function useWorkoutLogic(workoutId, navigate) {
   const location = useLocation()
+
   // ===== STATE =====
+
   const [saving, setSaving] = useState(false)
   const [success, setSuccess] = useState(false)
   const [error, setError] = useState('')
@@ -65,20 +146,15 @@ export function useWorkoutLogic(navigate, workoutId) {
     startRest,
     resetRest,
 
-    setActiveWorkout,
-
-    selectedTemplate,
-    setSelectedTemplate,
-
     registerActivity,
   } = useWorkoutContext()
 
 
   // ===== INIT =====
-  const {
-    activeWorkout: workout,
-    setActiveWorkout: setWorkout,
-  } = useWorkoutContext()
+
+  const [workout, setWorkout] = useState(() => {
+    return draftWorkoutStorage.get() || EMPTY_WORKOUT
+  })
 
   // ===== SAVE DRAFT =====
   useEffect(() => {
@@ -90,6 +166,7 @@ export function useWorkoutLogic(navigate, workoutId) {
   }, [workout])
 
   // ===== ADD FROM LIBRARY =====
+
   useEffect(() => {
     if (!selectedExercises?.length || hasAddedRef.current) {
       return
@@ -111,60 +188,32 @@ export function useWorkoutLogic(navigate, workoutId) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedExercises])
 
-  // ===== LOAD TEMPLATE =====
-  useEffect(() => {
-    if (!selectedTemplate) return
-
-    setWorkout({
-      name: selectedTemplate.name,
-      notes: '',
-      exercises: selectedTemplate.exercises.map((ex) =>
-        buildWorkoutExercise(ex, null, {
-          resetCompleted: true,
-        }),
-      ),
-    })
-
-    setSelectedTemplate(null)
-  }, [selectedTemplate, setSelectedTemplate, setWorkout])
-
-  useEffect(() => {
-    if (status === 'running' || status === 'paused') {
-      setActiveWorkout({
-        id: workoutId,
-        name: workout.name,
-        status,
-        elapsed,
-        startTime,
-        exercises: workout.exercises,
-      })
-    } else {
-      setActiveWorkout(EMPTY_WORKOUT)
-    }
-  }, [
-    status,
-    elapsed,
-    startTime,
-    workout.name,
-    workout.exercises,
-    setActiveWorkout,
-    workoutId,
-  ])
-
   const {
     addSet,
     updateSet,
     removeSet,
     removeExercise,
+    toggleSetComplete,
     updateExerciseRest,
     updateExerciseNotes,
-    toggleSetComplete,
   } = useExerciseMutations(setWorkout, {
     onSetCompleted: (rest) => {
       startRest(rest)
       registerActivity()
     },
   })
+
+  // ===== EXERCISE ACTIONS =====
+
+  const exerciseActions = {
+    addSet,
+    updateSet,
+    removeSet,
+    removeExercise,
+    toggleSetComplete,
+    updateExerciseRest,
+    updateExerciseNotes,
+  }
 
   const updateWorkoutNotes = (notes) =>
     setWorkout((prev) => ({ ...prev, notes }))
@@ -175,7 +224,8 @@ export function useWorkoutLogic(navigate, workoutId) {
     navigate(`/workouts/${workoutId}/exercises?select=true`)
   }
 
-  // ===== SAVE =====
+  // ===== SAVE WORKOUT =====
+
   const saveWorkout = async () => {
     try {
       setSaving(true)
@@ -186,6 +236,7 @@ export function useWorkoutLogic(navigate, workoutId) {
         await saveWorkoutSession({
           workout,
           elapsed,
+          startTime,
         })
 
       setSuccess(true)
@@ -203,8 +254,6 @@ export function useWorkoutLogic(navigate, workoutId) {
 
       setIsEditingName(false)
 
-      setActiveWorkout(EMPTY_WORKOUT)
-
       draftWorkoutStorage.clear()
     } catch (err) {
       setError(
@@ -217,7 +266,8 @@ export function useWorkoutLogic(navigate, workoutId) {
     }
   }
 
-  // ===== SAVE AS TEMPLATE =====
+  // ===== SAVE WORKOUT AS TEMPLATE =====
+
   const saveAsTemplate = async () => {
     try {
       await saveWorkoutAsTemplate({
@@ -233,7 +283,10 @@ export function useWorkoutLogic(navigate, workoutId) {
     }
   }
 
+  // ===== DISCARD WORKOUT (CREATE) =====
+
   const discardWorkout = () => {
+
     const confirmed = window.confirm('Discard current workout?')
 
     if (!confirmed) {
@@ -247,18 +300,17 @@ export function useWorkoutLogic(navigate, workoutId) {
 
     setIsEditingName(false)
 
-    setActiveWorkout(EMPTY_WORKOUT)
-
     draftWorkoutStorage.clear()
 
     navigate('/workouts')
   }
 
+  // ===== RETURN =====
+
   return {
     workout,
     setWorkout,
 
-    // Timer
     status,
     elapsed,
     startTime,
@@ -269,18 +321,12 @@ export function useWorkoutLogic(navigate, workoutId) {
     success,
     error,
 
-    updateExerciseNotes,
-    updateExerciseRest,
-
     isEditingName,
     setIsEditingName,
 
     openLibrary,
-    addSet,
-    updateSet,
-    removeExercise,
-    removeSet,
-    toggleSetComplete,
+
+    exerciseActions,
     updateWorkoutNotes,
 
     saveWorkout,

@@ -1,9 +1,34 @@
-import { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { getTemplatesApi } from '../../../shared/api/templateApi'
+import {
+  useEffect,
+  useState
+} from 'react'
+import {
+  useLocation,
+  useNavigate
+} from 'react-router-dom'
+
+import {
+  deleteTemplateApi,
+  getTemplatesApi,
+} from '../../../shared/api/templateApi'
+
+import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+
+import { useStartWorkout } from '../hooks/useStartWorkout'
+
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
-import DataState from '../../../shared/ui/DataState'
-import Header from '../../../shared/ui/Header'
+
+import {
+  draftWorkoutStorage,
+  hasTemplateDraftContent,
+  hasWorkoutDraftContent,
+} from '../../../shared/utils/storage/draftStorage'
+
+import Button from '../../../shared/components/ui/button/Button'
+
+
+import Header from '../../../shared/components/ui/Header'
+
 import TemplateList from '../../template/components/TemplateList'
 
 /**
@@ -12,24 +37,23 @@ import TemplateList from '../../template/components/TemplateList'
  */
 export default function WorkoutStartPage() {
   const navigate = useNavigate()
+  const location = useLocation()
 
-  const {
-    start,
+  const { setReturnTo } = useExerciseFlow()
 
-    activeWorkout,
+  const { draftTemplate } = useWorkoutContext()
 
-    draftTemplate,
-  } = useWorkoutContext()
+  const { startWorkout } = useStartWorkout()
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [templates, setTemplates] = useState([])
 
-  const hasWorkoutDraft =
-    activeWorkout?.exercises?.length > 0
+  const workout = draftWorkoutStorage.get()
 
-  const hasTemplateDraft =
-    draftTemplate?.exercises?.length > 0
+  const hasWorkoutDraft = hasWorkoutDraftContent(workout)
+
+  const hasTemplateDraft = hasTemplateDraftContent(draftTemplate)
 
   useEffect(() => {
     const fetchTemplates = async () => {
@@ -37,9 +61,9 @@ export default function WorkoutStartPage() {
         setLoading(true)
         setError(null)
 
-        const data = await getTemplatesApi({ limit: 5 })
+        const data = await getTemplatesApi({ limit: 100 })
 
-        setTemplates(data.results || [])
+        setTemplates(Array.isArray(data) ? data : data.results || [])
       } catch (err) {
         console.error(err)
         setError('Failed to load templates')
@@ -51,40 +75,63 @@ export default function WorkoutStartPage() {
     fetchTemplates()
   }, [])
 
+  const handleDeleteTemplate = async (id) => {
+    const confirmed = window.confirm('Delete this template?')
+
+    if (!confirmed) {
+      return
+    }
+
+    try {
+      await deleteTemplateApi(id)
+
+      setTemplates((prev) => prev.filter((template) => template._id !== id))
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   return (
     <div className="app">
-      <Header
-        title="Start Workout"
-        subtitle="Build your next session"
-      />
 
-      <div className="page-section">
+      <Header title="Start Workout" subtitle="Build your next session" />
+
+      <div className="section">
+
         <div className="hero-actions">
 
-          {/* START / CONTINUE WORKOUT */}
-          <button
-            className="hero-btn hero-btn-primary"
-            onClick={() => {
-              start()
 
-              navigate(`/workouts/${Date.now()}/run`)
+          {/* START / CONTINUE WORKOUT */}
+
+          <Button
+            variant="cta"
+            onClick={() => {
+              if (!hasWorkoutDraft) {
+                startWorkout({})
+                return
+              }
+
+              navigate('/workouts/current/run')
             }}
           >
             <span className="hero-icon">▷</span>
 
             <span>
               {hasWorkoutDraft
-                ? `Continue ${activeWorkout.name || 'Workout'}`
+                ? `Continue ${workout.name || 'Workout'}`
                 : 'Start Empty Workout'}
             </span>
-          </button>
+          </Button>
 
-          {/* TEMPLATE */}
-          <button
-            className="hero-btn hero-btn-secondary"
-            onClick={() =>
+          {/* CREATE TEMPLATE */}
+
+          <Button
+            variant="cta"
+            onClick={() => {
+              setReturnTo(location.pathname)
+
               navigate('/templates/create')
-            }
+            }}
           >
             <span className="hero-icon">+</span>
 
@@ -93,21 +140,25 @@ export default function WorkoutStartPage() {
                 ? `Continue ${draftTemplate.name || 'Template'}`
                 : 'New Workout Template'}
             </span>
-          </button>
+          </Button>
+
+
         </div>
 
-        <div className="section template">
-          <DataState
-            loading={loading}
-            error={error}
-            data={templates}
-            variant="card-template"
-            emptyText="No templates found"
-            count={4}
-          >
-            <TemplateList templates={templates.slice(0, 3)} />
-          </DataState>
-        </div>
+      </div>
+
+      <div className="section template">
+
+        {/* TEMPLATE LIST */}
+
+        <TemplateList
+          templates={templates}
+          loading={loading}
+          error={error}
+          limit={5}
+          onDeleteTemplate={handleDeleteTemplate}
+        />
+
       </div>
     </div>
   )

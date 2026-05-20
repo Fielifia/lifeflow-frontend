@@ -1,6 +1,12 @@
-import { useNavigate, useLocation } from 'react-router-dom'
+import {
+  useLocation,
+  useNavigate,
+} from 'react-router-dom'
+
+import { useExerciseFlow }
+  from '../../../shared/context/ExerciseFlowContext'
+
 import ExerciseCard from './ExerciseCard'
-import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
 /**
  * Displays a list of exercises.
@@ -16,7 +22,9 @@ export default function ExerciseList({
   onSelect,
   selectedExercises = [],
 }) {
+
   const navigate = useNavigate()
+
   const location = useLocation()
 
   const {
@@ -25,44 +33,55 @@ export default function ExerciseList({
     setShouldRestoreScroll,
   } = useExerciseFlow()
 
+  // ===== NAVIGATE TO DETAIL =====
+
+  const openExercise = (exerciseId) => {
+
+    setLibraryReturnTo(
+      `${location.pathname}${location.search}`,
+    )
+
+    setScrollPosition(window.scrollY)
+
+    setShouldRestoreScroll(true)
+
+    navigate(`/exercises/${exerciseId}`)
+  }
+
   return (
     <div className="exercise-list">
+
       {exercises.map((e) => {
-        const isSelected = selectedExercises.some((ex) => ex.id === e.id)
+
+        const isSelected =
+          selectedExercises.some(
+            (ex) => ex.id === e.id,
+          )
 
         return (
+
           <ExerciseCard
             key={e.id}
             exercise={e}
             selected={isSelected}
             mode={onSelect ? 'select' : 'view'}
+
             onClick={() => {
               if (onSelect) {
                 onSelect(e)
-              } else {
-                setLibraryReturnTo(
-                  `${location.pathname}${location.search}`,
-                )
-
-                setScrollPosition(window.scrollY)
-                setShouldRestoreScroll(true)
-
-                navigate(`/exercises/${e.id}`)
+                return
               }
+
+              openExercise(e.id)
             }}
+
             onView={() => {
-              setLibraryReturnTo(
-                `${location.pathname}${location.search}`,
-              )
-
-              setScrollPosition(window.scrollY)
-              setShouldRestoreScroll(true)
-
-              navigate(`/exercises/${e.id}`)
+              openExercise(e.id)
             }}
           />
         )
       })}
+      
     </div>
   )
 }

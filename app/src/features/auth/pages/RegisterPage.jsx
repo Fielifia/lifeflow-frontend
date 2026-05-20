@@ -1,8 +1,12 @@
-import { useState } from 'react'
-import { register } from '../../../shared/api/authApi'
 import { Eye, EyeOff } from 'lucide-react'
-import Header from '../../../shared/ui/Header'
-import LoadingButton from '../../../shared/ui/LoadingButton'
+
+import { useState } from 'react'
+
+import { register } from '../../../shared/api/authApi'
+
+import Button from '../../../shared/components/ui/button/Button'
+
+import Header from '../../../shared/components/ui/Header'
 
 /**
  * Register component for creating a new user account.
@@ -62,7 +66,7 @@ export default function RegisterPage({ setUser }) {
   const [showPassword, setShowPassword] = useState(false)
 
   return (
-    <div className="app">
+    <div className="app-start">
       <Header
         title="Create Account"
         subtitle="Start your fitness journey"
@@ -82,6 +86,7 @@ export default function RegisterPage({ setUser }) {
             className="input-base input-auth"
             placeholder="Email"
             value={email}
+            onFocus={(e) => e.target.select()}
             onChange={(e) => {
               setEmail(e.target.value)
               setError('')
@@ -92,6 +97,7 @@ export default function RegisterPage({ setUser }) {
             className="input-base input-auth"
             placeholder="Username"
             value={username}
+            onFocus={(e) => e.target.select()}
             onChange={(e) => {
               setUsername(e.target.value)
               setError('')
@@ -104,6 +110,7 @@ export default function RegisterPage({ setUser }) {
               type={showPassword ? 'text' : 'password'}
               placeholder="Password"
               value={password}
+              onFocus={(e) => e.target.select()}
               onChange={(e) => {
                 setPassword(e.target.value)
                 setError('')
@@ -112,7 +119,7 @@ export default function RegisterPage({ setUser }) {
 
             <button
               type="button"
-              className="password-toggle"
+              className="icon-btn password-toggle"
               onClick={() => setShowPassword((prev) => !prev)}
             >
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
@@ -125,6 +132,7 @@ export default function RegisterPage({ setUser }) {
               type={showPassword ? 'text' : 'password'}
               placeholder="Confirm Password"
               value={confirmPassword}
+              onFocus={(e) => e.target.select()}
               onChange={(e) => {
                 setConfirmPassword(e.target.value)
                 setError('')
@@ -136,16 +144,21 @@ export default function RegisterPage({ setUser }) {
 
             <button
               type="button"
-              className="password-toggle"
+              className="icon-btn password-toggle"
               onClick={() => setShowPassword((prev) => !prev)}
             >
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
           </div>
 
-          <LoadingButton className="btn btn-standard btn-primary" loading={loading} onClick={handleRegister}>
+          <Button
+            variant="primary"
+            size="md"
+            loading={loading}
+            onClick={handleRegister}
+          >
             Create account
-          </LoadingButton>
+          </Button>
         </form>
 
         {error && <p className="error">{error}</p>}

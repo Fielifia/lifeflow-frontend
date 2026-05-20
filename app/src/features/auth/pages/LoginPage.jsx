@@ -1,8 +1,12 @@
-import { useState } from 'react'
 import { Eye, EyeOff } from 'lucide-react'
+
+import { useState } from 'react'
+
 import { login } from '../../../shared/api/authApi'
-import Header from '../../../shared/ui/Header'
-import LoadingButton from '../../../shared/ui/LoadingButton'
+
+import Button from '../../../shared/components/ui/button/Button'
+
+import Header from '../../../shared/components/ui/Header'
 
 /**
  * Login component for user authentication.
@@ -45,12 +49,14 @@ export default function LoginPage({ setUser }) {
   const [showPassword, setShowPassword] = useState(false)
 
   return (
-    <div className="app">
+    <div className="app-start">
+
       <Header
         title="Welcome Back"
         subtitle="Login to continue"
         variant="login"
       />
+
       <div className="card-base card-auth">
         <h2 className="center">Login</h2>
         <form
@@ -63,6 +69,7 @@ export default function LoginPage({ setUser }) {
             className="input-base input-auth"
             placeholder="Email"
             value={email}
+            onFocus={(e) => e.target.select()}
             onChange={(e) => {
               setEmail(e.target.value)
               setError('')
@@ -78,6 +85,7 @@ export default function LoginPage({ setUser }) {
               type={showPassword ? 'text' : 'password'}
               placeholder="Password"
               value={password}
+              onFocus={(e) => e.target.select()}
               onChange={(e) => {
                 setPassword(e.target.value)
                 setError('')
@@ -89,16 +97,21 @@ export default function LoginPage({ setUser }) {
 
             <button
               type="button"
-              className="password-toggle"
+              className="icon-btn password-toggle"
               onClick={() => setShowPassword((prev) => !prev)}
             >
               {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
           </div>
 
-          <LoadingButton className="btn btn-standard btn-primary" loading={loading} onClick={handleLogin}>
-            {loading ? 'Logging in...' : 'Login'}
-          </LoadingButton>
+          <Button
+            variant="primary"
+            size="md"
+            loading={loading}
+            onClick={handleLogin}
+          >
+            Log In
+          </Button>
         </form>
 
         {error && <p className="error">{error}</p>}

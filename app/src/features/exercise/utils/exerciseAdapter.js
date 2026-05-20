@@ -1,7 +1,8 @@
 import { formatName } from '../../../shared/utils/format'
 /**
- * Normalizes raw exercise data from the API into a consistent structure
- * used throughout the application.
+ * Normalizes external API exercise data into the internal application format.
+ * Internal IDs and external API IDs are intentionally separated to avoid
+ * coupling frontend logic to third-party API structures.
  * @param {object} e - Raw exercise object from API
  * @param {string} e.id - Unique exercise ID
  * @param {string} e.name - Exercise name
@@ -28,8 +29,11 @@ export function normalizeExercise(e) {
   const bodyPart = mapBodyPart(e.bodyPart)
 
   return {
+    // MongoDB document ID
     id: e._id,
+    // Stable internal exercise reference
     exerciseId: e._id,
+    // External ExerciseDB API ID
     externalId: e.id,
     name: formatName(e.name),
     bodyPart: formatName(bodyPart),
@@ -55,11 +59,11 @@ function normalizeEquipment(e) {
   const eq = e.equipment?.toLowerCase() || ''
   const name = e.name?.toLowerCase() || ''
 
-  if (!eq || eq === 'unknown') {
+  if (!eq || eq === 'unknown' || eq === 'body only') {
     const found = specialCases.find((s) => name.includes(s.match))
     if (found) return found.value
 
-    return 'body only'
+    return 'Body Weight'
   }
 
   return eq
@@ -179,9 +183,9 @@ function getCategory(e) {
     return 'Mobility'
   }
 
-  // Bodyweight
+  // Body Weight
   if (equipment === 'body only') {
-    return 'Bodyweight'
+    return 'Body Weight'
   }
 
   return 'Strength'

@@ -1,5 +1,10 @@
 import { useNavigate } from 'react-router-dom'
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
+import { buildWorkoutExercise } from '../utils/buildWorkoutExercise'
+import {
+  draftWorkoutStorage,
+  hasWorkoutDraftContent,
+} from '../../../shared/utils/storage/draftStorage'
 
 /**
  * Handles workout session startup flow.
@@ -16,15 +21,77 @@ import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
  */
 export function useStartWorkout() {
   const navigate = useNavigate()
-  const { setSelectedWorkout, setSelectedTemplate } = useWorkoutContext()
+  const {
+    start,
+    resetTimer,
+    resetRest,
+  } = useWorkoutContext()
 
-  const startWorkout = ({ workout = null, template = null }) => {
-    const workoutId = Date.now()
+  const startWorkout = ({
+    workout = null,
+    template = null,
+  }) => {
+    const activeWorkout =
+      draftWorkoutStorage.get()
 
-    if (workout) setSelectedWorkout(workout)
-    if (template) setSelectedTemplate(template)
+    if (
+      hasWorkoutDraftContent(activeWorkout)
+    ) {
+      const confirmed = window.confirm(
+        'Discard current workout and start a new one?',
+      )
 
-    navigate(`/workouts/${workoutId}/run`)
+      if (!confirmed) {
+        return
+      }
+
+      resetTimer()
+      resetRest()
+
+      draftWorkoutStorage.clear()
+    }
+
+    let preparedWorkout = null
+
+    // ===== FROM TEMPLATE =====
+
+    if (template) {
+      preparedWorkout = {
+        name: template.name,
+        notes: '',
+        exercises:
+          template.exercises.map((ex) =>
+            buildWorkoutExercise(ex, null, {
+              resetCompleted: true,
+            }),
+          ),
+      }
+    }
+
+    // ===== FROM WORKOUT =====
+
+    if (workout) {
+      preparedWorkout = {
+        name: workout.name,
+        notes: '',
+        exercises:
+          workout.exercises.map((ex) =>
+            buildWorkoutExercise(ex, null, {
+              resetCompleted: true,
+            }),
+          ),
+      }
+    }
+
+    if (preparedWorkout) {
+      draftWorkoutStorage.set(
+        preparedWorkout,
+      )
+    }
+
+    start()
+
+    navigate('/workouts/current/run')
   }
 
   return { startWorkout }

@@ -6,7 +6,7 @@ export const safeStorage = {
   /**
    * Retrieves and parses a value from localStorage.
    * @param {string} key - Storage key
-   * @returns {unknown} Parsed value or null if missing/invalid
+   * @returns {object|null} Parsed value or null if missing or invalid
    */
   get(key) {
     try {
@@ -22,10 +22,11 @@ export const safeStorage = {
    * @param {unknown} value - Value to store
    */
   set(key, value) {
-    localStorage.setItem(
-      key,
-      JSON.stringify(value),
-    )
+    try {
+      localStorage.setItem(key, JSON.stringify(value))
+    } catch {
+      // Ignore storage write failures
+    }
   },
 
   /**

@@ -11,12 +11,13 @@
   --primary-light: #478688;
 
   --bg: #111a20;
+  --dark: rgba(19, 28, 33, 0.9);
   --card: #131c21;
   --card-2: #172128;
 
   --text: #fff;
   --muted: #b0b8bb;
-  --danger: #a83b3f;
+  --danger: #a83b3f8a;
   --border: rgba(255, 255, 255, 0.05);
 }
 
@@ -90,11 +91,26 @@ h4 {
 /* ============================= */
 
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
 
-  margin-bottom: 48px;
+  display: flex;
+  max-width: 480px;
+  margin: 0 auto 40px;
+  padding: 0 24px;
+  height: 70px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  background: var(--dark);
+  border-bottom: 1px solid var(--border);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+
+  z-index: 100;
 }
 
 .header-content {
@@ -105,7 +121,18 @@ h4 {
 
 .header-profile-btn {
   opacity: 0.8;
+  transition: .1s ease-in;
 }
+
+.header-profile-btn:hover {
+  opacity: 1;
+  transform: scale(1.02);
+}
+
+.header-profile-btn .profile-icon {
+  color: var(--primary-light);
+}
+
 
 /* ============================= */
 /* ========== LINKS ============ */
@@ -135,6 +162,10 @@ a:active {
   transition: transform 0.08s ease, opacity 0.08s ease;
 }
 
+.clickable:hover {
+  transform: scale(1.01);
+}
+
 .clickable:active {
   transform: scale(0.97);
   opacity: 0.85;
@@ -149,25 +180,34 @@ a:active {
   transform: scale(0.98);
 }
 
+
+
 /* ============================= */
 /* ========== LAYOUT =========== */
 /* ============================= */
 
 
 .app {
+  position: relative;
   max-width: 480px;
+  height: 100%;
   margin: 0 auto 60px;
   padding: 12px 12px;
+
+  background: var(--bg);
 }
 
-.page-section {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
+.app-start {
+  margin: 60px auto 30px;
+}
+
+.app:nth-child(1) {
+  padding-top: 60px;
 }
 
 .section {
-  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
   gap: 12px;
 }
 
@@ -192,120 +232,12 @@ a:active {
   border: 1px solid var(--border);
 }
 
-.card-base.card-auth,
-.card-base.card-auth form {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding: 12px;
-}
-
-.card-base.card-auth h2 {
-  text-align: center;
-}
-
 .container {
   background: var(--card);
   padding: 16px;
   border-radius: 18px;
 }
 
-/* ============================= */
-/* ========== BUTTONS ========== */
-/* ============================= */
-
-button {
-  -webkit-tap-highlight-color: transparent;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.btn {
-  cursor: pointer;
-  border-radius: 10px;
-  margin: 8px 0;
-  transition: 0.2s ease;
-}
-
-.btn-standard {
-  font-size: 13px;
-  padding: 14px;
-}
-
-.btn-large {
-  font-size: 13px;
-  padding: 18px;
-}
-
-.btn-primary {
-  width: 100%;
-  border: none;
-  background: var(--primary);
-  color: #fff;
-}
-
-.btn-primary:hover {
-  background: var(--primary-light);
-}
-
-.btn-secondary {
-  background: var(--card-2);
-  border: 1px solid var(--border);
-  color: var(--text);
-}
-
-.btn-secondary:hover {
-  border-color: var(--primary);
-}
-
-.btn-danger {
-  background-color: var(--danger);
-  color: white;
-  border: 1px solid transparent;
-}
-
-.btn-danger:hover {
-  background-color: #b91c1c;
-}
-
-.btn-right {
-  margin-left: auto;
-}
-
-.btn-full {
-  width: 100%;
-}
-
-.btn-small {
-  cursor: pointer;
-  border-radius: 10px;
-  font-size: 12px;
-  padding: 6px;
-  margin: 0;
-}
-
-.back-btn {
-  display: block;
-  background: transparent;
-  border: 1px solid var(--border);
-  color: var(--text);
-}
-
-.btn-clean {
-  background: none;
-  border: none;
-  color: var(--text);
-  justify-content: center;
-  cursor: pointer;
-  padding: 0;
-}
-
-.btn-dots {
-  font-size: 20px;
-  color: var(--muted);
-}
 
 /* WRAPPER */
 .hero-actions {
@@ -315,111 +247,6 @@ button {
   margin: 12px;
 }
 
-/* BASE */
-.hero-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-
-  height: 90px;
-  border-radius: 14px;
-
-  font-size: 13px;
-  font-weight: 500;
-
-  cursor: pointer;
-  transition: transform 0.08s ease, opacity 0.08s ease, border 0.2s ease;
-
-  border: 1px solid var(--border);
-  background: var(--card-2);
-  color: var(--text);
-}
-
-/* ACTIVE FEEDBACK */
-.hero-btn:active {
-  transform: scale(0.97);
-  opacity: 0.9;
-}
-
-/* PRIMARY */
-.hero-btn-primary {
-  background: var(--primary);
-  border: none;
-}
-
-/* ICON */
-.hero-icon {
-  font-size: 22px;
-  line-height: 1;
-}
-
-/* ============================= */
-/* ========== LOADING ========== */
-/* ============================= */
-
-.skeleton {
-  background: linear-gradient(90deg,
-      #232f35 25%,
-      #2e3a40 50%,
-      #232f35 75%);
-  background-size: 200% 100%;
-  animation: shimmer 1.2s infinite;
-  border-radius: 12px;
-}
-
-.skeleton-card-exercise {
-  height: 90px;
-}
-
-.skeleton-card-template {
-  height: 266px;
-}
-
-.empty-state {
-  padding: 12px;
-}
-
-.skeleton-row {
-  height: 40px;
-}
-
-.skeleton-text {
-  height: 16px;
-  width: 60%;
-}
-
-.skeleton-container {
-  display: grid;
-  gap: 12px;
-}
-
-@keyframes shimmer {
-  0% {
-    background-position: 200% 0
-  }
-
-  100% {
-    background-position: -200% 0
-  }
-}
-
-.spinner {
-  width: 16px;
-  height: 16px;
-  border: 2px solid #ccc;
-  border-top: 2px solid var(--primary);
-  border-radius: 50%;
-  animation: spin 0.6s linear infinite;
-  display: inline-block;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
 
 /* ============================= */
 /* ========== INPUTS =========== */
@@ -584,7 +411,7 @@ input[type="checkbox"]:hover {
   border: 1px solid var(--border);
   background: var(--card-2);
   color: var(--text);
-  font-size: 12px;
+  font-size: 11px;
   appearance: none;
   cursor: pointer;
 }
@@ -607,19 +434,23 @@ input[type="checkbox"]:hover {
 /* ============================= */
 
 .navbar {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 8px 4px;
-  background: rgba(23, 36, 42, 0.95);
-  backdrop-filter: blur(10px);
-  border-top: 1px solid var(--border);
-  max-width: 480px;
-  margin: 0 auto;
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 8px 4px;
+
+  background: var(--dark);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border);
+
+  max-width: 480px;
+  margin: 0 auto;
   z-index: 100;
 }
 
@@ -641,10 +472,16 @@ input[type="checkbox"]:hover {
 /* ========== AUTH ========== */
 /* ============================= */
 
+.card-base.card-auth,
 .card-base.card-auth form {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 24px;
+  padding: 12px;
+}
+
+.card-base.card-auth h2 {
+  text-align: center;
 }
 
 /* ============================= */
@@ -657,6 +494,26 @@ input[type="checkbox"]:hover {
   margin: 12px 0 0;
 }
 
+.workout-controls-card {
+  display: flex;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.workout-controls-run {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.workout-controls-detail,
+.workout-controls-editor {
+  display: flex;
+  gap: 8px;
+  margin: 24px 0;
+  height: 60px;
+}
+
 .workout-exercise {
   border: 1px solid var(--border);
   border-radius: 14px;
@@ -667,39 +524,43 @@ input[type="checkbox"]:hover {
   flex-direction: column;
 }
 
-.duration,
-.edit-duration {
+.duration-section {
   display: flex;
-  gap: 6px;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .duration {
+  display: flex;
   flex-direction: column;
+  gap: 6px;
+  margin: 24px 0;
 }
 
 .duration-time {
   font-size: 34px;
 }
 
-.edit-duration {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  flex-wrap: wrap;
+.start-time {
+  font-size: 14px;
+  min-height: 1rem;
+  transition: opacity 0.15s ease;
 }
 
-.input-time {
-  background: transparent;
-  border: none;
-  color: inherit;
-  font: inherit;
+.start-time.hidden {
+  opacity: 0;
+}
+
+.start-time.visible {
+  opacity: 1;
 }
 
 .workout-header {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: 12px;
   margin: 12px 0;
+  gap: 12px;
 }
 
 .workout-header h2 {
@@ -713,17 +574,71 @@ input[type="checkbox"]:hover {
   color: var(--primary);
 }
 
-.exercise-header-main {
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+
+  z-index: 1000;
+}
+
+.modal-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--card);
+  border: 1px solid var(--border);
+
+  width: min(90%, 320px);
+  border-radius: 20px;
+
+  padding: 12px;
+  gap: 8px;
+
+  align-items: center;
+}
+
+.modal-card-content {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) 100px 70px;
+  width: 100%;
+  gap: 8px;
+}
+
+.modal-card-content .input-base,
+.modal-card-content .btn {
+  height: 40px;
+}
+
+.exercise-item-header {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.exercise-header-main.controls {
+.exercise-item-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.exercise-item-title:hover {
+  opacity: 0.7;
+}
+
+
+.exercise-item-header .controls {
   margin-left: auto;
 }
 
-.exercise-header-main.controls .icon-small-trash {
+.exercise-item-header .controls .icon-small-trash {
   height: 17px;
   width: 17px;
   color: var(--danger);
@@ -757,31 +672,52 @@ input[type="checkbox"]:hover {
   overflow: hidden;
 }
 
-.set-grid-with-checkbox {
-  grid-template-columns: 30px 2fr 2fr 3fr 30px;
+.set-grid-run,
+.set-row-run {
+  grid-template-columns:
+    40px 1fr 1fr 2fr 30px;
 }
 
-.set-grid-no-checkbox {
-  grid-template-columns: 30px 2fr 2fr 3fr;
+.set-grid-edit,
+.set-row-edit {
+  grid-template-columns:
+    1fr 2fr 3fr;
+}
+
+.set-grid-workout {
+  grid-template-columns: 48px 80px minmax(80px, 1fr) 40px;
+}
+
+.set-grid-template {
+  grid-template-columns:
+    1fr 2fr 3fr;
+  gap: 10px;
 }
 
 .hold-indicator {
   position: absolute;
   inset: 0;
-  background: rgba(255, 0, 0, 0.08);
+  background: rgba(168, 59, 63, 0.08);
   pointer-events: none;
+  overflow: hidden;
 }
 
 .hold-progress {
   position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 100%;
-  background: rgba(255, 0, 0, 0.4);
+  inset: 0;
+
+  background: linear-gradient(90deg,
+      #a83b3f1c,
+      #a83b3f8a);
+
   transform-origin: left;
   transform: scaleX(0);
+
   transition: transform 0.05s linear;
+
+  box-shadow:
+    0 0 10px #a83b3f2e,
+    0 0 20px rgba(220, 38, 38, 0.09)
 }
 
 .set-header {
@@ -820,11 +756,8 @@ input[type="checkbox"]:hover {
   font-size: 14px;
 }
 
-.set-number {
-  text-align: center;
-}
-
-.set-number.pb .icon-small {
+.set-number.pb .icon-small,
+.set-pb .icon-small {
   color: var(--primary-light);
   width: 18px;
   height: 18px;
@@ -849,7 +782,13 @@ input[type="checkbox"]:hover {
   padding: 12px 24px;
   gap: 24px;
 
-  background: rgba(23, 36, 42, 0.75);
+  background: linear-gradient(135deg,
+      var(--primary),
+      rgba(25, 104, 106, 0.85));
+
+  box-shadow: 0 4px 20px rgba(25, 104, 106, 0.2);
+  animation: subtle-pulse 2s ease-in-out infinite;
+
   backdrop-filter: blur(6px);
 
   border: 1px solid var(--border);
@@ -951,11 +890,8 @@ input[type="checkbox"]:hover {
 /* ============================= */
 
 .workout-session-bar.rest-active {
-  background: linear-gradient(135deg,
-      var(--primary),
-      rgba(25, 104, 106, 0.85));
-
-  box-shadow: 0 4px 20px rgba(25, 104, 106, 0.2);
+  background: rgba(23, 36, 42, 0.75);
+  backdrop-filter: blur(6px);
   animation: subtle-pulse 2s ease-in-out infinite;
 }
 
@@ -1018,9 +954,6 @@ input[type="checkbox"]:hover {
   opacity: 0.85;
 }
 
-/* ============================= */
-/* ===== OPTIONAL POLISH ======= */
-/* ============================= */
 
 /* hover effect */
 .workout-session-bar:hover {
@@ -1132,11 +1065,41 @@ input[type="checkbox"]:hover {
   gap: 12px;
 }
 
+.filters-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 12px 0;
+}
+
 .filters {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 8px;
-  margin: 12px 0;
+}
+
+.active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-chip {
+  padding: 10px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--card-2);
+  color: var(--text);
+  font-size: 11px;
+  appearance: none;
+  cursor: pointer;
+}
+
+.clear-filters {
+  background: none;
+  border: none;
+  color: var(--primary);
+  cursor: pointer;
 }
 
 .exercise-card {
@@ -1204,19 +1167,25 @@ input[type="checkbox"]:hover {
   display: flex;
   justify-content: center;
   gap: 6px;
+  margin-top: 8px;
 }
 
 .dot {
   width: 6px;
   height: 6px;
   background: var(--muted);
-  border-radius: 50%;
-  opacity: 0.5;
+  border-radius: 999px;
+  opacity: 0.4;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease,
+    background 0.15s ease;
 }
 
 .dot.active {
   opacity: 1;
   background: var(--primary);
+  transform: scale(1.2);
 }
 
 .exercise-overview {
@@ -1382,6 +1351,7 @@ input[type="checkbox"]:hover {
 /* ========== PER EXERCISE ==========*/
 .rest-label {
   position: relative;
+  display: flex;
   padding: 6px 8px;
   border-radius: 10px;
   background: var(--card-2);
@@ -1389,14 +1359,31 @@ input[type="checkbox"]:hover {
   font-size: 12px;
   width: 80px;
   align-items: center;
+  justify-content: center;
   cursor: pointer;
+  transition: background 0.2s ease;
+  gap: 8px;
 }
 
 .rest-label .icon-small {
   width: 12px;
   height: 12px;
-  margin: 0 12px 0 0;
   color: var(--primary-light);
+}
+
+.rest-label:hover {
+  background: var(--card-hover);
+}
+
+.rest-label.is-static {
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: default;
+}
+
+.rest-label.is-static:hover {
+  background: transparent;
 }
 
 .rest-badge {
@@ -1484,8 +1471,17 @@ input[type="checkbox"]:hover {
   gap: 12px;
 }
 
+.template-card.menu-open {
+  transform: none !important;
+}
+
+.template-card.menu-open:active {
+  transform: none !important;
+}
+
 .template-card-header,
 .workout-card-header {
+  position: relative;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -1627,7 +1623,7 @@ input[type="checkbox"]:hover {
   color: white;
   border-color: transparent;
   box-shadow:
-      0 8px 24px rgba(0, 0, 0, 0.25);
+    0 8px 24px rgba(0, 0, 0, 0.25);
 }
 
 .stats-range-btn:not(.active) {

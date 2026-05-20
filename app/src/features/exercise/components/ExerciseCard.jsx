@@ -1,17 +1,14 @@
 import { useNavigate } from 'react-router-dom'
 import { Check, Eye } from 'lucide-react'
+
 /**
  * Displays a single exercise card.
- * @param {{
- *  exercise: {
- *    id: string,
- *    name: string,
- *    image: string,
- *    equipment: string,
- *    muscle: string
- *  },
- *  onClick: () => void
- * }} props - Component props
+ * @param {object} props - Component props
+ * @param {object} props.exercise - Exercise data
+ * @param {() => void} [props.onClick] - Select handler
+ * @param {() => void} [props.onView] - View details handler
+ * @param {boolean} [props.selected] - Whether exercise is selected
+ * @param {'view' | 'select'} [props.mode] - Exercise card mode
  * @returns {import('react').ReactElement} Exercise card UI
  */
 export default function ExerciseCard({
@@ -54,7 +51,8 @@ export default function ExerciseCard({
       </div>
 
       <div className="exercise-info">
-        <h3>{exercise.name}
+        <h3>
+          {exercise.name}
           {showDetailsButton && (
             <button className="details-btn" onClick={handleView}>
               <Eye className="details-icon" />

@@ -1,41 +1,114 @@
 import {
   useEffect,
+  useRef,
   useState,
 } from 'react'
+
 import { useLocation } from 'react-router-dom'
 
-import { useExerciseFlow }
-  from '../../../shared/context/ExerciseFlowContext'
-
-import { createTemplateApi }
-  from '../../../shared/api/templateApi'
-
+import { createTemplateApi } from '../../../shared/api/templateApi'
 import {
   deleteWorkoutApi,
   getWorkoutByIdApi,
   updateWorkoutApi,
 } from '../../../shared/api/workoutApi'
 
-import { useExerciseMutations }
-  from '../../../shared/hooks/useExerciseMutations'
+import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
-import { buildWorkoutPayload }
-  from '../../workout/utils/buildWorkoutPayload'
+import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
 
-import { buildTemplatePayload }
-  from '../../template/utils/buildTemplatePayload'
+import { hasMeaningfulContent }
+  from '../../../shared/utils/editorUtils'
 
-import { appendExercisesToWorkout }
-  from '../../workout/utils/appendExercisesToWorkout'
+import { appendExercisesToWorkout } from '../../workout/utils/appendExercisesToWorkout'
+
+import { buildTemplatePayload } from '../../template/utils/buildTemplatePayload'
+
+import { buildWorkoutPayload } from '../../workout/utils/buildWorkoutPayload'
 
 /**
- * Custom hook for editing workouts.
- * @param {string} workoutId - Workout ID.
- * @param {(path: string) => void} navigate - React Router navigate function.
- * @returns {object} Workout state and mutation handlers.
+ * Handles workout editing,
+ * persistence and exercise management.
+ *
+ * Responsibilities:
+ * - loading existing workouts
+ * - managing workout editor state
+ * - handling exercise mutations
+ * - temporary exercise library flow state
+ * - save/discard/delete actions
+ * - unsaved changes detection
+ * @param {string} id
+ * Workout id.
+ * @param {(path: string, options?: object) => void} navigate
+ * React Router navigation function.
+ * @returns {{
+ *  workout: object | null,
+ *  setWorkout: import('react').Dispatch<
+ *    import('react').SetStateAction<object | null>
+ *  >,
+ *
+ *  loading: boolean,
+ *  saving: boolean,
+ *  success: boolean,
+ *  error: string,
+ *
+ *  isEditingName: boolean,
+ *  setIsEditingName: import('react').Dispatch<
+ *    import('react').SetStateAction<boolean>
+ *  >,
+ *
+ *  openLibrary: () => void,
+ *
+ *  exerciseActions: {
+ *    addSet: (
+ *      index: number
+ *    ) => void,
+ *
+ *    updateSet: (
+ *      exIndex: number,
+ *      setIndex: number,
+ *      field: string,
+ *      value: string | number | boolean
+ *    ) => void,
+ *
+ *    removeSet: (
+ *      exIndex: number,
+ *      setIndex: number
+ *    ) => void,
+ *
+ *    removeExercise: (
+ *      index: number
+ *    ) => void,
+ *
+ *    updateExerciseRest: (
+ *      index: number,
+ *      value: number
+ *    ) => void,
+ *
+ *    updateExerciseNotes: (
+ *      index: number,
+ *      notes: string
+ *    ) => void,
+ *  },
+ *
+ *  updateWorkoutNotes: (
+ *    notes: string
+ *  ) => void,
+ *
+ *  hasUnsavedChanges: boolean,
+ *
+ *  saveWorkout: () => Promise<void>,
+ *
+ *  discardChanges: () => void,
+ *
+ *  deleteWorkout: (
+ *    workoutId?: string
+ *  ) => Promise<boolean>,
+ * }}
+ * Workout manager state and actions.
  */
 export function useWorkoutManager(
-  workoutId,
+  id,
   navigate,
 ) {
   const location = useLocation()
@@ -67,19 +140,42 @@ export function useWorkoutManager(
     setSelectedExercises,
 
     setReturnTo,
+    returnTo,
 
     editingWorkout,
     setEditingWorkout,
   } = useExerciseFlow()
+
+  // ===== ORIGINAL SNAPSHOT =====
+
+  const originalRef = useRef(null)
+
+  // ===== CREATE SNAPSHOT =====
+
+  useEffect(() => {
+    if (
+      workout &&
+      !originalRef.current
+    ) {
+      originalRef.current =
+        structuredClone(workout)
+    }
+  }, [
+    workout,
+  ])
 
   // ===== LOAD WORKOUT =====
 
   useEffect(() => {
     if (
       editingWorkout &&
-      editingWorkout._id === workoutId
+      editingWorkout._id === id
     ) {
       setWorkout(editingWorkout)
+
+      originalRef.current =
+        structuredClone(editingWorkout)
+
       setLoading(false)
 
       return
@@ -91,10 +187,14 @@ export function useWorkoutManager(
 
         const data =
           await getWorkoutByIdApi(
-            workoutId,
+            id,
           )
 
         setWorkout(data)
+
+        originalRef.current =
+          structuredClone(data)
+
         setEditingWorkout(data)
       } catch (err) {
         setError(
@@ -106,23 +206,12 @@ export function useWorkoutManager(
       }
     }
 
-    if (workoutId) {
+    if (id) {
       fetchWorkout()
     }
   }, [
-    workoutId,
+    id,
     editingWorkout,
-    setEditingWorkout,
-  ])
-
-  // ===== KEEP EDIT CACHE UPDATED =====
-
-  useEffect(() => {
-    if (workout) {
-      setEditingWorkout(workout)
-    }
-  }, [
-    workout,
     setEditingWorkout,
   ])
 
@@ -144,16 +233,32 @@ export function useWorkoutManager(
     setSelectedExercises,
   ])
 
-  // ===== OPEN LIBRARY =====
+  // ===== UNSAVED CHANGES =====
+
+  const hasUnsavedChanges =
+    Boolean(
+      workout &&
+      originalRef.current &&
+      hasMeaningfulContent(
+        workout,
+        'Workout',
+      ) &&
+      JSON.stringify(workout)
+      !== JSON.stringify(
+        originalRef.current,
+      )
+    )
+
+  // ===== OPEN LIBRARY FLOW =====
 
   const openLibrary = () => {
+    setEditingWorkout(workout)
+
     setSelectedExercises([])
 
     setReturnTo(location.pathname)
 
-    navigate(
-      '/exercises?select=true',
-    )
+    navigate('/exercises?select=true')
   }
 
   // ===== MUTATIONS =====
@@ -170,6 +275,16 @@ export function useWorkoutManager(
     setWorkout,
   )
 
+  const exerciseActions = {
+    addSet,
+    updateSet,
+    removeSet,
+    removeExercise,
+    toggleSetComplete,
+    updateExerciseRest,
+    updateExerciseNotes,
+  }
+
   // ===== NOTES =====
 
   const updateWorkoutNotes = (
@@ -180,7 +295,7 @@ export function useWorkoutManager(
       notes,
     }))
 
-  // ===== SAVE =====
+  // ===== SAVE WORKOUT =====
 
   const saveWorkout = async () => {
     try {
@@ -192,11 +307,12 @@ export function useWorkoutManager(
         buildWorkoutPayload(
           workout,
           workout.duration,
+          workout.startTime,
         )
 
       const updated =
         await updateWorkoutApi(
-          workoutId,
+          id,
           payload,
         )
 
@@ -217,7 +333,7 @@ export function useWorkoutManager(
     }
   }
 
-  // ===== SAVE AS TEMPLATE =====
+  // ===== SAVE WORKOUT AS TEMPLATE =====
 
   const saveAsTemplate =
     async () => {
@@ -246,17 +362,46 @@ export function useWorkoutManager(
       }
     }
 
+
+  // ===== DISCARD CHANGES & RESTORE STATE (EDIT) =====
+
+  const discardChanges = () => {
+
+    if (!originalRef.current) {
+      return
+    }
+
+    const confirmed = window.confirm(
+      'Discard all changes?',
+    )
+
+    if (!confirmed) {
+      return
+    }
+
+    const restored =
+      structuredClone(originalRef.current)
+
+    setWorkout(restored)
+    setEditingWorkout(restored)
+    setIsEditingName(false)
+
+    if (returnTo) {
+      navigate(returnTo)
+    }
+  }
+
   // ===== DELETE =====
 
   const deleteWorkout =
-    async () => {
+    async (workoutId = id) => {
       const confirmed =
         window.confirm(
           'Delete this workout?',
         )
 
       if (!confirmed) {
-        return
+        return false
       }
 
       try {
@@ -268,12 +413,14 @@ export function useWorkoutManager(
 
         setEditingWorkout(null)
 
-        navigate('/history')
+        return true
       } catch (err) {
         setError(
           err.response?.data?.error ||
           'Could not delete workout',
         )
+
+        return false
       }
     }
 
@@ -291,20 +438,16 @@ export function useWorkoutManager(
 
     openLibrary,
 
-    addSet,
-    updateSet,
-    removeSet,
+    exerciseActions,
 
-    removeExercise,
-    toggleSetComplete,
-
-    updateExerciseRest,
-    updateExerciseNotes,
     updateWorkoutNotes,
+
+    hasUnsavedChanges,
 
     saveWorkout,
     saveAsTemplate,
 
+    discardChanges,
     deleteWorkout,
   }
 }

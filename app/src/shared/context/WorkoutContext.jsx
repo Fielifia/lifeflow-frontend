@@ -1,9 +1,22 @@
-import { createContext, useContext, useEffect, useState } from 'react'
-import { useRestTimer } from '../../features/workout/hooks/useRestTimer'
-import { useWorkoutTimer } from '../../features/workout/hooks/useWorkoutTimer'
-import { EMPTY_TEMPLATE, EMPTY_WORKOUT } from '../utils/constants'
-import { draftTemplateStorage, draftWorkoutStorage } from '../utils/storage/draftStorage'
+import { createContext,
+  useContext,
+  useEffect,
+  useState } from 'react'
 
+import { useRestTimer } from '../../features/workout/hooks/useRestTimer'
+
+import { useWorkoutTimer } from '../../features/workout/hooks/useWorkoutTimer'
+
+import { EMPTY_TEMPLATE } from '../utils/constants'
+
+import {
+  draftTemplateStorage,
+  hasTemplateDraftContent,
+} from '../utils/storage/draftStorage'
+
+/**
+ * Shared workout session context.
+ */
 const WorkoutContext = createContext()
 
 /**
@@ -21,38 +34,30 @@ export function useWorkoutContext() {
  * @returns {import('react').ReactElement} Workout provider UI
  */
 export function WorkoutProvider({ children }) {
+  
+  // ===== TIMERS =====
+
   const timer = useWorkoutTimer()
   const rest = useRestTimer()
 
-  const [activeWorkout, setActiveWorkout] = useState(() => {
-    return (
-      draftWorkoutStorage.get() ||
-      EMPTY_WORKOUT
-    )
+  // ===== TEMPLATE DRAFT =====
+
+  const [draftTemplate, setDraftTemplate] = useState(() => {
+    return draftTemplateStorage.get() || EMPTY_TEMPLATE
   })
 
   useEffect(() => {
-    draftWorkoutStorage.set(activeWorkout)
-  }, [activeWorkout])
-
-  const [draftTemplate, setDraftTemplate] =
-    useState(() => {
-      return draftTemplateStorage.get() || EMPTY_TEMPLATE
-    })
-
-  useEffect(() => {
-    if (draftTemplate) {
+    if (hasTemplateDraftContent(draftTemplate)) {
       draftTemplateStorage.set(draftTemplate)
+    } else {
+      draftTemplateStorage.clear()
     }
   }, [draftTemplate])
 
-  const [selectedTemplate, setSelectedTemplate] =
-    useState(null)
-
-  const [selectedWorkout, setSelectedWorkout] =
-    useState(null)
+  // ===== WORKOUT SOURCES =====
 
   return (
+
     <WorkoutContext.Provider
       value={{
         status: timer.status,
@@ -70,22 +75,16 @@ export function WorkoutProvider({ children }) {
         skipRest: rest.skip,
         resetRest: rest.reset,
 
-        activeWorkout,
-        setActiveWorkout,
-
         draftTemplate,
         setDraftTemplate,
-
-        selectedTemplate,
-        setSelectedTemplate,
-
-        selectedWorkout,
-        setSelectedWorkout,
 
         registerActivity: timer.registerActivity,
       }}
     >
+
       {children}
+
     </WorkoutContext.Provider>
+
   )
 }

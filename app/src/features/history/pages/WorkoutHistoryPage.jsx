@@ -1,36 +1,38 @@
-import { useNavigate, useLocation } from 'react-router-dom'
 import { useEffect, useState } from 'react'
-import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+
 import { getWorkoutsApi } from '../../../shared/api/workoutApi'
-import DataState from '../../../shared/ui/DataState'
-import Header from '../../../shared/ui/Header'
-import WorkoutCard from '../components/WorkoutCard'
+import { useWorkoutManager } from '../hooks/useWorkoutManager'
+
+import Header from '../../../shared/components/ui/Header'
+
+import WorkoutList from '../components/WorkoutList'
 
 /**
  * Page for displaying user's workout history.
- *
- * Fetches workouts from API and renders a list of workout cards.
+ * Fetches workouts from API and renders workout history.
  * @returns {import('react').ReactElement} Workout history page UI
  */
 export default function WorkoutHistoryPage() {
-  const navigate = useNavigate()
-  const location = useLocation()
-
-  const { setReturnTo } = useExerciseFlow()
-
   const [workouts, setWorkouts] = useState([])
+
   const [loading, setLoading] = useState(true)
+
   const [error, setError] = useState(null)
+
+  const { deleteWorkout } = useWorkoutManager()
 
   useEffect(() => {
     const fetch = async () => {
       try {
         setLoading(true)
+
         setError(null)
+
         const data = await getWorkoutsApi()
+
         setWorkouts(Array.isArray(data) ? data : data.results || [])
       } catch (err) {
-        setError(err)
+        setError(err.message || 'Failed to load workouts')
       } finally {
         setLoading(false)
       }
@@ -39,35 +41,36 @@ export default function WorkoutHistoryPage() {
     fetch()
   }, [])
 
+  const handleDeleteWorkout = async (id) => {
+    const deleted = await deleteWorkout(id)
+
+    if (!deleted) {
+      return
+    }
+
+    setWorkouts((prev) => prev.filter((workout) => workout._id !== id))
+  }
+
   return (
     <div className="app">
-      <Header
-        title="Workout History"
-        subtitle="Your completed sessions"
-      />
 
-      <DataState
-        loading={loading}
-        error={error}
-        data={workouts}
-        variant="card-workout"
-        emptyText="No workouts yet"
-      >
-        <div className="page-section">
-          {workouts.map((workout) => (
-            <WorkoutCard
-              key={workout._id}
-              workout={workout}
-              onClick={() => {
-                setReturnTo(location.pathname)
+      {/* HEADER */}
 
-                navigate(`/workouts/${workout._id}`)
-              }
-              }
-            />
-          ))}
-        </div>
-      </DataState>
+      <Header title="Workout History" subtitle="Your completed sessions" />
+
+      <div className="section">
+
+        {/* WORKOUTS */}
+
+        <WorkoutList
+          workouts={workouts}
+          loading={loading}
+          error={error}
+          limit={10}
+          onDeleteWorkout={handleDeleteWorkout}
+        />
+
+      </div>
     </div>
   )
 }

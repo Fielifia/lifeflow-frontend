@@ -44,6 +44,8 @@ export function useExerciseMutations(
     onSetCompleted,
   } = options
 
+  // ===== MUTATIONS =====
+
   const addSet = (index) =>
     setState((prev) =>
       workoutMutation.addSet(prev, index),
@@ -96,6 +98,8 @@ export function useExerciseMutations(
         notes,
       ),
     )
+
+  // ===== TOGGLE SET COMPLETION =====
 
   const toggleSetComplete = (
     exIndex,
