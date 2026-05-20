@@ -11,12 +11,14 @@ import DataState from '../../../shared/components/ui/skeleton/DataState'
 import TemplateCard from './TemplateCard'
 
 /**
- * Displays a list of workout templates.
- * @param {object} props - Component props
- * @param {Array<object>} props.templates - Template list
- * @param {(id: string) => void} [props.onDeleteTemplate] - Deletes template
- * @param {number} [props.limit=5] - Visible template increment count
- * @returns {import('react').ReactElement} Template list UI
+ * Displays a searchable list of workout templates with incremental loading.
+ * @param {object} props - Component props.
+ * @param {Array<object>} props.templates - Template list.
+ * @param {boolean} props.loading - Loading state.
+ * @param {string | null} props.error - Error message.
+ * @param {number} props.limit - Number of templates to show per increment.
+ * @param {(id: string) => void} [props.onDeleteTemplate] - Deletes a template.
+ * @returns {import('react').ReactElement} Template list UI.
  */
 export default function TemplateList({
   templates = [],

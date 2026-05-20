@@ -5,15 +5,15 @@ import {
 } from 'react'
 
 /**
- * Handles hold-to-trigger interactions.
- * @param {() => void} onComplete - Triggered after hold duration
- * @param {number} [duration=1000] - Hold duration in milliseconds
+ * Handles delayed hold-to-trigger interactions.
+ * @param {() => void} onComplete - Triggered after the hold duration completes.
+ * @param {number} [duration] - Hold duration in milliseconds after the initial delay.
  * @returns {{
  *  holding: boolean,
  *  progress: number,
  *  startHold: (event: Event) => void,
  *  cancelHold: () => void,
- * }} Hold interaction state
+ * }} Hold interaction state and handlers.
  */
 export function useHoldToDelete(
   onComplete,
@@ -30,36 +30,42 @@ export function useHoldToDelete(
   }
 
   const cancelHold = () => {
+    clearTimeout(holdDelayRef.current)
     clearInterval(timerRef.current)
+
     reset()
   }
+
+  const holdDelayRef = useRef(null)
 
   const startHold = (e) => {
     if (['INPUT', 'BUTTON'].includes(e.target.tagName)) {
       return
     }
 
-    setHolding(true)
-    setProgress(0)
+    holdDelayRef.current = setTimeout(() => {
+      setHolding(true)
+      setProgress(0)
 
-    const start = Date.now()
+      const start = Date.now()
 
-    timerRef.current = setInterval(() => {
-      const elapsed = Date.now() - start
+      timerRef.current = setInterval(() => {
+        const elapsed = Date.now() - start
 
-      const nextProgress =
-        Math.min(elapsed / duration, 1)
+        const nextProgress =
+          Math.min(elapsed / duration, 1)
 
-      setProgress(nextProgress)
+        setProgress(nextProgress)
 
-      if (nextProgress >= 1) {
-        clearInterval(timerRef.current)
+        if (nextProgress >= 1) {
+          clearInterval(timerRef.current)
 
-        onComplete()
+          onComplete()
 
-        reset()
-      }
-    }, 16)
+          reset()
+        }
+      }, 16)
+    }, 300)
   }
 
   useEffect(() => {

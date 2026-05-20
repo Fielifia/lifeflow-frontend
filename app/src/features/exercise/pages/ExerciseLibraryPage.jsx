@@ -32,6 +32,8 @@ export default function ExercisesLibraryPage() {
 
   // ===== URL STATE =====
 
+  const sort = searchParams.get('sort') || 'a-z'
+
   const search = searchParams.get('search') || ''
 
   const bodyPart = searchParams.get('bodyPart') || ''
@@ -39,6 +41,8 @@ export default function ExercisesLibraryPage() {
   const muscleGroup = searchParams.get('muscleGroup') || ''
 
   const equipment = searchParams.get('equipment') || ''
+
+  const category = searchParams.get('category') || ''
 
   const visibleCount =
     Number(searchParams.get('limit')) || 20
@@ -59,20 +63,26 @@ export default function ExercisesLibraryPage() {
   const { loading, error, exercises, filtered, visibleExercises } =
     useExercises({
       search,
+      sort,
       bodyPart,
       muscleGroup,
       equipment,
+      category,
       visibleCount,
     })
 
   // ===== FILTER OPTIONS =====
 
-  const muscles = [
-    ...new Set(exercises.map((e) => e.muscle).filter(Boolean)),
-  ].sort((a, b) => a.localeCompare(b))
+  // const muscles = [
+  //   ...new Set(exercises.map((e) => e.muscle).filter(Boolean)),
+  // ].sort((a, b) => a.localeCompare(b))
 
   const equipments = [
     ...new Set(exercises.map((e) => e.equipment).filter(Boolean)),
+  ].sort((a, b) => a.localeCompare(b))
+
+  const categories = [
+    ...new Set(exercises.map((e) => e.category).filter(Boolean)),
   ].sort((a, b) => a.localeCompare(b))
 
   // ===== SELECTION =====
@@ -170,48 +180,86 @@ export default function ExercisesLibraryPage() {
           }
         />
 
+
+
         {/* FILTERS */}
 
         <div className="filters">
+
           <select
             className="select-base"
-            value={bodyPart}
+            value={sort}
             onChange={(e) =>
               updateParams({
-                bodyPart: e.target.value,
-                muscleGroup: null,
-                equipment: null,
-                limit: null,
+                sort: e.target.value,
               })
             }
           >
-            <option value="">All body parts</option>
-
-            {BASE_CATEGORIES.map((bp) => (
-              <option key={bp} value={bp}>
-                {bp}
-              </option>
-            ))}
+            <option value="a-z">A–Z</option>
+            <option value="z-a">Z–A</option>
+            <option value="most-used">Most Used</option>
+            <option value="recent">Recently Used</option>
           </select>
 
           <select
             className="select-base"
-            value={muscleGroup}
-            onChange={(e) =>
+            value={bodyPart || muscleGroup || ''}
+            onChange={(e) => {
+              const value = e.target.value
+
+              const isBodyPart =
+                BASE_CATEGORIES.includes(value)
+
               updateParams({
-                muscleGroup: e.target.value,
-                equipment: null,
+                bodyPart: isBodyPart
+                  ? value
+                  : null,
+
+                muscleGroup: !isBodyPart
+                  ? value
+                  : null,
+
                 limit: null,
               })
-            }
+            }}
           >
-            <option value="">All muscles</option>
+            <option value="">All Muscles</option>
 
-            {muscles.map((m) => (
-              <option key={m} value={m}>
-                {m}
-              </option>
-            ))}
+            {BASE_CATEGORIES.flatMap((bp) => {
+
+              const musclesForBodyPart = [
+                ...new Set(
+                  exercises
+                    .filter(
+                      (e) =>
+                        e.bodyPart === bp &&
+                        e.muscle &&
+                        e.muscle !== bp,
+                    )
+                    .map((e) => e.muscle),
+                ),
+              ].sort((a, b) => a.localeCompare(b))
+
+              return [
+                (
+                  <option
+                    key={bp}
+                    value={bp}
+                  >
+                    {`${bp}`}
+                  </option>
+                ),
+
+                ...musclesForBodyPart.map((m) => (
+                  <option
+                    key={`${bp}-${m}`}
+                    value={m}
+                  >
+                    {`\u00A0\u00A0↳ ${m}`}
+                  </option>
+                )),
+              ]
+            })}
           </select>
 
           <select
@@ -224,11 +272,30 @@ export default function ExercisesLibraryPage() {
               })
             }
           >
-            <option value="">All equipment</option>
+            <option value="">All Equipment</option>
 
             {equipments.map((eq) => (
               <option key={eq} value={eq}>
                 {eq}
+              </option>
+            ))}
+          </select>
+
+          <select
+            className="select-base"
+            value={category}
+            onChange={(e) =>
+              updateParams({
+                category: e.target.value,
+                limit: null,
+              })
+            }
+          >
+            <option value="">All Categories</option>
+
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat}
               </option>
             ))}
           </select>

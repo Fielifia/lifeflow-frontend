@@ -1,13 +1,13 @@
 /**
- * Workout summary statistics cards.
- * @param {object} props - Component props
- * @param {number} props.exerciseCount - Total exercises
- * @param {number} props.totalSets - Total sets
- * @param {number} props.totalReps - Total reps
- * @param {number} props.totalVolume - Total training volume
- * @param {number} props.personalBests - Total personal bests
- * @param {Array<{ muscle: string, percentage: number, sets: number }>} [props.muscleSplit] - Workout muscle distribution
- * @returns {import('react').ReactElement} Workout summary UI
+ * Displays workout summary statistics and muscle distribution.
+ * @param {object} props - Component props.
+ * @param {number} props.exerciseCount - Total exercise count.
+ * @param {number} props.totalSets - Total set count.
+ * @param {number} props.totalReps - Total rep count.
+ * @param {number} props.totalVolume - Total training volume.
+ * @param {number} props.personalBests - Total personal best count.
+ * @param {Array<object>} [props.muscleSplit] - Muscle distribution data.
+ * @returns {import('react').ReactElement} Workout summary UI.
  */
 export default function WorkoutSummary({
   exerciseCount,

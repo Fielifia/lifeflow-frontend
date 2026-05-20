@@ -14,32 +14,28 @@ import { formatRestTime } from '../../../shared/utils/format'
 import ExerciseSetRow from './ExerciseSetRow'
 
 /**
- * Displays an editable workout/template exercise item.
- *
- * Modes:
- * - run
- * - workout
- * - edit
- * - template
- *
- * @param {object} props - Component props
+ * Displays an editable exercise item with sets, notes, rest timer, and personal best tracking.
+ * @param {object} props - Component props.
  * @param {{
  *   id: string,
  *   exerciseId?: string,
  *   name: string,
  *   image?: string,
- *   images?: string[],
+ *   images?: Array<string>,
  *   notes?: string,
  *   restTime?: number,
- *   historicalBest?: { weight: number, reps: number },
+ *   historicalBest?: {
+ *     weight: number,
+ *     reps: number
+ *   },
  *   sets: Array<object>
- * }} props.ex - Exercise data
- * @param {number} props.i - Exercise index
- * @param {(path: string, options?: object) => void} props.navigate - Navigation function
- * @param {object} props.actions - Exercise mutation handlers
- * @param {'run' | 'workout' | 'edit' | 'template'} [props.mode='run'] - Exercise item mode
- * @param {boolean} [props.isEditable=true] - Whether exercise fields can be edited
- * @returns {import('react').ReactElement} Exercise item UI
+ * }} props.ex - Exercise data.
+ * @param {number} props.i - Exercise index.
+ * @param {(path: string, options?: object) => void} props.navigate - Navigation function.
+ * @param {object} props.actions - Exercise action handlers.
+ * @param {'run' | 'workout' | 'edit' | 'template'} [props.mode] - Exercise item mode.
+ * @param {boolean} [props.isEditable] - Whether the exercise can be edited.
+ * @returns {import('react').ReactElement} Exercise item UI.
  */
 export default function ExerciseItem({
   ex,
