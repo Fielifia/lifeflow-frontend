@@ -27,7 +27,6 @@ const TIMER_STORAGE_KEY = 'workoutTimer'
  * - Activity tracking
  * - Max duration cap (3 hours)
  * - Timer persistence across refreshes
- *
  * @returns {{
  *   status:'idle'|'running'|'paused',
  *   elapsed:number,

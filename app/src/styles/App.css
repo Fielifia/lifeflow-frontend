@@ -238,95 +238,6 @@ a:active {
   border-radius: 18px;
 }
 
-/* ============================= */
-/* ========== BUTTONS ========== */
-/* ============================= */
-/* 
-button {
-  -webkit-tap-highlight-color: transparent;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.btn {
-  cursor: pointer;
-  border-radius: 10px;
-  transition: transform 0.08s ease, opacity 0.08s ease;
-}
-
-.btn:hover {
-  transform: scale(1.01);
-}
-
-.btn:active {
-  transform: scale(0.97);
-  opacity: 0.85;
-}
-
-.btn-md {
-  font-size: 13px;
-  padding: 14px;
-}
-
-
-
-.btn-primary {
-  width: 100%;
-  border: none;
-  background: var(--primary);
-  color: #fff;
-}
-
-.btn-primary:hover {
-  background: var(--primary-light);
-}
-
-.btn-secondary {
-  background: var(--card-2);
-  border: 1px solid var(--border);
-  color: var(--text);
-  min-width: 70px;
-}
-
-.btn-secondary:hover {
-  border-color: var(--primary);
-}
-
-.btn-danger {
-  background-color: var(--danger);
-  color: white;
-  border: 1px solid transparent;
-}
-
-.btn-danger:hover {
-  background-color: #b91c1c;
-}
-
-.btn-right {
-  margin-left: auto;
-}
-
-.btn-full {
-  width: 100%;
-}
-
-.btn-small {
-  border-radius: 10px;
-  font-size: 12px;
-  padding: 6px;
-  margin: 0;
-}
-
-.btn-clean {
-  background: none;
-  border: none;
-  color: var(--text);
-  justify-content: center;
-  cursor: pointer;
-  padding: 0;
-} */
 
 /* WRAPPER */
 .hero-actions {
@@ -335,47 +246,6 @@ button {
   gap: 12px;
   margin: 12px;
 }
-
-/* BASE */
-/* .btn-cta {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-
-  height: 90px;
-  border-radius: 14px;
-
-  font-size: 13px;
-  font-weight: 500;
-
-  cursor: pointer;
-  transition: transform 0.08s ease, opacity 0.08s ease, border 0.2s ease;
-
-  border: 1px solid var(--border);
-  background: var(--card-2);
-  color: var(--text);
-} */
-
-/* ACTIVE FEEDBACK */
-/* .btn-cta:active {
-  transform: scale(0.97);
-  opacity: 0.9;
-} */
-
-/* PRIMARY */
-/* .btn-cta-primary {
-  background: var(--primary);
-  border: none;
-} */
-
-/* ICON */
-/* .hero-icon {
-  font-size: 22px;
-  line-height: 1;
-} */
-
 
 
 /* ============================= */
@@ -541,7 +411,7 @@ input[type="checkbox"]:hover {
   border: 1px solid var(--border);
   background: var(--card-2);
   color: var(--text);
-  font-size: 12px;
+  font-size: 11px;
   appearance: none;
   cursor: pointer;
 }
@@ -654,6 +524,12 @@ input[type="checkbox"]:hover {
   flex-direction: column;
 }
 
+.duration-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
 .duration {
   display: flex;
   flex-direction: column;
@@ -684,6 +560,7 @@ input[type="checkbox"]:hover {
   display: flex;
   flex-direction: column;
   margin: 12px 0;
+  gap: 12px;
 }
 
 .workout-header h2 {
@@ -697,27 +574,45 @@ input[type="checkbox"]:hover {
   color: var(--primary);
 }
 
-.modal-backdrop {
-  position: absolute;
-  background: var(--card);
-  border: 1px solid var(--border);
-  top: 10rem;
-  right: 12px;
-  width: 150px;
-  padding: 12px;
-  border-radius: 20px;
-  z-index: 100;
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: rgba(0, 0, 0, 0.45);
+  backdrop-filter: blur(4px);
+
+  z-index: 1000;
 }
 
 .modal-card {
   display: flex;
   flex-direction: column;
+  background: var(--card);
+  border: 1px solid var(--border);
+
+  width: min(90%, 320px);
+  border-radius: 20px;
+
+  padding: 12px;
+  gap: 8px;
+
+  align-items: center;
+}
+
+.modal-card-content {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) 100px 70px;
+  width: 100%;
   gap: 8px;
 }
 
-.modal-actions {
-  display: flex;
-  gap: 8px;
+.modal-card-content .input-base,
+.modal-card-content .btn {
+  height: 40px;
 }
 
 .exercise-item-header {
@@ -1170,11 +1065,41 @@ input[type="checkbox"]:hover {
   gap: 12px;
 }
 
+.filters-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 12px 0;
+}
+
 .filters {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   gap: 8px;
-  margin: 12px 0;
+}
+
+.active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filter-chip {
+  padding: 10px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: var(--card-2);
+  color: var(--text);
+  font-size: 11px;
+  appearance: none;
+  cursor: pointer;
+}
+
+.clear-filters {
+  background: none;
+  border: none;
+  color: var(--primary);
+  cursor: pointer;
 }
 
 .exercise-card {

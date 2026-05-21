@@ -1,4 +1,3 @@
-
 import { Dumbbell, TrendingUp, Repeat, Weight, Award, BicepsFlexed } from 'lucide-react'
 
 import StatsGrid from '../../../shared/components/ui/statsgrid/StatsGrid'

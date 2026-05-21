@@ -1,11 +1,12 @@
-import { NavLink } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+
+import { getActiveNav } from '../../utils/navigation/getActiveNav'
 
 import {
   House,
   Dumbbell,
   History,
   ChartNoAxesCombined
-
 } from 'lucide-react'
 
 /**
@@ -13,41 +14,44 @@ import {
  * @returns {import('react').ReactElement} Navigation UI
  */
 export default function Navbar() {
+  const { pathname } = useLocation()
+
+  const active = getActiveNav(pathname)
 
   return (
     <div className="navbar">
 
-      <NavLink
+      <Link
         to="/"
-        className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+        className={`nav-item ${active === 'home' ? 'active' : ''}`}
       >
         <House className="nav-icon" />
         Home
-      </NavLink>
+      </Link>
 
-      <NavLink
+      <Link
         to="/workouts"
-        className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+        className={`nav-item ${active === 'workout' ? 'active' : ''}`}
       >
         <Dumbbell className="nav-icon" />
         Workout
-      </NavLink>
+      </Link>
 
-      <NavLink
+      <Link
         to="/history"
-        className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+        className={`nav-item ${active === 'history' ? 'active' : ''}`}
       >
         <History className="nav-icon" />
         History
-      </NavLink>
+      </Link>
 
-      <NavLink
+      <Link
         to="/stats"
-        className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+        className={`nav-item ${active === 'stats' ? 'active' : ''}`}
       >
         <ChartNoAxesCombined className="nav-icon" />
         Stats
-      </NavLink>
+      </Link>
 
     </div>
   )

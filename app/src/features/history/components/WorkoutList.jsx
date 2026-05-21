@@ -11,12 +11,14 @@ import DataState from '../../../shared/components/ui/skeleton/DataState'
 import WorkoutCard from './WorkoutCard'
 
 /**
- * Displays a list of workouts.
- * @param {object} props - Component props
- * @param {Array<object>} props.workouts - Workout list
- * @param {(id: string) => void} [props.onDeleteWorkout] - Deletes workout
- * @param {number} [props.limit=10] - Visible workout increment count
- * @returns {import('react').ReactElement} Workout list UI
+ * Displays a searchable list of workouts with incremental loading.
+ * @param {object} props - Component props.
+ * @param {Array<object>} props.workouts - Workout list.
+ * @param {boolean} props.loading - Loading state.
+ * @param {string | null} props.error - Error message.
+ * @param {number} props.limit - Number of workouts to show per increment.
+ * @param {(id: string) => void} [props.onDeleteWorkout] - Deletes a workout.
+ * @returns {import('react').ReactElement} Workout list UI.
  */
 export default function WorkoutList({
   workouts = [],

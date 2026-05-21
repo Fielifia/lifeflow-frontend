@@ -28,7 +28,9 @@ import { calculateWorkoutStats } from '../../../shared/utils/calculateWorkoutSta
  */
 export function useWorkoutDetail(id) {
   const [workout, setWorkout] = useState(null)
+
   const [loading, setLoading] = useState(true)
+
   const [error, setError] = useState('')
 
   useEffect(() => {

@@ -8,6 +8,7 @@ import reportWebVitals from './reportWebVitals'
 import './shared/components/ui/action-menu/ActionMenu.css'
 import './shared/components/ui/button/Button.css'
 import './shared/components/ui/skeleton/Skeleton.css'
+import './shared/components/ui/dropdown/Dropdown.css'
 import './styles/App.css'
 
 // --- Render the App component into the root DOM element ---

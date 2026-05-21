@@ -32,9 +32,9 @@ import { saveWorkoutAsTemplate, saveWorkoutSession } from '../utils/workoutPersi
  * - managing exercise mutations and completion logic
  * - saving workouts and templates
  * - discarding active workout sessions
+ * @param {string} workoutId - Workout id
  * @param {(path: string, options?: object) => void} navigate
  * React Router navigation function.
- * @param {string} workoutId
  * Current workout route id.
  * @returns {{
  *  workout: object,
@@ -115,7 +115,7 @@ import { saveWorkoutAsTemplate, saveWorkoutSession } from '../utils/workoutPersi
  * }}
  * Workout logic state and actions.
  */
-export function useWorkoutLogic(navigate, workoutId) {
+export function useWorkoutLogic(workoutId, navigate) {
   const location = useLocation()
 
   // ===== STATE =====
@@ -236,6 +236,7 @@ export function useWorkoutLogic(navigate, workoutId) {
         await saveWorkoutSession({
           workout,
           elapsed,
+          startTime,
         })
 
       setSuccess(true)

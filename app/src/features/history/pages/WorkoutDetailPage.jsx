@@ -88,7 +88,7 @@ export default function WorkoutDetailPage() {
 
       {/* HEADER */}
 
-      <Header title={workout.name} subtitle={formatDate(workout.date)} />
+      <Header title={workout.name} subtitle={formatDate(workout.timestamp)} />
 
       {/* BACK BUTTON */}
 
@@ -102,6 +102,7 @@ export default function WorkoutDetailPage() {
         duration={workout.duration}
         isEditable={false}
         showDuration
+        durationLabel="Completed in"
       />
 
       {/* SUMMARY */}

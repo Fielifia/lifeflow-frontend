@@ -2,6 +2,13 @@ import { renderHook, waitFor } from '@testing-library/react'
 
 import { useTemplateManager } from '../../features/template/hooks/useTemplateManager'
 
+import { getTemplateByIdApi } from '../../shared/api/templateApi'
+
+import { useExerciseFlow } from '../../shared/context/ExerciseFlowContext'
+
+global.structuredClone = (value) =>
+  JSON.parse(JSON.stringify(value))
+
 jest.mock(
   'react-router-dom',
   () => ({
@@ -28,10 +35,6 @@ jest.mock('../../shared/api/templateApi', () => ({
 jest.mock('../../shared/context/ExerciseFlowContext', () => ({
   useExerciseFlow: jest.fn(),
 }))
-
-import { getTemplateByIdApi } from '../../shared/api/templateApi'
-
-import { useExerciseFlow } from '../../shared/context/ExerciseFlowContext'
 
 describe('useTemplateManager', () => {
   test(
@@ -66,8 +69,8 @@ describe('useTemplateManager', () => {
 
       const { result } = renderHook(() =>
         useTemplateManager(
-          jest.fn(),
           'template-1',
+          jest.fn(),
         ),
       )
 

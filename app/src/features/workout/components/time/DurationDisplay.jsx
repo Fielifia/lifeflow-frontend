@@ -5,6 +5,7 @@
  * @param {number} props.startTime - Workout start timestamp
  * @param {number} props.duration - Workout duration in seconds
  * @param {string} props.mode - Display mode
+ * @param {string} props.label - Optional label
  * @returns {import('react').ReactElement} Duration display UI
  */
 export default function DurationDisplay({
@@ -12,6 +13,7 @@ export default function DurationDisplay({
   startTime,
   duration,
   mode = 'run',
+  label,
 }) {
 
   const total =
@@ -36,6 +38,13 @@ export default function DurationDisplay({
 
   return (
     <div className="duration">
+
+      {label && (
+        <p className="muted small close">
+          {label}
+        </p>
+      )}
+
       <div className="duration-time">
         <strong>{formatted}</strong>
       </div>

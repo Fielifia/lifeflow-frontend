@@ -22,7 +22,7 @@ describe('Login', () => {
       target: { value: '123456' },
     })
 
-    fireEvent.click(screen.getByRole('button', { name: /login/i }))
+    fireEvent.click(screen.getByRole('button', { name: /log in/i }))
 
     await waitFor(() => {
       expect(mockSetUser).toHaveBeenCalled()
@@ -45,7 +45,7 @@ test('shows error on failed login', async () => {
     target: { value: 'wrong' },
   })
 
-  fireEvent.click(screen.getByRole('button', { name: /login/i }))
+  fireEvent.click(screen.getByRole('button', { name: /log in/i }))
 
   await waitFor(() => {
     expect(screen.getByText(/invalid credentials/i)).toBeInTheDocument()

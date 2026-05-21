@@ -1,8 +1,5 @@
-import { useEffect } from 'react'
-import {
-  useNavigate,
-  useSearchParams
-} from 'react-router-dom'
+import { useEffect, useMemo } from 'react'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
@@ -14,23 +11,34 @@ import BackButton from '../../../shared/components/ui/BackButton'
 
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 
+import Dropdown from '../../../shared/components/ui/dropdown/Dropdown'
+
 import ExerciseList from '../components/ExerciseList'
 
 const BASE_CATEGORIES = CATEGORY_ORDER
 
 /**
- * Exercise library view with filtering, search, and pagination.
- * @returns {import('react').ReactElement} Exercise Library UI
+ * Exercise library page with:
+ * - search
+ * - sorting
+ * - filtering
+ * - exercise selection
+ * - pagination
+ *
+ * Supports both normal browsing
+ * and exercise selection mode.
+ * @returns {import('react').ReactElement} Exercise library UI
  */
 export default function ExercisesLibraryPage() {
   const navigate = useNavigate()
 
   const [searchParams, setSearchParams] = useSearchParams()
 
-  const isSelectMode =
-    searchParams.get('select') === 'true'
+  const isSelectMode = searchParams.get('select') === 'true'
 
   // ===== URL STATE =====
+
+  const sort = searchParams.get('sort') || 'a-z'
 
   const search = searchParams.get('search') || ''
 
@@ -40,8 +48,9 @@ export default function ExercisesLibraryPage() {
 
   const equipment = searchParams.get('equipment') || ''
 
-  const visibleCount =
-    Number(searchParams.get('limit')) || 20
+  const category = searchParams.get('category') || ''
+
+  const visibleCount = Number(searchParams.get('limit')) || 20
 
   const {
     selectedExercises,
@@ -59,20 +68,22 @@ export default function ExercisesLibraryPage() {
   const { loading, error, exercises, filtered, visibleExercises } =
     useExercises({
       search,
+      sort,
       bodyPart,
       muscleGroup,
       equipment,
+      category,
       visibleCount,
     })
 
   // ===== FILTER OPTIONS =====
 
-  const muscles = [
-    ...new Set(exercises.map((e) => e.muscle).filter(Boolean)),
-  ].sort((a, b) => a.localeCompare(b))
-
   const equipments = [
     ...new Set(exercises.map((e) => e.equipment).filter(Boolean)),
+  ].sort((a, b) => a.localeCompare(b))
+
+  const categories = [
+    ...new Set(exercises.map((e) => e.category).filter(Boolean)),
   ].sort((a, b) => a.localeCompare(b))
 
   // ===== SELECTION =====
@@ -81,29 +92,20 @@ export default function ExercisesLibraryPage() {
     setSelectedExercises((prev) => {
       const exists = prev.find((e) => e.id === ex.id)
 
-      return exists
-        ? prev.filter((e) => e.id !== ex.id)
-        : [...prev, ex]
+      return exists ? prev.filter((e) => e.id !== ex.id) : [...prev, ex]
     })
   }
 
   const updateParams = (updates) => {
-    const params =
-      new URLSearchParams(searchParams)
+    const params = new URLSearchParams(searchParams)
 
-    Object.entries(updates).forEach(
-      ([key, value]) => {
-        if (
-          value === null ||
-          value === undefined ||
-          value === ''
-        ) {
-          params.delete(key)
-        } else {
-          params.set(key, value)
-        }
-      },
-    )
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value === null || value === undefined || value === '') {
+        params.delete(key)
+      } else {
+        params.set(key, value)
+      }
+    })
 
     setSearchParams(params)
   }
@@ -129,24 +131,45 @@ export default function ExercisesLibraryPage() {
     }, 100)
 
     return () => clearInterval(interval)
+  }, [shouldRestoreScroll, scrollPosition, setShouldRestoreScroll])
 
-  }, [
-    shouldRestoreScroll,
-    scrollPosition,
-    setShouldRestoreScroll,
-  ])
+  const muscleItems = useMemo(() => {
+    return BASE_CATEGORIES.flatMap((bp) => {
+      const musclesForBodyPart = [
+        ...new Set(
+          exercises
+            .filter((e) => e.bodyPart === bp && e.muscle && e.muscle !== bp)
+            .map((e) => e.muscle),
+        ),
+      ].sort((a, b) => a.localeCompare(b))
+
+      return [
+        {
+          label: bp,
+          value: bp,
+          type: 'group',
+        },
+
+        {
+          label: `All ${bp}`,
+          value: bp,
+        },
+
+        ...musclesForBodyPart.map((m) => ({
+          label: `\u00A0\u00A0 ${m}`,
+          value: m,
+        })),
+      ]
+    })
+  }, [exercises])
 
   return (
     <div className="app">
-
       {/* BACK BUTTON */}
 
-      <BackButton
-        fallback={returnTo || '/'}
-      />
+      <BackButton fallback={returnTo || '/'} />
 
       <div className="section">
-
         <h2>{isSelectMode ? 'Select exercise' : 'Exercise Library'}</h2>
 
         {isSelectMode && (
@@ -171,67 +194,186 @@ export default function ExercisesLibraryPage() {
         />
 
         {/* FILTERS */}
+        <div className="filters-wrapper">
+          <div className="filters">
+            <Dropdown
+              label="Sort"
+              selected={sort !== 'a-z' ? sort : ''}
+              items={[
+                {
+                  label: 'A–Z',
+                  value: 'a-z',
+                },
+                {
+                  label: 'Z–A',
+                  value: 'z-a',
+                },
+                {
+                  label: 'Most Used',
+                  value: 'most-used',
+                },
+                {
+                  label: 'Recently Used',
+                  value: 'recent',
+                },
+              ]}
+              onSelect={(value) =>
+                updateParams({
+                  sort: value,
+                })
+              }
+            />
 
-        <div className="filters">
-          <select
-            className="select-base"
-            value={bodyPart}
-            onChange={(e) =>
-              updateParams({
-                bodyPart: e.target.value,
-                muscleGroup: null,
-                equipment: null,
-                limit: null,
-              })
-            }
-          >
-            <option value="">All body parts</option>
+            <Dropdown
+              label="Muscle"
+              selected={bodyPart || muscleGroup}
+              items={muscleItems}
+              onSelect={(value) => {
+                const isBodyPart = BASE_CATEGORIES.includes(value)
 
-            {BASE_CATEGORIES.map((bp) => (
-              <option key={bp} value={bp}>
-                {bp}
-              </option>
-            ))}
-          </select>
+                updateParams({
+                  bodyPart: isBodyPart ? value : null,
 
-          <select
-            className="select-base"
-            value={muscleGroup}
-            onChange={(e) =>
-              updateParams({
-                muscleGroup: e.target.value,
-                equipment: null,
-                limit: null,
-              })
-            }
-          >
-            <option value="">All muscles</option>
+                  muscleGroup: !isBodyPart ? value : null,
 
-            {muscles.map((m) => (
-              <option key={m} value={m}>
-                {m}
-              </option>
-            ))}
-          </select>
+                  limit: null,
+                })
+              }}
+            />
 
-          <select
-            className="select-base"
-            value={equipment}
-            onChange={(e) =>
-              updateParams({
-                equipment: e.target.value,
-                limit: null,
-              })
-            }
-          >
-            <option value="">All equipment</option>
+            <Dropdown
+              label="Equipment"
+              selected={equipment}
+              items={equipments.map((eq) => ({
+                label: eq,
+                value: eq,
+              }))}
+              onSelect={(value) =>
+                updateParams({
+                  equipment: value,
+                  limit: null,
+                })
+              }
+            />
 
-            {equipments.map((eq) => (
-              <option key={eq} value={eq}>
-                {eq}
-              </option>
-            ))}
-          </select>
+            <Dropdown
+              label="Category"
+              selected={category}
+              items={categories.map((cat) => ({
+                label: cat,
+                value: cat,
+              }))}
+              onSelect={(value) =>
+                updateParams({
+                  category: value,
+                  limit: null,
+                })
+              }
+            />
+          </div>
+
+          {/* ACTIVE FILTERS */}
+
+          {(sort !== 'a-z' ||
+            bodyPart ||
+            muscleGroup ||
+            equipment ||
+            category) && (
+            <div className="filters-active-wrapper">
+              <p className="small">Active filters</p>
+
+              <div className="active-filters">
+                {sort !== 'a-z' && (
+                  <button
+                    className="filter-chip"
+                    onClick={() =>
+                      updateParams({
+                        sort: 'a-z',
+                      })
+                    }
+                  >
+                    {
+                      {
+                        'a-z': 'A–Z',
+                        'z-a': 'Z–A',
+                        'most-used': 'Most Used',
+                        recent: 'Recently Used',
+                      }[sort]
+                    }{' '}
+                    ✕
+                  </button>
+                )}
+
+                {bodyPart && (
+                  <button
+                    className="filter-chip"
+                    onClick={() =>
+                      updateParams({
+                        bodyPart: null,
+                      })
+                    }
+                  >
+                    {bodyPart} ✕
+                  </button>
+                )}
+
+                {muscleGroup && (
+                  <button
+                    className="filter-chip"
+                    onClick={() =>
+                      updateParams({
+                        muscleGroup: null,
+                      })
+                    }
+                  >
+                    {muscleGroup} ✕
+                  </button>
+                )}
+
+                {equipment && (
+                  <button
+                    className="filter-chip"
+                    onClick={() =>
+                      updateParams({
+                        equipment: null,
+                      })
+                    }
+                  >
+                    {equipment} ✕
+                  </button>
+                )}
+
+                {category && (
+                  <button
+                    className="filter-chip"
+                    onClick={() =>
+                      updateParams({
+                        category: null,
+                      })
+                    }
+                  >
+                    {category} ✕
+                  </button>
+                )}
+
+                <button
+                  className="clear-filters"
+                  onClick={() =>
+                    updateParams({
+                      sort: 'a-z',
+                      bodyPart: null,
+                      muscleGroup: null,
+                      equipment: null,
+                      category: null,
+                      limit: null,
+                    })
+                  }
+                >
+                  Clear all
+                </button>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* DATA */}

@@ -1,17 +1,18 @@
 /**
  * Reusable button component.
- * Handles variants, sizes, loading and layout modifiers.
+ * Handles variants, sizes,
+ * loading, and layout modifiers.
  * @param {object} props - Component props
  * @param {import('react').ReactNode} props.children - Button content
- * @param {'primary'|'secondary'|'danger'|'ghost'|'cta'} [props.variant]
- * @param {'sm'|'md'|'lg'|'icon'} [props.size]
- * @param {boolean} [props.fullWidth]
- * @param {boolean} [props.loading]
- * @param {boolean} [props.disabled]
- * @param {string} [props.className]
- * @param {'button'|'submit'|'reset'} [props.type]
- * @param {import('react').ReactNode} [props.leftIcon]
- * @param {(event: React.MouseEvent<HTMLButtonElement>) => void} [props.onClick]
+ * @param {'primary'|'secondary'|'danger'|'ghost'|'cta'} props.variant - Button style variant
+ * @param {'sm'|'md'|'lg'|'icon'} props.size - Button size
+ * @param {boolean} props.fullWidth - Whether button should fill container width
+ * @param {boolean} props.loading - Whether button is loading
+ * @param {boolean} props.disabled - Whether button is disabled
+ * @param {string} props.className - Additional CSS classes
+ * @param {'button'|'submit'|'reset'} props.type - Button type
+ * @param {import('react').ReactNode} props.leftIcon - Icon displayed before content
+ * @param {(event: import('react').MouseEvent<HTMLButtonElement>) => void} props.onClick - Click handler
  * @returns {import('react').ReactElement} Button UI
  */
 export default function Button({
