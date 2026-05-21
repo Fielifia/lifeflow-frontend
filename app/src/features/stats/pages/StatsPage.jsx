@@ -7,6 +7,7 @@ import StatsHeader from '../components/StatsHeader'
 import StatsHero from '../components/StatsHero'
 
 import { useStatistics } from '../hooks/useStatistics'
+import ExerciseInsights from '../components/ExerciseInsights'
 
 /**
  * Statistics and progress page.
@@ -45,6 +46,10 @@ export default function StatsPage() {
         >
 
           <StatsHero
+            stats={stats}
+          />
+
+          <ExerciseInsights
             stats={stats}
           />
 
