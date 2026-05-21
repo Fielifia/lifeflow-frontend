@@ -15,7 +15,7 @@ import ActionMenu from '../../../shared/components/ui/action-menu/ActionMenu'
  * @param {(duration: number) => void} props.onChangeDuration - Updates workout duration
  * @param {boolean} [props.isEditable] - Whether workout can be edited
  * @param {boolean} [props.showDuration] - Whether duration should be displayed
- * @param {Array<object>} props.menuItems - Action menu items
+ * @param {Array<object>} props.menuItems - Contextual action menu items
  * @returns {import('react').ReactElement} Header UI
  */
 export default function WorkoutHeader({
@@ -33,10 +33,20 @@ export default function WorkoutHeader({
   showDuration = true,
   menuItems,
 }) {
-  
+
   return (
     <div className="workout-header">
-      <ActionMenu items={menuItems} align="right" />
+
+      {/* ACTION MENU */}
+
+      {menuItems?.length > 0 && (
+        <ActionMenu
+          items={menuItems}
+          align="right"
+        />
+      )}
+
+      {/* WORKOUT NAME */}
 
       <div className="workout-name">
         {isEditing && isEditable ? (
@@ -69,6 +79,8 @@ export default function WorkoutHeader({
           </h2>
         )}
       </div>
+
+      {/* DURATION DISPLAY */}
 
       {showDuration && (
         <DurationDisplay

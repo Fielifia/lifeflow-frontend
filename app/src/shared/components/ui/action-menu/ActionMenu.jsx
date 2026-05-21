@@ -1,55 +1,88 @@
 import {
   useEffect,
   useRef,
-  useState
-
+  useState,
 } from 'react'
 
 import { EllipsisVertical } from 'lucide-react'
 
+// ===== DEVICE DETECTION =====
+
+const isTouchDevice =
+  window.matchMedia('(hover: none)').matches
+
+/**
+ * Action menu item configuration.
+ * @typedef {object} ActionMenuItem
+ * @property {string} [id] - Unique item id
+ * @property {string} [label] - Item label
+ * @property {string} [subtitle] - Optional subtitle
+ * @property {() => void} [onClick] - Click handler
+ * @property {(value:boolean) => void} [onChange]
+ * Toggle change handler
+ * @property {boolean} [value] - Toggle value
+ * @property {'toggle'} [type] - Item type
+ * @property {boolean} [danger] - Danger styling
+ * @property {boolean} [divider] - Divider item
+ * @property {boolean} [disabled] - Disabled state
+ * @property {boolean} [closeOnClick]
+ * Whether menu closes after click
+ * @property {import('lucide-react').LucideIcon} [icon]
+ * Item icon
+ */
+
 /**
  * Dropdown action menu for contextual actions.
  * @param {object} props - Component props
- * @param {Array<{
- *  label:string,
- *  onClick?:()=>void,
- *  icon?:import('lucide-react').LucideIcon,
- *  danger?:boolean
- * }>} props.items - Menu actions
- * @param {(open:boolean)=>void} [props.onClickChange] - Open state callback
+ * @param {ActionMenuItem[]} props.items - Menu actions
+ * @param {import('lucide-react').LucideIcon} [props.triggerIcon]
+ * Trigger button icon
+ * @param {'left'|'right'} [props.align]
+ * Dropdown alignment
+ * @param {(open:boolean)=>void} [props.onOpenChange]
+ * Open state callback
  * @returns {import('react').ReactElement} Action menu UI
  */
-export default function ActionMenu({ items = [], onClickChange }) {
-
+export default function ActionMenu({
+  items = [],
+  triggerIcon: TriggerIcon = EllipsisVertical,
+  align = 'right',
+  onOpenChange,
+}) {
   const [open, setOpen] = useState(false)
+
   const menuRef = useRef(null)
 
   // ===== CLOSE ON OUTSIDE CLICK =====
 
   useEffect(() => {
     const handleClickOutside = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(e.target)
+      ) {
         setOpen(false)
       }
     }
 
-    document.addEventListener('click', handleClickOutside)
+    document.addEventListener(
+      'click',
+      handleClickOutside
+    )
 
     return () => {
-      document.removeEventListener('click', handleClickOutside)
+      document.removeEventListener(
+        'click',
+        handleClickOutside
+      )
     }
   }, [])
 
   // ===== OPEN STATE CALLBACK =====
 
   useEffect(() => {
-    onClickChange?.(open)
-  }, [open, onClickChange])
-
-
-  // ===== DEVICE DETECTION =====
-  
-  const isTouchDevice = window.matchMedia('(hover: none)').matches
+    onOpenChange?.(open)
+  }, [open, onOpenChange])
 
   return (
     <div
@@ -68,39 +101,112 @@ export default function ActionMenu({ items = [], onClickChange }) {
     >
       <button
         type="button"
-        className={`btn btn-dots ${open ? 'hidden' : ''}`}
+        className="btn btn-dots"
+        aria-expanded={open}
+        aria-haspopup="menu"
         onClick={(e) => {
           e.stopPropagation()
+
           setOpen((prev) => !prev)
         }}
       >
-        <EllipsisVertical className="action-menu-dots" />
+        <TriggerIcon className="action-menu-dots" />
       </button>
 
       {open && (
         <div
-          className="action-menu-dropdown"
+          role="menu"
+          className={`action-menu-dropdown ${align}`}
           onClick={(e) => e.stopPropagation()}
         >
-          {items.map((item) => (
-            <button
-              type="button"
-              key={item.label}
-              className={`action-menu-item ${item.danger ? 'danger' : ''}`}
-              onClick={(e) => {
-                e.stopPropagation()
+          {items.map((item, i) => {
+            // ===== DIVIDER =====
 
-                item.onClick?.()
+            if (item.divider) {
+              return (
+                <div
+                  role="separator"
+                  key={`divider-${i}`}
+                  className="action-menu-divider"
+                />
+              )
+            }
 
-                setOpen(false)
-              }}
-            >
-              <div className="action-menu-item-content">
-                {item.icon && <item.icon className="icon-small" />}
-                <span>{item.label}</span>
-              </div>
-            </button>
-          ))}
+            // ===== ITEM =====
+
+            return (
+              <button
+                type="button"
+                role={
+                  item.type === 'toggle'
+                    ? 'switch'
+                    : 'menuitem'
+                }
+                aria-checked={
+                  item.type === 'toggle'
+                    ? item.value
+                    : undefined
+                }
+                disabled={item.disabled}
+                key={item.id || item.label || i}
+                className={`
+                  action-menu-item
+                  ${item.danger ? 'danger' : ''}
+                  ${item.disabled ? 'disabled' : ''}
+                `}
+                onClick={(e) => {
+                  e.stopPropagation()
+
+                  if (item.disabled) {
+                    return
+                  }
+
+                  if (item.type === 'toggle') {
+                    item.onChange?.(!item.value)
+                  } else {
+                    item.onClick?.()
+                  }
+
+                  if (item.closeOnClick !== false) {
+                    setOpen(false)
+                  }
+                }}
+              >
+                <div className="action-menu-item-content">
+
+                  {/* ICON */}
+
+                  {item.icon && (
+                    <item.icon className="icon-small" />
+                  )}
+
+                  {/* TEXT */}
+
+                  <div className="action-menu-text">
+                    <span>{item.label}</span>
+
+                    {item.subtitle && (
+                      <span className="action-menu-subtitle">
+                        {item.subtitle}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* TOGGLE */}
+
+                  {item.type === 'toggle' && (
+                    <div
+                      className={`
+                        toggle
+                        ${item.value ? 'active' : ''}
+                      `}
+                    />
+                  )}
+
+                </div>
+              </button>
+            )
+          })}
         </div>
       )}
     </div>
