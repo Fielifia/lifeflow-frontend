@@ -10,8 +10,9 @@ import ActionMenu from '../../../shared/components/ui/action-menu/ActionMenu'
  * @param {(value: string) => void} props.onChangeName - Update name
  * @param {number} props.elapsed - Duration in seconds
  * @param {Date | null} props.startTime - Workout start time
- * @param {string} [props.mode] - Duration display mode
+ * @param {'run' | 'history'} [props.mode] - Duration display mode
  * @param {number} props.duration - Workout duration in seconds
+ * @param {string} [props.durationLabel] - Duration label text
  * @param {(duration: number) => void} props.onChangeDuration - Updates workout duration
  * @param {boolean} [props.isEditable] - Whether workout can be edited
  * @param {boolean} [props.showDuration] - Whether duration should be displayed

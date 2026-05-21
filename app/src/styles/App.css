@@ -1630,30 +1630,3 @@ input[type="checkbox"]:hover {
   opacity: 0.85;
 }
 
-.stat-card {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.stat-card-value {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.stat-card-icon {
-  width: 20px;
-  color: var(--primary-light);
-}
-
-.stat-card-value span {
-  font-size: 28px;
-  font-weight: 600;
-  margin: 0;
-}
-
-.stat-card-label {
-  font-size: 12px;
-  color: var(--muted);
-}

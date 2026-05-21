@@ -83,7 +83,7 @@ export default function WorkoutDetailPage() {
 
       {/* HEADER */}
 
-      <Header title={workout.name} subtitle={formatDate(workout.date)} />
+      <Header title={workout.name} subtitle={formatDate(workout.timestamp)} />
 
       {/* BACK BUTTON */}
 

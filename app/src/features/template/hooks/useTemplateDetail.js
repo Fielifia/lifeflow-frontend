@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { getTemplateByIdApi } from '../../../shared/api/templateApi'
+import { calculateWorkoutStats } from '../../../shared/utils/calculateWorkoutStats'
+
 
 /**
  * Fetches template detail data.
@@ -40,9 +42,16 @@ export function useTemplateDetail(id) {
     fetchTemplate()
   }, [id])
 
+  const stats = useMemo(() => {
+    if (!template) return null
+
+    return calculateWorkoutStats(template)
+  }, [template])
+
   return {
     template,
     loading,
     error,
+    stats,
   }
 }

@@ -11,10 +11,10 @@ import WorkoutSessionBar from './WorkoutSessionBar'
  * @returns {import('react').ReactElement|null} Workout session bar UI
  */
 export default function WorkoutSessionBarWrapper() {
-  const { isResting, restRemaining, adjustRest, skipRest } = useWorkoutContext()
-
   const location = useLocation()
   const navigate = useNavigate()
+
+  const { isResting, restRemaining, adjustRest, skipRest } = useWorkoutContext()
 
   const workout = draftWorkoutStorage.get()
 
