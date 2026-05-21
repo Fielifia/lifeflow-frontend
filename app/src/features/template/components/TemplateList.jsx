@@ -1,10 +1,8 @@
 import { useState } from 'react'
 import {
-  useLocation,
   useNavigate
 } from 'react-router-dom'
 
-import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 
@@ -29,9 +27,6 @@ export default function TemplateList({
 }) {
 
   const navigate = useNavigate()
-  const location = useLocation()
-
-  const { setReturnTo } = useExerciseFlow()
 
   const [search, setSearch] = useState('')
 
@@ -79,9 +74,9 @@ export default function TemplateList({
               template={template}
               onDeleteTemplate={onDeleteTemplate}
               onClick={() => {
-                setReturnTo(location.pathname)
-
-                navigate(`/templates/${template._id}`)
+                navigate(
+                  `/templates/${template._id}?from=workouts`
+                )
               }}
             />
           ))}

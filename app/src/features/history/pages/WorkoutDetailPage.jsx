@@ -1,10 +1,8 @@
 import {
-  useLocation,
   useNavigate,
   useParams
 } from 'react-router-dom'
 
-import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { useWorkoutManager } from '../hooks/useWorkoutManager'
 
 import { calculateMuscleSplit } from '../../../shared/utils/calculateMuscleSplit'
@@ -12,7 +10,7 @@ import { formatDate } from '../../../shared/utils/format'
 import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
 import { useWorkoutDetail } from '../hooks/useWorkoutDetail'
 
-import BackButton from '../../../shared/components/ui/BackButton'
+import BackButton from '../../../shared/components/ui/button/BackButton'
 import Header from '../../../shared/components/ui/Header'
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 import WorkoutControls from '../../../shared/components/WorkoutControls'
@@ -36,9 +34,6 @@ import WorkoutSummary from '../components/WorkoutSummary'
 export default function WorkoutDetailPage() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const location = useLocation()
-
-  const { setReturnTo } = useExerciseFlow()
 
   const { startWorkout } = useStartWorkout()
 
@@ -121,15 +116,14 @@ export default function WorkoutDetailPage() {
       <WorkoutControls
         variant="detail"
         onStartWorkout={(e) => {
-          setReturnTo(location.pathname)
           e.stopPropagation?.()
 
           startWorkout({ workout })
         }}
         onEdit={() => {
-          setReturnTo(location.pathname)
-
-          navigate(`/workouts/${workout._id}/edit`)
+          navigate(
+            `/workouts/${workout._id}/edit?from=history`
+          )
         }}
         onDelete={handleDeleteWorkout}
         editLabel="Edit Workout"

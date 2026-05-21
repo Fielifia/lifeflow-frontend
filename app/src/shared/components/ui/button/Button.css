@@ -47,6 +47,10 @@ button {
 /* ============ SIZE =========== */
 /* ============================= */
 
+.btn-xs {
+  padding: 0;
+}
+
 .btn-sm {
   padding: 8px 12px;
   font-size: 12px;

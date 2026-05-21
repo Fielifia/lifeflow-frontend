@@ -1,4 +1,4 @@
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Check, Eye } from 'lucide-react'
 
 /**
@@ -18,6 +18,7 @@ export default function ExerciseCard({
   selected,
   mode = 'view',
 }) {
+  const location = useLocation()
   const navigate = useNavigate()
   const showDetailsButton = mode === 'select'
 
@@ -27,7 +28,9 @@ export default function ExerciseCard({
     if (onView) {
       onView(exercise)
     } else {
-      navigate(`/exercises/${exercise.id}`)
+      navigate(
+        `/exercises/${exercise.id}${location.search}`
+      )
     }
   }
 

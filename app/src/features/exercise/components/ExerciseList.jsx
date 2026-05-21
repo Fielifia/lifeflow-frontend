@@ -28,7 +28,6 @@ export default function ExerciseList({
   const location = useLocation()
 
   const {
-    setLibraryReturnTo,
     setScrollPosition,
     setShouldRestoreScroll,
   } = useExerciseFlow()
@@ -37,15 +36,13 @@ export default function ExerciseList({
 
   const openExercise = (exerciseId) => {
 
-    setLibraryReturnTo(
-      `${location.pathname}${location.search}`,
-    )
-
     setScrollPosition(window.scrollY)
 
     setShouldRestoreScroll(true)
 
-    navigate(`/exercises/${exerciseId}`)
+    navigate(
+      `/exercises/${exerciseId}${location.search}`
+    )
   }
 
   return (
@@ -81,7 +78,7 @@ export default function ExerciseList({
           />
         )
       })}
-      
+
     </div>
   )
 }
