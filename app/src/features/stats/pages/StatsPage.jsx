@@ -20,7 +20,6 @@ export default function StatsPage() {
     loading,
     error,
   } = useStatistics(range)
-  console.log(stats)
 
   return (
     <div className="app">
