@@ -19,7 +19,6 @@ import {
  *
  * Displays workout records, top exercises,
  * and strength highlights.
- *
  * @param {object} props - Component props
  * @param {object} props.stats - Statistics data
  * @returns {import('react').ReactElement} Exercise insights UI

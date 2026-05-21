@@ -41,10 +41,8 @@ import { buildTemplatePayload } from '../utils/buildTemplatePayload'
  * - temporary cross-page workflow state
  * - save/discard/delete actions
  * - unsaved changes detection
- * @param {string | undefined} id
- * Template id for edit mode.
- * @param {(path: string, options?: object) => void} navigate
- * React Router navigation function.
+ * @param {string | undefined} id Template id for edit mode.
+ * @param {(path: string, options?: object) => void} navigate React Router navigation function.
  * @returns {{
  *  template: object | null,
  *  setTemplate: import('react').Dispatch<

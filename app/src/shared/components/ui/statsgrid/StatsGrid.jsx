@@ -4,7 +4,6 @@ import StatCard from './StatCard'
  * Reusable statistics grid.
  *
  * Displays a collection of stat cards.
- *
  * @param {object} props - Component props
  * @param {Array<object>} props.items - Stat card items
  * @returns {import('react').ReactElement} Stats grid UI

@@ -10,9 +10,9 @@
  * @param {boolean} props.loading - Whether button is loading
  * @param {boolean} props.disabled - Whether button is disabled
  * @param {string} props.className - Additional CSS classes
- * @param {'button'|'submit'|'reset'} props.type - Button type
+ * @param {'button'|'submit'|'reset'} props.type - Native button type
  * @param {import('react').ReactNode} props.leftIcon - Icon displayed before content
- * @param {(event: import('react').MouseEvent<HTMLButtonElement>) => void} props.onClick - Click handler
+ * @param {(event: object) => void} props.onClick - Click handler
  * @returns {import('react').ReactElement} Button UI
  */
 export default function Button({
