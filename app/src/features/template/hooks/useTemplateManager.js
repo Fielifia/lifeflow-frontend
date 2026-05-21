@@ -50,63 +50,48 @@ import { buildTemplatePayload } from '../utils/buildTemplatePayload'
  *  setTemplate: import('react').Dispatch<
  *    import('react').SetStateAction<object | null>
  *  >,
- *
  *  loading: boolean,
  *  saving: boolean,
  *  success: boolean,
  *  error: string,
- *
  *  isEditingName: boolean,
  *  setIsEditingName: import('react').Dispatch<
  *    import('react').SetStateAction<boolean>
  *  >,
- *
  *  openLibrary: () => void,
- *
  *  exerciseActions: {
  *    addSet: (
  *      index: number
  *    ) => void,
- *
  *    updateSet: (
  *      exIndex: number,
  *      setIndex: number,
  *      field: string,
  *      value: string | number | boolean
  *    ) => void,
- *
  *    removeSet: (
  *      exIndex: number,
  *      setIndex: number
  *    ) => void,
- *
  *    removeExercise: (
  *      index: number
  *    ) => void,
- *
  *    updateExerciseRest: (
  *      index: number,
  *      value: number
  *    ) => void,
- *
  *    updateExerciseNotes: (
  *      index: number,
  *      notes: string
  *    ) => void,
  *  },
- *
  *  updateTemplateNotes: (
  *    notes: string
  *  ) => void,
- *
  *  hasUnsavedChanges: boolean,
- *
  *  saveTemplate: () => Promise<void>,
- *
  *  discardTemplate: () => void,
- *
  *  discardChanges: () => void,
- *
  *  deleteTemplate: () => Promise<void>,
  * }}
  * Template manager state and actions.
