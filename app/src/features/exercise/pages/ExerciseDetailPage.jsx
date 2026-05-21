@@ -77,12 +77,18 @@ export default function ExerciseDetail() {
 
   const imageSrc = ex?.images?.[currentImage] || '/placeholder.png'
 
-  const search = location.search
+  const searchParams = new URLSearchParams(location.search)
 
-  const fallback =
-    search
-      ? `/exercises${search}`
+  const from = searchParams.get('from')
+
+  searchParams.delete('from')
+
+  const libraryFallback =
+    searchParams.toString()
+      ? `/exercises?${searchParams.toString()}`
       : '/exercises'
+
+  const fallback = from || libraryFallback
 
   if (loading || error || !ex) {
     return (

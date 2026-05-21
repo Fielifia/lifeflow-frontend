@@ -43,13 +43,15 @@ export default function ExercisesLibraryPage() {
   const id = searchParams.get('id')
 
   const fallback =
-    flow === 'template-edit'
-      ? `/templates/${id}/edit`
-      : flow === 'workout-edit'
-        ? `/workouts/${id}/edit`
-        : flow === 'workout-run'
-          ? '/workouts/current/run'
-          : '/exercises'
+    flow === 'template-create'
+      ? '/templates/create'
+      : flow === 'template-edit'
+        ? `/templates/${id}/edit`
+        : flow === 'workout-edit'
+          ? `/workouts/${id}/edit`
+          : flow === 'workout-run'
+            ? '/workouts/current/run'
+            : '/'
 
   const sort = searchParams.get('sort') || 'a-z'
 

@@ -50,6 +50,8 @@ export default function ExerciseItem({
 
   const location = useLocation()
   const inputRefs = useRef([])
+  const currentRoute =
+    `${location.pathname}${location.search}`
 
   const isRunMode = mode === 'run'
   const isWorkoutMode = mode === 'workout'
@@ -126,8 +128,15 @@ export default function ExerciseItem({
             alt=""
             className="exercise-img-small"
             onClick={() => {
+              const params = new URLSearchParams(location.search)
+
+              params.set(
+                'from',
+                currentRoute,
+              )
+
               navigate(
-                `/exercises/${ex.exerciseId}${location.search}`
+                `/exercises/${ex.exerciseId}?${params.toString()}`
               )
             }}
           />
