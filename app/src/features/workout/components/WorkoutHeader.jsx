@@ -32,6 +32,7 @@ export default function WorkoutHeader({
   isEditable = true,
   showDuration = true,
   menuItems,
+  onEditStartTime,
 }) {
 
   return (
@@ -91,6 +92,7 @@ export default function WorkoutHeader({
           label={durationLabel}
           onChangeDuration={onChangeDuration}
           isEditable={isEditable}
+          onClickStartTime={onEditStartTime}
         />
       )}
     </div>

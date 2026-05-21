@@ -3,7 +3,6 @@ import {
   useState
 } from 'react'
 import {
-  useLocation,
   useNavigate
 } from 'react-router-dom'
 
@@ -12,7 +11,6 @@ import {
   getTemplatesApi,
 } from '../../../shared/api/templateApi'
 
-import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
 import { useStartWorkout } from '../hooks/useStartWorkout'
 
@@ -37,9 +35,6 @@ import TemplateList from '../../template/components/TemplateList'
  */
 export default function WorkoutStartPage() {
   const navigate = useNavigate()
-  const location = useLocation()
-
-  const { setReturnTo } = useExerciseFlow()
 
   const { draftTemplate } = useWorkoutContext()
 
@@ -128,9 +123,7 @@ export default function WorkoutStartPage() {
           <Button
             variant="cta"
             onClick={() => {
-              setReturnTo(location.pathname)
-
-              navigate('/templates/create')
+              navigate('/templates/create?from=workouts')
             }}
           >
             <span className="hero-icon">+</span>

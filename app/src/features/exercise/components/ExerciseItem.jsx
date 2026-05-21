@@ -9,6 +9,8 @@ import {
   useState
 } from 'react'
 
+import { useLocation } from 'react-router-dom'
+
 import { formatRestTime } from '../../../shared/utils/format'
 
 import ExerciseSetRow from './ExerciseSetRow'
@@ -45,6 +47,8 @@ export default function ExerciseItem({
   mode = 'run',
   isEditable = true,
 }) {
+
+  const location = useLocation()
   const inputRefs = useRef([])
 
   const isRunMode = mode === 'run'
@@ -122,11 +126,9 @@ export default function ExerciseItem({
             alt=""
             className="exercise-img-small"
             onClick={() => {
-              navigate(`/exercises/${ex.exerciseId || ex.id}`, {
-                state: {
-                  from: window.location.pathname,
-                },
-              })
+              navigate(
+                `/exercises/${ex.exerciseId}${location.search}`
+              )
             }}
           />
 

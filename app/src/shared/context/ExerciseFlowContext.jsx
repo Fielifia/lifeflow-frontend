@@ -21,12 +21,6 @@ export function ExerciseFlowProvider({ children }) {
   // ===== EXERCISE SELECTION =====
 
   const [selectedExercises, setSelectedExercises] = useState([])
-
-  // ===== NAVIGATION =====
-
-  const [returnTo, setReturnTo] = useState('/')
-  
-  const [libraryReturnTo, setLibraryReturnTo] = useState('/exercises')
   
   // ===== SCROLL =====
   
@@ -46,12 +40,6 @@ export function ExerciseFlowProvider({ children }) {
       value={{
         selectedExercises,
         setSelectedExercises,
-
-        returnTo,
-        setReturnTo,
-
-        libraryReturnTo,
-        setLibraryReturnTo,
 
         scrollPosition,
         setScrollPosition,

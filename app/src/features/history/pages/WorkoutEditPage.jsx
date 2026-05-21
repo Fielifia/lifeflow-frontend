@@ -1,21 +1,21 @@
 import { useState } from 'react'
 import {
+  useLocation,
   useNavigate,
   useParams
 } from 'react-router-dom'
 
-import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { useWorkoutManager } from '../hooks/useWorkoutManager'
 
-import BackButton from '../../../shared/components/ui/BackButton'
+import BackButton from '../../../shared/components/ui/button/BackButton'
 import Header from '../../../shared/components/ui/Header'
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 import WorkoutControls from '../../../shared/components/WorkoutControls'
 
 import ExerciseItem from '../../exercise/components/ExerciseItem'
 
-import WorkoutHeader from '../../workout/components/WorkoutHeader'
 import EditStartTimeModal from '../../workout/components/time/EditStartTimeModal'
+import WorkoutHeader from '../../workout/components/WorkoutHeader'
 
 
 /**
@@ -24,10 +24,20 @@ import EditStartTimeModal from '../../workout/components/time/EditStartTimeModal
  */
 export default function WorkoutEditPage() {
   const navigate = useNavigate()
+  const location = useLocation()
+
+  const searchParams =
+    new URLSearchParams(location.search)
+
+  const from =
+    searchParams.get('from')
+
+  const fallback =
+    from === 'history'
+      ? '/history'
+      : '/workouts'
 
   const { id } = useParams()
-
-  const { returnTo } = useExerciseFlow()
 
   const [showStartTimeModal, setShowStartTimeModal] = useState(false)
 
@@ -144,7 +154,7 @@ export default function WorkoutEditPage() {
       {/* BACK BUTTON */}
 
       <BackButton
-        fallback={returnTo || '/history'}
+        fallback={fallback}
         warnOnUnsavedChanges
         hasUnsavedChanges={hasUnsavedChanges}
         onDiscardChanges={discardChanges}

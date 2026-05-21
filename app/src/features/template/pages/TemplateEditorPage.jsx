@@ -1,12 +1,12 @@
 import {
+  useLocation,
   useNavigate,
   useParams
 } from 'react-router-dom'
 
-import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { useTemplateManager } from '../hooks/useTemplateManager'
 
-import BackButton from '../../../shared/components/ui/BackButton'
+import BackButton from '../../../shared/components/ui/button/BackButton'
 import Header from '../../../shared/components/ui/Header'
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 import WorkoutControls from '../../../shared/components/WorkoutControls'
@@ -22,11 +22,21 @@ import ExerciseItem from '../../exercise/components/ExerciseItem'
  */
 export default function TemplateEditorPage() {
   const navigate = useNavigate()
+  const location = useLocation()
+
+  const searchParams =
+    new URLSearchParams(location.search)
+
+  const from =
+    searchParams.get('from')
+
+  const fallback =
+    from === 'workouts'
+      ? '/workouts'
+      : '/templates'
 
   const { id } = useParams()
   const isCreate = !id
-
-  const { returnTo } = useExerciseFlow()
 
   const {
     template,
@@ -90,10 +100,11 @@ export default function TemplateEditorPage() {
       {/* BACK BUTTON */}
 
       <BackButton
-        fallback={returnTo || '/workouts'}
+        fallback={fallback}
         warnOnUnsavedChanges
         hasUnsavedChanges={hasUnsavedChanges}
-        onDiscardChanges={discardChanges}
+        onDiscardChanges={!isCreate ? discardChanges : undefined}
+        onDiscardTemplate={isCreate ? discardTemplate : undefined}
       />
 
       <div className="section">

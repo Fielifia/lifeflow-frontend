@@ -4,7 +4,6 @@ import {
   useState,
 } from 'react'
 
-import { useLocation } from 'react-router-dom'
 
 import {
   createTemplateApi,
@@ -21,8 +20,7 @@ import { draftTemplateStorage } from '../../../shared/utils/storage/draftStorage
 
 import { EMPTY_TEMPLATE } from '../../../shared/utils/constants'
 
-import { hasMeaningfulContent }
-  from '../../../shared/utils/editorUtils'
+import { hasMeaningfulContent } from '../../../shared/utils/editorUtils'
 
 import { appendExercisesToTemplate } from '../utils/appendExercisesToTemplate'
 
@@ -115,7 +113,6 @@ export function useTemplateManager(
   id,
   navigate,
 ) {
-  const location = useLocation()
 
   const isCreate = !id
 
@@ -153,9 +150,6 @@ export function useTemplateManager(
   const {
     selectedExercises,
     setSelectedExercises,
-
-    setReturnTo,
-    returnTo,
 
     editingTemplate,
     setEditingTemplate,
@@ -295,9 +289,17 @@ export function useTemplateManager(
   const openLibrary = () => {
     setEditingTemplate(template)
 
-    setReturnTo(location.pathname)
+    if (isCreate) {
+      navigate(
+        '/exercises?select=true&flow=template-create'
+      )
 
-    navigate('/exercises?select=true')
+      return
+    }
+
+    navigate(
+      `/exercises?select=true&flow=template-edit&id=${id}`
+    )
   }
 
   // ===== EXERCISE MUTATIONS =====
@@ -391,6 +393,7 @@ export function useTemplateManager(
   // ===== DISCARD TEMPLATE (CREATE) =====
 
   const discardTemplate = () => {
+
     const confirmed =
       window.confirm(
         'Discard template?',
@@ -399,6 +402,10 @@ export function useTemplateManager(
     if (!confirmed) {
       return
     }
+
+    setTemplate(EMPTY_TEMPLATE)
+
+    setIsEditingName(false)
 
     draftTemplateStorage.clear()
 
@@ -431,9 +438,6 @@ export function useTemplateManager(
     setEditingTemplate(restored)
     setIsEditingName(false)
 
-    if (returnTo) {
-      navigate(returnTo)
-    }
   }
 
   // ===== DELETE =====
@@ -468,7 +472,7 @@ export function useTemplateManager(
         return false
       }
     }
-    
+
   return {
     template,
     setTemplate,

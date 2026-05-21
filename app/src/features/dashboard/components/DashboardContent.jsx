@@ -185,7 +185,6 @@ export default function DashboardContent({
             <Link
               key={workout._id}
               to={`/workouts/${workout._id}`}
-              state={{ returnTo: '/' }}
             >
               <RecentWorkoutCard workout={workout} />
             </Link>

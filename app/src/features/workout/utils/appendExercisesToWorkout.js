@@ -16,25 +16,48 @@ import { buildWorkoutExercise } from './buildWorkoutExercise'
  * }} params - Append exercise dependencies
  * @returns {Promise<void>}
  */
-export async function appendExercisesToWorkout({ exercises, setWorkout }) {
+export async function appendExercisesToWorkout({
+  exercises,
+  setWorkout,
+}) {
   const results = await Promise.all(
     exercises.map(async (ex) => {
-      const prev = await getPreviousExerciseApi(ex.exerciseId || ex.id)
-      return buildWorkoutExercise(ex, prev)
+      const prev =
+        await getPreviousExerciseApi(
+          ex.exerciseId || ex.id,
+        )
+
+      return buildWorkoutExercise(
+        ex,
+        prev,
+      )
     }),
   )
 
   setWorkout((prev) => {
-    const uniqueExercises = results.filter(
-      (newEx) =>
-        !prev.exercises.some(
-          (existing) => existing.exerciseId === newEx.exerciseId,
-        ),
-    )
+    if (!prev) {
+      return prev
+    }
+
+    const currentExercises =
+      prev.exercises || []
+
+    const uniqueExercises =
+      results.filter(
+        (newEx) =>
+          !currentExercises.some(
+            (existing) =>
+              existing.exerciseId
+              === newEx.exerciseId,
+          ),
+      )
 
     return {
       ...prev,
-      exercises: [...prev.exercises, ...uniqueExercises],
+      exercises: [
+        ...currentExercises,
+        ...uniqueExercises,
+      ],
     }
   })
 }
