@@ -36,9 +36,7 @@ export const useWorkouts = ({
         setWorkouts(data.results)
         setTotal(data.total)
       } catch (err) {
-        console.error(err)
-
-        setError('Failed to fetch workouts')
+        setError('Failed to load workouts')
       } finally {
         setLoading(false)
       }

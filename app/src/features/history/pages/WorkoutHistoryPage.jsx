@@ -32,7 +32,7 @@ export default function WorkoutHistoryPage() {
 
         setWorkouts(Array.isArray(data) ? data : data.results || [])
       } catch (err) {
-        setError(err.message || 'Failed to load workouts')
+        setError('Failed to load workouts')
       } finally {
         setLoading(false)
       }

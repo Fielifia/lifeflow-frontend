@@ -31,7 +31,7 @@ export function useTemplateDetail(id) {
 
         setTemplate(data)
       } catch {
-        setError('Could not load template')
+        setError('Failed to load template')
       } finally {
         setLoading(false)
       }

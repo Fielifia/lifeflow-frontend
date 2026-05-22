@@ -50,7 +50,7 @@ export default function ExerciseDetail() {
         const data = await getExerciseByIdApi(id)
         setExercise(normalizeExercise(data))
       } catch (err) {
-        setError(err.message || 'Failed to load exercise')
+        setError('Failed to load exercise')
       } finally {
         setLoading(false)
       }

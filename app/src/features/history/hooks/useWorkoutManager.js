@@ -191,10 +191,7 @@ export function useWorkoutManager(
 
         setEditingWorkout(data)
       } catch (err) {
-        setError(
-          err.response?.data?.error ||
-          'Failed to load workout',
-        )
+        setError( 'Failed to load workout')
       } finally {
         setLoading(false)
       }
@@ -318,10 +315,7 @@ export function useWorkoutManager(
         `/workouts/${updated._id}`,
       )
     } catch (err) {
-      setError(
-        err.response?.data?.error ||
-        'Could not update workout',
-      )
+      setError('Could not update workout')
     } finally {
       setSaving(false)
     }
@@ -347,10 +341,7 @@ export function useWorkoutManager(
 
         setSuccess(true)
       } catch (err) {
-        setError(
-          err.response?.data?.error ||
-          'Could not save template',
-        )
+        setError('Could not save template')
       } finally {
         setSaving(false)
       }
@@ -406,10 +397,7 @@ export function useWorkoutManager(
 
         return true
       } catch (err) {
-        setError(
-          err.response?.data?.error ||
-          'Could not delete workout',
-        )
+        setError('Could not delete workout')
 
         return false
       }

@@ -216,9 +216,7 @@ export function useTemplateManager(
             structuredClone(normalized)
 
         } catch {
-          setError(
-            'Could not load template',
-          )
+          setError('Failed to load template')
         } finally {
           setLoading(false)
         }
@@ -381,9 +379,9 @@ export function useTemplateManager(
         setSuccess(true)
       } catch (err) {
         setError(
-          err.message
-          || err.response?.data?.error
-          || 'Could not save template',
+          isCreate
+            ? 'Could not save template'
+            : 'Could not update template',
         )
       } finally {
         setSaving(false)
@@ -464,10 +462,7 @@ export function useTemplateManager(
 
         return true
       } catch (err) {
-        setError(
-          err.response?.data?.error
-          || 'Could not delete template',
-        )
+        setError('Could not delete template')
 
         return false
       }

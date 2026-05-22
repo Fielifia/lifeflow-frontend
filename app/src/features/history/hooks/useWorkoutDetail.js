@@ -40,7 +40,7 @@ export function useWorkoutDetail(id) {
 
         setWorkout(data)
       } catch {
-        setError('Could not load workout')
+        setError('Failed to load workout')
       } finally {
         setLoading(false)
       }

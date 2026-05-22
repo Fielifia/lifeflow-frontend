@@ -120,7 +120,7 @@ export function useWorkoutLogic(workoutId, navigate) {
 
   const [saving, setSaving] = useState(false)
   const [success, setSuccess] = useState(false)
-  const [error, setError] = useState('')
+  const [error, setError] = useState(null)
   const [isEditingName, setIsEditingName] = useState(false)
 
   const {
@@ -255,11 +255,7 @@ export function useWorkoutLogic(workoutId, navigate) {
 
       draftWorkoutStorage.clear()
     } catch (err) {
-      setError(
-        err.response?.data?.error ||
-        err.message ||
-        'Could not save workout',
-      )
+      setError('Could not save workout')
     } finally {
       setSaving(false)
     }
@@ -275,10 +271,7 @@ export function useWorkoutLogic(workoutId, navigate) {
 
       setSuccess(true)
     } catch (err) {
-      setError(
-        err.response?.data?.error ||
-        'Could not save template',
-      )
+      setError('Could not save template')
     }
   }
 

@@ -18,7 +18,7 @@ export default function RegisterPage({ setUser }) {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [error, setError] = useState('')
+  const [error, setError] = useState(null)
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -56,8 +56,7 @@ export default function RegisterPage({ setUser }) {
       setConfirmPassword('')
 
     } catch (err) {
-      const msg = err.response?.data?.error || 'Registration failed'
-      setError(msg)
+      setError('Registration failed')
     } finally {
       setLoading(false)
     }
