@@ -4,11 +4,14 @@
  */
 import ReactDOM from 'react-dom/client'
 import App from './App'
+import './features/dashboard/Dashboard.css'
+import './features/exercise/Exercise.css'
+import './features/workout/components/session/WorkoutSessionBar.css'
 import reportWebVitals from './reportWebVitals'
 import './shared/components/ui/action-menu/ActionMenu.css'
 import './shared/components/ui/button/Button.css'
-import './shared/components/ui/skeleton/Skeleton.css'
 import './shared/components/ui/dropdown/Dropdown.css'
+import './shared/components/ui/skeleton/Skeleton.css'
 import './styles/App.css'
 
 // --- Render the App component into the root DOM element ---

@@ -9,6 +9,8 @@ import { CATEGORY_ORDER } from '../utils/exerciseCategories'
 
 import BackButton from '../../../shared/components/ui/button/BackButton'
 
+import Button from '../../../shared/components/ui/button/Button'
+
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 
 import Dropdown from '../../../shared/components/ui/dropdown/Dropdown'
@@ -182,7 +184,7 @@ export default function ExercisesLibraryPage() {
 
       <BackButton fallback={fallback} />
 
-      <div className="section">
+      <div className="section exercise-library-page">
         <h2>{isSelectMode ? 'Select exercise' : 'Exercise Library'}</h2>
 
         {isSelectMode && (
@@ -406,19 +408,6 @@ export default function ExercisesLibraryPage() {
           />
         </DataState>
 
-        {/* ADD BUTTON */}
-
-        {isSelectMode && selectedExercises.length > 0 && (
-          <button
-            className="btn btn-md btn-primary"
-            onClick={() => {
-              navigate(fallback)
-            }}
-          >
-            Add {selectedExercises.length} exercises
-          </button>
-        )}
-
         {/* LOAD MORE */}
 
         {visibleCount < filtered.length && (
@@ -431,6 +420,32 @@ export default function ExercisesLibraryPage() {
             }
           >
             Show more ({filtered.length - visibleCount} left)
+          </button>
+        )}
+
+        {/* FLOATING BUTTON */}
+        {isSelectMode && selectedExercises.length > 0 && (
+          <div className="floating-add-btn">
+            <Button
+              variant="primary"
+              size="md"
+              onClick={() => navigate(fallback)}
+            >
+              Add {selectedExercises.length}
+            </Button>
+          </div>
+        )}
+
+        {/* ADD BUTTON */}
+
+        {isSelectMode && selectedExercises.length > 0 && (
+          <button
+            className="btn btn-md btn-primary"
+            onClick={() => {
+              navigate(fallback)
+            }}
+          >
+            Add {selectedExercises.length} exercises
           </button>
         )}
       </div>

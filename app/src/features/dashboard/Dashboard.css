@@ -1,0 +1,118 @@
+/* ============================= */
+/* ========== DASHBOARD ======== */
+/* ============================= */
+
+.header-section {
+  margin-bottom: 24px;
+}
+
+.welcome {
+  color: var(--muted);
+}
+
+.quote {
+  margin-top: 6px;
+}
+
+.goal-complete {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.quick-labels {
+  align-items: center;
+}
+
+.quick-label {
+  display: flex;
+  align-items: center;
+  padding: 16px 0;
+  gap: 8px;
+  justify-content: center;
+}
+
+.action-icon {
+  width: 22px;
+}
+
+/* ============================= */
+/* === WEEKLY ACTIVITY CHART === */
+/* ============================= */
+
+.chart {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 10px;
+}
+
+.y-axis {
+  display: grid;
+  grid-template-rows: repeat(7, 1fr);
+  height: 120px;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.y-axis span {
+  display: flex;
+  align-items: flex-end;
+}
+
+.graph {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  align-items: end;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  height: 140px;
+}
+
+.bar {
+  width: 40px;
+  background: linear-gradient(180deg, var(--primary), rgba(25, 104, 106, 0.3));
+  border-radius: 6px 6px 0 0;
+}
+
+.label {
+  margin-top: 6px;
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.day:nth-child(1) .bar {
+  height: 20px;
+}
+
+.day:nth-child(2) .bar {
+  height: 30px;
+}
+
+.day:nth-child(3) .bar {
+  height: 25px;
+}
+
+.day:nth-child(4) .bar {
+  height: 40px;
+}
+
+.day:nth-child(5) .bar {
+  height: 35px;
+}
+
+.day:nth-child(6) .bar {
+  height: 50px;
+}
+
+.day:nth-child(7) .bar {
+  height: 45px;
+}
+
+/* ============================= */
+/* ===   === */
+/* ============================= */
