@@ -17,14 +17,14 @@ export default function StatsHero({ stats }) {
     <div className="grid-base history-grid">
       <StatCard
         icon={Dumbbell}
-        label="Workouts"
+        label="Workouts this week"
         value={stats?.currentWeek?.workouts ?? 0}
         emphasis="large"
       />
 
       <StatCard
         icon={Award}
-        label="Personal Bests"
+        label="Personal Bests this week"
         value={stats?.currentWeek?.personalBests ?? 0}
       />
     </div>
