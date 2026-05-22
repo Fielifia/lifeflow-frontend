@@ -16,7 +16,7 @@ import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
 import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
 
-import { draftTemplateStorage } from '../../../shared/utils/storage/draftStorage'
+import { draftTemplateStorage, hasTemplateDraftContent } from '../../../shared/utils/storage/draftStorage'
 
 import { EMPTY_TEMPLATE } from '../../../shared/utils/constants'
 
@@ -238,9 +238,9 @@ export function useTemplateManager(
       return
     }
 
-    draftTemplateStorage.set(
-      template,
-    )
+    if (hasTemplateDraftContent(template)) {
+      draftTemplateStorage.set(template)
+    }
   }, [
     template,
     isCreate,
