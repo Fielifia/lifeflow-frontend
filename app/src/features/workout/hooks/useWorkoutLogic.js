@@ -54,7 +54,7 @@ import { saveWorkoutAsTemplate, saveWorkoutSession } from '../utils/workoutPersi
  *
  *  saving: boolean,
  *  success: boolean,
- *  error: string,
+ *  error: string | null,
  *
  *  isEditingName: boolean,
  *
@@ -230,7 +230,7 @@ export function useWorkoutLogic(workoutId, navigate) {
   const saveWorkout = async () => {
     try {
       setSaving(true)
-      setError('')
+      setError(null)
       setSuccess(false)
 
       const saved =
@@ -265,6 +265,10 @@ export function useWorkoutLogic(workoutId, navigate) {
 
   const saveAsTemplate = async () => {
     try {
+      setSaving(true)
+      setError(null)
+      setSuccess(false)
+
       await saveWorkoutAsTemplate({
         workout,
       })
@@ -272,6 +276,8 @@ export function useWorkoutLogic(workoutId, navigate) {
       setSuccess(true)
     } catch (err) {
       setError('Could not save template')
+    } finally {
+      setSaving(false)
     }
   }
 

@@ -44,7 +44,7 @@ export default function RegisterPage({ setUser }) {
 
     try {
       setLoading(true)
-      setError('')
+      setError(null)
       setMessage('')
 
       const user = await register({ email, username, password })
@@ -54,7 +54,6 @@ export default function RegisterPage({ setUser }) {
       setUsername('')
       setPassword('')
       setConfirmPassword('')
-
     } catch (err) {
       setError('Registration failed')
     } finally {
@@ -88,7 +87,7 @@ export default function RegisterPage({ setUser }) {
             onFocus={(e) => e.target.select()}
             onChange={(e) => {
               setEmail(e.target.value)
-              setError('')
+              setError(null)
             }}
           />
 
@@ -99,7 +98,7 @@ export default function RegisterPage({ setUser }) {
             onFocus={(e) => e.target.select()}
             onChange={(e) => {
               setUsername(e.target.value)
-              setError('')
+              setError(null)
             }}
           />
 
@@ -112,7 +111,7 @@ export default function RegisterPage({ setUser }) {
               onFocus={(e) => e.target.select()}
               onChange={(e) => {
                 setPassword(e.target.value)
-                setError('')
+                setError(null)
               }}
             />
 
@@ -134,7 +133,7 @@ export default function RegisterPage({ setUser }) {
               onFocus={(e) => e.target.select()}
               onChange={(e) => {
                 setConfirmPassword(e.target.value)
-                setError('')
+                setError(null)
               }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') handleRegister()

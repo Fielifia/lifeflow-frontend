@@ -52,7 +52,7 @@ import { buildTemplatePayload } from '../utils/buildTemplatePayload'
  *  loading: boolean,
  *  saving: boolean,
  *  success: boolean,
- *  error: string,
+ *  error: string | null,
  *
  *  isEditingName: boolean,
  *  setIsEditingName: import('react').Dispatch<
@@ -140,7 +140,7 @@ export function useTemplateManager(
     useState(false)
 
   const [error, setError] =
-    useState('')
+    useState(null)
 
   const [
     isEditingName,
@@ -200,7 +200,7 @@ export function useTemplateManager(
       async () => {
         try {
           setLoading(true)
-          setError('')
+          setError(null)
 
           const data =
             await getTemplateByIdApi(
@@ -338,7 +338,7 @@ export function useTemplateManager(
     async () => {
       try {
         setSaving(true)
-        setError('')
+        setError(null)
         setSuccess(false)
 
         const payload =
@@ -452,7 +452,7 @@ export function useTemplateManager(
       }
 
       try {
-        setError('')
+        setError(null)
 
         await deleteTemplateApi(
           templateId,
@@ -463,8 +463,9 @@ export function useTemplateManager(
         return true
       } catch (err) {
         setError('Could not delete template')
-
         return false
+      } finally {
+        setSaving(false)
       }
     }
 

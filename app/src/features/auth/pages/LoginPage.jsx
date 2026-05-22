@@ -49,7 +49,6 @@ export default function LoginPage({ setUser }) {
 
   return (
     <div className="app-start">
-
       <Header
         title="Welcome Back"
         subtitle="Login to continue"
@@ -71,7 +70,7 @@ export default function LoginPage({ setUser }) {
             onFocus={(e) => e.target.select()}
             onChange={(e) => {
               setEmail(e.target.value)
-              setError('')
+              setError(null)
             }}
             onKeyDown={(e) => {
               if (e.key === 'Enter') handleLogin()
@@ -87,7 +86,7 @@ export default function LoginPage({ setUser }) {
               onFocus={(e) => e.target.select()}
               onChange={(e) => {
                 setPassword(e.target.value)
-                setError('')
+                setError(null)
               }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') handleLogin()
