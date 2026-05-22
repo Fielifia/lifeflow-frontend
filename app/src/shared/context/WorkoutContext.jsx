@@ -19,6 +19,7 @@ import {
  */
 const WorkoutContext = createContext()
 
+
 /**
  * Accesses workout context values.
  * @returns {object} Workout context

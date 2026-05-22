@@ -18,7 +18,7 @@ export default function RegisterPage({ setUser }) {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [error, setError] = useState('')
+  const [error, setError] = useState(null)
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -44,7 +44,7 @@ export default function RegisterPage({ setUser }) {
 
     try {
       setLoading(true)
-      setError('')
+      setError(null)
       setMessage('')
 
       const user = await register({ email, username, password })
@@ -54,10 +54,8 @@ export default function RegisterPage({ setUser }) {
       setUsername('')
       setPassword('')
       setConfirmPassword('')
-
     } catch (err) {
-      const msg = err.response?.data?.error || 'Registration failed'
-      setError(msg)
+      setError('Registration failed')
     } finally {
       setLoading(false)
     }
@@ -89,7 +87,7 @@ export default function RegisterPage({ setUser }) {
             onFocus={(e) => e.target.select()}
             onChange={(e) => {
               setEmail(e.target.value)
-              setError('')
+              setError(null)
             }}
           />
 
@@ -100,7 +98,7 @@ export default function RegisterPage({ setUser }) {
             onFocus={(e) => e.target.select()}
             onChange={(e) => {
               setUsername(e.target.value)
-              setError('')
+              setError(null)
             }}
           />
 
@@ -113,7 +111,7 @@ export default function RegisterPage({ setUser }) {
               onFocus={(e) => e.target.select()}
               onChange={(e) => {
                 setPassword(e.target.value)
-                setError('')
+                setError(null)
               }}
             />
 
@@ -135,7 +133,7 @@ export default function RegisterPage({ setUser }) {
               onFocus={(e) => e.target.select()}
               onChange={(e) => {
                 setConfirmPassword(e.target.value)
-                setError('')
+                setError(null)
               }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') handleRegister()

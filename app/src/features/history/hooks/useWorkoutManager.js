@@ -48,7 +48,7 @@ import { buildWorkoutPayload } from '../../workout/utils/buildWorkoutPayload'
  *  loading: boolean,
  *  saving: boolean,
  *  success: boolean,
- *  error: string,
+ *  error: string | null,
  *
  *  isEditingName: boolean,
  *  setIsEditingName: import('react').Dispatch<
@@ -122,7 +122,7 @@ export function useWorkoutManager(
     useState(false)
 
   const [error, setError] =
-    useState('')
+    useState(null)
 
   const [success, setSuccess] =
     useState(false)
@@ -158,6 +158,13 @@ export function useWorkoutManager(
     workout,
   ])
 
+  // ===== HELPERS =====
+
+  const delay = (ms) =>
+    new Promise((resolve) =>
+      setTimeout(resolve, ms)
+    )
+
   // ===== LOAD WORKOUT =====
 
   useEffect(() => {
@@ -178,6 +185,7 @@ export function useWorkoutManager(
     const fetchWorkout = async () => {
       try {
         setLoading(true)
+        setError(null)
 
         const data =
           await getWorkoutByIdApi(
@@ -191,10 +199,7 @@ export function useWorkoutManager(
 
         setEditingWorkout(data)
       } catch (err) {
-        setError(
-          err.response?.data?.error ||
-          'Failed to load workout',
-        )
+        setError('Failed to load workout')
       } finally {
         setLoading(false)
       }
@@ -294,7 +299,7 @@ export function useWorkoutManager(
   const saveWorkout = async () => {
     try {
       setSaving(true)
-      setError('')
+      setError(null)
       setSuccess(false)
 
       const payload =
@@ -314,14 +319,13 @@ export function useWorkoutManager(
 
       setSuccess(true)
 
+      await delay(700)
+      
       navigate(
         `/workouts/${updated._id}`,
       )
     } catch (err) {
-      setError(
-        err.response?.data?.error ||
-        'Could not update workout',
-      )
+      setError('Could not update workout')
     } finally {
       setSaving(false)
     }
@@ -333,24 +337,18 @@ export function useWorkoutManager(
     async () => {
       try {
         setSaving(true)
-        setError('')
+        setError(null)
         setSuccess(false)
 
-        const payload =
+        await createTemplateApi(
           buildTemplatePayload(
             workout,
           )
-
-        await createTemplateApi(
-          payload,
         )
 
         setSuccess(true)
       } catch (err) {
-        setError(
-          err.response?.data?.error ||
-          'Could not save template',
-        )
+        setError('Could not save template')
       } finally {
         setSaving(false)
       }
@@ -396,7 +394,8 @@ export function useWorkoutManager(
       }
 
       try {
-        setError('')
+        setError(null)
+        setSaving(true)
 
         await deleteWorkoutApi(
           workoutId,
@@ -406,12 +405,10 @@ export function useWorkoutManager(
 
         return true
       } catch (err) {
-        setError(
-          err.response?.data?.error ||
-          'Could not delete workout',
-        )
-
+        setError(err?.message || 'Could not delete workout')
         return false
+      } finally {
+        setSaving(false)
       }
     }
 

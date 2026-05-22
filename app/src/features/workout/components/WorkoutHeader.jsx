@@ -58,7 +58,7 @@ export default function WorkoutHeader({
             onChange={(e) => onChangeName(e.target.value)}
             autoFocus
             onBlur={() => {
-              onChangeName(name.trim() || 'Workout –')
+              onChangeName(name.trim() || 'Workout')
               setIsEditing(false)
             }}
             onKeyDown={(e) => {

@@ -54,7 +54,7 @@ import { saveWorkoutAsTemplate, saveWorkoutSession } from '../utils/workoutPersi
  *
  *  saving: boolean,
  *  success: boolean,
- *  error: string,
+ *  error: string | null,
  *
  *  isEditingName: boolean,
  *
@@ -120,7 +120,7 @@ export function useWorkoutLogic(workoutId, navigate) {
 
   const [saving, setSaving] = useState(false)
   const [success, setSuccess] = useState(false)
-  const [error, setError] = useState('')
+  const [error, setError] = useState(null)
   const [isEditingName, setIsEditingName] = useState(false)
 
   const {
@@ -153,6 +153,13 @@ export function useWorkoutLogic(workoutId, navigate) {
   const [workout, setWorkout] = useState(() => {
     return draftWorkoutStorage.get() || EMPTY_WORKOUT
   })
+
+  // ===== HELPERS =====
+
+  const delay = (ms) =>
+    new Promise((resolve) =>
+      setTimeout(resolve, ms)
+    )
 
   // ===== SAVE DRAFT =====
 
@@ -230,7 +237,7 @@ export function useWorkoutLogic(workoutId, navigate) {
   const saveWorkout = async () => {
     try {
       setSaving(true)
-      setError('')
+      setError(null)
       setSuccess(false)
 
       const saved =
@@ -241,6 +248,8 @@ export function useWorkoutLogic(workoutId, navigate) {
         })
 
       setSuccess(true)
+      
+      await delay(700)
 
       navigate(
         `/workouts/${saved._id}?from=workouts`
@@ -255,11 +264,7 @@ export function useWorkoutLogic(workoutId, navigate) {
 
       draftWorkoutStorage.clear()
     } catch (err) {
-      setError(
-        err.response?.data?.error ||
-        err.message ||
-        'Could not save workout',
-      )
+      setError(err?.message || 'Could not save workout')
     } finally {
       setSaving(false)
     }
@@ -269,16 +274,20 @@ export function useWorkoutLogic(workoutId, navigate) {
 
   const saveAsTemplate = async () => {
     try {
+      setSaving(true)
+      setError(null)
+      setSuccess(false)
+
       await saveWorkoutAsTemplate({
         workout,
       })
 
       setSuccess(true)
+      
     } catch (err) {
-      setError(
-        err.response?.data?.error ||
-        'Could not save template',
-      )
+      setError('Could not save template')
+    } finally {
+      setSaving(false)
     }
   }
 

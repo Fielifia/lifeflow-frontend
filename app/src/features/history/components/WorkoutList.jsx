@@ -40,6 +40,7 @@ export default function WorkoutList({
 
   return (
     <div className="section">
+      <h3>My Workouts</h3>
 
       {/* SEARCH */}
 
@@ -64,23 +65,18 @@ export default function WorkoutList({
         emptyText="No workouts yet"
         count={5}
       >
-
         <div className="section">
-
           {visible.map((workout) => (
             <WorkoutCard
               key={workout._id}
               workout={workout}
               onDeleteWorkout={onDeleteWorkout}
               onClick={() => {
-                navigate(
-                  `/workouts/${workout._id}?from=history`
-                )
+                navigate(`/workouts/${workout._id}?from=history`)
               }}
             />
           ))}
         </div>
-
       </DataState>
 
       {/* SHOW MORE */}

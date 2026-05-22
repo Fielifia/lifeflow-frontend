@@ -16,7 +16,7 @@ import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
 import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
 
-import { draftTemplateStorage } from '../../../shared/utils/storage/draftStorage'
+import { draftTemplateStorage, hasTemplateDraftContent } from '../../../shared/utils/storage/draftStorage'
 
 import { EMPTY_TEMPLATE } from '../../../shared/utils/constants'
 
@@ -51,7 +51,8 @@ import { buildTemplatePayload } from '../utils/buildTemplatePayload'
  *  loading: boolean,
  *  saving: boolean,
  *  success: boolean,
- *  error: string,
+ *  error: string | null,
+ *
  *  isEditingName: boolean,
  *  setIsEditingName: import('react').Dispatch<
  *    import('react').SetStateAction<boolean>
@@ -125,7 +126,7 @@ export function useTemplateManager(
     useState(false)
 
   const [error, setError] =
-    useState('')
+    useState(null)
 
   const [
     isEditingName,
@@ -143,6 +144,13 @@ export function useTemplateManager(
   // ===== ORIGINAL SNAPSHOT =====
 
   const originalRef = useRef(null)
+
+  // ===== HELPERS =====
+
+  const delay = (ms) =>
+    new Promise((resolve) =>
+      setTimeout(resolve, ms)
+    )
 
   // ===== CREATE SNAPSHOT =====
 
@@ -185,7 +193,7 @@ export function useTemplateManager(
       async () => {
         try {
           setLoading(true)
-          setError('')
+          setError(null)
 
           const data =
             await getTemplateByIdApi(
@@ -201,9 +209,7 @@ export function useTemplateManager(
             structuredClone(normalized)
 
         } catch {
-          setError(
-            'Could not load template',
-          )
+          setError('Failed to load template')
         } finally {
           setLoading(false)
         }
@@ -223,9 +229,9 @@ export function useTemplateManager(
       return
     }
 
-    draftTemplateStorage.set(
-      template,
-    )
+    if (hasTemplateDraftContent(template)) {
+      draftTemplateStorage.set(template)
+    }
   }, [
     template,
     isCreate,
@@ -325,7 +331,7 @@ export function useTemplateManager(
     async () => {
       try {
         setSaving(true)
-        setError('')
+        setError(null)
         setSuccess(false)
 
         const payload =
@@ -344,6 +350,10 @@ export function useTemplateManager(
           originalRef.current =
             structuredClone(template)
 
+          setSuccess(true)
+
+          await delay(700)
+
           navigate(
             `/templates/${created._id}`,
           )
@@ -358,17 +368,19 @@ export function useTemplateManager(
 
           setEditingTemplate(null)
 
+          setSuccess(true)
+
+          await delay(700)
+
           navigate(
             `/templates/${id}`,
           )
         }
-
-        setSuccess(true)
       } catch (err) {
         setError(
-          err.message
-          || err.response?.data?.error
-          || 'Could not save template',
+          isCreate
+            ? 'Could not save template'
+            : 'Could not update template',
         )
       } finally {
         setSaving(false)
@@ -439,7 +451,7 @@ export function useTemplateManager(
       }
 
       try {
-        setError('')
+        setError(null)
 
         await deleteTemplateApi(
           templateId,
@@ -449,12 +461,15 @@ export function useTemplateManager(
 
         return true
       } catch (err) {
-        setError(
-          err.response?.data?.error
-          || 'Could not delete template',
-        )
+        if (err.response?.status === 404) {
+          setError('Template no longer exists')
+        } else {
+          setError('Could not delete template')
+        }
 
         return false
+      } finally {
+        setSaving(false)
       }
     }
 
