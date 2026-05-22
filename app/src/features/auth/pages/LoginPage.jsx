@@ -39,7 +39,8 @@ export default function LoginPage({ setUser }) {
 
       setUser(user)
     } catch (err) {
-      setError('Login failed')
+      const message = err.response?.data?.error || 'Login failed'
+      setError(message)
     } finally {
       setLoading(false)
     }
