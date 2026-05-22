@@ -16,7 +16,7 @@ import Header from '../../../shared/components/ui/Header'
 export default function LoginPage({ setUser }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState(null)
+  const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
   /**
@@ -39,7 +39,8 @@ export default function LoginPage({ setUser }) {
 
       setUser(user)
     } catch (err) {
-      setError('Login failed')
+      const message = err.response?.data?.error || 'Login failed'
+      setError(message)
     } finally {
       setLoading(false)
     }
@@ -49,6 +50,7 @@ export default function LoginPage({ setUser }) {
 
   return (
     <div className="app-start">
+
       <Header
         title="Welcome Back"
         subtitle="Login to continue"
@@ -70,7 +72,7 @@ export default function LoginPage({ setUser }) {
             onFocus={(e) => e.target.select()}
             onChange={(e) => {
               setEmail(e.target.value)
-              setError(null)
+              setError('')
             }}
             onKeyDown={(e) => {
               if (e.key === 'Enter') handleLogin()
@@ -86,7 +88,7 @@ export default function LoginPage({ setUser }) {
               onFocus={(e) => e.target.select()}
               onChange={(e) => {
                 setPassword(e.target.value)
-                setError(null)
+                setError('')
               }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter') handleLogin()
