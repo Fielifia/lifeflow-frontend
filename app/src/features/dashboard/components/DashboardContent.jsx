@@ -9,6 +9,8 @@ import {
   CalendarDays,
 } from 'lucide-react'
 
+import { Link } from 'lucide-react'
+
 import StatsGrid from '../../../shared/components/ui/statsgrid/StatsGrid'
 import MonthlyGoal from './MonthlyGoals'
 import RecentWorkoutCard from './RecentWorkoutCard'

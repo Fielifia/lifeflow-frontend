@@ -3,7 +3,7 @@ import {
   Dumbbell,
 } from 'lucide-react'
 
-import StatCard from '../../stats/components/StatCard'
+import StatCard from '../../../shared/components/ui/statsgrid/StatCard'
 
 
 /**
