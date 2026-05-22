@@ -35,13 +35,11 @@ export default function Dashboard() {
 
       <div className="section">
 
-
         <DashboardContent
           stats={stats}
           user={user}
           recentWorkouts={workouts}
         />
-
 
       </div>
     </div>

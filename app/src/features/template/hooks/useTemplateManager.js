@@ -4,7 +4,6 @@ import {
   useState,
 } from 'react'
 
-import { useLocation } from 'react-router-dom'
 
 import {
   createTemplateApi,
@@ -21,8 +20,7 @@ import { draftTemplateStorage } from '../../../shared/utils/storage/draftStorage
 
 import { EMPTY_TEMPLATE } from '../../../shared/utils/constants'
 
-import { hasMeaningfulContent }
-  from '../../../shared/utils/editorUtils'
+import { hasMeaningfulContent } from '../../../shared/utils/editorUtils'
 
 import { appendExercisesToTemplate } from '../utils/appendExercisesToTemplate'
 
@@ -50,63 +48,48 @@ import { buildTemplatePayload } from '../utils/buildTemplatePayload'
  *  setTemplate: import('react').Dispatch<
  *    import('react').SetStateAction<object | null>
  *  >,
- *
  *  loading: boolean,
  *  saving: boolean,
  *  success: boolean,
  *  error: string,
- *
  *  isEditingName: boolean,
  *  setIsEditingName: import('react').Dispatch<
  *    import('react').SetStateAction<boolean>
  *  >,
- *
  *  openLibrary: () => void,
- *
  *  exerciseActions: {
  *    addSet: (
  *      index: number
  *    ) => void,
- *
  *    updateSet: (
  *      exIndex: number,
  *      setIndex: number,
  *      field: string,
  *      value: string | number | boolean
  *    ) => void,
- *
  *    removeSet: (
  *      exIndex: number,
  *      setIndex: number
  *    ) => void,
- *
  *    removeExercise: (
  *      index: number
  *    ) => void,
- *
  *    updateExerciseRest: (
  *      index: number,
  *      value: number
  *    ) => void,
- *
  *    updateExerciseNotes: (
  *      index: number,
  *      notes: string
  *    ) => void,
  *  },
- *
  *  updateTemplateNotes: (
  *    notes: string
  *  ) => void,
- *
  *  hasUnsavedChanges: boolean,
- *
  *  saveTemplate: () => Promise<void>,
- *
  *  discardTemplate: () => void,
- *
  *  discardChanges: () => void,
- *
  *  deleteTemplate: () => Promise<void>,
  * }}
  * Template manager state and actions.
@@ -115,7 +98,6 @@ export function useTemplateManager(
   id,
   navigate,
 ) {
-  const location = useLocation()
 
   const isCreate = !id
 
@@ -153,9 +135,6 @@ export function useTemplateManager(
   const {
     selectedExercises,
     setSelectedExercises,
-
-    setReturnTo,
-    returnTo,
 
     editingTemplate,
     setEditingTemplate,
@@ -295,9 +274,17 @@ export function useTemplateManager(
   const openLibrary = () => {
     setEditingTemplate(template)
 
-    setReturnTo(location.pathname)
+    if (isCreate) {
+      navigate(
+        '/exercises?select=true&flow=template-create'
+      )
 
-    navigate('/exercises?select=true')
+      return
+    }
+
+    navigate(
+      `/exercises?select=true&flow=template-edit&id=${id}`
+    )
   }
 
   // ===== EXERCISE MUTATIONS =====
@@ -391,6 +378,7 @@ export function useTemplateManager(
   // ===== DISCARD TEMPLATE (CREATE) =====
 
   const discardTemplate = () => {
+
     const confirmed =
       window.confirm(
         'Discard template?',
@@ -399,6 +387,10 @@ export function useTemplateManager(
     if (!confirmed) {
       return
     }
+
+    setTemplate(EMPTY_TEMPLATE)
+
+    setIsEditingName(false)
 
     draftTemplateStorage.clear()
 
@@ -431,9 +423,6 @@ export function useTemplateManager(
     setEditingTemplate(restored)
     setIsEditingName(false)
 
-    if (returnTo) {
-      navigate(returnTo)
-    }
   }
 
   // ===== DELETE =====
@@ -468,7 +457,7 @@ export function useTemplateManager(
         return false
       }
     }
-    
+
   return {
     template,
     setTemplate,

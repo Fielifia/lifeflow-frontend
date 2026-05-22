@@ -1,3 +1,5 @@
+import Button from '../../../../shared/components/ui/button/Button'
+
 /**
  * Workout duration display.
  * @param {object} props - Component props
@@ -14,6 +16,7 @@ export default function DurationDisplay({
   duration,
   mode = 'run',
   label,
+  onClickStartTime,
 }) {
 
   const total =
@@ -50,10 +53,18 @@ export default function DurationDisplay({
       </div>
 
       {mode === 'run' && (
-        <div className={`start-time ${startTime ? 'visible' : 'hidden'}`}>
-          <span className="muted">
-            {startTime ? `Started at ${start}` : ''}
-          </span>
+        <div
+          className={`start-time ${startTime ? 'visible' : 'hidden'}`}>
+          <Button
+            type="button"
+            variant="ghost"
+            size="xs"
+            onClick={onClickStartTime}
+          >
+            <span className="muted">
+              {startTime ? `Started at ${start}` : ''}
+            </span>
+          </Button>
         </div>
       )}
     </div>

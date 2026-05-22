@@ -2,24 +2,19 @@ import { useNavigate } from 'react-router-dom'
 
 import { ArrowLeft } from 'lucide-react'
 
-import Button from './button/Button'
+import Button from './Button'
 
 /**
  * Reusable back button.
- * @param {object} props - Component props
- * @param {string} [props.fallback]
- * Fallback navigation path
+ * @param {object} props
+ * @param {string} props.fallback
  * @param {boolean} [props.warnOnUnsavedChanges]
- * Whether to warn before navigation
  * @param {boolean} [props.hasUnsavedChanges]
- * Whether unsaved changes exist
  * @param {() => void} [props.onDiscard]
- * Callback triggered when user confirms discard
  * @returns {import('react').ReactElement}
- * Back button UI
  */
 export default function BackButton({
-  fallback = '/',
+  fallback,
   warnOnUnsavedChanges = false,
   hasUnsavedChanges = false,
   onDiscard,

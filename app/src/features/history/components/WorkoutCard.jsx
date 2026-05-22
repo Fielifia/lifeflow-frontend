@@ -82,7 +82,7 @@ export default function WorkoutCard({
 
           <p className="muted small">
             {formatDuration(Math.round((workout.duration || 0) / 60))} •{' '}
-            {formatDate(workout.date)}
+            {formatDate(workout.startTime)}
           </p>
         </div>
 

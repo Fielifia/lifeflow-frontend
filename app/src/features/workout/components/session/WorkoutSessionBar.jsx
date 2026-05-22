@@ -4,7 +4,10 @@ import { useWorkoutContext } from '../../../../shared/context/WorkoutContext'
 /**
  * Workout session bar display and controls.
  * @param {object} props - Component props
- * @param {object} props.workout - Current workout data
+ * @param {{
+ *   name: string,
+ *   exercises: Array<object>
+ * }} props.workout - Current workout data
  * @param {boolean} props.isResting - Whether rest timer is active
  * @param {number} props.restRemaining - Remaining rest time in seconds
  * @param {(seconds: number) => void} props.adjustRest - Adjusts rest timer duration
@@ -33,32 +36,13 @@ export default function WorkoutSessionBar({
 
   const exercises = workout?.exercises || []
 
-  let lastCompletedIndex = -1
-
-  exercises.forEach((ex, i) => {
-    if (ex.sets?.some((set) => set.completed)) {
-      lastCompletedIndex = i
+  const nextExercise = exercises.find((ex) => {
+    if (!ex.sets?.length) {
+      return false
     }
+
+    return !ex.sets.every((set) => set.completed)
   })
-
-  let nextExercise = null
-
-  for (let i = lastCompletedIndex + 1; i < exercises.length; i++) {
-    const ex = exercises[i]
-
-    const hasIncompleteSets = ex.sets?.some((set) => !set.completed)
-
-    if (hasIncompleteSets) {
-      nextExercise = ex
-      break
-    }
-  }
-
-  if (!nextExercise) {
-    nextExercise = exercises.find((ex) =>
-      ex.sets?.some((set) => !set.completed),
-    )
-  }
 
   const currentExercise = nextExercise ? `Next: ${nextExercise.name}` : 'Done ✔'
   

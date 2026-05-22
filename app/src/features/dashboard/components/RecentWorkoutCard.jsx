@@ -21,7 +21,7 @@ export default function RecentWorkoutCard({
             <p className="muted small">
               {formatDuration(
                 Math.round((workout.duration || 0) / 60)
-              )} • {formatDate(workout.date)}</p>
+              )} • {formatDate(workout.startTime)}</p>
           </div>
         </div>
 

@@ -8,7 +8,7 @@ import {
   Activity,
 } from 'lucide-react'
 
-import StatCard from '../../stats/components/StatCard'
+import StatsGrid from '../../../shared/components/ui/statsgrid/StatsGrid'
 import MonthlyGoal from './MonthlyGoals'
 import RecentWorkoutCard from './RecentWorkoutCard'
 
@@ -64,48 +64,44 @@ export default function DashboardContent({
 
       {/* Stats cards */}
       <h3>This month</h3>
-      <div className="grid-base stats-grid">
-        <StatCard
-          icon={Dumbbell}
-          label="Workouts"
-          value={stats?.currentMonth?.workouts ?? 0}
-          emphasis="large"
-        />
-
-        <StatCard
-          icon={Activity}
-          label="Total time"
-          value={formatDuration(monthlyMinutes)}
-          emphasis="large"
-        />
-
-        <StatCard
-          icon={TrendingUp}
-          label={`Sets / ${formatNumber(stats?.currentMonth?.reps ?? 0)} Reps`}
-          value={formatNumber(stats?.currentMonth?.sets ?? 0)}
-          emphasis="large"
-        />
-
-        <StatCard
-          icon={Weight}
-          label="Total volume"
-          value={formatWeight(stats?.currentMonth?.volumeKg)}
-          emphasis="large"
-        />
-
-        <StatCard
-          icon={Award}
-          label="Personal Bests"
-          value={stats?.currentMonth?.personalBests ?? 0}
-        />
-
-        <StatCard
-          icon={Clock3}
-          label="Days since last workout"
-          value={stats?.daysSinceLastWorkout}
-        />
-
-      </div>
+      <StatsGrid
+        items={[
+          {
+            icon: Dumbbell,
+            label: 'Workouts',
+            value: stats?.currentMonth?.workouts ?? 0,
+            emphasis: 'large',
+          },
+          {
+            icon: Activity,
+            label: 'Total time',
+            value: formatDuration(monthlyMinutes),
+            emphasis: 'large',
+          },
+          {
+            icon: TrendingUp,
+            label: `Sets / ${formatNumber(stats?.currentMonth?.reps ?? 0)} Reps`,
+            value: formatNumber(stats?.currentMonth?.sets ?? 0),
+            emphasis: 'large',
+          },
+          {
+            icon: Weight,
+            label: 'Total volume',
+            value: formatWeight(stats?.currentMonth?.volumeKg),
+            emphasis: 'large',
+          },
+          {
+            icon: Award,
+            label: 'Personal Bests',
+            value: stats?.currentMonth?.personalBests ?? 0,
+          },
+          {
+            icon: Clock3,
+            label: 'Days since last workout',
+            value: stats?.daysSinceLastWorkout,
+          },
+        ]}
+      />
 
       {/* Weekly activity */}
       <div className="section">
@@ -185,7 +181,6 @@ export default function DashboardContent({
             <Link
               key={workout._id}
               to={`/workouts/${workout._id}`}
-              state={{ returnTo: '/' }}
             >
               <RecentWorkoutCard workout={workout} />
             </Link>

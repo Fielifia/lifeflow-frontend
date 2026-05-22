@@ -4,7 +4,6 @@ import {
   useState,
 } from 'react'
 
-import { useLocation } from 'react-router-dom'
 
 import { createTemplateApi } from '../../../shared/api/templateApi'
 import {
@@ -17,8 +16,7 @@ import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
 import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
 
-import { hasMeaningfulContent }
-  from '../../../shared/utils/editorUtils'
+import { hasMeaningfulContent } from '../../../shared/utils/editorUtils'
 
 import { appendExercisesToWorkout } from '../../workout/utils/appendExercisesToWorkout'
 
@@ -111,7 +109,6 @@ export function useWorkoutManager(
   id,
   navigate,
 ) {
-  const location = useLocation()
 
   // ===== STATE =====
 
@@ -138,9 +135,6 @@ export function useWorkoutManager(
   const {
     selectedExercises,
     setSelectedExercises,
-
-    setReturnTo,
-    returnTo,
 
     editingWorkout,
     setEditingWorkout,
@@ -256,9 +250,9 @@ export function useWorkoutManager(
 
     setSelectedExercises([])
 
-    setReturnTo(location.pathname)
-
-    navigate('/exercises?select=true')
+    navigate(
+      `/exercises?select=true&flow=workout-edit&id=${id}`
+    )
   }
 
   // ===== MUTATIONS =====
@@ -386,9 +380,6 @@ export function useWorkoutManager(
     setEditingWorkout(restored)
     setIsEditingName(false)
 
-    if (returnTo) {
-      navigate(returnTo)
-    }
   }
 
   // ===== DELETE =====

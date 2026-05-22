@@ -9,13 +9,12 @@ import {
 
 import { getExerciseByIdApi } from '../../../shared/api/exerciseApi'
 
-import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
 import { formatLabel } from '../../../shared/utils/format'
 
 import { normalizeExercise } from '../utils/exerciseAdapter'
 
-import BackButton from '../../../shared/components/ui/BackButton'
+import BackButton from '../../../shared/components/ui/button/BackButton'
 
 import Header from '../../../shared/components/ui/Header'
 
@@ -36,8 +35,6 @@ export default function ExerciseDetail() {
 
   const [ex, setExercise] = useState(null)
   const [currentImage, setCurrentImage] = useState(0)
-
-  const { libraryReturnTo } = useExerciseFlow()
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -80,10 +77,18 @@ export default function ExerciseDetail() {
 
   const imageSrc = ex?.images?.[currentImage] || '/placeholder.png'
 
-  const fallback =
-    location.state?.from ||
-    libraryReturnTo ||
-    '/exercises'
+  const searchParams = new URLSearchParams(location.search)
+
+  const from = searchParams.get('from')
+
+  searchParams.delete('from')
+
+  const libraryFallback =
+    searchParams.toString()
+      ? `/exercises?${searchParams.toString()}`
+      : '/exercises'
+
+  const fallback = from || libraryFallback
 
   if (loading || error || !ex) {
     return (

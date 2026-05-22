@@ -3,7 +3,6 @@ import {
   useRef,
   useState
 } from 'react'
-import { useLocation } from 'react-router-dom'
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
@@ -116,7 +115,6 @@ import { saveWorkoutAsTemplate, saveWorkoutSession } from '../utils/workoutPersi
  * Workout logic state and actions.
  */
 export function useWorkoutLogic(workoutId, navigate) {
-  const location = useLocation()
 
   // ===== STATE =====
 
@@ -126,10 +124,10 @@ export function useWorkoutLogic(workoutId, navigate) {
   const [isEditingName, setIsEditingName] = useState(false)
 
   const {
+
     selectedExercises,
     setSelectedExercises,
 
-    setReturnTo,
   } = useExerciseFlow()
 
   const hasAddedRef = useRef(false)
@@ -157,6 +155,7 @@ export function useWorkoutLogic(workoutId, navigate) {
   })
 
   // ===== SAVE DRAFT =====
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       draftWorkoutStorage.set(workout)
@@ -218,10 +217,12 @@ export function useWorkoutLogic(workoutId, navigate) {
   const updateWorkoutNotes = (notes) =>
     setWorkout((prev) => ({ ...prev, notes }))
 
-  const openLibrary = () => {
-    setReturnTo(location.pathname)
+  // ===== OPEN LIBRARY FLOW =====
 
-    navigate(`/workouts/${workoutId}/exercises?select=true`)
+  const openLibrary = () => {
+    navigate(
+      '/exercises?select=true&flow=workout-run'
+    )
   }
 
   // ===== SAVE WORKOUT =====
@@ -241,11 +242,9 @@ export function useWorkoutLogic(workoutId, navigate) {
 
       setSuccess(true)
 
-      navigate(`/workouts/${saved._id}`, {
-        state: {
-          returnTo: '/workouts',
-        },
-      })
+      navigate(
+        `/workouts/${saved._id}?from=workouts`
+      )
 
       setWorkout(EMPTY_WORKOUT)
 
@@ -287,7 +286,10 @@ export function useWorkoutLogic(workoutId, navigate) {
 
   const discardWorkout = () => {
 
-    const confirmed = window.confirm('Discard current workout?')
+    const confirmed =
+      window.confirm(
+        'Discard current workout?'
+      )
 
     if (!confirmed) {
       return

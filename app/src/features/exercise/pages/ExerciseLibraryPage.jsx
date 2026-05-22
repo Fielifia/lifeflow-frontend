@@ -7,7 +7,7 @@ import useExercises from '../hooks/useExercises'
 
 import { CATEGORY_ORDER } from '../utils/exerciseCategories'
 
-import BackButton from '../../../shared/components/ui/BackButton'
+import BackButton from '../../../shared/components/ui/button/BackButton'
 
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 
@@ -38,6 +38,21 @@ export default function ExercisesLibraryPage() {
 
   // ===== URL STATE =====
 
+  const flow = searchParams.get('flow')
+
+  const id = searchParams.get('id')
+
+  const fallback =
+    flow === 'template-create'
+      ? '/templates/create'
+      : flow === 'template-edit'
+        ? `/templates/${id}/edit`
+        : flow === 'workout-edit'
+          ? `/workouts/${id}/edit`
+          : flow === 'workout-run'
+            ? '/workouts/current/run'
+            : '/'
+
   const sort = searchParams.get('sort') || 'a-z'
 
   const search = searchParams.get('search') || ''
@@ -55,8 +70,6 @@ export default function ExercisesLibraryPage() {
   const {
     selectedExercises,
     setSelectedExercises,
-
-    returnTo,
 
     scrollPosition,
     shouldRestoreScroll,
@@ -167,7 +180,7 @@ export default function ExercisesLibraryPage() {
     <div className="app">
       {/* BACK BUTTON */}
 
-      <BackButton fallback={returnTo || '/'} />
+      <BackButton fallback={fallback} />
 
       <div className="section">
         <h2>{isSelectMode ? 'Select exercise' : 'Exercise Library'}</h2>
@@ -399,7 +412,7 @@ export default function ExercisesLibraryPage() {
           <button
             className="btn btn-md btn-primary"
             onClick={() => {
-              navigate(returnTo || '/')
+              navigate(fallback)
             }}
           >
             Add {selectedExercises.length} exercises
