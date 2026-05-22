@@ -1,10 +1,8 @@
 import { useState } from 'react'
 import {
-  useLocation,
   useNavigate
 } from 'react-router-dom'
 
-import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 
@@ -30,9 +28,6 @@ export default function WorkoutList({
 }) {
 
   const navigate = useNavigate()
-  const location = useLocation()
-
-  const { setReturnTo } = useExerciseFlow()
 
   const [search, setSearch] = useState('')
 
@@ -46,6 +41,7 @@ export default function WorkoutList({
 
   return (
     <div className="section">
+      <h3>My Workouts</h3>
 
       {/* SEARCH */}
 
@@ -70,23 +66,18 @@ export default function WorkoutList({
         emptyText="No workouts yet"
         count={5}
       >
-
         <div className="section">
-
           {visible.map((workout) => (
             <WorkoutCard
               key={workout._id}
               workout={workout}
               onDeleteWorkout={onDeleteWorkout}
               onClick={() => {
-                setReturnTo(location.pathname)
-
-                navigate(`/workouts/${workout._id}`)
+                navigate(`/workouts/${workout._id}?from=history`)
               }}
             />
           ))}
         </div>
-
       </DataState>
 
       {/* SHOW MORE */}

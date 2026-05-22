@@ -3,7 +3,6 @@ import {
   useRef,
   useState
 } from 'react'
-import { useLocation } from 'react-router-dom'
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
@@ -55,7 +54,7 @@ import { saveWorkoutAsTemplate, saveWorkoutSession } from '../utils/workoutPersi
  *
  *  saving: boolean,
  *  success: boolean,
- *  error: string,
+ *  error: string | null,
  *
  *  isEditingName: boolean,
  *
@@ -116,20 +115,19 @@ import { saveWorkoutAsTemplate, saveWorkoutSession } from '../utils/workoutPersi
  * Workout logic state and actions.
  */
 export function useWorkoutLogic(workoutId, navigate) {
-  const location = useLocation()
 
   // ===== STATE =====
 
   const [saving, setSaving] = useState(false)
   const [success, setSuccess] = useState(false)
-  const [error, setError] = useState('')
+  const [error, setError] = useState(null)
   const [isEditingName, setIsEditingName] = useState(false)
 
   const {
+
     selectedExercises,
     setSelectedExercises,
 
-    setReturnTo,
   } = useExerciseFlow()
 
   const hasAddedRef = useRef(false)
@@ -156,7 +154,15 @@ export function useWorkoutLogic(workoutId, navigate) {
     return draftWorkoutStorage.get() || EMPTY_WORKOUT
   })
 
+  // ===== HELPERS =====
+
+  const delay = (ms) =>
+    new Promise((resolve) =>
+      setTimeout(resolve, ms)
+    )
+
   // ===== SAVE DRAFT =====
+
   useEffect(() => {
     const timeout = setTimeout(() => {
       draftWorkoutStorage.set(workout)
@@ -218,10 +224,12 @@ export function useWorkoutLogic(workoutId, navigate) {
   const updateWorkoutNotes = (notes) =>
     setWorkout((prev) => ({ ...prev, notes }))
 
-  const openLibrary = () => {
-    setReturnTo(location.pathname)
+  // ===== OPEN LIBRARY FLOW =====
 
-    navigate(`/workouts/${workoutId}/exercises?select=true`)
+  const openLibrary = () => {
+    navigate(
+      '/exercises?select=true&flow=workout-run'
+    )
   }
 
   // ===== SAVE WORKOUT =====
@@ -229,7 +237,7 @@ export function useWorkoutLogic(workoutId, navigate) {
   const saveWorkout = async () => {
     try {
       setSaving(true)
-      setError('')
+      setError(null)
       setSuccess(false)
 
       const saved =
@@ -240,12 +248,12 @@ export function useWorkoutLogic(workoutId, navigate) {
         })
 
       setSuccess(true)
+      
+      await delay(700)
 
-      navigate(`/workouts/${saved._id}`, {
-        state: {
-          returnTo: '/workouts',
-        },
-      })
+      navigate(
+        `/workouts/${saved._id}?from=workouts`
+      )
 
       setWorkout(EMPTY_WORKOUT)
 
@@ -256,11 +264,7 @@ export function useWorkoutLogic(workoutId, navigate) {
 
       draftWorkoutStorage.clear()
     } catch (err) {
-      setError(
-        err.response?.data?.error ||
-        err.message ||
-        'Could not save workout',
-      )
+      setError(err?.message || 'Could not save workout')
     } finally {
       setSaving(false)
     }
@@ -270,16 +274,20 @@ export function useWorkoutLogic(workoutId, navigate) {
 
   const saveAsTemplate = async () => {
     try {
+      setSaving(true)
+      setError(null)
+      setSuccess(false)
+
       await saveWorkoutAsTemplate({
         workout,
       })
 
       setSuccess(true)
+      
     } catch (err) {
-      setError(
-        err.response?.data?.error ||
-        'Could not save template',
-      )
+      setError('Could not save template')
+    } finally {
+      setSaving(false)
     }
   }
 
@@ -287,7 +295,10 @@ export function useWorkoutLogic(workoutId, navigate) {
 
   const discardWorkout = () => {
 
-    const confirmed = window.confirm('Discard current workout?')
+    const confirmed =
+      window.confirm(
+        'Discard current workout?'
+      )
 
     if (!confirmed) {
       return

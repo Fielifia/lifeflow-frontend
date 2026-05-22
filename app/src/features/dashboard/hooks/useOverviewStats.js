@@ -9,14 +9,12 @@ export const useOverviewStats = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        console.log('FETCH START')
         
         const data = await getOverviewStats()
-        console.log('FETCH DONE')
 
         setStats(data)
       } catch (error) {
-        setError('Failed to fetch dashboard stats')
+        setError('Failed to load dashboard stats')
       } finally {
         setLoading(false)
       }

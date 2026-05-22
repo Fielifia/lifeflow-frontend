@@ -1,20 +1,21 @@
-import {
-  useLocation,
-  useNavigate,
-  useParams
-} from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
-import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { useWorkoutManager } from '../hooks/useWorkoutManager'
 
 import { calculateMuscleSplit } from '../../../shared/utils/calculateMuscleSplit'
+
 import { formatDate } from '../../../shared/utils/format'
+
 import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
+
 import { useWorkoutDetail } from '../hooks/useWorkoutDetail'
 
-import BackButton from '../../../shared/components/ui/BackButton'
+import BackButton from '../../../shared/components/ui/button/BackButton'
+
 import Header from '../../../shared/components/ui/Header'
+
 import DataState from '../../../shared/components/ui/skeleton/DataState'
+
 import WorkoutControls from '../../../shared/components/WorkoutControls'
 
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
@@ -36,9 +37,6 @@ import WorkoutSummary from '../components/WorkoutSummary'
 export default function WorkoutDetailPage() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const location = useLocation()
-
-  const { setReturnTo } = useExerciseFlow()
 
   const { startWorkout } = useStartWorkout()
 
@@ -46,27 +44,23 @@ export default function WorkoutDetailPage() {
 
   const muscleSplit = calculateMuscleSplit(workout)
 
-  const { success, deleteWorkout } =
-    useWorkoutManager(id, navigate)
+  const { success, deleteWorkout } = useWorkoutManager(id, navigate)
 
-  const handleDeleteWorkout =
-    async () => {
-      const deleted =
-        await deleteWorkout()
+  const handleDeleteWorkout = async () => {
+    const deleted = await deleteWorkout()
 
-      if (!deleted) {
-        return
-      }
-
-      navigate('/history')
+    if (!deleted) {
+      return
     }
+
+    navigate('/history')
+  }
 
   // ===== LOADING / ERROR / EMPTY =====
 
   if (loading || error || !workout) {
     return (
       <div className="app">
-
         <Header title="Workout" />
 
         <BackButton fallback="/workouts" />
@@ -85,7 +79,6 @@ export default function WorkoutDetailPage() {
 
   return (
     <div className="app">
-
       {/* HEADER */}
 
       <Header title={workout.name} subtitle={formatDate(workout.timestamp)} />
@@ -121,25 +114,21 @@ export default function WorkoutDetailPage() {
       <WorkoutControls
         variant="detail"
         onStartWorkout={(e) => {
-          setReturnTo(location.pathname)
           e.stopPropagation?.()
 
           startWorkout({ workout })
         }}
         onEdit={() => {
-          setReturnTo(location.pathname)
-
-          navigate(`/workouts/${workout._id}/edit`)
+          navigate(`/workouts/${workout._id}/edit?from=history`)
         }}
         onDelete={handleDeleteWorkout}
         editLabel="Edit Workout"
         deleteLabel="Delete"
       />
 
-
       {/* FEEDBACK */}
 
-      {success && <p className="muted center">Template saved ✔</p>}
+      {success && <p className="muted center">Workout deleted ✔</p>}
       {error && <p className="error center">{error}</p>}
 
       {/* EXERCISES */}

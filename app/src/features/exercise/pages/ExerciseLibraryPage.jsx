@@ -7,7 +7,9 @@ import useExercises from '../hooks/useExercises'
 
 import { CATEGORY_ORDER } from '../utils/exerciseCategories'
 
-import BackButton from '../../../shared/components/ui/BackButton'
+import BackButton from '../../../shared/components/ui/button/BackButton'
+
+import Button from '../../../shared/components/ui/button/Button'
 
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 
@@ -38,7 +40,22 @@ export default function ExercisesLibraryPage() {
 
   // ===== URL STATE =====
 
-  const sort = searchParams.get('sort') || 'a-z'
+  const flow = searchParams.get('flow')
+
+  const id = searchParams.get('id')
+
+  const fallback =
+    flow === 'template-create'
+      ? '/templates/create'
+      : flow === 'template-edit'
+        ? `/templates/${id}/edit`
+        : flow === 'workout-edit'
+          ? `/workouts/${id}/edit`
+          : flow === 'workout-run'
+            ? '/workouts/current/run'
+            : '/'
+
+  const sort = searchParams.get('sort') || 'most-used'
 
   const search = searchParams.get('search') || ''
 
@@ -55,8 +72,6 @@ export default function ExercisesLibraryPage() {
   const {
     selectedExercises,
     setSelectedExercises,
-
-    returnTo,
 
     scrollPosition,
     shouldRestoreScroll,
@@ -167,9 +182,9 @@ export default function ExercisesLibraryPage() {
     <div className="app">
       {/* BACK BUTTON */}
 
-      <BackButton fallback={returnTo || '/'} />
+      <BackButton fallback={fallback} />
 
-      <div className="section">
+      <div className="section exercise-library-page">
         <h2>{isSelectMode ? 'Select exercise' : 'Exercise Library'}</h2>
 
         {isSelectMode && (
@@ -198,16 +213,8 @@ export default function ExercisesLibraryPage() {
           <div className="filters">
             <Dropdown
               label="Sort"
-              selected={sort !== 'a-z' ? sort : ''}
+              selected={sort !== 'most-used' ? sort : ''}
               items={[
-                {
-                  label: 'A–Z',
-                  value: 'a-z',
-                },
-                {
-                  label: 'Z–A',
-                  value: 'z-a',
-                },
                 {
                   label: 'Most Used',
                   value: 'most-used',
@@ -215,6 +222,14 @@ export default function ExercisesLibraryPage() {
                 {
                   label: 'Recently Used',
                   value: 'recent',
+                },
+                {
+                  label: 'A–Z',
+                  value: 'a-z',
+                },
+                {
+                  label: 'Z–A',
+                  value: 'z-a',
                 },
               ]}
               onSelect={(value) =>
@@ -274,7 +289,7 @@ export default function ExercisesLibraryPage() {
 
           {/* ACTIVE FILTERS */}
 
-          {(sort !== 'a-z' ||
+          {(sort !== 'most-used' ||
             bodyPart ||
             muscleGroup ||
             equipment ||
@@ -283,21 +298,21 @@ export default function ExercisesLibraryPage() {
               <p className="small">Active filters</p>
 
               <div className="active-filters">
-                {sort !== 'a-z' && (
+                {sort !== 'most-used' && (
                   <button
                     className="filter-chip"
                     onClick={() =>
                       updateParams({
-                        sort: 'a-z',
+                        sort: 'most-used',
                       })
                     }
                   >
                     {
                       {
-                        'a-z': 'A–Z',
-                        'z-a': 'Z–A',
                         'most-used': 'Most Used',
                         recent: 'Recently Used',
+                        'a-z': 'A–Z',
+                        'z-a': 'Z–A',
                       }[sort]
                     }{' '}
                     ✕
@@ -399,7 +414,7 @@ export default function ExercisesLibraryPage() {
           <button
             className="btn btn-md btn-primary"
             onClick={() => {
-              navigate(returnTo || '/')
+              navigate(fallback)
             }}
           >
             Add {selectedExercises.length} exercises
@@ -419,6 +434,19 @@ export default function ExercisesLibraryPage() {
           >
             Show more ({filtered.length - visibleCount} left)
           </button>
+        )}
+
+        {/* FLOATING BUTTON */}
+        {isSelectMode && selectedExercises.length > 0 && (
+          <div className="floating-add-btn">
+            <Button
+              variant="primary"
+              size="md"
+              onClick={() => navigate(fallback)}
+            >
+              Add {selectedExercises.length}
+            </Button>
+          </div>
         )}
       </div>
     </div>

@@ -1,13 +1,11 @@
 import { useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-
-import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 
 import { useWorkoutLogic } from '../hooks/useWorkoutLogic'
 
-import BackButton from '../../../shared/components/ui/BackButton'
+import BackButton from '../../../shared/components/ui/button/BackButton'
 
 import Header from '../../../shared/components/ui/Header'
 
@@ -31,7 +29,14 @@ import EditStartTimeModal from '../components/time/EditStartTimeModal'
  */
 export default function WorkoutRunPage() {
   const navigate = useNavigate()
-  const { returnTo } = useExerciseFlow()
+
+  const location = useLocation()
+
+  const searchParams = new URLSearchParams(location.search)
+
+  const flow = searchParams.get('flow')
+
+  const fallback = flow === 'template-detail' ? '/templates' : '/workouts'
 
   const { id: workoutId } = useParams()
   const [flash, setFlash] = useState(false)
@@ -78,6 +83,26 @@ export default function WorkoutRunPage() {
     skipRest,
   } = useWorkoutContext()
 
+  // ===== START TIME MODAL =====
+
+  const openStartTimeModal = () => {
+    const current = new Date(startTime)
+
+    const hours =
+      String(current.getHours()).padStart(2, '0')
+
+    const minutes =
+      String(current.getMinutes()).padStart(2, '0')
+
+    setTempStartTime(
+      `${hours}:${minutes}`
+    )
+
+    setShowStartTimeModal(true)
+  }
+
+  // ===== ACTION MENU =====
+
   const workoutMenuItems = [
     {
       label: 'Rename',
@@ -86,17 +111,7 @@ export default function WorkoutRunPage() {
 
     {
       label: 'Edit start time',
-      onClick: () => {
-        const current = new Date(startTime)
-
-        const hours = String(current.getHours()).padStart(2, '0')
-
-        const minutes = String(current.getMinutes()).padStart(2, '0')
-
-        setTempStartTime(`${hours}:${minutes}`)
-
-        setShowStartTimeModal(true)
-      },
+      onClick: openStartTimeModal,
     },
 
     {
@@ -131,7 +146,7 @@ export default function WorkoutRunPage() {
     <div className={`app ${flash ? 'flash' : ''}`}>
       <Header title={workout.name} subtitle="In progress" />
 
-      <BackButton fallback={returnTo || '/workouts'} warnOnUnsavedChanges />
+      <BackButton fallback={fallback} warnOnUnsavedChanges />
 
       {/* HEADER */}
 
@@ -146,6 +161,7 @@ export default function WorkoutRunPage() {
         elapsed={elapsed}
         showDuration={true}
         menuItems={workoutMenuItems}
+        onEditStartTime={openStartTimeModal}
       />
 
       {/* START TIME MODAL */}

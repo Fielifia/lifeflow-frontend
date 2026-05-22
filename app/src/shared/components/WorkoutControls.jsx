@@ -27,7 +27,7 @@ import Button from './ui/button/Button'
  * @param {string} [props.cancelLabel] - Discard changes button label
  * @param {string} [props.secondaryActionLabel] - Secondary action button label
  * @param {boolean} [props.saving] - Whether save action is in progress
- * @param {boolean} [props.loading] - Whether delete action is in progress
+ * @param {boolean} [props.deleting] - Whether delete action is in progress
  * @param {boolean} [props.hasExercises] - Whether content contains exercises
  * @returns {import('react').ReactElement} Controls UI
  */
@@ -56,12 +56,11 @@ export default function WorkoutControls({
   secondaryActionLabel = '',
 
   saving = false,
-  loading = false,
+  deleting = false,
   hasExercises = false,
 }) {
   return (
     <div className={`workout-controls-${variant}`}>
-
       {/* =========================
                 CARD
       ========================== */}
@@ -128,11 +127,7 @@ export default function WorkoutControls({
           {/* DISCARD */}
 
           {onDiscardWorkout && (
-            <Button
-              variant="danger"
-              size="lg"
-              onClick={onDiscardWorkout}
-            >
+            <Button variant="danger" size="lg" onClick={onDiscardWorkout}>
               Discard
             </Button>
           )}
@@ -161,12 +156,7 @@ export default function WorkoutControls({
           {/* EDIT */}
 
           {onEdit && (
-            <Button
-              variant="secondary"
-              size="lg"
-              fullWidth
-              onClick={onEdit}
-            >
+            <Button variant="secondary" size="lg" fullWidth onClick={onEdit}>
               {editLabel}
             </Button>
           )}
@@ -174,11 +164,7 @@ export default function WorkoutControls({
           {/* SECONDARY ACTION */}
 
           {onSecondaryAction && (
-            <Button
-              variant="secondary"
-              size="lg"
-              onClick={onSecondaryAction}
-            >
+            <Button variant="secondary" size="lg" onClick={onSecondaryAction}>
               {secondaryActionLabel}
             </Button>
           )}
@@ -189,7 +175,7 @@ export default function WorkoutControls({
             <Button
               variant="danger"
               size="lg"
-              loading={loading}
+              loading={deleting}
               onClick={onDelete}
             >
               {deleteLabel}
@@ -232,22 +218,14 @@ export default function WorkoutControls({
 
           {/* DISCARD */}
           {onDiscardTemplate && (
-            <Button
-              variant="danger"
-              size="lg"
-              onClick={onDiscardTemplate}
-            >
+            <Button variant="danger" size="lg" onClick={onDiscardTemplate}>
               {discardLabel}
             </Button>
           )}
 
           {/* DISCARD */}
           {onDiscardChanges && (
-            <Button
-              variant="danger"
-              size="lg"
-              onClick={onDiscardChanges}
-            >
+            <Button variant="danger" size="lg" onClick={onDiscardChanges}>
               {cancelLabel}
             </Button>
           )}

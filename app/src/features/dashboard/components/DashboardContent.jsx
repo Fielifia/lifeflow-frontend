@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom'
 import {
+  Activity,
   Award,
   Clock3,
   Dumbbell,
   TrendingUp,
   Weight,
-  Activity,
+  Search,
+  CalendarDays,
 } from 'lucide-react'
 
 import StatsGrid from '../../../shared/components/ui/statsgrid/StatsGrid'
@@ -26,26 +28,17 @@ import {
  * @param {Array<object>} props.recentWorkouts - Recent workouts
  * @returns {import('react').ReactElement} Dashboard UI
  */
-export default function DashboardContent({
-  stats,
-  user,
-  recentWorkouts,
-}) {
+export default function DashboardContent({ stats, user, recentWorkouts }) {
   const activityData = stats?.currentWeek?.activity ?? []
 
-  const monthlyMinutes =
-    stats?.currentMonth?.durationMinutes ?? 0
+  const monthlyMinutes = stats?.currentMonth?.durationMinutes ?? 0
 
-  const rawMax = Math.max(
-    ...activityData.map((d) => d.minutes),
-    1
-  )
+  const rawMax = Math.max(...activityData.map((d) => d.minutes), 1)
 
   const maxValue = Math.ceil(rawMax / 25) * 25
 
-  const yAxisValues = Array.from(
-    { length: 6 },
-    (_, i) => Math.round((maxValue / 5) * (5 - i))
+  const yAxisValues = Array.from({ length: 6 }, (_, i) =>
+    Math.round((maxValue / 5) * (5 - i)),
   )
 
   const hasWorkouts = (stats?.allTime?.workouts ?? 0) > 0
@@ -54,6 +47,7 @@ export default function DashboardContent({
   return (
     <div className="section">
       {/* Welcome section */}
+
       <div className="header-section">
         <p className="welcome">
           {hasWorkouts ? 'Welcome back' : 'Welcome'}
@@ -63,6 +57,7 @@ export default function DashboardContent({
       </div>
 
       {/* Stats cards */}
+
       <h3>This month</h3>
       <StatsGrid
         items={[
@@ -104,6 +99,7 @@ export default function DashboardContent({
       />
 
       {/* Weekly activity */}
+
       <div className="section">
         <h3>Weekly Activity</h3>
 
@@ -136,9 +132,7 @@ export default function DashboardContent({
               </div>
             </div>
 
-            <p className="muted small center">
-              Minutes active
-            </p>
+            <p className="muted small center">Minutes active</p>
           </>
         ) : (
           <div className="empty-state">
@@ -150,21 +144,29 @@ export default function DashboardContent({
       </div>
 
       {/* Quick actions */}
+
       <div className="section">
         <h3>Quick Access</h3>
 
-        <div className="grid-base stats-grid">
+        <div className="grid-base quick-labels">
           <Link to="/exercises" className="card-base stat-card card-clickable">
-            <p className="quick-label">Exercise Library</p>
+            <div className="quick-label">
+              <Search className="action-icon" />
+              <span>Exercise Library</span>
+            </div>
           </Link>
 
           <Link to="/calendar" className="card-base stat-card card-clickable">
-            <p className="quick-label">Calendar</p>
+            <div className="quick-label">
+              <CalendarDays className="action-icon" />
+              <span>Calendar</span>
+            </div>
           </Link>
         </div>
       </div>
 
       {/* Monthly goal */}
+
       <div className="section">
         <MonthlyGoal
           current={stats?.currentMonth?.workouts ?? 0}
@@ -173,22 +175,18 @@ export default function DashboardContent({
       </div>
 
       {/* Recent Workouts */}
+
       <div className="section">
         <h3>Recent Workouts</h3>
 
         <div className="recent-workouts">
           {recentWorkouts.map((workout) => (
-            <Link
-              key={workout._id}
-              to={`/workouts/${workout._id}`}
-              state={{ returnTo: '/' }}
-            >
+            <Link key={workout._id} to={`/workouts/${workout._id}`}>
               <RecentWorkoutCard workout={workout} />
             </Link>
           ))}
         </div>
       </div>
-
     </div>
   )
 }

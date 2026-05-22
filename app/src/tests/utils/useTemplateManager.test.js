@@ -60,8 +60,6 @@ describe('useTemplateManager', () => {
 
         setSelectedExercises: jest.fn(),
 
-        setReturnTo: jest.fn(),
-
         editingTemplate: apiTemplate,
 
         setEditingTemplate: jest.fn(),

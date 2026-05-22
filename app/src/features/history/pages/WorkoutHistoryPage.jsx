@@ -2,8 +2,11 @@ import { useEffect, useState } from 'react'
 
 import { getWorkoutsApi } from '../../../shared/api/workoutApi'
 import { useWorkoutManager } from '../hooks/useWorkoutManager'
+import { useOverviewStats } from '../../../features/dashboard/hooks/useOverviewStats'
 
 import Header from '../../../shared/components/ui/Header'
+
+import HistorySummary from '../components/HistorySummary'
 
 import WorkoutList from '../components/WorkoutList'
 
@@ -13,6 +16,8 @@ import WorkoutList from '../components/WorkoutList'
  * @returns {import('react').ReactElement} Workout history page UI
  */
 export default function WorkoutHistoryPage() {
+  const { stats } = useOverviewStats()
+
   const [workouts, setWorkouts] = useState([])
 
   const [loading, setLoading] = useState(true)
@@ -32,7 +37,7 @@ export default function WorkoutHistoryPage() {
 
         setWorkouts(Array.isArray(data) ? data : data.results || [])
       } catch (err) {
-        setError(err.message || 'Failed to load workouts')
+        setError('Failed to load workouts')
       } finally {
         setLoading(false)
       }
@@ -53,24 +58,21 @@ export default function WorkoutHistoryPage() {
 
   return (
     <div className="app">
-
       {/* HEADER */}
 
       <Header title="Workout History" subtitle="Your completed sessions" />
 
-      <div className="section">
+      <HistorySummary stats={stats} recentWorkouts={workouts} />
 
-        {/* WORKOUTS */}
+      {/* WORKOUTS */}
 
-        <WorkoutList
-          workouts={workouts}
-          loading={loading}
-          error={error}
-          limit={10}
-          onDeleteWorkout={handleDeleteWorkout}
-        />
-
-      </div>
+      <WorkoutList
+        workouts={workouts}
+        loading={loading}
+        error={error}
+        limit={10}
+        onDeleteWorkout={handleDeleteWorkout}
+      />
     </div>
   )
 }

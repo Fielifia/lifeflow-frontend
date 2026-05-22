@@ -13,7 +13,7 @@ import { calculateWorkoutStats } from '../../../shared/utils/calculateWorkoutSta
  * @returns {{
  *   template: object | null,
  *   loading: boolean,
- *   error: string,
+ *   error: string | null,
  * }} Template detail state.
  */
 export function useTemplateDetail(id) {
@@ -21,19 +21,19 @@ export function useTemplateDetail(id) {
 
   const [loading, setLoading] = useState(true)
 
-  const [error, setError] = useState('')
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     const fetchTemplate = async () => {
       try {
         setLoading(true)
-        setError('')
+        setError(null)
 
         const data = await getTemplateByIdApi(id)
 
         setTemplate(data)
       } catch {
-        setError('Could not load template')
+        setError('Failed to load template')
       } finally {
         setLoading(false)
       }

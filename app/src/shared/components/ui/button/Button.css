@@ -28,6 +28,7 @@ button {
     border-color 0.15s ease;
 }
 
+
 .btn:hover {
   transform: scale(1.01);
 }
@@ -47,13 +48,17 @@ button {
 /* ============ SIZE =========== */
 /* ============================= */
 
+.btn-xs {
+  padding: 0;
+}
+
 .btn-sm {
   padding: 8px 12px;
   font-size: 12px;
 }
 
 .btn-md {
-  padding: 14px;
+  padding: 12px;
   font-size: 13px;
 }
 
@@ -155,7 +160,7 @@ button {
   align-items: center;
   justify-content: center;
 
-  gap: 8px;
+  gap: 12px;
 
   height: 90px;
 
@@ -164,7 +169,7 @@ button {
   font-size: 13px;
   font-weight: 500;
 
-  background: var(--card-2);
+  background: var(--card);
 
   border: 1px solid var(--border);
 

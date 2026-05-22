@@ -18,7 +18,7 @@ import { calculateWorkoutStats } from '../../../shared/utils/calculateWorkoutSta
  * @returns {{
  *   workout: object | null,
  *   loading: boolean,
- *   error: string,
+ *   error: string | null,
  *   stats: {
  *     totalSets: number,
  *     totalReps: number,
@@ -30,19 +30,19 @@ export function useWorkoutDetail(id) {
   const [workout, setWorkout] = useState(null)
 
   const [loading, setLoading] = useState(true)
-
-  const [error, setError] = useState('')
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     const fetchWorkout = async () => {
       try {
         setLoading(true)
+        setError(null)
 
         const data = await getWorkoutByIdApi(id)
 
         setWorkout(data)
       } catch {
-        setError('Could not load workout')
+        setError('Failed to load workout')
       } finally {
         setLoading(false)
       }

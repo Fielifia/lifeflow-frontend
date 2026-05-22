@@ -1,15 +1,13 @@
 import {
-  useLocation,
   useNavigate,
   useParams
 } from 'react-router-dom'
 
-import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
 import { useTemplateDetail } from '../hooks/useTemplateDetail'
 import { useTemplateManager } from '../hooks/useTemplateManager'
 
-import BackButton from '../../../shared/components/ui/BackButton'
+import BackButton from '../../../shared/components/ui/button/BackButton'
 import Header from '../../../shared/components/ui/Header'
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 import WorkoutControls from '../../../shared/components/WorkoutControls'
@@ -25,9 +23,6 @@ export default function TemplateDetailPage() {
   const { id } = useParams()
 
   const navigate = useNavigate()
-  const location = useLocation()
-
-  const { setReturnTo } = useExerciseFlow()
 
   const { startWorkout } = useStartWorkout()
 
@@ -92,15 +87,14 @@ export default function TemplateDetailPage() {
         <WorkoutControls
           variant="detail"
           onStartWorkout={(e) => {
-            setReturnTo(location.pathname)
             e.stopPropagation?.()
 
             startWorkout({ template })
           }}
           onEdit={() => {
-            setReturnTo(location.pathname)
-
-            navigate(`/templates/${template._id}/edit`)
+            navigate(
+              `/templates/${template._id}/edit?from=workouts`
+            )
           }}
           onDelete={handleDeleteTemplate}
           editLabel="Edit Template"
