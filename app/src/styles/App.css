@@ -941,7 +941,7 @@ input[type="checkbox"]:hover {
 
 .stats-ranges {
   display: flex;
-  margin: 24px 0;
+  margin: 12px 0;
   gap: 8px;
   overflow-x: auto;
 

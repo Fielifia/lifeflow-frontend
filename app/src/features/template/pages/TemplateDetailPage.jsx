@@ -28,7 +28,7 @@ export default function TemplateDetailPage() {
 
   const { template, loading, error } = useTemplateDetail(id)
 
-  const { success, err, setError, deleteTemplate } = useTemplateManager()
+  const { success, deleteTemplate } = useTemplateManager()
 
   const handleDeleteTemplate =
     async () => {
@@ -36,7 +36,7 @@ export default function TemplateDetailPage() {
         await deleteTemplate(template._id)
 
       if (!deleted) {
-        setError(err?.message)
+        return
       }
 
       navigate('/workouts')
@@ -104,7 +104,7 @@ export default function TemplateDetailPage() {
         {/* FEEDBACK */}
         {success && <p className="muted center">Template saved ✔</p>}
 
-        {error && <p className="error center">{err}</p>}
+        {error && <p className="error center">{error}</p>}
 
         {/* EXERCISES */}
 
