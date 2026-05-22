@@ -37,6 +37,10 @@ export default function DashboardContent({ stats, user, recentWorkouts }) {
 
   const maxValue = Math.ceil(rawMax / 25) * 25
 
+  const MAX_RECENT_WORKOUTS = 5
+
+  const displayedWorkouts = recentWorkouts.slice(0, MAX_RECENT_WORKOUTS)
+
   const yAxisValues = Array.from({ length: 6 }, (_, i) =>
     Math.round((maxValue / 5) * (5 - i)),
   )
@@ -180,7 +184,7 @@ export default function DashboardContent({ stats, user, recentWorkouts }) {
         <h3>Recent Workouts</h3>
 
         <div className="recent-workouts">
-          {recentWorkouts.map((workout) => (
+          {displayedWorkouts.map((workout) => (
             <Link key={workout._id} to={`/workouts/${workout._id}`}>
               <RecentWorkoutCard workout={workout} />
             </Link>
