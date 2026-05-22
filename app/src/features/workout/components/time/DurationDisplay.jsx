@@ -2,13 +2,14 @@ import Button from '../../../../shared/components/ui/button/Button'
 
 /**
  * Workout duration display.
- * @param {object} props - Component props
- * @param {number} props.elapsed - Elapsed workout time in seconds
- * @param {number} props.startTime - Workout start timestamp
- * @param {number} props.duration - Workout duration in seconds
- * @param {string} props.mode - Display mode
- * @param {string} props.label - Optional label
- * @returns {import('react').ReactElement} Duration display UI
+ * @param {object} props - Component props.
+ * @param {number} [props.elapsed] - Elapsed workout time in seconds.
+ * @param {number} [props.startTime] - Workout start timestamp.
+ * @param {number} [props.duration] - Workout duration in seconds.
+ * @param {string} [props.mode] - Display mode.
+ * @param {string} [props.label] - Optional label text.
+ * @param {() => void} [props.onClickStartTime] - Callback triggered when clicking the start time button.
+ * @returns {import('react').ReactElement} Duration display UI.
  */
 export default function DurationDisplay({
   elapsed = 0,

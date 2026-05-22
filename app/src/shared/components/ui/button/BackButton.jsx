@@ -5,13 +5,13 @@ import { ArrowLeft } from 'lucide-react'
 import Button from './Button'
 
 /**
- * Reusable back button.
- * @param {object} props
- * @param {string} props.fallback
- * @param {boolean} [props.warnOnUnsavedChanges]
- * @param {boolean} [props.hasUnsavedChanges]
- * @param {() => void} [props.onDiscard]
- * @returns {import('react').ReactElement}
+ * Reusable navigation back button.
+ * @param {object} props - Component props.
+ * @param {string} props.fallback - Route to navigate to when going back.
+ * @param {boolean} props.warnOnUnsavedChanges - Whether to show a warning before navigating away.
+ * @param {boolean} props.hasUnsavedChanges - Whether there are unsaved changes.
+ * @param {() => void} [props.onDiscard] - Callback triggered after confirming discard.
+ * @returns {import('react').ReactElement} - Back button component
  */
 export default function BackButton({
   fallback,

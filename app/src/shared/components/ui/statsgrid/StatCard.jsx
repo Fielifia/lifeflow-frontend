@@ -10,7 +10,6 @@ import './StatCard.css'
  * - trends
  * - emphasis variants
  * - typography sizing
- *
  * @param {object} props - Component props
  * @param {import('lucide-react').LucideIcon} [props.icon] - Card icon
  * @param {string} props.label - Statistic label
