@@ -40,7 +40,7 @@ export default function TemplateList({
 
   return (
     <div className="section">
-      <h3 className="close">My Templates</h3>
+      <h3>My Templates</h3>
 
       {/* SEARCH */}
 

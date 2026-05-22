@@ -8,6 +8,7 @@ import {
   Search,
   CalendarDays,
 } from 'lucide-react'
+
 import { Link } from 'react-router-dom'
 
 import StatCard from '../../stats/components/StatCard'

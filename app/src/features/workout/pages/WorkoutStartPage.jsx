@@ -99,7 +99,7 @@ export default function WorkoutStartPage() {
           {/* START / CONTINUE WORKOUT */}
 
           <Button
-            variant="cta"
+            variant="cta btn-primary"
             onClick={() => {
               if (!hasWorkoutDraft) {
                 startWorkout({})
@@ -140,7 +140,7 @@ export default function WorkoutStartPage() {
 
       </div>
 
-      <div className="section template">
+      <div className="section">
 
         {/* TEMPLATE LIST */}
 

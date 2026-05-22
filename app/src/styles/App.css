@@ -193,16 +193,15 @@ a:active {
   height: 100%;
   margin: 0 auto 60px;
   padding: 12px 12px;
-
   background: var(--bg);
 }
 
 .app-start {
-  margin: 60px auto 30px;
+  margin: 40px auto 30px;
 }
 
 .app:nth-child(1) {
-  padding-top: 60px;
+  padding-top: 40px;
 }
 
 .section {
@@ -213,10 +212,6 @@ a:active {
 
 .section-with-bottom-action {
   padding-bottom: 6rem;
-}
-
-.section.template {
-  padding: 6px 0 0;
 }
 
 .grid-base {
@@ -248,7 +243,7 @@ a:active {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin: 12px;
+  margin: 12px 0;
 }
 
 
@@ -619,8 +614,13 @@ input[type="checkbox"]:hover {
   height: 40px;
 }
 
+/* ============================= */
+/* ======= HISTORY SUMMARY ===== */
+/* ============================= */
 
-
+.grid-base.history-grid {
+  margin: 12px 0;
+}
 /* ============================= */
 /* ======= WORKOUT SUMMARY ===== */
 /* ============================= */
@@ -647,8 +647,6 @@ input[type="checkbox"]:hover {
   font-weight: 700;
   line-height: 1;
 }
-
-
 
 
 .recent-workouts {
@@ -941,7 +939,7 @@ input[type="checkbox"]:hover {
 
 .stats-ranges {
   display: flex;
-  margin: 12px 0;
+  margin: 24px 0;
   gap: 8px;
   overflow-x: auto;
 
