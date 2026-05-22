@@ -1,3 +1,7 @@
+default:
+  artifacts:
+    expire_in: 1 day
+
 stages:
   - install
   - lint
@@ -5,13 +9,21 @@ stages:
   - build
   - deploy
 
-image: node:22
+image: node:22-alpine
+
+cache:
+  key:
+    files:
+      - app/package-lock.json
+  paths:
+    - app/.npm/
 
 install:
   stage: install
+
   script:
     - cd app
-    - npm ci
+    - npm ci --cache .npm --prefer-offline
 
   artifacts:
     paths:
@@ -35,7 +47,7 @@ test:
 
   script:
     - cd app
-    - npm test -- --watchAll=false
+    - CI=false npm test -- --watchAll=false
 
 build:
   stage: build
@@ -46,13 +58,18 @@ build:
   script:
     - cd app
     - CI=false npm run build
-
+    
 trigger-deploy:
   stage: deploy
+
+  needs:
+    - lint
+    - test
+    - build
 
   trigger:
     project: 1dv613/student/sa226jf/workspace/lifeflow-deploy
     branch: main
 
   rules:
-  - if: '$CI_COMMIT_BRANCH == "main"'
+    - if: '$CI_COMMIT_BRANCH == "main"'
