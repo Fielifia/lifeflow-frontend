@@ -128,7 +128,7 @@ export default function WorkoutDetailPage() {
 
       {/* FEEDBACK */}
 
-      {success && <p className="muted center">Template saved ✔</p>}
+      {success && <p className="muted center">Workout deleted ✔</p>}
       {error && <p className="error center">{error}</p>}
 
       {/* EXERCISES */}

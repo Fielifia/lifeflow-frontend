@@ -158,6 +158,13 @@ export function useWorkoutManager(
     workout,
   ])
 
+  // ===== HELPERS =====
+
+  const delay = (ms) =>
+    new Promise((resolve) =>
+      setTimeout(resolve, ms)
+    )
+
   // ===== LOAD WORKOUT =====
 
   useEffect(() => {
@@ -312,6 +319,8 @@ export function useWorkoutManager(
 
       setSuccess(true)
 
+      await delay(700)
+      
       navigate(
         `/workouts/${updated._id}`,
       )
@@ -396,7 +405,7 @@ export function useWorkoutManager(
 
         return true
       } catch (err) {
-        setError('Could not delete workout')
+        setError(err?.message || 'Could not delete workout')
         return false
       } finally {
         setSaving(false)

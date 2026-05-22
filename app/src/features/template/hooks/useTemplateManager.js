@@ -159,6 +159,13 @@ export function useTemplateManager(
 
   const originalRef = useRef(null)
 
+  // ===== HELPERS =====
+
+  const delay = (ms) =>
+    new Promise((resolve) =>
+      setTimeout(resolve, ms)
+    )
+
   // ===== CREATE SNAPSHOT =====
 
   useEffect(() => {
@@ -357,6 +364,10 @@ export function useTemplateManager(
           originalRef.current =
             structuredClone(template)
 
+          setSuccess(true)
+
+          await delay(700)
+
           navigate(
             `/templates/${created._id}`,
           )
@@ -371,12 +382,14 @@ export function useTemplateManager(
 
           setEditingTemplate(null)
 
+          setSuccess(true)
+
+          await delay(700)
+
           navigate(
             `/templates/${id}`,
           )
         }
-
-        setSuccess(true)
       } catch (err) {
         setError(
           isCreate
@@ -462,7 +475,12 @@ export function useTemplateManager(
 
         return true
       } catch (err) {
-        setError('Could not delete template')
+        if (err.response?.status === 404) {
+          setError('Template no longer exists')
+        } else {
+          setError('Could not delete template')
+        }
+
         return false
       } finally {
         setSaving(false)

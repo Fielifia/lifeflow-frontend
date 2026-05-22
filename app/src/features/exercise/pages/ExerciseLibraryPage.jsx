@@ -55,7 +55,7 @@ export default function ExercisesLibraryPage() {
             ? '/workouts/current/run'
             : '/'
 
-  const sort = searchParams.get('sort') || 'a-z'
+  const sort = searchParams.get('sort') || 'most-used'
 
   const search = searchParams.get('search') || ''
 
@@ -213,16 +213,8 @@ export default function ExercisesLibraryPage() {
           <div className="filters">
             <Dropdown
               label="Sort"
-              selected={sort !== 'a-z' ? sort : ''}
+              selected={sort !== 'most-used' ? sort : ''}
               items={[
-                {
-                  label: 'A–Z',
-                  value: 'a-z',
-                },
-                {
-                  label: 'Z–A',
-                  value: 'z-a',
-                },
                 {
                   label: 'Most Used',
                   value: 'most-used',
@@ -230,6 +222,14 @@ export default function ExercisesLibraryPage() {
                 {
                   label: 'Recently Used',
                   value: 'recent',
+                },
+                {
+                  label: 'A–Z',
+                  value: 'a-z',
+                },
+                {
+                  label: 'Z–A',
+                  value: 'z-a',
                 },
               ]}
               onSelect={(value) =>
@@ -289,7 +289,7 @@ export default function ExercisesLibraryPage() {
 
           {/* ACTIVE FILTERS */}
 
-          {(sort !== 'a-z' ||
+          {(sort !== 'most-used' ||
             bodyPart ||
             muscleGroup ||
             equipment ||
@@ -298,21 +298,21 @@ export default function ExercisesLibraryPage() {
               <p className="small">Active filters</p>
 
               <div className="active-filters">
-                {sort !== 'a-z' && (
+                {sort !== 'most-used' && (
                   <button
                     className="filter-chip"
                     onClick={() =>
                       updateParams({
-                        sort: 'a-z',
+                        sort: 'most-used',
                       })
                     }
                   >
                     {
                       {
-                        'a-z': 'A–Z',
-                        'z-a': 'Z–A',
                         'most-used': 'Most Used',
                         recent: 'Recently Used',
+                        'a-z': 'A–Z',
+                        'z-a': 'Z–A',
                       }[sort]
                     }{' '}
                     ✕
@@ -408,6 +408,19 @@ export default function ExercisesLibraryPage() {
           />
         </DataState>
 
+        {/* ADD BUTTON */}
+
+        {isSelectMode && selectedExercises.length > 0 && (
+          <button
+            className="btn btn-md btn-primary"
+            onClick={() => {
+              navigate(fallback)
+            }}
+          >
+            Add {selectedExercises.length} exercises
+          </button>
+        )}
+
         {/* LOAD MORE */}
 
         {visibleCount < filtered.length && (
@@ -434,19 +447,6 @@ export default function ExercisesLibraryPage() {
               Add {selectedExercises.length}
             </Button>
           </div>
-        )}
-
-        {/* ADD BUTTON */}
-
-        {isSelectMode && selectedExercises.length > 0 && (
-          <button
-            className="btn btn-md btn-primary"
-            onClick={() => {
-              navigate(fallback)
-            }}
-          >
-            Add {selectedExercises.length} exercises
-          </button>
         )}
       </div>
     </div>

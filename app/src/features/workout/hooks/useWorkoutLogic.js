@@ -154,6 +154,13 @@ export function useWorkoutLogic(workoutId, navigate) {
     return draftWorkoutStorage.get() || EMPTY_WORKOUT
   })
 
+  // ===== HELPERS =====
+
+  const delay = (ms) =>
+    new Promise((resolve) =>
+      setTimeout(resolve, ms)
+    )
+
   // ===== SAVE DRAFT =====
 
   useEffect(() => {
@@ -241,6 +248,8 @@ export function useWorkoutLogic(workoutId, navigate) {
         })
 
       setSuccess(true)
+      
+      await delay(700)
 
       navigate(
         `/workouts/${saved._id}?from=workouts`
@@ -255,7 +264,7 @@ export function useWorkoutLogic(workoutId, navigate) {
 
       draftWorkoutStorage.clear()
     } catch (err) {
-      setError('Could not save workout')
+      setError(err?.message || 'Could not save workout')
     } finally {
       setSaving(false)
     }
@@ -274,6 +283,7 @@ export function useWorkoutLogic(workoutId, navigate) {
       })
 
       setSuccess(true)
+      
     } catch (err) {
       setError('Could not save template')
     } finally {
