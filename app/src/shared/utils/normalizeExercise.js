@@ -33,13 +33,29 @@ export function normalizeExercise(ex) {
     ...ex,
 
     // ===== ID NORMALIZATION =====
-    
+
     id: ex.id || crypto.randomUUID(),
     exerciseId: ex.exerciseId || ex.id,
 
     // ===== MUSCLE NORMALIZATION =====
 
-    muscle: ex.muscle || ex.primaryMuscles?.[0] || ex.bodyPart || 'Other',
+    muscle:
+      ex.muscle ||
+      ex.target ||
+      ex.bodyPart ||
+    'Other',
+
+    bodyPart:
+      ex.bodyPart || 'Other',
+
+    primaryMuscles:
+      ex.primaryMuscles?.length
+        ? ex.primaryMuscles
+        : ex.target
+          ? [ex.target]
+          : ex.bodyPart
+            ? [ex.bodyPart]
+            : [],
 
     // ===== IMAGE NORMALIZATION =====
 

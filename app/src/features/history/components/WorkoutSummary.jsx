@@ -1,5 +1,7 @@
 import { Dumbbell, TrendingUp, Repeat, Weight, Award, BicepsFlexed } from 'lucide-react'
 
+import { formatMuscle } from '../../../shared/utils/format'
+
 import StatsGrid from '../../../shared/components/ui/statsgrid/StatsGrid'
 /**
  * Workout summary statistics cards.
@@ -72,7 +74,7 @@ export default function WorkoutSummary({
           {
             icon: BicepsFlexed,
             label: 'Primary Muscle',
-            value: primaryMuscleValue,
+            value: formatMuscle(primaryMuscleValue),
           },
         ]}
       />

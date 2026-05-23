@@ -29,6 +29,41 @@ export function formatLabel(str) {
   return formatName(str)
 }
 
+const MUSCLE_LABELS = {
+  abdominals: 'Abs',
+  quadriceps: 'Quads',
+  hamstrings: 'Hamstrings',
+  glutes: 'Glutes',
+  lats: 'Lats',
+  traps: 'Traps',
+  calves: 'Calves',
+  shoulders: 'Shoulders',
+  triceps: 'Triceps',
+  biceps: 'Biceps',
+  chest: 'Chest',
+  forearms: 'Forearms',
+  'upper arms': 'Upper Arms',
+  'lower back': 'Lower Back',
+}
+
+/**
+ * Formats muscle group names for UI display.
+ * @param {string} muscle - Muscle group name
+ * @returns {string} Formatted muscle label
+ */
+export function formatMuscle(muscle) {
+  if (!muscle) {
+    return 'Unknown'
+  }
+
+  const normalized = muscle.toLowerCase()
+
+  return (
+    MUSCLE_LABELS[normalized] ||
+    formatName(muscle)
+  )
+}
+
 /**
  * Formats workout duration.
  * Shows minutes under 2 hours,

@@ -1,16 +1,16 @@
 const confirm = useConfirm()
 
 const handleDelete = async () => {
-  const accepted = await confirm({
+  const confirmed = await confirm({
     title: 'Delete workout?',
     description: 'This cannot be undone.',
     confirmText: 'Delete',
     variant: 'danger',
   })
 
-  if (!accepted) {
+  if (!confirmed) {
     return
   }
 
-  deleteWorkout()
+  await deleteWorkout()
 }

@@ -10,11 +10,10 @@ import WorkoutControls from '../WorkoutControls'
  * Displays title, optional subtitle,
  * exercise preview list, action menu,
  * and workout controls.
- *
  * @param {object} props - Component props
  * @param {string} props.title - Card title
  * @param {string} [props.subtitle] - Optional subtitle
- * @param {Array<object>} [props.exercises=[]] - Exercise preview list
+ * @param {Array<object>} [props.exercises] - Exercise preview list
  * @param {Array<object>} props.menuItems - Action menu items
  * @param {() => void} props.onClick - Card click handler
  * @param {(event: MouseEvent) => void} props.onStartWorkout - Start workout handler

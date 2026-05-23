@@ -19,7 +19,7 @@
  }
 
  .stat-value-sm {
-  font-size: clamp(1.05rem, 1rem + 0.3vw, 1.2rem)
+   font-size: clamp(1.05rem, 1rem + 0.3vw, 1.2rem)
  }
 
  .stat-value-md {
@@ -60,7 +60,7 @@
    color: var(--primary-light);
  }
 
- .stat-card-subValue {
+ .stat-card-subvalue {
    margin: 4px 0 0;
    color: var(--muted);
    font-size: var(--text-sm);

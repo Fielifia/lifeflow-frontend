@@ -6,28 +6,30 @@ import './StatCard.css'
  *
  * Supports:
  * - icons
- * - subtitles
+ * - supporting values
  * - trends
  * - emphasis variants
  * - typography sizing
+ * - responsive grid spans
  * @param {object} props - Component props
  * @param {import('lucide-react').LucideIcon} [props.icon] - Card icon
  * @param {string} props.label - Statistic label
  * @param {string|number} props.value - Statistic value
- * @param {string} [props.subtitle] - Optional subtitle text
+ * @param {string} [props.subvalue] - Optional supporting value text
  * @param {string} [props.unit] - Optional value unit
  * @param {string} [props.trend] - Optional trend text
  * @param {'default'|'large'} [props.emphasis] - Card emphasis style
  * @param {'sm'|'md'|'lg'} [props.labelSize] - Label text size
- * @param {'sm'|'md'|'lg'|'xl'} [props.valueSize] - Value text size
+ * @param {'xs'|'sm'|'md'|'lg'|'xl'} [props.valueSize] - Value text size
  * @param {'left'|'center'} [props.align] - Content alignment
+ * @param {1|2} [props.gridSpan] - Grid column span
  * @returns {import('react').ReactElement} Statistics card UI
  */
 export default function StatCard({
   icon: Icon,
   label,
   value,
-  subValue,
+  subvalue,
   unit,
   trend,
 
@@ -87,7 +89,7 @@ export default function StatCard({
         <span>{label}</span>
       </div>
 
-      {subValue && <p className="stat-card-subValue">{subValue}</p>}
+      {subvalue && <p className="stat-card-subvalue">{subvalue}</p>}
 
       {trend && <span className="stat-trend">{trend}</span>}
     </article>
