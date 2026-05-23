@@ -24,7 +24,7 @@ export default function StatsHero({ stats }) {
 
       <StatCard
         icon={Award}
-        label="Personal Bests this week"
+        label="PBs this week"
         value={stats?.currentWeek?.personalBests ?? 0}
       />
     </div>

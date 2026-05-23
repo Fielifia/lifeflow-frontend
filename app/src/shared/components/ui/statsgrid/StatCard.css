@@ -3,45 +3,35 @@
    flex-direction: column;
    gap: 8px;
  }
-/* 
- .stat-card-title {
-   opacity: 0.7;
-   text-transform: uppercase;
- }
 
- .stat-title-sm {
-   font-size: 0.8rem;
+ .stat-card-span-2 {
+   grid-column: span 2;
  }
-
- .stat-title-md {
-   font-size: 1rem;
- }
-
- .stat-title-lg {
-   font-size: 1.2rem;
- } */
 
  .stat-card-value {
    display: flex;
    gap: 8px;
    align-items: center;
-   margin: 0 0 12px;
+ }
+
+ .stat-value-xs {
+   font-size: clamp(0.95rem, 0.92rem + 0.18vw, 1.05rem);
  }
 
  .stat-value-sm {
-   font-size: 1rem;
+  font-size: clamp(1.05rem, 1rem + 0.3vw, 1.2rem)
  }
 
  .stat-value-md {
-   font-size: 1.4rem;
+   font-size: clamp(1.15rem, 1.05rem + 0.45vw, 1.4rem);
  }
 
  .stat-value-lg {
-   font-size: 1.6rem;
+   font-size: clamp(1.2rem, 1.1rem + 0.55vw, 1.5rem);
  }
 
  .stat-value-xl {
-   font-size: 1.8rem;
+   font-size: clamp(1.3rem, 1.15rem + 0.7vw, 1.7rem);
  }
 
  .stat-card-label {
@@ -68,4 +58,11 @@
  .stat-card-icon {
    width: 20px;
    color: var(--primary-light);
+ }
+
+ .stat-card-subValue {
+   margin: 4px 0 0;
+   color: var(--muted);
+   font-size: var(--text-sm);
+   line-height: 1.4;
  }

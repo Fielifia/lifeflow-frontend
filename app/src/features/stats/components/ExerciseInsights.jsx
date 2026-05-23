@@ -43,7 +43,9 @@ export default function ExerciseInsights({
           ? `${stats.mostCommonExercise.count} workouts`
           : null,
 
-      valueSize: 'sm',
+      valueSize: 'xs',
+
+      gridSpan: 2,
     },
 
     {

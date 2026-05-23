@@ -747,67 +747,6 @@ input[type="checkbox"]:hover {
 }
 
 /* ============================= */
-/* ========== TEMPLATE ======= */
-/* ============================= */
-
-.template-card {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.template-card.menu-open {
-  transform: none !important;
-}
-
-.template-card.menu-open:active {
-  transform: none !important;
-}
-
-.template-card-header,
-.workout-card-header {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.template-card-header-content p,
-.workout-card-header-content p {
-  margin: 8px 0 16px;
-}
-
-.template-card-header h3,
-.workout-card-header h3 {
-  margin: 0;
-  font-size: 16px;
-}
-
-.template-card-exercise-list,
-.workout-card-exercise-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.template-card-exercise-list li,
-.workout-card-exercise-list li {
-  font-size: 13px;
-  color: var(--text);
-  position: relative;
-  padding-left: 12px;
-  line-height: 1.8;
-}
-
-.template-card-exercise-list li::before,
-.workout-card-exercise-list li::before {
-  content: "•";
-  position: absolute;
-  left: 0;
-  color: var(--primary);
-}
-
-/* ============================= */
 /* =========== TOAST =========== */
 /* ============================= */
 
