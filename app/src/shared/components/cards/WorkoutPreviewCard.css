@@ -21,13 +21,13 @@
 .preview-card-header-content {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 8px;
 }
 
 .preview-card-exercise-list {
   list-style: none;
   padding: 0;
-  margin: 0;
+  margin: 8px 0;
 }
 
 .preview-card-exercise-list li {

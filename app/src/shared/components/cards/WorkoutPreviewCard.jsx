@@ -57,7 +57,7 @@ export default function WorkoutPreviewCard({
 
       <div className="preview-card-header">
         <div className="preview-card-header-content">
-          <h3 className="close">{title}</h3>
+          <h2 className="close">{title}</h2>
 
           {subtitle && <p className="muted small close">{subtitle}</p>}
         </div>
