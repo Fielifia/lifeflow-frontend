@@ -40,7 +40,7 @@ export default function Header({
       <div className="header-content">
         <h1 className="close">{title}</h1>
 
-        {subtitle && <p className="muted medium close">{subtitle}</p>}
+        {subtitle && <p className="body muted close">{subtitle}</p>}
       </div>
 
       {/* PROFILE BUTTON */}

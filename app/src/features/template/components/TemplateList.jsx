@@ -1,12 +1,11 @@
 import { useState } from 'react'
-import {
-  useNavigate
-} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
+import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
 
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 
-import TemplateCard from './TemplateCard'
+import WorkoutPreviewCard from '../../../shared/components/cards/WorkoutPreviewCard'
 
 /**
  * Displays a searchable list of workout templates with incremental loading.
@@ -25,8 +24,9 @@ export default function TemplateList({
   limit = 5,
   onDeleteTemplate,
 }) {
-
   const navigate = useNavigate()
+
+  const { startWorkout } = useStartWorkout()
 
   const [search, setSearch] = useState('')
 
@@ -65,23 +65,46 @@ export default function TemplateList({
         emptyText="No templates found"
         count={5}
       >
-
         <div className="section">
-          
-          {visible.map((template) => (
-            <TemplateCard
-              key={template._id}
-              template={template}
-              onDeleteTemplate={onDeleteTemplate}
-              onClick={() => {
-                navigate(
-                  `/templates/${template._id}?from=workouts`
-                )
-              }}
-            />
-          ))}
-        </div>
+          {visible.map((template) => {
+            const menuItems = [
+              {
+                label: 'Open',
+                onClick: () =>
+                  navigate(`/templates/${template._id}?from=workouts`)(
+                    template,
+                  ),
+              },
+              {
+                label: 'Edit',
+                onClick: () => navigate(`/templates/${template._id}/edit`),
+              },
+              {
+                label: 'Delete',
+                danger: true,
+                onClick: () => onDeleteTemplate(template._id),
+              },
+            ]
 
+            return (
+              <WorkoutPreviewCard
+                key={template._id}
+                title={template.name}
+                exercises={template.exercises}
+                menuItems={menuItems}
+                onClick={() =>
+                  navigate(`/templates/${template._id}?from=workouts`)
+                }
+                onStartWorkout={(e) => {
+                  e.stopPropagation()
+
+                  startWorkout({ template })
+                }}
+                hasExercises={template.exercises?.length > 0}
+              />
+            )
+          })}
+        </div>
       </DataState>
 
       {/* SHOW MORE */}
@@ -91,7 +114,8 @@ export default function TemplateList({
           className="btn btn-md btn-primary"
           onClick={() => setVisibleCount((prev) => prev + limit)}
         >
-          Show more (+{Math.min(limit, filteredTemplates.length - visibleCount)})
+          Show more (+{Math.min(limit, filteredTemplates.length - visibleCount)}
+          )
         </button>
       )}
     </div>

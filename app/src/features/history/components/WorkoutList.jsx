@@ -1,12 +1,14 @@
 import { useState } from 'react'
-import {
-  useNavigate
-} from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
+import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
+
+import { formatDate, formatDuration } from '../../../shared/utils/format'
 
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 
-import WorkoutCard from './WorkoutCard'
+import WorkoutPreviewCard from '../../../shared/components/cards/WorkoutPreviewCard'
+// import WorkoutCard from './WorkoutCard'
 
 /**
  * Displays a searchable list of workouts
@@ -26,8 +28,9 @@ export default function WorkoutList({
   limit = 10,
   onDeleteWorkout,
 }) {
-
   const navigate = useNavigate()
+
+  const { startWorkout } = useStartWorkout()
 
   const [search, setSearch] = useState('')
 
@@ -67,16 +70,44 @@ export default function WorkoutList({
         count={5}
       >
         <div className="section">
-          {visible.map((workout) => (
-            <WorkoutCard
-              key={workout._id}
-              workout={workout}
-              onDeleteWorkout={onDeleteWorkout}
-              onClick={() => {
-                navigate(`/workouts/${workout._id}?from=history`)
-              }}
-            />
-          ))}
+          {visible.map((workout) => {
+            const menuItems = [
+              {
+                label: 'Open',
+                onClick: () => navigate(`/workouts/${workout._id}`),
+              },
+              {
+                label: 'Edit',
+                onClick: () => navigate(`/workouts/${workout._id}/edit`),
+              },
+              {
+                label: 'Delete',
+                danger: true,
+                onClick: () => onDeleteWorkout(workout._id),
+              },
+            ]
+
+            return (
+              <WorkoutPreviewCard
+                key={workout._id}
+                title={workout.name}
+                subtitle={`
+        ${formatDuration(
+                Math.round((workout.duration || 0) / 60),
+              )} • ${formatDate(workout.startTime)}
+      `}
+                exercises={workout.exercises}
+                menuItems={menuItems}
+                onClick={() => navigate(`/workouts/${workout._id}`)}
+                onStartWorkout={(e) => {
+                  e.stopPropagation()
+
+                  startWorkout({ workout })
+                }}
+                hasExercises={workout.exercises?.length > 0}
+              />
+            )
+          })}
         </div>
       </DataState>
 

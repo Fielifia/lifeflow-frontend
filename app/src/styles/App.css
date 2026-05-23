@@ -19,6 +19,13 @@
   --muted: #b0b8bb;
   --danger: #a83b3f8a;
   --border: rgba(255, 255, 255, 0.05);
+
+  --text-h1: clamp(1.15rem, 1.05rem + 0.45vw, 1.4rem);
+  --text-h2: clamp(1.05rem, 1rem + 0.3vw, 1.2rem);
+  --text-h3: clamp(0.95rem, 0.92rem + 0.18vw, 1.05rem);
+  --text-h4: clamp(0.88rem, 0.85rem + 0.12vw, 0.95rem);
+  --text-body: clamp(0.85rem, 0.82rem + 0.15vw, 0.95rem);
+  --text-sm: clamp(0.56rem, 0.53rem + 0.12vw, 0.69rem);
 }
 
 /* ============================= */
@@ -34,6 +41,7 @@ body {
   font-family: system-ui, -apple-system, sans-serif;
   background: var(--bg);
   color: var(--text);
+  font-size: var(--text-body);
 }
 
 /* ============================= */
@@ -41,20 +49,23 @@ body {
 /* ============================= */
 
 h1 {
-  font-size: 22px;
+  font-size: var(--text-h1);
 }
 
 h2 {
-  font-size: 18px;
+  font-size: var(--text-h2);
 }
 
 h3 {
-  font-size: 16px;
+  font-size: var(--text-h3);
 }
 
 h4 {
-  font-size: 14px;
-  margin: 0;
+  font-size: var(--text-h4);
+}
+
+.small {
+  font-size: var(--text-small);
 }
 
 .close {
@@ -63,14 +74,6 @@ h4 {
 
 .muted {
   color: var(--muted);
-}
-
-.small {
-  font-size: 11px;
-}
-
-.medium {
-  font-size: 13px;
 }
 
 .center {
@@ -87,54 +90,6 @@ h4 {
 }
 
 /* ============================= */
-/* ========== HEADER =========== */
-/* ============================= */
-
-.header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-
-  display: flex;
-  max-width: 480px;
-  margin: 0 auto 40px;
-  padding: 0 24px;
-  height: 70px;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-
-  background: var(--dark);
-  border-bottom: 1px solid var(--border);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-
-  z-index: 100;
-}
-
-.header-content {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.header-profile-btn {
-  opacity: 0.8;
-  transition: .1s ease-in;
-}
-
-.header-profile-btn:hover {
-  opacity: 1;
-  transform: scale(1.02);
-}
-
-.header-profile-btn .profile-icon {
-  color: var(--primary-light);
-}
-
-
-/* ============================= */
 /* ========== LINKS ============ */
 /* ============================= */
 
@@ -147,10 +102,6 @@ a {
 a:focus,
 a:active {
   outline: none;
-}
-
-.link {
-  cursor: pointer;
 }
 
 /* ============================= */
@@ -180,12 +131,9 @@ a:active {
   transform: scale(0.98);
 }
 
-
-
 /* ============================= */
 /* ========== LAYOUT =========== */
 /* ============================= */
-
 
 .app {
   position: relative;
@@ -221,6 +169,33 @@ a:active {
 }
 
 /* ============================= */
+/* ========== HEADER =========== */
+/* ============================= */
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  max-width: 480px;
+  margin: 0 auto 40px;
+  padding: 0 24px;
+  height: 70px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  background: var(--dark);
+  border-bottom: 1px solid var(--border);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+
+  z-index: 100;
+}
+
+/* ============================= */
 /* ========== CARD ============= */
 /* ============================= */
 
@@ -237,15 +212,12 @@ a:active {
   border-radius: 18px;
 }
 
-
-/* WRAPPER */
 .hero-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
   margin: 12px 0;
 }
-
 
 /* ============================= */
 /* ========== INPUTS =========== */
@@ -295,22 +267,16 @@ input {
 }
 
 .input-clean {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateY(-50%);
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 12px;
+  width: 48%;
   border: none;
-  background: transparent;
+  background: var(--card-2);
   color: var(--text);
+  font-size: var(--text-small);
 }
 
 .input-clean:focus {
   outline: none;
   border: none;
-  font-size: 12px;
   padding: 0;
 }
 
@@ -345,7 +311,6 @@ input[type="checkbox"]:checked::after {
   display: block;
   text-align: center;
   color: white;
-  font-size: 14px;
 }
 
 input[type="checkbox"]:hover {
@@ -355,33 +320,11 @@ input[type="checkbox"]:hover {
 
 .textarea {
   resize: vertical;
+  font-family: system-ui, -apple-system, sans-serif;
   min-height: 30px;
   height: 60px;
   max-height: 150px;
   margin: 8px 0;
-}
-
-.password-wrapper {
-  position: relative;
-}
-
-.password-toggle {
-  position: absolute;
-  right: 0.75rem;
-  top: 50%;
-  transform: translateY(-50%);
-}
-
-.password-toggle {
-  background: none;
-  border: none;
-  cursor: pointer;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: var(--text-muted);
 }
 
 /* ============================= */
@@ -393,39 +336,6 @@ input[type="checkbox"]:hover {
   display: grid;
   grid-template-columns: 24px 1fr 24px;
   height: 100%;
-}
-
-.number-input input {
-  text-align: center;
-}
-
-/* ============================= */
-/* ========== SELECT =========== */
-/* ============================= */
-
-.select-base {
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  background: var(--card-2);
-  color: var(--text);
-  font-size: 11px;
-  appearance: none;
-  cursor: pointer;
-}
-
-.select-wrapper {
-  position: relative;
-}
-
-.select-wrapper::after {
-  content: '▾';
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--muted);
 }
 
 /* ============================= */
@@ -457,7 +367,6 @@ input[type="checkbox"]:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 12px;
   color: var(--text);
   gap: 4px;
 }
@@ -483,6 +392,29 @@ input[type="checkbox"]:hover {
   text-align: center;
 }
 
+.password-wrapper {
+  position: relative;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.password-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--text-muted);
+}
+
 /* ============================= */
 /* ========== WORKOUT ========== */
 /* ============================= */
@@ -490,12 +422,9 @@ input[type="checkbox"]:hover {
 .workout-controls {
   display: flex;
   gap: 8px;
-  margin: 12px 0 0;
 }
 
 .workout-controls-card {
-  display: flex;
-  gap: 8px;
   margin-top: 12px;
 }
 
@@ -621,6 +550,7 @@ input[type="checkbox"]:hover {
 .grid-base.history-grid {
   margin: 12px 0;
 }
+
 /* ============================= */
 /* ======= WORKOUT SUMMARY ===== */
 /* ============================= */
@@ -984,4 +914,3 @@ input[type="checkbox"]:hover {
 .stats-range-btn:not(.active) {
   opacity: 0.85;
 }
-

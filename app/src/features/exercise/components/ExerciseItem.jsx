@@ -118,7 +118,6 @@ export default function ExerciseItem({
 
   return (
     <div className={`workout-exercise ${mode}`}>
-
       {/* EXERCISE ITEM HEADER */}
 
       <div className="exercise-item-header">
@@ -130,14 +129,9 @@ export default function ExerciseItem({
             onClick={() => {
               const params = new URLSearchParams(location.search)
 
-              params.set(
-                'from',
-                currentRoute,
-              )
+              params.set('from', currentRoute)
 
-              navigate(
-                `/exercises/${ex.exerciseId}?${params.toString()}`
-              )
+              navigate(`/exercises/${ex.exerciseId}?${params.toString()}`)
             }}
           />
 
@@ -145,7 +139,6 @@ export default function ExerciseItem({
         </div>
 
         <div className="exercise-item-header controls">
-
           {/* REST TIME */}
 
           <div
@@ -157,8 +150,6 @@ export default function ExerciseItem({
               setEditingRest(true)
             }}
           >
-            <Clock className="icon-small" />
-
             {editingRest && isEditable ? (
               <input
                 className="input-clean"
@@ -190,10 +181,9 @@ export default function ExerciseItem({
                 }}
               />
             ) : (
-              <span className="rest-badge">
-                {formatRestTime(safeRest)}
-              </span>
+              <span className="rest-badge">{formatRestTime(safeRest)}</span>
             )}
+            <Clock className="icon-small" />
           </div>
 
           {/* REMOVE EXERCISE */}
@@ -215,10 +205,7 @@ export default function ExerciseItem({
       {/* EXERCISE NOTES */}
 
       {isEditable ? (
-        <form
-          className="exercise-notes"
-          onSubmit={(e) => e.preventDefault()}
-        >
+        <form className="exercise-notes" onSubmit={(e) => e.preventDefault()}>
           <input
             className="input-base input-exercise-notes"
             type="text"
@@ -229,9 +216,7 @@ export default function ExerciseItem({
         </form>
       ) : (
         ex.notes && (
-          <p className="muted small exercise-notes-static">
-            {ex.notes}
-          </p>
+          <p className="muted small exercise-notes-static">{ex.notes}</p>
         )
       )}
 
@@ -240,47 +225,31 @@ export default function ExerciseItem({
       <div className={`set-header ${gridClass}`}>
         <span className="set-header-cell">Set</span>
 
-        {isRunMode && (
-          <span className="set-header-cell">Previous</span>
-        )}
+        {isRunMode && <span className="set-header-cell">Previous</span>}
 
         <span className="set-header-cell">
           <Weight className="icon-small" />
           kg
         </span>
 
-        <span className="set-header-cell">
-          Reps
-        </span>
+        <span className="set-header-cell">Reps</span>
 
-        {isRunMode && isEditable && (
-          <span className="set-header-cell">✔</span>
-        )}
+        {isRunMode && isEditable && <span className="set-header-cell">✔</span>}
 
-        {isWorkoutMode && (
-          <span className="set-header-cell">Pb</span>
-        )}
+        {isWorkoutMode && <span className="set-header-cell">Pb</span>}
       </div>
 
       {/* SETS */}
 
       {ex.sets.map((set, j) => {
-
-        const previousBest =
-          j === 0
-            ? historicalBest
-            : bests[j - 1]
+        const previousBest = j === 0 ? historicalBest : bests[j - 1]
 
         const isHistoricalPB =
           (isRunMode || isWorkoutMode) &&
           set.completed &&
-          (
-            set.weight > previousBest.weight ||
-            (
-              set.weight === previousBest.weight &&
-              set.reps > previousBest.reps
-            )
-          )
+          (set.weight > previousBest.weight ||
+            (set.weight === previousBest.weight &&
+              set.reps > previousBest.reps))
 
         return (
           <ExerciseSetRow
