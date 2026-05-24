@@ -1,0 +1,22 @@
+.workout-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.workout-controls-card {
+  margin-top: 12px;
+}
+
+.workout-controls-run {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.workout-controls-detail,
+.workout-controls-editor {
+  display: flex;
+  gap: 8px;
+  margin: 24px 0;
+  height: 60px;
+}

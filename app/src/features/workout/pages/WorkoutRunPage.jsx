@@ -11,7 +11,7 @@ import Header from '../../../shared/components/ui/Header'
 
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 
-import WorkoutControls from '../../../shared/components/WorkoutControls'
+import WorkoutControls from '../../../shared/components/ui/WorkoutControls/WorkoutControls'
 
 import ExerciseItem from '../../exercise/components/ExerciseItem/ExerciseItem'
 
@@ -20,6 +20,8 @@ import RestTimer from '../components/time/RestTimer'
 import WorkoutHeader from '../components/WorkoutHeader'
 
 import EditStartTimeModal from '../components/time/EditStartTimeModal'
+
+import '../Workout.css'
 
 /**
  * Workout page for creating and tracking a workout session.

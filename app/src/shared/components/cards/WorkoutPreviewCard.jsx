@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import ActionMenu from '../ui/action-menu/ActionMenu'
 
-import WorkoutControls from '../WorkoutControls'
+import WorkoutControls from '../ui/WorkoutControls/WorkoutControls'
 
 /**
  * Shared preview card for workouts and templates.
@@ -77,7 +77,9 @@ export default function WorkoutPreviewCard({
       {/* MORE EXERCISES */}
 
       {exercises.length > 3 && (
-        <p className="muted small center close">And {exercises.length - 3} more...</p>
+        <p className="muted small center close">
+          And {exercises.length - 3} more...
+        </p>
       )}
 
       {/* ACTIONS */}

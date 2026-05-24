@@ -2,6 +2,16 @@
 /* ======= EXERCISE ITEM ======= */
 /* ============================= */
 
+.workout-exercise {
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 4px 12px 12px;
+  margin: 12px 0;
+  gap: 12px;
+  display: flex;
+  flex-direction: column;
+}
+
 .exercise-item-header {
   display: flex;
   align-items: center;
@@ -19,7 +29,6 @@
 .exercise-item-title:hover {
   opacity: 0.7;
 }
-
 
 .exercise-item-header .controls {
   margin-left: auto;
@@ -69,6 +78,13 @@
 .set-row-edit {
   grid-template-columns:
     1fr 2fr 3fr;
+}
+
+.number-input,
+.reps-grid {
+  display: grid;
+  grid-template-columns: 24px 1fr 24px;
+  height: 100%;
 }
 
 .set-grid-workout {
@@ -148,4 +164,60 @@
   color: var(--primary-light);
   width: 18px;
   height: 18px;
+}
+
+/* ============================= */
+/* ====== REST TIME INPUT ====== */
+/* ============================= */
+
+.rest-label {
+  position: relative;
+  display: flex;
+  padding: 6px 8px;
+  border-radius: 10px;
+  background: var(--card-2);
+  border: 1px solid var(--border);
+  font-size: 12px;
+  width: 80px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  gap: 8px;
+}
+
+.rest-label .icon-small {
+  width: 12px;
+  height: 12px;
+  color: var(--primary-light);
+}
+
+.rest-label:hover {
+  background: var(--card-hover);
+}
+
+.rest-label.is-static {
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: default;
+}
+
+.rest-label.is-static:hover {
+  background: transparent;
+}
+
+.rest-badge {
+  text-align: center;
+}
+
+.rest-input {
+  width: 50px;
+  padding: 4px 6px;
+  border-radius: 10px;
+  border: 1px solid var(--primary);
+  background: var(--card-2);
+  color: var(--text);
+  font-size: 11px;
+  text-align: center;
 }

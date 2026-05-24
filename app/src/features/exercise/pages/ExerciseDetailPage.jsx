@@ -1,14 +1,7 @@
-import {
-  useEffect,
-  useState
-} from 'react'
-import {
-  useLocation,
-  useParams
-} from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useLocation, useParams } from 'react-router-dom'
 
 import { getExerciseByIdApi } from '../../../shared/api/exerciseApi'
-
 
 import { formatLabel } from '../../../shared/utils/format'
 
@@ -21,7 +14,6 @@ import Header from '../../../shared/components/ui/Header'
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 
 import './Exercise.css'
-
 
 /**
  * Displays detailed information about a selected exercise.
@@ -85,23 +77,20 @@ export default function ExerciseDetail() {
 
   searchParams.delete('from')
 
-  const libraryFallback =
-    searchParams.toString()
-      ? `/exercises?${searchParams.toString()}`
-      : '/exercises'
+  const libraryFallback = searchParams.toString()
+    ? `/exercises?${searchParams.toString()}`
+    : '/exercises'
 
   const fallback = from || libraryFallback
 
   if (loading || error || !ex) {
     return (
       <div className="app">
-
         <Header title="Exercise" />
 
         <BackButton fallback={fallback} />
 
         <div className="section">
-
           <DataState
             loading={loading}
             error={error}
@@ -117,39 +106,33 @@ export default function ExerciseDetail() {
 
   return (
     <div className="app">
-
       {/* HEADER */}
 
-      <Header
-        title="Exercise"
-        subtitle="Details"
-      />
+      <Header title="Exercise" subtitle="Details" />
 
       {/* BACK BUTTON */}
 
       <BackButton fallback={fallback} />
 
-      <div className="section">
-
-
+      <div className="exercise-header">
         {/* TITLE */}
 
-        <div className="section">
-          <h2>{ex.name}</h2>
+        <h2>{ex.name}</h2>
 
-          <p className="muted">
-            {formatLabel(ex.bodyPart)}
-            {ex.muscle && ex.muscle !== ex.bodyPart && (
-              <> • {formatLabel(ex.muscle)}</>
-            )}
-            {' • '}
-            {formatLabel(ex.equipment)}
-          </p>
-        </div>
+        <p className="muted">
+          {formatLabel(ex.bodyPart)}
+          {ex.muscle && ex.muscle !== ex.bodyPart && (
+            <> • {formatLabel(ex.muscle)}</>
+          )}
+          {' • '}
+          {formatLabel(ex.equipment)}
+        </p>
+      </div>
 
-        {/* IMAGE */}
+      {/* IMAGE */}
 
-        <div className="container">
+      <div className="section">
+        <div className="card-base">
           <img
             src={imageSrc}
             alt={ex.name}
@@ -172,34 +155,20 @@ export default function ExerciseDetail() {
             </div>
           )}
         </div>
+      </div>
 
-        {/* INFO CARDS */}
+      {/* INSTRUCTIONS */}
+      
+      <h3>Instructions</h3>
 
-        <div className="section exercise-overview">
-          <div className="card-base">
-            <p className="stat-label">Muscle</p>
-            <p>{ex.muscle}</p>
-          </div>
-
-          <div className="card-base">
-            <p className="stat-label">Equipment</p>
-            <p>{ex.equipment}</p>
-          </div>
-        </div>
-
-        {/* INSTRUCTIONS */}
-
-        <div className="section">
-          <h3>Instructions</h3>
-
-          <div className="container">
-            {ex.instructions?.map((step, i) => (
-              <div key={i} className="instruction-step">
-                <span className="step-number">{i + 1}</span>
-                <p>{step}</p>
-              </div>
-            ))}
-          </div>
+      <div className="section">
+        <div className="card-base">
+          {ex.instructions?.map((step, i) => (
+            <div key={i} className="instruction-step">
+              <span className="step-number">{i + 1}</span>
+              <p>{step}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>

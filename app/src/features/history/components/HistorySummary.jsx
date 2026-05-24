@@ -1,10 +1,6 @@
-import {
-  Award,
-  Dumbbell,
-} from 'lucide-react'
+import { Award, Dumbbell } from 'lucide-react'
 
-import StatCard from '../../../shared/components/ui/statsgrid/StatCard'
-
+import StatsGrid from '../../../shared/components/ui/statsgrid/StatsGrid'
 
 /**
  * Statistics overview metrics.
@@ -14,18 +10,23 @@ import StatCard from '../../../shared/components/ui/statsgrid/StatCard'
  */
 export default function StatsHero({ stats }) {
   return (
-    <div className="grid-base history-grid">
-      <StatCard
-        icon={Dumbbell}
-        label="Workouts this week"
-        value={stats?.currentWeek?.workouts ?? 0}
-        emphasis="large"
-      />
-
-      <StatCard
-        icon={Award}
-        label="PBs this week"
-        value={stats?.currentWeek?.personalBests ?? 0}
+    <div className="section">
+      <StatsGrid
+        items={[
+          {
+            icon: Dumbbell,
+            label: 'Workouts this week',
+            value: stats?.currentWeek?.workouts ?? 0,
+            emphasis: 'large',
+            valueSize: 'xl',
+          },
+          {
+            icon: Award,
+            label: 'PBs this week',
+            value: stats?.currentWeek?.personalBests ?? 0,
+            valueSize: 'xl',
+          },
+        ]}
       />
     </div>
   )

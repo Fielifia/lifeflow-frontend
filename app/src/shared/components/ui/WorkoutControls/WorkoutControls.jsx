@@ -1,4 +1,6 @@
-import Button from './ui/button/Button'
+import Button from '../button/Button'
+
+import './WorkoutControls.css'
 
 /**
  * Workout / template control buttons.

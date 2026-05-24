@@ -145,11 +145,11 @@ a:active {
 }
 
 .app-start {
-  margin: 40px auto 30px;
+  margin: 60px auto 30px;
 }
 
 .app:nth-child(1) {
-  padding-top: 40px;
+  padding-top: 48px;
 }
 
 .section {
@@ -206,17 +206,10 @@ a:active {
   border: 1px solid var(--border);
 }
 
-.container {
-  background: var(--card);
-  padding: 16px;
-  border-radius: 18px;
-}
-
 .hero-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin: 12px 0;
 }
 
 /* ============================= */
@@ -328,17 +321,6 @@ input[type="checkbox"]:hover {
 }
 
 /* ============================= */
-/* ===== NUMBER INPUT FIX ====== */
-/* ============================= */
-
-.number-input,
-.reps-grid {
-  display: grid;
-  grid-template-columns: 24px 1fr 24px;
-  height: 100%;
-}
-
-/* ============================= */
 /* ========== NAVBAR =========== */
 /* ============================= */
 
@@ -416,277 +398,8 @@ input[type="checkbox"]:hover {
 }
 
 /* ============================= */
-/* ========== WORKOUT ========== */
-/* ============================= */
-
-.workout-controls {
-  display: flex;
-  gap: 8px;
-}
-
-.workout-controls-card {
-  margin-top: 12px;
-}
-
-.workout-controls-run {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 24px;
-}
-
-.workout-controls-detail,
-.workout-controls-editor {
-  display: flex;
-  gap: 8px;
-  margin: 24px 0;
-  height: 60px;
-}
-
-.workout-exercise {
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 4px 12px 12px;
-  margin: 12px 0;
-  gap: 12px;
-  display: flex;
-  flex-direction: column;
-}
-
-.duration-section {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.duration {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin: 24px 0;
-}
-
-.duration-time {
-  font-size: 34px;
-}
-
-.start-time {
-  font-size: 14px;
-  min-height: 1rem;
-  transition: opacity 0.15s ease;
-}
-
-.start-time.hidden {
-  opacity: 0;
-}
-
-.start-time.visible {
-  opacity: 1;
-}
-
-.workout-header {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  margin: 12px 0;
-  gap: 12px;
-}
-
-.workout-header h2 {
-  cursor: pointer;
-}
-
-.workout-header .icon-small {
-  height: 14px;
-  width: 14px;
-  cursor: pointer;
-  color: var(--primary);
-}
-
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(4px);
-
-  z-index: 1000;
-}
-
-.modal-card {
-  display: flex;
-  flex-direction: column;
-  background: var(--card);
-  border: 1px solid var(--border);
-
-  width: min(90%, 320px);
-  border-radius: 20px;
-
-  padding: 12px;
-  gap: 8px;
-
-  align-items: center;
-}
-
-.modal-card-content {
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) 100px 70px;
-  width: 100%;
-  gap: 8px;
-}
-
-.modal-card-content .input-base,
-.modal-card-content .btn {
-  height: 40px;
-}
-
-/* ============================= */
-/* ======= HISTORY SUMMARY ===== */
-/* ============================= */
-
-.grid-base.history-grid {
-  margin: 12px 0;
-}
-
-/* ============================= */
-/* ======= WORKOUT SUMMARY ===== */
-/* ============================= */
-
-.workout-summary-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
-  margin: 1rem 0;
-}
-
-.workout-summary-grid .card-base {
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  align-items: flex-start;
-  justify-content: center;
-}
-
-.workout-summary-grid h3 {
-  margin: 0;
-  font-size: 1.35rem;
-  font-weight: 700;
-  line-height: 1;
-}
-
-
-.recent-workouts {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-
-/* ========== MONTHLY GOAL ======== */
-.progress-bar {
-  height: 8px;
-  background: var(--card-2);
-  border-radius: 999px;
-  margin: 10px 0;
-}
-
-.progress-fill {
-  height: 100%;
-  width: 70%;
-  background: var(--primary);
-  border-radius: 999px;
-}
-
-/* ========== RECENT ACHIEVEMENTS ======== */
-.achievements-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.achievement-card {
-  background: var(--card);
-  border-radius: 14px;
-  padding: 14px;
-  text-align: center;
-}
-
-.achievement-card .icon {
-  color: var(--primary);
-  width: 22px;
-  height: 22px;
-  background: none;
-  border-radius: 50%;
-  margin: 0 auto 8px;
-}
-
-.achievement-title {
-  font-size: 12px;
-  margin: 0;
-}
-
-/* ============================= */
 /* ===========REST TIMER ======= */
 /* ============================= */
-
-/* ========== PER EXERCISE ==========*/
-.rest-label {
-  position: relative;
-  display: flex;
-  padding: 6px 8px;
-  border-radius: 10px;
-  background: var(--card-2);
-  border: 1px solid var(--border);
-  font-size: 12px;
-  width: 80px;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background 0.2s ease;
-  gap: 8px;
-}
-
-.rest-label .icon-small {
-  width: 12px;
-  height: 12px;
-  color: var(--primary-light);
-}
-
-.rest-label:hover {
-  background: var(--card-hover);
-}
-
-.rest-label.is-static {
-  padding: 0;
-  border: none;
-  background: transparent;
-  cursor: default;
-}
-
-.rest-label.is-static:hover {
-  background: transparent;
-}
-
-.rest-badge {
-  text-align: center;
-}
-
-.rest-input {
-  width: 50px;
-  padding: 4px 6px;
-  border-radius: 10px;
-  border: 1px solid var(--primary);
-  background: var(--card-2);
-  color: var(--text);
-  font-size: 11px;
-  text-align: center;
-}
-
-/* ========== FLOATING ==========*/
 
 .rest-timer-floating {
   position: fixed;

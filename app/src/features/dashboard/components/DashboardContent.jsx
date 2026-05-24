@@ -183,13 +183,11 @@ export default function DashboardContent({ stats, user, recentWorkouts }) {
       <div className="section">
         <h3>Recent Workouts</h3>
 
-        <div className="recent-workouts">
-          {displayedWorkouts.map((workout) => (
-            <Link key={workout._id} to={`/workouts/${workout._id}`}>
-              <RecentWorkoutCard workout={workout} />
-            </Link>
-          ))}
-        </div>
+        {displayedWorkouts.map((workout) => (
+          <Link key={workout._id} to={`/workouts/${workout._id}`}>
+            <RecentWorkoutCard workout={workout} />
+          </Link>
+        ))}
       </div>
     </div>
   )

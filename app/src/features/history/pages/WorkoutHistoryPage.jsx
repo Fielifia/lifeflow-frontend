@@ -62,6 +62,8 @@ export default function WorkoutHistoryPage() {
 
       <Header title="Workout History" subtitle="Your completed sessions" />
 
+      {/* CURRENT WEEK SUMMARY */}
+
       <HistorySummary stats={stats} recentWorkouts={workouts} />
 
       {/* WORKOUTS */}
