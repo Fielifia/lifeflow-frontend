@@ -6,7 +6,7 @@ import {
 import { useExerciseFlow }
   from '../../../shared/context/ExerciseFlowContext'
 
-import ExerciseCard from './ExerciseCard'
+import ExerciseCard from './ExerciseCard/ExerciseCard'
 
 /**
  * Displays a list of exercises.

@@ -1,7 +1,4 @@
-import {
-  useNavigate,
-  useParams
-} from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
 import { useTemplateDetail } from '../hooks/useTemplateDetail'
@@ -12,8 +9,7 @@ import Header from '../../../shared/components/ui/Header'
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 import WorkoutControls from '../../../shared/components/WorkoutControls'
 
-import ExerciseItem from '../../exercise/components/ExerciseItem'
-
+import ExerciseItem from '../../exercise/components/ExerciseItem/ExerciseItem'
 
 /**
  * Displays detailed view of a template.
@@ -28,19 +24,17 @@ export default function TemplateDetailPage() {
 
   const { template, loading, error } = useTemplateDetail(id)
 
-  const { success, deleteTemplate } = useTemplateManager()
+  const { deleteTemplate } = useTemplateManager()
 
-  const handleDeleteTemplate =
-    async () => {
-      const deleted =
-        await deleteTemplate(template._id)
+  const handleDeleteTemplate = async () => {
+    const deleted = await deleteTemplate(template._id)
 
-      if (!deleted) {
-        return
-      }
-
-      navigate('/workouts')
+    if (!deleted) {
+      return
     }
+
+    navigate('/workouts')
+  }
 
   // ===== LOADING / ERROR / EMPTY =====
 
@@ -50,7 +44,6 @@ export default function TemplateDetailPage() {
         <Header title="Template" />
 
         <div className="section">
-
           <BackButton fallback="/workouts" />
 
           <DataState
@@ -68,7 +61,6 @@ export default function TemplateDetailPage() {
 
   return (
     <div className="app">
-
       {/* HEADER */}
 
       <Header
@@ -81,7 +73,6 @@ export default function TemplateDetailPage() {
       <BackButton fallback="/workouts" />
 
       <div className="section">
-
         {/* CONTROLS */}
 
         <WorkoutControls
@@ -92,9 +83,7 @@ export default function TemplateDetailPage() {
             startWorkout({ template })
           }}
           onEdit={() => {
-            navigate(
-              `/templates/${template._id}/edit?from=workouts`
-            )
+            navigate(`/templates/${template._id}/edit?from=workouts`)
           }}
           onDelete={handleDeleteTemplate}
           editLabel="Edit Template"
@@ -102,7 +91,6 @@ export default function TemplateDetailPage() {
         />
 
         {/* FEEDBACK */}
-        {success && <p className="muted center">Template saved ✔</p>}
 
         {error && <p className="error center">{error}</p>}
 
@@ -129,7 +117,6 @@ export default function TemplateDetailPage() {
             <p className="muted">{template.notes}</p>
           </div>
         )}
-
       </div>
     </div>
   )

@@ -17,6 +17,8 @@ import Dropdown from '../../../shared/components/ui/dropdown/Dropdown'
 
 import ExerciseList from '../components/ExerciseList'
 
+import './Exercise.css'
+
 const BASE_CATEGORIES = CATEGORY_ORDER
 
 /**
@@ -440,7 +442,7 @@ export default function ExercisesLibraryPage() {
         {isSelectMode && selectedExercises.length > 0 && (
           <div className="floating-add-btn">
             <Button
-              variant="primary"
+              variant="floating btn-primary"
               size="md"
               onClick={() => navigate(fallback)}
             >

@@ -83,7 +83,7 @@ export default function WorkoutList({
               {
                 label: 'Delete',
                 danger: true,
-                onClick: () => onDeleteWorkout(workout._id),
+                onClick: () => void onDeleteWorkout(workout._id),
               },
             ]
 

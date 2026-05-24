@@ -1,0 +1,151 @@
+/* ============================= */
+/* ======= EXERCISE ITEM ======= */
+/* ============================= */
+
+.exercise-item-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.exercise-item-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.exercise-item-title:hover {
+  opacity: 0.7;
+}
+
+
+.exercise-item-header .controls {
+  margin-left: auto;
+}
+
+.exercise-item-header .controls .icon-small-trash {
+  height: 17px;
+  width: 17px;
+  color: var(--danger);
+}
+
+.exercise-img-small {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+}
+
+.set-header,
+.set-row {
+  display: grid;
+  grid-template-columns: 30px 2fr 2fr 3fr 30px;
+  gap: 8px;
+  align-items: center;
+  text-align: center;
+}
+
+.set-header span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.set-row {
+  position: relative;
+  transition: transform 0.2s ease;
+  overflow: hidden;
+}
+
+.set-grid-run,
+.set-row-run {
+  grid-template-columns:
+    40px 1fr 1fr 2fr 30px;
+}
+
+.set-grid-edit,
+.set-row-edit {
+  grid-template-columns:
+    1fr 2fr 3fr;
+}
+
+.set-grid-workout {
+  grid-template-columns: 48px 80px minmax(80px, 1fr) 40px;
+}
+
+.set-grid-template {
+  grid-template-columns:
+    1fr 2fr 3fr;
+  gap: 10px;
+}
+
+.hold-indicator {
+  position: absolute;
+  inset: 0;
+  background: rgba(168, 59, 63, 0.08);
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.hold-progress {
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(90deg,
+      #a83b3f1c,
+      #a83b3f8a);
+
+  transform-origin: left;
+  transform: scaleX(0);
+
+  transition: transform 0.05s linear;
+
+  box-shadow:
+    0 0 10px #a83b3f2e,
+    0 0 20px rgba(220, 38, 38, 0.09)
+}
+
+.set-header {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.set-header .icon-small {
+  height: 14px;
+  width: auto;
+  margin: 0 8px 0 0;
+}
+
+.set-number {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.set-row .input-base {
+  height: 100%;
+  text-align: center;
+  background: none;
+}
+
+.set-row.completed {
+  opacity: 0.7;
+}
+
+.set-row button {
+  height: 100%;
+  margin: 0;
+}
+
+.previous {
+  font-size: 14px;
+}
+
+.set-number.pb .icon-small,
+.set-pb .icon-small {
+  color: var(--primary-light);
+  width: 18px;
+  height: 18px;
+}

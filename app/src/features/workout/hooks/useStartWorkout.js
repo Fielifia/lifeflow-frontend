@@ -1,6 +1,11 @@
 import { useNavigate } from 'react-router-dom'
+
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
+
+import { useConfirm } from '../../../shared/hooks/useConfirm'
+
 import { buildWorkoutExercise } from '../utils/buildWorkoutExercise'
+
 import {
   draftWorkoutStorage,
   hasWorkoutDraftContent,
@@ -27,7 +32,9 @@ export function useStartWorkout() {
     resetRest,
   } = useWorkoutContext()
 
-  const startWorkout = ({
+  const confirm = useConfirm()
+
+  const startWorkout = async ({
     workout = null,
     template = null,
   }) => {
@@ -37,9 +44,12 @@ export function useStartWorkout() {
     if (
       hasWorkoutDraftContent(activeWorkout)
     ) {
-      const confirmed = window.confirm(
-        'Discard current workout and start a new one?',
-      )
+      const confirmed = await confirm({
+        title: 'Discard current workout?',
+        description: 'Your active workout will be lost.',
+        confirmText: 'Discard',
+        variant: 'danger',
+      })
 
       if (!confirmed) {
         return

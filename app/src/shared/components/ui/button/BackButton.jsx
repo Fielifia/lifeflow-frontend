@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom'
 
 import { ArrowLeft } from 'lucide-react'
 
+import { useConfirm } from '../../../hooks/useConfirm'
+
 import Button from './Button'
 
 /**
@@ -21,14 +23,18 @@ export default function BackButton({
 }) {
   const navigate = useNavigate()
 
-  const handleBack = () => {
+  const confirm = useConfirm()
+
+  const handleBack = async () => {
     if (
       warnOnUnsavedChanges &&
       hasUnsavedChanges
     ) {
-      const confirmed = window.confirm(
-        'Discard unsaved changes?',
-      )
+      const confirmed = await confirm({
+        title: 'Discard changes?',
+        description: 'Your edits will be lost.',
+        confirmText: 'Discard',
+      })
 
       if (!confirmed) {
         return

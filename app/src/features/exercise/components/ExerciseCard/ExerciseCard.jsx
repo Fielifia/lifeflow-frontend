@@ -1,6 +1,8 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Check, Eye } from 'lucide-react'
 
+import './ExerciseCard.css'
+
 /**
  * Displays a single exercise card.
  * @param {object} props - Component props
@@ -28,9 +30,7 @@ export default function ExerciseCard({
     if (onView) {
       onView(exercise)
     } else {
-      navigate(
-        `/exercises/${exercise.id}${location.search}`
-      )
+      navigate(`/exercises/${exercise.id}${location.search}`)
     }
   }
 

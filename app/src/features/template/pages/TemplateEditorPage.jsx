@@ -1,8 +1,4 @@
-import {
-  useLocation,
-  useNavigate,
-  useParams
-} from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import { useTemplateManager } from '../hooks/useTemplateManager'
 
@@ -13,8 +9,7 @@ import WorkoutControls from '../../../shared/components/WorkoutControls'
 
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
 
-import ExerciseItem from '../../exercise/components/ExerciseItem'
-
+import ExerciseItem from '../../exercise/components/ExerciseItem/ExerciseItem'
 
 /**
  * Page for creating and editing workout templates.
@@ -24,16 +19,11 @@ export default function TemplateEditorPage() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const searchParams =
-    new URLSearchParams(location.search)
+  const searchParams = new URLSearchParams(location.search)
 
-  const from =
-    searchParams.get('from')
+  const from = searchParams.get('from')
 
-  const fallback =
-    from === 'workouts'
-      ? '/workouts'
-      : '/templates'
+  const fallback = from === 'workouts' ? '/workouts' : '/templates'
 
   const { id } = useParams()
   const isCreate = !id
@@ -44,7 +34,6 @@ export default function TemplateEditorPage() {
 
     loading,
     saving,
-    success,
     error,
 
     isEditingName,
@@ -71,7 +60,6 @@ export default function TemplateEditorPage() {
         <Header title="Template" />
 
         <div className="section">
-
           <BackButton fallback="/workouts" />
 
           <DataState
@@ -89,7 +77,6 @@ export default function TemplateEditorPage() {
 
   return (
     <div className="app">
-
       {/* HEADER */}
 
       <Header
@@ -108,7 +95,6 @@ export default function TemplateEditorPage() {
       />
 
       <div className="section">
-
         {/* WORKOUT HEADER */}
         <WorkoutHeader
           name={template.name}
@@ -140,7 +126,6 @@ export default function TemplateEditorPage() {
 
         {/* FEEDBACK */}
 
-        {success && <p className="muted center">Template saved ✔</p>}
         {error && <p className="error center">{error}</p>}
 
         {/* ADD EXERCISE */}
@@ -158,7 +143,6 @@ export default function TemplateEditorPage() {
           data={template.exercises}
           emptyText="Add your first exercise to start building your template."
         >
-
           {/* EXERCISES */}
 
           {template.exercises.map((ex, i) => (
@@ -183,7 +167,6 @@ export default function TemplateEditorPage() {
             onChange={(e) => updateTemplateNotes(e.target.value)}
           />
         )}
-
       </div>
     </div>
   )

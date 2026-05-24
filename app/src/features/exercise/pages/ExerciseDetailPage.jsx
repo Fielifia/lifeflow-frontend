@@ -20,6 +20,8 @@ import Header from '../../../shared/components/ui/Header'
 
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 
+import './Exercise.css'
+
 
 /**
  * Displays detailed information about a selected exercise.

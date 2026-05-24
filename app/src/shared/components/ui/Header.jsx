@@ -1,11 +1,10 @@
-import {
-  User,
-  UserCheck,
-  UserLock,
-  UserPlus
-} from 'lucide-react'
+import { User, UserCheck, UserLock, UserPlus } from 'lucide-react'
 
 import { userStorage } from '../../utils/storage/userStorage'
+
+import { useConfirm } from '../../hooks/useConfirm'
+
+import Button from './button/Button'
 
 /**
  * Shared app header.
@@ -22,6 +21,28 @@ export default function Header({
   variant = 'authenticated',
   onProfileClick,
 }) {
+  const confirm = useConfirm()
+
+  const handleProfileClick = async () => {
+    if (onProfileClick) {
+      onProfileClick()
+      return
+    }
+
+    const confirmed = await confirm({
+      title: 'Log out?',
+      confirmText: 'Log out',
+    })
+
+    if (!confirmed) {
+      return
+    }
+
+    userStorage.clear()
+
+    window.location.href = '/login'
+  }
+
   const ICONS = {
     guest: User,
     register: UserPlus,
@@ -32,9 +53,7 @@ export default function Header({
   const Icon = ICONS[variant] || User
 
   return (
-
     <div className="header">
-
       {/* HEADER CONTENT */}
 
       <div className="header-content">
@@ -45,29 +64,9 @@ export default function Header({
 
       {/* PROFILE BUTTON */}
 
-      <button
-        className="icon-btn"
-        onClick={() => {
-          if (onProfileClick) {
-            onProfileClick()
-            return
-          }
-
-          const confirmed = window.confirm('Log out?')
-
-          if (!confirmed) {
-            return
-          }
-
-          localStorage.removeItem('user')
-          userStorage.clear()
-
-          window.location.href = '/login'
-        }}
-      >
+      <Button variant="ghost" size="icon" onClick={handleProfileClick}>
         <Icon className="profile-icon" />
-      </button>
+      </Button>
     </div>
-    
   )
 }

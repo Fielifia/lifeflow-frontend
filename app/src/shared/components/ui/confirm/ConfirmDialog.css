@@ -1,0 +1,9 @@
+.confirm-actions {
+  display: flex;
+  width: 100%;
+  gap: 8px;
+}
+
+.confirm-actions .btn {
+  flex: 1;
+}

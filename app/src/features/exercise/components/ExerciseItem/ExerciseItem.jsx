@@ -1,19 +1,14 @@
-import {
-  Clock,
-  Trash2,
-  Weight
-} from 'lucide-react'
+import { Clock, Trash2, Weight } from 'lucide-react'
 
-import {
-  useRef,
-  useState
-} from 'react'
+import { useRef, useState } from 'react'
 
 import { useLocation } from 'react-router-dom'
 
-import { formatRestTime } from '../../../shared/utils/format'
+import { formatRestTime } from '../../../../shared/utils/format'
 
-import ExerciseSetRow from './ExerciseSetRow'
+import ExerciseSetRow from '../ExerciseSetRow'
+
+import './ExerciseItem.css'
 
 /**
  * Displays an editable exercise item with sets, notes, rest timer, and personal best tracking.
@@ -47,11 +42,9 @@ export default function ExerciseItem({
   mode = 'run',
   isEditable = true,
 }) {
-
   const location = useLocation()
   const inputRefs = useRef([])
-  const currentRoute =
-    `${location.pathname}${location.search}`
+  const currentRoute = `${location.pathname}${location.search}`
 
   const isRunMode = mode === 'run'
   const isWorkoutMode = mode === 'workout'
@@ -92,19 +85,14 @@ export default function ExerciseItem({
     reps: 0,
   }
 
-
   const bests = ex.sets.reduce((acc, currentSet, index) => {
     const previousBest = acc[index - 1] || historicalBest
 
     const isPB =
       currentSet.completed &&
-      (
-        currentSet.weight > previousBest.weight ||
-        (
-          currentSet.weight === previousBest.weight &&
-          currentSet.reps > previousBest.reps
-        )
-      )
+      (currentSet.weight > previousBest.weight ||
+        (currentSet.weight === previousBest.weight &&
+          currentSet.reps > previousBest.reps))
 
     acc[index] = isPB
       ? {

@@ -8,16 +8,18 @@ button {
   align-items: center;
   justify-content: center;
   gap: 8px;
-
   font-family: inherit;
 }
 
 /* BASE */
 
 .btn {
+
+  background: none;
+
   cursor: pointer;
 
-  border-radius: 12px;
+  border-radius: 14px;
 
   border: 1px solid transparent;
 
@@ -179,6 +181,54 @@ button {
 .btn-cta.btn-primary {
   background: var(--primary);
   border: none;
+}
+
+/* FLOATING */
+
+.floating-add-btn {
+  position: fixed;
+
+  left: 50%;
+  transform: translateX(-50%);
+
+  bottom: 140px;
+
+  width: 100%;
+  max-width: 480px;
+
+  padding: 0 24px;
+
+  display: flex;
+  justify-content: flex-end;
+
+  z-index: 200;
+
+  pointer-events: none;
+}
+
+.btn-floating {
+  min-width: 88px;
+  
+  background: linear-gradient(135deg,
+        var(--primary),
+        rgba(25, 104, 106, 0.65));
+  backdrop-filter: blur(6px);
+
+  box-shadow: 0 4px 20px rgba(25, 104, 106, 0.2);
+
+  pointer-events: auto;
+}
+
+@keyframes floating-btn-enter {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.96);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 /* ============================= */

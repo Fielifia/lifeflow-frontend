@@ -82,7 +82,7 @@ export default function TemplateList({
               {
                 label: 'Delete',
                 danger: true,
-                onClick: () => onDeleteTemplate(template._id),
+                onClick: () => void onDeleteTemplate(template._id),
               },
             ]
 

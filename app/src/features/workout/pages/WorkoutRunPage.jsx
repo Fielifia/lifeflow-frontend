@@ -13,7 +13,7 @@ import DataState from '../../../shared/components/ui/skeleton/DataState'
 
 import WorkoutControls from '../../../shared/components/WorkoutControls'
 
-import ExerciseItem from '../../exercise/components/ExerciseItem'
+import ExerciseItem from '../../exercise/components/ExerciseItem/ExerciseItem'
 
 import RestTimer from '../components/time/RestTimer'
 
@@ -51,7 +51,6 @@ export default function WorkoutRunPage() {
   const {
     workout,
     saving,
-    success,
     error,
     setWorkout,
 
@@ -88,15 +87,11 @@ export default function WorkoutRunPage() {
   const openStartTimeModal = () => {
     const current = new Date(startTime)
 
-    const hours =
-      String(current.getHours()).padStart(2, '0')
+    const hours = String(current.getHours()).padStart(2, '0')
 
-    const minutes =
-      String(current.getMinutes()).padStart(2, '0')
+    const minutes = String(current.getMinutes()).padStart(2, '0')
 
-    setTempStartTime(
-      `${hours}:${minutes}`
-    )
+    setTempStartTime(`${hours}:${minutes}`)
 
     setShowStartTimeModal(true)
   }
@@ -192,7 +187,6 @@ export default function WorkoutRunPage() {
         hasExercises={workout.exercises.length > 0}
       />
 
-      {success && <p className="muted center">Saved ✔</p>}
       {error && <p className="error center">{error}</p>}
 
       {/* REST TIMER */}

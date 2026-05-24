@@ -4,8 +4,8 @@ import {
   useState,
 } from 'react'
 
-
 import { createTemplateApi } from '../../../shared/api/templateApi'
+
 import {
   deleteWorkoutApi,
   getWorkoutByIdApi,
@@ -13,6 +13,10 @@ import {
 } from '../../../shared/api/workoutApi'
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+
+import { useToast } from '../../../shared/context/ToastContext'
+
+import { useConfirm } from '../../../shared/hooks/useConfirm'
 
 import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
 
@@ -47,7 +51,6 @@ import { buildWorkoutPayload } from '../../workout/utils/buildWorkoutPayload'
  *
  *  loading: boolean,
  *  saving: boolean,
- *  success: boolean,
  *  error: string | null,
  *
  *  isEditingName: boolean,
@@ -87,6 +90,12 @@ import { buildWorkoutPayload } from '../../workout/utils/buildWorkoutPayload'
  *      index: number,
  *      notes: string
  *    ) => void,
+ * 
+ *    toggleSetComplete: (
+ *      exIndex: number,
+ *      setIndex: number,
+ *      checked: boolean
+ *    ) => void,
  *  },
  *
  *  updateWorkoutNotes: (
@@ -96,8 +105,10 @@ import { buildWorkoutPayload } from '../../workout/utils/buildWorkoutPayload'
  *  hasUnsavedChanges: boolean,
  *
  *  saveWorkout: () => Promise<void>,
+ * 
+ *  saveAsTemplate: () => Promise<void>,
  *
- *  discardChanges: () => void,
+ *  discardChanges: () => Promise<void>,
  *
  *  deleteWorkout: (
  *    workoutId?: string
@@ -124,9 +135,6 @@ export function useWorkoutManager(
   const [error, setError] =
     useState(null)
 
-  const [success, setSuccess] =
-    useState(false)
-
   const [
     isEditingName,
     setIsEditingName,
@@ -139,6 +147,10 @@ export function useWorkoutManager(
     editingWorkout,
     setEditingWorkout,
   } = useExerciseFlow()
+
+  const toast = useToast()
+
+  const confirm = useConfirm()
 
   // ===== ORIGINAL SNAPSHOT =====
 
@@ -297,10 +309,10 @@ export function useWorkoutManager(
   // ===== SAVE WORKOUT =====
 
   const saveWorkout = async () => {
+
     try {
       setSaving(true)
       setError(null)
-      setSuccess(false)
 
       const payload =
         buildWorkoutPayload(
@@ -317,13 +329,11 @@ export function useWorkoutManager(
 
       setEditingWorkout(null)
 
-      setSuccess(true)
+      toast.success('Workout saved')
 
-      await delay(700)
-      
-      navigate(
-        `/workouts/${updated._id}`,
-      )
+      await delay(300)
+
+      navigate(`/workouts/${updated._id}`)
     } catch (err) {
       setError('Could not update workout')
     } finally {
@@ -333,39 +343,41 @@ export function useWorkoutManager(
 
   // ===== SAVE WORKOUT AS TEMPLATE =====
 
-  const saveAsTemplate =
-    async () => {
-      try {
-        setSaving(true)
-        setError(null)
-        setSuccess(false)
+  const saveAsTemplate = async () => {
+    try {
+      setSaving(true)
+      setError(null)
 
+      const created =
         await createTemplateApi(
-          buildTemplatePayload(
-            workout,
-          )
+          buildTemplatePayload(workout),
         )
 
-        setSuccess(true)
-      } catch (err) {
-        setError('Could not save template')
-      } finally {
-        setSaving(false)
-      }
-    }
+      toast.success('Template created')
 
+      await delay(300)
+
+      navigate(`/templates/${created._id}`)
+    } catch (err) {
+      setError('Could not save template')
+    } finally {
+      setSaving(false)
+    }
+  }
 
   // ===== DISCARD CHANGES & RESTORE STATE (EDIT) =====
 
-  const discardChanges = () => {
+  const discardChanges = async () => {
 
     if (!originalRef.current) {
       return
     }
 
-    const confirmed = window.confirm(
-      'Discard all changes?',
-    )
+    const confirmed = await confirm({
+      title: 'Discard changes?',
+      description: 'Your edits will be lost.',
+      confirmText: 'Discard',
+    })
 
     if (!confirmed) {
       return
@@ -375,19 +387,23 @@ export function useWorkoutManager(
       structuredClone(originalRef.current)
 
     setWorkout(restored)
-    setEditingWorkout(restored)
-    setIsEditingName(false)
 
+    setEditingWorkout(restored)
+
+    setIsEditingName(false)
   }
 
   // ===== DELETE =====
 
   const deleteWorkout =
     async (workoutId = id) => {
-      const confirmed =
-        window.confirm(
-          'Delete this workout?',
-        )
+
+      const confirmed = await confirm({
+        title: 'Delete workout?',
+        description: 'This cannot be undone.',
+        confirmText: 'Delete',
+        variant: 'danger',
+      })
 
       if (!confirmed) {
         return false
@@ -395,6 +411,7 @@ export function useWorkoutManager(
 
       try {
         setError(null)
+
         setSaving(true)
 
         await deleteWorkoutApi(
@@ -402,6 +419,10 @@ export function useWorkoutManager(
         )
 
         setEditingWorkout(null)
+
+        toast.success('Workout deleted')
+
+        await delay(300)
 
         return true
       } catch (err) {
@@ -418,7 +439,6 @@ export function useWorkoutManager(
 
     loading,
     saving,
-    success,
     error,
 
     isEditingName,

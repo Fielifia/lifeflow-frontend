@@ -14,6 +14,11 @@ import {
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
+import { useToast } from '../../../shared/context/ToastContext'
+
+
+import { useConfirm } from '../../../shared/hooks/useConfirm'
+
 import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
 
 import { draftTemplateStorage, hasTemplateDraftContent } from '../../../shared/utils/storage/draftStorage'
@@ -48,7 +53,6 @@ import { buildTemplatePayload } from '../utils/buildTemplatePayload'
  *  >,
  *  loading: boolean,
  *  saving: boolean,
- *  success: boolean,
  *  error: string | null,
  *
  *  isEditingName: boolean,
@@ -120,9 +124,6 @@ export function useTemplateManager(
   const [saving, setSaving] =
     useState(false)
 
-  const [success, setSuccess] =
-    useState(false)
-
   const [error, setError] =
     useState(null)
 
@@ -138,6 +139,10 @@ export function useTemplateManager(
     editingTemplate,
     setEditingTemplate,
   } = useExerciseFlow()
+
+  const toast = useToast()
+
+  const confirm = useConfirm()
 
   // ===== ORIGINAL SNAPSHOT =====
 
@@ -330,7 +335,6 @@ export function useTemplateManager(
       try {
         setSaving(true)
         setError(null)
-        setSuccess(false)
 
         const payload =
           buildTemplatePayload(
@@ -348,9 +352,9 @@ export function useTemplateManager(
           originalRef.current =
             structuredClone(template)
 
-          setSuccess(true)
+          toast.success('Template created')
 
-          await delay(700)
+          await delay(300)
 
           navigate(
             `/templates/${created._id}`,
@@ -366,9 +370,9 @@ export function useTemplateManager(
 
           setEditingTemplate(null)
 
-          setSuccess(true)
+          toast.success('Template saved')
 
-          await delay(700)
+          await delay(300)
 
           navigate(
             `/templates/${id}`,
@@ -387,12 +391,13 @@ export function useTemplateManager(
 
   // ===== DISCARD TEMPLATE (CREATE) =====
 
-  const discardTemplate = () => {
+  const discardTemplate = async () => {
 
-    const confirmed =
-      window.confirm(
-        'Discard template?',
-      )
+    const confirmed = await confirm({
+      title: 'Discard template?',
+      description: 'Your edits will be lost.',
+      confirmText: 'Discard',
+    })
 
     if (!confirmed) {
       return
@@ -409,16 +414,21 @@ export function useTemplateManager(
 
   // ===== DISCARD CHANGES & RESTORE STATE (EDIT) =====
 
-  const discardChanges = () => {
+  const discardChanges = async () => {
 
     if (!originalRef.current) {
       return
     }
 
-    const confirmed =
-      window.confirm(
-        'Discard all changes?',
-      )
+    const confirmed = await confirm({
+      title: 'Discard changes?',
+      description: 'Your edits will be lost.',
+      confirmText: 'Discard',
+    })
+
+    if (!confirmed) {
+      return
+    }
 
     if (!confirmed) {
       return
@@ -439,10 +449,13 @@ export function useTemplateManager(
 
   const deleteTemplate =
     async (templateId = id) => {
-      const confirmed =
-        window.confirm(
-          'Delete this template?',
-        )
+
+      const confirmed = await confirm({
+        title: 'Delete template?',
+        description: 'This cannot be undone.',
+        confirmText: 'Delete',
+        variant: 'danger',
+      })
 
       if (!confirmed) {
         return false
@@ -456,6 +469,10 @@ export function useTemplateManager(
         )
 
         setEditingTemplate(null)
+
+        toast.success('Template deleted')
+
+        await delay(300)
 
         return true
       } catch (err) {
@@ -477,7 +494,6 @@ export function useTemplateManager(
 
     loading,
     saving,
-    success,
     error,
 
     isEditingName,

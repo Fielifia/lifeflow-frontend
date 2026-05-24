@@ -1,9 +1,5 @@
 import { useState } from 'react'
-import {
-  useLocation,
-  useNavigate,
-  useParams
-} from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import { useWorkoutManager } from '../hooks/useWorkoutManager'
 
@@ -12,11 +8,10 @@ import Header from '../../../shared/components/ui/Header'
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 import WorkoutControls from '../../../shared/components/WorkoutControls'
 
-import ExerciseItem from '../../exercise/components/ExerciseItem'
+import ExerciseItem from '../../exercise/components/ExerciseItem/ExerciseItem'
 
 import EditStartTimeModal from '../../workout/components/time/EditStartTimeModal'
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
-
 
 /**
  * Page for editing a completed workout.
@@ -26,16 +21,11 @@ export default function WorkoutEditPage() {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const searchParams =
-    new URLSearchParams(location.search)
+  const searchParams = new URLSearchParams(location.search)
 
-  const from =
-    searchParams.get('from')
+  const from = searchParams.get('from')
 
-  const fallback =
-    from === 'history'
-      ? '/history'
-      : '/workouts'
+  const fallback = from === 'history' ? '/history' : '/workouts'
 
   const { id } = useParams()
 
@@ -52,7 +42,6 @@ export default function WorkoutEditPage() {
 
     loading,
     saving,
-    success,
     error,
 
     isEditingName,
@@ -146,7 +135,6 @@ export default function WorkoutEditPage() {
 
   return (
     <div className="app">
-
       {/* HEADER */}
 
       <Header title={workout.name} subtitle="Edit workout" />
@@ -207,7 +195,6 @@ export default function WorkoutEditPage() {
 
       {/* FEEDBACK */}
 
-      {success && <p className="muted center">Workout saved ✔</p>}
       {error && <p className="error center">{error}</p>}
 
       {/* ADD EXERCISE */}
@@ -241,7 +228,6 @@ export default function WorkoutEditPage() {
           onChange={(e) => updateWorkoutNotes(e.target.value)}
         />
       )}
-
     </div>
   )
 }
