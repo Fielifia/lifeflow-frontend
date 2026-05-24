@@ -127,7 +127,7 @@ h4 {
 }
 
 .error {
-  color: #ff6b6b;
+  color: var(--danger)
 }
 
 /* ============================= */
@@ -224,7 +224,7 @@ a:active {
   display: flex;
   max-width: 480px;
   margin: 0 auto 40px;
-  padding: 0 24px;
+  padding: 0 var(--space-5);
   height: 70px;
   justify-content: space-between;
   align-items: center;
@@ -452,7 +452,7 @@ input[type="checkbox"]:hover {
   padding: var(--space-3);
   border-radius: var(--radius-md);
   background: #2b2b2b;
-  color: white;
+  color: var(--text);
   min-width: 200px;
   text-align: center;
   animation: fadeIn 0.2s ease;
@@ -487,11 +487,9 @@ input[type="checkbox"]:hover {
 /* =========== STATS =========== */
 /* ============================= */
 
-
-
 .stats-ranges {
   display: flex;
-  margin: 24px 0;
+  margin: var(--space-5) 0;
   gap: var(--space-2);
   overflow-x: auto;
 

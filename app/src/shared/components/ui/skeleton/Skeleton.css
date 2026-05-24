@@ -76,7 +76,7 @@
   align-items: center;
 
   height: 79px;
-  padding: 12px;
+  padding: var(--space-3);
 
   border-radius: var(--radius-md);
 }

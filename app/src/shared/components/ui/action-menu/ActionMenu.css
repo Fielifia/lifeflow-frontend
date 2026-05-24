@@ -7,7 +7,7 @@
   transition: opacity 0.15s ease;
   background: none;
   border: none;
-  color: #fff;
+  color: var(--text);
 }
 
 .btn-dots.hidden {

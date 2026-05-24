@@ -15,7 +15,7 @@
   grid-template-columns: auto 1fr auto;
   align-items: center;
 
-  padding: 12px 24px;
+  padding: var(--space-3) var(--space-5);
   gap: var(--space-4);
 
   background: linear-gradient(135deg,

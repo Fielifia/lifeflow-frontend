@@ -19,7 +19,7 @@ button {
 
   cursor: pointer;
 
-  border-radius: 14px;
+  border-radius: var(--radius-md);
 
   border: 1px solid transparent;
 
