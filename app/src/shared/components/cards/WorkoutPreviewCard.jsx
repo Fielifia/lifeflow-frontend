@@ -24,11 +24,13 @@ export default function WorkoutPreviewCard({
   title,
   subtitle,
   exercises = [],
-  menuItems,
+  menuItems = [],
   onClick,
   onStartWorkout,
   hasExercises,
 }) {
+  const hasMenu = menuItems.length > 0
+
   const [menuOpen, setMenuOpen] = useState(false)
 
   return (
@@ -40,7 +42,7 @@ export default function WorkoutPreviewCard({
         ${menuOpen ? 'menu-open' : ''}
       `}
       onClick={() => {
-        if (menuOpen) {
+        if (menuOpen || !onClick) {
           return
         }
 
@@ -58,12 +60,14 @@ export default function WorkoutPreviewCard({
         <div className="preview-card-header-content">
           <h2 className="close">{title}</h2>
 
-          {subtitle && <p className="muted small close">{subtitle}</p>}
+          {subtitle && <p className="muted md close">{subtitle}</p>}
         </div>
 
         {/* ACTION MENU */}
 
-        <ActionMenu items={menuItems} onClickChange={setMenuOpen} />
+        {hasMenu && (
+          <ActionMenu items={menuItems} onClickChange={setMenuOpen} />
+        )}
       </div>
 
       {/* EXERCISE PREVIEW */}

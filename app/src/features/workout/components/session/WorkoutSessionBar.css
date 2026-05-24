@@ -16,7 +16,7 @@
   align-items: center;
 
   padding: 12px 24px;
-  gap: 24px;
+  gap: var(--space-4);
 
   background: linear-gradient(135deg,
       var(--primary),
@@ -28,7 +28,7 @@
   backdrop-filter: blur(6px);
 
   border: 1px solid var(--border);
-  border-radius: 30px;
+  border-radius: var(--radius-xxl);
 
   z-index: 1000;
   cursor: pointer;
@@ -40,18 +40,17 @@
 .session-left {
   display: flex;
   flex-direction: column;
-  line-height: 1.1;
   align-items: center;
 }
 
 .session-time {
   font-weight: 600;
-  font-size: 18px;
+  font-size: var(--text-h3);
 }
 
 .session-status {
-  font-size: 11px;
-  opacity: 0.6;
+  font-size: var(--text-sm);
+  opacity: 0.7;
 }
 
 /* CENTER */
@@ -59,7 +58,7 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  gap: 12px;
+  gap: var(--space-2);
   overflow: hidden;
   transition: all 0.2s ease;
   flex: 1;
@@ -76,8 +75,7 @@
 .session-exercise-row {
   display: flex;
   align-items: center;
-  gap: 8px;
-  align-items: center;
+  gap: var(--space-2);
 }
 
 .session-exercise {
@@ -89,16 +87,16 @@
   text-align: left;
 }
 
-.rest-controls {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 12px;
+.exercise-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
 }
 
+
 .session-name {
-  font-size: 16px;
-  font-weight: 500;
+  font-size: var(--text-h3);
 }
 
 .session-name,
@@ -109,8 +107,8 @@
 }
 
 .session-exercise {
-  font-size: 11px;
-  opacity: 0.6;
+  font-size: var(--text-sm);
+  opacity: 0.7;
 }
 
 /* RIGHT */
@@ -148,19 +146,15 @@
   opacity: 0.85;
 }
 
-/* REST CONTENT */
+.rest-time {
+  font-weight: 700;
+  text-align: center;
+}
+
 .rest-controls {
   display: flex;
   align-items: center;
-  justify-content: center;
-
-  font-size: 13px;
-}
-
-.rest-time {
-  font-weight: 700;
-  min-width: 40px;
-  text-align: center;
+  gap: var(--space-2);
 }
 
 /* buttons */
@@ -170,8 +164,7 @@
   color: white;
   cursor: pointer;
 
-  font-size: 13px;
-  padding: 2px 4px;
+  padding: var(--space-1);
 
   transition: opacity 0.15s ease, transform 0.1s ease;
 }
@@ -186,10 +179,8 @@
 
 /* subtle hierarchy */
 .rest-controls .skip {
-  font-size: 11px;
   opacity: 0.85;
 }
-
 
 /* hover effect */
 .workout-session-bar:hover {

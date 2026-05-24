@@ -39,7 +39,7 @@ export default function DashboardSkeleton() {
           <div className="chart">
             <div className="y-axis">
               {Array.from({ length: 6 }).map((_, i) => (
-                <span key={i}> </span>
+                <span className="muted small" key={i}> </span>
               ))}
             </div>
 

@@ -9,20 +9,20 @@
 .exercise-list {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-2);
 }
 
 .filters-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: var(--space-1);
   margin: 12px 0;
 }
 
 .filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: var(--space-1);
 }
 
 .filters>* {
@@ -32,18 +32,22 @@
 .active-filters {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .filter-chip {
   padding: 10px 10px;
   border-radius: 12px;
   border: 1px solid var(--border);
-  background: var(--card-2);
+  background: var(--card);
   color: var(--text);
-  font-size: 11px;
   appearance: none;
   cursor: pointer;
+  transition: .2s ease;
+}
+
+.filter-chip:hover {
+  opacity: .7;
 }
 
 .clear-filters {
@@ -62,19 +66,19 @@
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: 12px;
+  gap: var(--space-2);
 }
 
 .detail-img {
   width: 100%;
-  border-radius: 12px;
-  margin-bottom: 10px;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-1);
 }
 
 .dots {
   display: flex;
   justify-content: center;
-  gap: 6px;
+  gap: var(--space-2);
   margin-top: 8px;
 }
 
@@ -96,33 +100,24 @@
   transform: scale(1.2);
 }
 
-.exercise-overview {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin: 12px 0;
-}
-
 .instruction-step {
   display: flex;
   align-items: flex-start;
-  gap: 16px;
-  margin-bottom: 12px;
+  gap: var(--space-3);
+  margin-bottom: var(--space-1);
 }
 
 .instruction-step p {
-  font-size: 14px;
-  color: var(--text);
-  margin: 0 0 10px;
+  margin: 0 0 var(--space-4);
+  line-height: 1.4;
 }
 
 .step-number {
-  min-width: 24px;
-  height: 24px;
+  min-width: 1.5rem;
+  height: 1.5rem;
   background: var(--primary);
-  border-radius: 6px;
+  border-radius: var(--radius-xs);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
 }

@@ -1,11 +1,9 @@
-
-
 .workout-header {
   position: relative;
   display: flex;
   flex-direction: column;
   margin: 12px 0;
-  gap: 12px;
+  gap: var(--space-1);
 }
 
 .workout-header h2 {
@@ -23,26 +21,18 @@
 /* ===== DURATION DISPLAY ====== */
 /* ============================= */
 
-.duration-section {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
 .duration {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin: 24px 0;
+  gap: var(--space-1);
+  margin: var(--space-5) 0;
 }
 
 .duration-time {
-  font-size: 34px;
+  font-size: var(--text-xl);
 }
 
 .start-time {
-  font-size: 14px;
-  min-height: 1rem;
   transition: opacity 0.15s ease;
 }
 
@@ -79,10 +69,10 @@
   border: 1px solid var(--border);
 
   width: min(90%, 320px);
-  border-radius: 20px;
+  border-radius: var(--radius-xl);
 
-  padding: 12px;
-  gap: 8px;
+  padding: var(--space-3);
+  gap: var(--space-2);
 
   align-items: center;
 }
@@ -91,7 +81,7 @@
   display: grid;
   grid-template-columns: minmax(0, 2fr) 100px 70px;
   width: 100%;
-  gap: 8px;
+  gap: var(--space-2);
 }
 
 .modal-card-content .input-base,

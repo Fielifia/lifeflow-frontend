@@ -1,7 +1,7 @@
 .preview-card {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 .preview-card.menu-open {
@@ -21,7 +21,7 @@
 .preview-card-header-content {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: var(--space-1);
 }
 
 .preview-card-exercise-list {
@@ -31,10 +31,9 @@
 }
 
 .preview-card-exercise-list li {
-  font-size: 13px;
   color: var(--text);
   position: relative;
-  padding-left: 12px;
+  padding-left: var(--space-3);
   line-height: 1.8;
 }
 

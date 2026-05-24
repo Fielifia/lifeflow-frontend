@@ -7,7 +7,7 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: var(--space-1);
   font-family: inherit;
 }
 
@@ -55,18 +55,16 @@ button {
 }
 
 .btn-sm {
-  padding: 8px 12px;
-  font-size: 12px;
+  padding: var(--space-2) var(--space-3);
 }
 
 .btn-md {
-  padding: 12px;
-  font-size: 13px;
+  padding: var(--space-3);
 }
 
 .btn-lg {
-  padding: 18px;
-  font-size: 14px;
+  padding: var(--space-4);
+  font-size: var(--text-h3);
   min-height: 60px;
 }
 
@@ -145,8 +143,8 @@ button {
   color: var(--text);
   justify-content: left;
   transition:
-      transform 0.08s ease,
-      opacity 0.08s ease;
+    transform 0.08s ease,
+    opacity 0.08s ease;
 }
 
 .back-btn:hover {
@@ -172,14 +170,11 @@ button {
   align-items: center;
   justify-content: center;
 
-  gap: 8px;
+  gap: var(--space-2);
 
   height: 90px;
 
-  border-radius: 14px;
-
-  font-size: 13px;
-  font-weight: 500;
+  border-radius: var(--radius-lg);
 
   background: var(--card);
 
@@ -206,7 +201,7 @@ button {
   width: 100%;
   max-width: 480px;
 
-  padding: 0 24px;
+  padding: 0 var(--space-5);
 
   display: flex;
   justify-content: flex-end;
@@ -218,10 +213,10 @@ button {
 
 .btn-floating {
   min-width: 88px;
-  
+
   background: linear-gradient(135deg,
-        var(--primary),
-        rgba(25, 104, 106, 0.65));
+      var(--primary),
+      rgba(25, 104, 106, 0.65));
   backdrop-filter: blur(6px);
 
   box-shadow: 0 4px 20px rgba(25, 104, 106, 0.2);
@@ -258,7 +253,7 @@ button {
 /* ============================= */
 
 .hero-icon {
-  font-size: 22px;
+  font-size: var(--text-h1);
   line-height: 1;
 }
 

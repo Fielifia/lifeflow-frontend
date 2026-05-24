@@ -1,7 +1,7 @@
 .exercise-card {
   position: relative;
   display: flex;
-  gap: 12px;
+  gap: var(--space-3);
   align-items: center;
 }
 
@@ -13,7 +13,7 @@
   width: clamp(48px, 13vw, 60px);
   height: clamp(48px, 13vw, 60px);
 
-  border-radius: 10px;
+  border-radius: var(--radius-md);
   object-fit: cover;
 
   flex-shrink: 0;
@@ -25,12 +25,6 @@
 
 .exercise-card.is-selected {
   outline: 2px solid var(--primary);
-}
-
-.selected-badge {
-  position: absolute;
-  right: 10px;
-  top: 10px;
 }
 
 .details-btn {

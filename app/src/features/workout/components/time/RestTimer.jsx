@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react'
 
+import './RestTimer.css'
+
 /**
  * Floating rest timer shown after completing a set.
  * @param {object} props - Component props

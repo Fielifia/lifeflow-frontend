@@ -32,7 +32,7 @@ export default function ExerciseInsights({ stats }) {
         ? `${stats.mostCommonExercise.count} workouts`
         : null,
 
-      valueSize: 'xs',
+      valueSize: 'sm',
 
       gridSpan: 2,
     },

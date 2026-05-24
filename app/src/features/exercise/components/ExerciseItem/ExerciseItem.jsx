@@ -123,7 +123,7 @@ export default function ExerciseItem({
             }}
           />
 
-          <h2>{ex.name}</h2>
+          <h3>{ex.name}</h3>
         </div>
 
         <div className="exercise-item-header controls">

@@ -44,7 +44,7 @@ export default function WorkoutSessionBar({
     return !ex.sets.every((set) => set.completed)
   })
 
-  const currentExercise = nextExercise ? `Next: ${nextExercise.name}` : 'Done ✔'
+  const currentExercise = nextExercise ? `${nextExercise.name}` : 'Done ✔'
   
 
   return (
@@ -62,7 +62,10 @@ export default function WorkoutSessionBar({
           <div className="session-name">{workoutName}</div>
 
           <div className="session-exercise-row">
-            <div className="session-exercise">{currentExercise}</div>
+            <div className="session-exercise">
+              <span>Next: </span>
+              <span className="exercise-name">{currentExercise}</span>
+            </div>
           </div>
         </div>
 
