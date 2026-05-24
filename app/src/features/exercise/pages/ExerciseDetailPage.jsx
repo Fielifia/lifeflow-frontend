@@ -1,13 +1,19 @@
+import { Star } from 'lucide-react'
+
 import { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 
 import { getExerciseByIdApi } from '../../../shared/api/exerciseApi'
+
+import { useFavorites } from '../../../shared/hooks/useFavorites'
 
 import { formatLabel } from '../../../shared/utils/format'
 
 import { normalizeExercise } from '../utils/exerciseAdapter'
 
 import BackButton from '../../../shared/components/ui/button/BackButton'
+
+import Button from '../../../shared/components/ui/button/Button'
 
 import Header from '../../../shared/components/ui/Header'
 
@@ -26,6 +32,8 @@ import './Exercise.css'
 export default function ExerciseDetail() {
   const { id } = useParams()
   const location = useLocation()
+
+  const { isFavorite, toggleFavorite } = useFavorites()
 
   const [ex, setExercise] = useState(null)
   const [currentImage, setCurrentImage] = useState(0)
@@ -114,19 +122,30 @@ export default function ExerciseDetail() {
 
       <BackButton fallback={fallback} />
 
-      <div className="exercise-header">
+      <div className="exercise-detail-header">
         {/* TITLE */}
 
-        <h2>{ex.name}</h2>
+        <div className="header-content">
+          <h2>{ex.name}</h2>
 
-        <p className="muted">
-          {formatLabel(ex.bodyPart)}
-          {ex.muscle && ex.muscle !== ex.bodyPart && (
-            <> • {formatLabel(ex.muscle)}</>
-          )}
-          {' • '}
-          {formatLabel(ex.equipment)}
-        </p>
+          <p className="muted">
+            {formatLabel(ex.bodyPart)}
+            {ex.muscle && ex.muscle !== ex.bodyPart && (
+              <> • {formatLabel(ex.muscle)}</>
+            )}
+            {' • '}
+            {formatLabel(ex.equipment)}
+          </p>
+        </div>
+        <Button
+          variant="ghost"
+          size="icon"
+          onClick={() => {
+            void toggleFavorite(ex.id)
+          }}
+        >
+          <Star fill={isFavorite(ex.id) ? 'currentColor' : 'none'} />
+        </Button>
       </div>
 
       {/* IMAGE */}
@@ -158,7 +177,7 @@ export default function ExerciseDetail() {
       </div>
 
       {/* INSTRUCTIONS */}
-      
+
       <h3>Instructions</h3>
 
       <div className="section">

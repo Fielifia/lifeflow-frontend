@@ -29,6 +29,7 @@ import DataState from './shared/components/ui/skeleton/DataState'
 
 import { ConfirmProvider } from './shared/context/ConfirmContext'
 import { ExerciseFlowProvider } from './shared/context/ExerciseFlowContext'
+import { FavoritesProvider } from './shared/context/FavoritesContext'
 import { ToastProvider } from './shared/context/ToastContext'
 import { WorkoutProvider } from './shared/context/WorkoutContext'
 
@@ -52,102 +53,107 @@ function App() {
     <BrowserRouter>
       <ConfirmProvider>
         <ToastProvider>
-          <WorkoutProvider>
-            <ExerciseFlowProvider>
-              {!user ? (
-                <div className="app">
-                  {showRegister ? (
-                    <>
-                      <Register setUser={setUser} />
+          <FavoritesProvider>
+            <WorkoutProvider>
+              <ExerciseFlowProvider>
+                {!user ? (
+                  <div className="app">
+                    {showRegister ? (
+                      <>
+                        <Register setUser={setUser} />
 
-                      <p
-                        className="message"
-                        onClick={() => setShowRegister(false)}
-                      >
-                        Already have an account? Login
-                      </p>
-                    </>
-                  ) : (
-                    <>
-                      <Login setUser={setUser} />
+                        <p
+                          className="message"
+                          onClick={() => setShowRegister(false)}
+                        >
+                          Already have an account? Login
+                        </p>
+                      </>
+                    ) : (
+                      <>
+                        <Login setUser={setUser} />
 
-                      <p
-                        className="message"
-                        onClick={() => setShowRegister(true)}
-                      >
-                        Create account
-                      </p>
-                    </>
-                  )}
-                </div>
-              ) : (
-                <div className="app">
-                  <Routes>
-                    <Route path="/" element={<Dashboard setUser={setUser} />} />
-                    <Route
-                      path="/exercises"
-                      element={<ExerciseLibraryPage />}
-                    />
-                    <Route
-                      path="/exercises/:id"
-                      element={<ExerciseDetailPage />}
-                    />
+                        <p
+                          className="message"
+                          onClick={() => setShowRegister(true)}
+                        >
+                          Create account
+                        </p>
+                      </>
+                    )}
+                  </div>
+                ) : (
+                  <div className="app">
+                    <Routes>
+                      <Route
+                        path="/"
+                        element={<Dashboard setUser={setUser} />}
+                      />
+                      <Route
+                        path="/exercises"
+                        element={<ExerciseLibraryPage />}
+                      />
+                      <Route
+                        path="/exercises/:id"
+                        element={<ExerciseDetailPage />}
+                      />
 
-                    <Route path="/workouts" element={<WorkoutStartPage />} />
-                    <Route
-                      path="/workouts/:id/run"
-                      element={<WorkoutRunPage />}
-                    />
-                    <Route
-                      path="/workouts/:id/exercises"
-                      element={<ExerciseLibraryPage />}
-                    />
+                      <Route path="/workouts" element={<WorkoutStartPage />} />
+                      <Route
+                        path="/workouts/:id/run"
+                        element={<WorkoutRunPage />}
+                      />
+                      <Route
+                        path="/workouts/:id/exercises"
+                        element={<ExerciseLibraryPage />}
+                      />
 
-                    <Route
-                      path="/templates/:id"
-                      element={<TemplateDetailPage />}
-                    />
-                    <Route
-                      path="/templates/create"
-                      element={<TemplateEditorPage />}
-                    />
-                    <Route
-                      path="/templates/:id/edit"
-                      element={<TemplateEditorPage />}
-                    />
+                      <Route
+                        path="/templates/:id"
+                        element={<TemplateDetailPage />}
+                      />
+                      <Route
+                        path="/templates/create"
+                        element={<TemplateEditorPage />}
+                      />
+                      <Route
+                        path="/templates/:id/edit"
+                        element={<TemplateEditorPage />}
+                      />
 
-                    <Route path="/history" element={<WorkoutHistoryPage />} />
-                    <Route
-                      path="/workouts/:id"
-                      element={<WorkoutDetailPage />}
-                    />
-                    <Route
-                      path="/workouts/:id/edit"
-                      element={<WorkoutEditPage />}
-                    />
+                      <Route path="/history" element={<WorkoutHistoryPage />} />
+                      <Route
+                        path="/workouts/:id"
+                        element={<WorkoutDetailPage />}
+                      />
+                      <Route
+                        path="/workouts/:id/edit"
+                        element={<WorkoutEditPage />}
+                      />
 
-                    <Route path="/stats" element={<StatsPage />} />
-                    <Route
-                      path="/calendar"
-                      element={
-                        <DataState
-                          variant="card-empty"
-                          emptyText="Coming soon"
-                          count={1}
-                        ></DataState>
-                      }
-                    />
+                      <Route path="/stats" element={<StatsPage />} />
+                      <Route
+                        path="/calendar"
+                        element={
+                          <DataState
+                            variant="card-empty"
+                            emptyText="Coming soon"
+                            count={1}
+                          ></DataState>
+                        }
+                      />
 
-                    {/* fallback */}
-                    <Route path="*" element={<Navigate to="/" />} />
-                  </Routes>
+                      {/* fallback */}
+                      <Route path="*" element={<Navigate to="/" />} />
+                    </Routes>
 
-                  <Navbar />
-                  <WorkoutSessionBarWrapper />
-                </div>
-              )}
-            </ExerciseFlowProvider>
-          </WorkoutProvider>
+                    <Navbar />
+                    <WorkoutSessionBarWrapper />
+                  </div>
+                )}
+              </ExerciseFlowProvider>
+            </WorkoutProvider>
+          </FavoritesProvider>
         </ToastProvider>
       </ConfirmProvider>
     </BrowserRouter>
