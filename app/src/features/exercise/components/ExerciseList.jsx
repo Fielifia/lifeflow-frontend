@@ -1,10 +1,8 @@
-import {
-  useLocation,
-  useNavigate,
-} from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
-import { useExerciseFlow }
-  from '../../../shared/context/ExerciseFlowContext'
+import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+
+import { useFavorites } from '../../../shared/hooks/useFavorites'
 
 import ExerciseCard from './ExerciseCard/ExerciseCard'
 
@@ -22,47 +20,39 @@ export default function ExerciseList({
   onSelect,
   selectedExercises = [],
 }) {
-
   const navigate = useNavigate()
 
   const location = useLocation()
 
-  const {
-    setScrollPosition,
-    setShouldRestoreScroll,
-  } = useExerciseFlow()
+  const { setScrollPosition, setShouldRestoreScroll } = useExerciseFlow()
+
+  const { isFavorite, toggleFavorite } = useFavorites()
 
   // ===== NAVIGATE TO DETAIL =====
 
   const openExercise = (exerciseId) => {
-
     setScrollPosition(window.scrollY)
 
     setShouldRestoreScroll(true)
 
-    navigate(
-      `/exercises/${exerciseId}${location.search}`
-    )
+    navigate(`/exercises/${exerciseId}${location.search}`)
   }
 
   return (
     <div className="exercise-list">
-
       {exercises.map((e) => {
-
-        const isSelected =
-          selectedExercises.some(
-            (ex) => ex.id === e.id,
-          )
+        const isSelected = selectedExercises.some((ex) => ex.id === e.id)
 
         return (
-
           <ExerciseCard
             key={e.id}
             exercise={e}
             selected={isSelected}
+            favorite={isFavorite(e.id)}
+            onToggleFavorite={() => {
+              void toggleFavorite(e.id)
+            }}
             mode={onSelect ? 'select' : 'view'}
-
             onClick={() => {
               if (onSelect) {
                 onSelect(e)
@@ -71,14 +61,12 @@ export default function ExerciseList({
 
               openExercise(e.id)
             }}
-
             onView={() => {
               openExercise(e.id)
             }}
           />
         )
       })}
-
     </div>
   )
 }

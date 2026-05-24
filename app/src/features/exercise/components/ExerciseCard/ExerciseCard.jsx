@@ -1,5 +1,8 @@
+import { Eye } from 'lucide-react'
+
 import { useLocation, useNavigate } from 'react-router-dom'
-import { Check, Eye } from 'lucide-react'
+
+import FavoriteButton from '../../../../shared/components/ui/button/FavoriteButton'
 
 import './ExerciseCard.css'
 
@@ -17,11 +20,14 @@ export default function ExerciseCard({
   exercise,
   onClick,
   onView,
+
   selected,
   mode = 'view',
 }) {
   const location = useLocation()
+
   const navigate = useNavigate()
+
   const showDetailsButton = mode === 'select'
 
   const handleView = (e) => {
@@ -39,11 +45,7 @@ export default function ExerciseCard({
       className={`card-base exercise-card ${selected ? 'is-selected' : ''}`}
       onClick={onClick}
     >
-      {selected && (
-        <span className="selected-badge">
-          <Check />
-        </span>
-      )}
+      {/* EXERCISE IMAGE */}
 
       <div className="exercise-img-wrapper">
         <img
@@ -53,19 +55,25 @@ export default function ExerciseCard({
         />
       </div>
 
+      {/* EXERCISE INFO */}
+
       <div className="exercise-info">
-        <h3>
+        <h4>
           {exercise.name}
           {showDetailsButton && (
             <button className="details-btn" onClick={handleView}>
               <Eye className="details-icon" />
             </button>
           )}
-        </h3>
+        </h4>
         <p>
           {exercise.equipment} • {exercise.muscle}{' '}
         </p>
       </div>
+
+      {/* FAVORITE TOGGLE */}
+
+      <FavoriteButton exerciseId={exercise.id} />
     </div>
   )
 }

@@ -10,20 +10,16 @@
 }
 
 .exercise-img {
-  width: 60px;
-  height: 60px;
+  width: clamp(48px, 13vw, 60px);
+  height: clamp(48px, 13vw, 60px);
+
   border-radius: 10px;
   object-fit: cover;
-}
 
-.exercise-info h3 {
-  display: flex;
-  gap: 4px;
-  font-size: 16px;
+  flex-shrink: 0;
 }
 
 .exercise-info p {
-  font-size: 13px;
   opacity: 0.7;
 }
 

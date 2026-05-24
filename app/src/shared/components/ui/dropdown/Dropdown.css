@@ -8,17 +8,16 @@
 }
 
 .dropdown-trigger {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: space-between;
-  gap: 4px;
+  gap: 0.4rem;
 
-  width: auto;
+  min-width: max-content;
 
-  padding: 8px;
+  padding: 0.7rem 0.9rem;
 
   border-radius: 999px;
-
   border: 1px solid var(--border);
 
   background: var(--surface-1);
@@ -26,6 +25,8 @@
   color: var(--text-primary);
 
   cursor: pointer;
+
+  flex-shrink: 0;
 }
 
 .dropdown-trigger.active {

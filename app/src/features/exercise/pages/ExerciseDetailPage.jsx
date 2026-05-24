@@ -1,11 +1,9 @@
-import { Star } from 'lucide-react'
 
 import { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 
 import { getExerciseByIdApi } from '../../../shared/api/exerciseApi'
 
-import { useFavorites } from '../../../shared/hooks/useFavorites'
 
 import { formatLabel } from '../../../shared/utils/format'
 
@@ -13,7 +11,7 @@ import { normalizeExercise } from '../utils/exerciseAdapter'
 
 import BackButton from '../../../shared/components/ui/button/BackButton'
 
-import Button from '../../../shared/components/ui/button/Button'
+import FavoriteButton from '../../../shared/components/ui/button/FavoriteButton'
 
 import Header from '../../../shared/components/ui/Header'
 
@@ -22,18 +20,22 @@ import DataState from '../../../shared/components/ui/skeleton/DataState'
 import './Exercise.css'
 
 /**
- * Displays detailed information about a selected exercise.
+ * Displays detailed information
+ * for a selected exercise.
  *
- * Fetches exercise data by ID, handles loading/error states,
- * rotates exercise images automatically, and displays
- * exercise metadata and instructions.
- * @returns {import('react').ReactElement} Exercise detail page
+ * Responsibilities:
+ * - fetching exercise data
+ * - handling loading/error states
+ * - rotating exercise images
+ * - displaying exercise metadata
+ * - toggling favorite status
+ * - rendering exercise instructions
+ * @returns {import('react').ReactElement}
+ * Exercise detail page UI.
  */
 export default function ExerciseDetail() {
   const { id } = useParams()
   const location = useLocation()
-
-  const { isFavorite, toggleFavorite } = useFavorites()
 
   const [ex, setExercise] = useState(null)
   const [currentImage, setCurrentImage] = useState(0)
@@ -137,15 +139,11 @@ export default function ExerciseDetail() {
             {formatLabel(ex.equipment)}
           </p>
         </div>
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => {
-            void toggleFavorite(ex.id)
-          }}
-        >
-          <Star fill={isFavorite(ex.id) ? 'currentColor' : 'none'} />
-        </Button>
+
+        {/* FAVORITE TOGGLE */}
+        
+        <FavoriteButton exerciseId={ex.id} />
+
       </div>
 
       {/* IMAGE */}

@@ -71,10 +71,20 @@ button {
 }
 
 .btn-icon {
-  width: 36px;
-  height: 36px;
+  width: 18px;
+  height: 18px;
   padding: 0;
   flex-shrink: 0;
+}
+
+.btn-icon-small {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  flex-shrink: 0;
+  top: 12px;
+  right: 12px;
 }
 
 /* ============================= */
@@ -246,11 +256,6 @@ button {
 /* ============================= */
 /* ============ ICONS ========== */
 /* ============================= */
-
-.btn-icon-left {
-  display: flex;
-  align-items: center;
-}
 
 .hero-icon {
   font-size: 22px;

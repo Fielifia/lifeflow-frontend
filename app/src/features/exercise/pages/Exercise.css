@@ -26,7 +26,7 @@
 }
 
 .filters>* {
-  max-width: 140px;
+  flex: 1 1 auto;
 }
 
 .active-filters {

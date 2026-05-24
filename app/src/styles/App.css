@@ -20,12 +20,13 @@
   --danger: #a83b3f8a;
   --border: rgba(255, 255, 255, 0.05);
 
-  --text-h1: clamp(1.15rem, 1.05rem + 0.45vw, 1.4rem);
-  --text-h2: clamp(1.05rem, 1rem + 0.3vw, 1.2rem);
-  --text-h3: clamp(0.95rem, 0.92rem + 0.18vw, 1.05rem);
-  --text-h4: clamp(0.88rem, 0.85rem + 0.12vw, 0.95rem);
-  --text-body: clamp(0.85rem, 0.82rem + 0.15vw, 0.95rem);
-  --text-sm: clamp(0.56rem, 0.53rem + 0.12vw, 0.69rem);
+  --text-h1: clamp(1.1rem, 1rem + 0.35vw, 1.3rem);
+    --text-h2: clamp(1rem, 0.95rem + 0.25vw, 1.15rem);
+    --text-h3: clamp(0.92rem, 0.9rem + 0.12vw, 1rem);
+    --text-h4: clamp(0.85rem, 0.84rem + 0.08vw, 0.92rem);
+  
+    --text-body: clamp(0.82rem, 0.8rem + 0.08vw, 0.9rem);
+    --text-sm: clamp(0.66rem, 0.64rem + 0.06vw, 0.74rem);
 }
 
 /* ============================= */
