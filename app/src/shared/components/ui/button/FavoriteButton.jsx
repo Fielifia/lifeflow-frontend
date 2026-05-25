@@ -6,9 +6,9 @@ import { useFavorites } from '../../../hooks/useFavorites'
 
 /**
  * Favorite toggle button.
- * @param {object} props
- * @param {string} props.exerciseId
- * @returns {import('react').ReactElement}
+ * @param {object} props - Component props
+ * @param {string} props.exerciseId - Exercise id
+ * @returns {import('react').ReactElement} - Favorite toggle button
  */
 export default function FavoriteButton({ exerciseId }) {
   const { isFavorite, toggleFavorite } = useFavorites()

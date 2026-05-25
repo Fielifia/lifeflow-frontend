@@ -89,6 +89,27 @@ export function formatDuration(minutes) {
 }
 
 /**
+ * Formats elapsed time in seconds.
+ * @param {number} seconds - Elapsed seconds
+ * @returns {string} Formatted time
+ */
+export function formatElapsedTime(seconds) {
+  if (!seconds && seconds !== 0) {
+    return '00:00'
+  }
+
+  const hours = Math.floor(seconds / 3600)
+  const minutes = Math.floor((seconds % 3600) / 60)
+  const secs = seconds % 60
+
+  if (hours > 0) {
+    return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
+  }
+
+  return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
+}
+
+/**
  * Formats numbers using locale separators.
  * @param {number} value - Numeric value
  * @returns {string} Formatted number

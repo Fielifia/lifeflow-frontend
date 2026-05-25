@@ -5,6 +5,8 @@ import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 
 import { useWorkoutLogic } from '../hooks/useWorkoutLogic'
 
+import { formatElapsedTime } from '../../../shared/utils/format'
+
 import BackButton from '../../../shared/components/ui/button/BackButton'
 
 import Header from '../../../shared/components/ui/Header'
@@ -138,10 +140,11 @@ export default function WorkoutRunPage() {
       onClick: saveAsTemplate,
     },
   ]
+  const duration = formatElapsedTime(elapsed)
 
   return (
     <div className={`app ${flash ? 'flash' : ''}`}>
-      <Header title={workout.name} subtitle="In progress" />
+      <Header title={workout.name} subtitle={`In progress • ${duration}`} />
 
       <BackButton fallback={fallback} warnOnUnsavedChanges />
 
@@ -237,6 +240,20 @@ export default function WorkoutRunPage() {
           placeholder="Workout Notes..."
           onChange={(e) => updateWorkoutNotes(e.target.value)}
         />
+      )}
+
+      {/* BOTTOM ACTIONS */}
+
+      {workout.exercises.length >= 3 && (
+        <div className="section section-with-bottom-action">
+          <WorkoutControls
+            variant="run"
+            onFinishWorkout={saveWorkout}
+            onDiscardWorkout={discardWorkout}
+            saving={saving}
+            hasExercises={workout.exercises.length > 0}
+          />
+        </div>
       )}
     </div>
   )
