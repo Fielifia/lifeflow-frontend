@@ -29,7 +29,11 @@ export function serializeWorkoutExercise(ex) {
 
     name: ex.name,
 
-    muscle: ex.muscle,
+    muscle: ex.muscle || '',
+
+    bodyPart: ex.bodyPart || '',
+
+    primaryMuscles: ex.primaryMuscles || [],
 
     images: ex.images || [],
 

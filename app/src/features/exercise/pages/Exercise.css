@@ -1,0 +1,123 @@
+/* ============================= */
+/* ===== EXERCISE LIBRARY ====== */
+/* ============================= */
+
+.exercise-library-page {
+  padding-bottom: 48px;
+}
+
+.exercise-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.filters-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: var(--space-3) 0;
+}
+
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1);
+}
+
+.filters>* {
+  flex: 1 1 auto;
+}
+
+.active-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.filter-chip {
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--text);
+  appearance: none;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.filter-chip:hover {
+  opacity: .7;
+}
+
+.clear-filters {
+  background: none;
+  border: none;
+  color: var(--primary);
+  cursor: pointer;
+}
+
+
+/* ============================= */
+/* ==== EXERCISE DETAIL PAGE === */
+/* ============================= */
+
+.exercise-detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-2);
+}
+
+.detail-img {
+  width: 100%;
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-1);
+}
+
+.dots {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  margin-top: 8px;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  background: var(--muted);
+  border-radius: var(--radius-xl);
+  opacity: 0.4;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease,
+    background 0.15s ease;
+}
+
+.dot.active {
+  opacity: 1;
+  background: var(--primary);
+  transform: scale(1.2);
+}
+
+.instruction-step {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+  margin-bottom: var(--space-1);
+}
+
+.instruction-step p {
+  margin: 0 0 var(--space-4);
+  line-height: 1.4;
+}
+
+.step-number {
+  min-width: 1.5rem;
+  height: 1.5rem;
+  background: var(--primary);
+  border-radius: var(--radius-xs);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

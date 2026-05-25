@@ -1,4 +1,6 @@
-import { useEffect, useRef } from 'react'
+import { getCurrentExercise } from '../../../../shared/utils/getCurrentExercise'
+
+import './RestTimer.css'
 
 /**
  * Floating rest timer shown after completing a set.
@@ -7,7 +9,7 @@ import { useEffect, useRef } from 'react'
  * @param {number} props.restRemaining - Seconds left
  * @param {(amount: number) => void} props.adjustRest - Adjust time (+/-)
  * @param {() => void} props.skipRest - Skip current rest
- * @param props.setFlash - Flash when rest is over
+ * @param {Array<object>} props.exercises - Workout exercises
  * @returns {import('react').ReactElement|null} Rest timer UI or null
  */
 export default function RestTimer({
@@ -15,33 +17,37 @@ export default function RestTimer({
   restRemaining,
   adjustRest,
   skipRest,
-  setFlash,
+  exercises,
 }) {
-  const prevTime = useRef(restRemaining)
-
-  useEffect(() => {
-    if (prevTime.current > 0 && restRemaining <= 0) {
-      setFlash(true)
-      setTimeout(() => setFlash(false), 300)
-    }
-
-    prevTime.current = restRemaining
-  }, [restRemaining, setFlash])
+  const currentExercise = getCurrentExercise(exercises || [])
 
   return (
-    <div
-      className={`rest-timer-floating ${isResting ? 'show' : ''}`}
-    >
+    <div className={`rest-timer-floating ${isResting ? 'show' : ''}`}>
+      <div className="session-exercise">
+        <span>Next: </span>
+
+        <span className="exercise-name">
+          {currentExercise}
+        </span>
+      </div>
+
       <div className="rest-controls">
-        <button onClick={() => adjustRest(-15)}>−</button>
+        <button onClick={() => adjustRest(-15)}>
+          −
+        </button>
 
         <span className="rest-time">
           {Math.max(0, restRemaining)}s
         </span>
 
-        <button onClick={() => adjustRest(15)}>+</button>
+        <button onClick={() => adjustRest(15)}>
+          +
+        </button>
 
-        <button className="skip" onClick={skipRest}>
+        <button
+          className="skip"
+          onClick={skipRest}
+        >
           Skip
         </button>
       </div>

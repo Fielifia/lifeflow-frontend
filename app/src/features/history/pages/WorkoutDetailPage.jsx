@@ -16,11 +16,11 @@ import Header from '../../../shared/components/ui/Header'
 
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 
-import WorkoutControls from '../../../shared/components/WorkoutControls'
+import WorkoutControls from '../../../shared/components/ui/WorkoutControls/WorkoutControls'
 
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
 
-import ExerciseItem from '../../exercise/components/ExerciseItem'
+import ExerciseItem from '../../exercise/components/ExerciseItem/ExerciseItem'
 import WorkoutSummary from '../components/WorkoutSummary'
 
 /**
@@ -44,7 +44,7 @@ export default function WorkoutDetailPage() {
 
   const muscleSplit = calculateMuscleSplit(workout)
 
-  const { success, deleteWorkout } = useWorkoutManager(id, navigate)
+  const { deleteWorkout } = useWorkoutManager(id, navigate)
 
   const handleDeleteWorkout = async () => {
     const deleted = await deleteWorkout()
@@ -128,7 +128,6 @@ export default function WorkoutDetailPage() {
 
       {/* FEEDBACK */}
 
-      {success && <p className="muted center">Workout deleted ✔</p>}
       {error && <p className="error center">{error}</p>}
 
       {/* EXERCISES */}

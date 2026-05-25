@@ -1,0 +1,40 @@
+.exercise-card {
+  position: relative;
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.exercise-img-wrapper {
+  position: relative;
+}
+
+.exercise-img {
+  width: clamp(48px, 13vw, 60px);
+  height: clamp(48px, 13vw, 60px);
+
+  border-radius: var(--radius-md);
+  object-fit: cover;
+
+  flex-shrink: 0;
+}
+
+.exercise-info p {
+  opacity: 0.7;
+}
+
+.exercise-card.is-selected {
+  outline: 2px solid var(--primary);
+}
+
+.details-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text);
+}
+
+.details-icon {
+  width: 18px;
+  height: auto;
+}

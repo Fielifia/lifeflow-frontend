@@ -1,19 +1,14 @@
-import {
-  Clock,
-  Trash2,
-  Weight
-} from 'lucide-react'
+import { Clock, Trash2, Weight } from 'lucide-react'
 
-import {
-  useRef,
-  useState
-} from 'react'
+import { useRef, useState } from 'react'
 
 import { useLocation } from 'react-router-dom'
 
-import { formatRestTime } from '../../../shared/utils/format'
+import { formatRestTime } from '../../../../shared/utils/format'
 
-import ExerciseSetRow from './ExerciseSetRow'
+import ExerciseSetRow from '../ExerciseSetRow'
+
+import './ExerciseItem.css'
 
 /**
  * Displays an editable exercise item with sets, notes, rest timer, and personal best tracking.
@@ -47,11 +42,9 @@ export default function ExerciseItem({
   mode = 'run',
   isEditable = true,
 }) {
-
   const location = useLocation()
   const inputRefs = useRef([])
-  const currentRoute =
-    `${location.pathname}${location.search}`
+  const currentRoute = `${location.pathname}${location.search}`
 
   const isRunMode = mode === 'run'
   const isWorkoutMode = mode === 'workout'
@@ -92,19 +85,14 @@ export default function ExerciseItem({
     reps: 0,
   }
 
-
   const bests = ex.sets.reduce((acc, currentSet, index) => {
     const previousBest = acc[index - 1] || historicalBest
 
     const isPB =
       currentSet.completed &&
-      (
-        currentSet.weight > previousBest.weight ||
-        (
-          currentSet.weight === previousBest.weight &&
-          currentSet.reps > previousBest.reps
-        )
-      )
+      (currentSet.weight > previousBest.weight ||
+        (currentSet.weight === previousBest.weight &&
+          currentSet.reps > previousBest.reps))
 
     acc[index] = isPB
       ? {
@@ -118,7 +106,6 @@ export default function ExerciseItem({
 
   return (
     <div className={`workout-exercise ${mode}`}>
-
       {/* EXERCISE ITEM HEADER */}
 
       <div className="exercise-item-header">
@@ -130,22 +117,16 @@ export default function ExerciseItem({
             onClick={() => {
               const params = new URLSearchParams(location.search)
 
-              params.set(
-                'from',
-                currentRoute,
-              )
+              params.set('from', currentRoute)
 
-              navigate(
-                `/exercises/${ex.exerciseId}?${params.toString()}`
-              )
+              navigate(`/exercises/${ex.exerciseId}?${params.toString()}`)
             }}
           />
 
-          <h2>{ex.name}</h2>
+          <h3>{ex.name}</h3>
         </div>
 
         <div className="exercise-item-header controls">
-
           {/* REST TIME */}
 
           <div
@@ -157,8 +138,6 @@ export default function ExerciseItem({
               setEditingRest(true)
             }}
           >
-            <Clock className="icon-small" />
-
             {editingRest && isEditable ? (
               <input
                 className="input-clean"
@@ -190,10 +169,9 @@ export default function ExerciseItem({
                 }}
               />
             ) : (
-              <span className="rest-badge">
-                {formatRestTime(safeRest)}
-              </span>
+              <span className="rest-badge">{formatRestTime(safeRest)}</span>
             )}
+            <Clock className="icon-small" />
           </div>
 
           {/* REMOVE EXERCISE */}
@@ -215,10 +193,7 @@ export default function ExerciseItem({
       {/* EXERCISE NOTES */}
 
       {isEditable ? (
-        <form
-          className="exercise-notes"
-          onSubmit={(e) => e.preventDefault()}
-        >
+        <form className="exercise-notes" onSubmit={(e) => e.preventDefault()}>
           <input
             className="input-base input-exercise-notes"
             type="text"
@@ -229,9 +204,7 @@ export default function ExerciseItem({
         </form>
       ) : (
         ex.notes && (
-          <p className="muted small exercise-notes-static">
-            {ex.notes}
-          </p>
+          <p className="muted small exercise-notes-static">{ex.notes}</p>
         )
       )}
 
@@ -240,47 +213,31 @@ export default function ExerciseItem({
       <div className={`set-header ${gridClass}`}>
         <span className="set-header-cell">Set</span>
 
-        {isRunMode && (
-          <span className="set-header-cell">Previous</span>
-        )}
+        {isRunMode && <span className="set-header-cell">Previous</span>}
 
         <span className="set-header-cell">
           <Weight className="icon-small" />
           kg
         </span>
 
-        <span className="set-header-cell">
-          Reps
-        </span>
+        <span className="set-header-cell">Reps</span>
 
-        {isRunMode && isEditable && (
-          <span className="set-header-cell">✔</span>
-        )}
+        {isRunMode && isEditable && <span className="set-header-cell">✔</span>}
 
-        {isWorkoutMode && (
-          <span className="set-header-cell">Pb</span>
-        )}
+        {isWorkoutMode && <span className="set-header-cell">Pb</span>}
       </div>
 
       {/* SETS */}
 
       {ex.sets.map((set, j) => {
-
-        const previousBest =
-          j === 0
-            ? historicalBest
-            : bests[j - 1]
+        const previousBest = j === 0 ? historicalBest : bests[j - 1]
 
         const isHistoricalPB =
           (isRunMode || isWorkoutMode) &&
           set.completed &&
-          (
-            set.weight > previousBest.weight ||
-            (
-              set.weight === previousBest.weight &&
-              set.reps > previousBest.reps
-            )
-          )
+          (set.weight > previousBest.weight ||
+            (set.weight === previousBest.weight &&
+              set.reps > previousBest.reps))
 
         return (
           <ExerciseSetRow

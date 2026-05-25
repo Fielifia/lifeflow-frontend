@@ -1,0 +1,67 @@
+/* ============================= */
+/* ===========REST TIMER ======= */
+/* ============================= */
+
+.rest-timer-floating {
+  position: fixed;
+  top: 42px;
+  left: 50%;
+
+  font-size: var(--text-h2);
+
+  transform: translate(-50%, -10px);
+  opacity: 0;
+  pointer-events: none;
+
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+
+  z-index: 999;
+
+  background: linear-gradient(135deg,
+      var(--primary),
+      rgba(25, 104, 106, 0.85));
+
+  color: white;
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+
+  transition: transform 0.08s ease, opacity 0.2s ease;
+
+  box-shadow: 0 4px 20px rgba(25, 104, 106, 0.2);
+}
+
+.rest-timer-floating.show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+  pointer-events: auto;
+}
+
+.rest-timer-floating:active {
+  transform: translate(-50%, 0) scale(0.98);
+}
+
+.rest-timer-floating .skip {
+  font-size: var(--text-h3);
+}
+
+.flash {
+  animation: flash-bg 0.25s ease-in-out 3;
+  animation-fill-mode: none;
+}
+
+@keyframes flash-bg {
+  0% {
+    background: transparent;
+  }
+
+  50% {
+    background: #47868848;
+  }
+
+  100% {
+    background: transparent;
+  }
+}

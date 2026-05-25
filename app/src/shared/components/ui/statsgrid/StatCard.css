@@ -1,64 +1,45 @@
  .stat-card {
    display: flex;
    flex-direction: column;
-   gap: 8px;
- }
-/* 
- .stat-card-title {
-   opacity: 0.7;
-   text-transform: uppercase;
+   gap: var(--space-2);
  }
 
- .stat-title-sm {
-   font-size: 0.8rem;
+ .stat-card-span-2 {
+   grid-column: span 2;
  }
-
- .stat-title-md {
-   font-size: 1rem;
- }
-
- .stat-title-lg {
-   font-size: 1.2rem;
- } */
 
  .stat-card-value {
    display: flex;
-   gap: 8px;
+   gap: var(--space-2);
    align-items: center;
-   margin: 0 0 12px;
  }
 
  .stat-value-sm {
-   font-size: 1rem;
+   font-size: var(--text-h2);
  }
 
  .stat-value-md {
-   font-size: 1.4rem;
+   font-size: var(--text-h1);
  }
 
  .stat-value-lg {
-   font-size: 1.6rem;
+   font-size: var(--text-lg);
  }
 
  .stat-value-xl {
-   font-size: 1.8rem;
- }
-
- .stat-card-label {
-   font-size: 12px;
-   color: var(--muted);
+   font-size: var(--text-xl);
  }
 
  .stat-label-sm {
-   font-size: 0.75rem;
+   font-size: var(--text-sm);
  }
 
  .stat-label-md {
-   font-size: 0.9rem;
+   font-size: var(--text-h4);
  }
 
  .stat-label-lg {
-   font-size: 1rem;
+   font-size: var(--text-h3);
  }
 
  .stat-card-center {
@@ -68,4 +49,10 @@
  .stat-card-icon {
    width: 20px;
    color: var(--primary-light);
+ }
+
+ .stat-card-subvalue {
+   margin: var(--space-1) 0 0;
+   color: var(--muted);
+   font-size: var(--text-sm);
  }

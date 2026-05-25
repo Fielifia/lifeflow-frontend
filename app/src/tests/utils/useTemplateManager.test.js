@@ -2,9 +2,12 @@ import { renderHook, waitFor } from '@testing-library/react'
 
 import { useTemplateManager } from '../../features/template/hooks/useTemplateManager'
 
+import { ConfirmProvider } from '../../shared/context/ConfirmContext'
+
 import { getTemplateByIdApi } from '../../shared/api/templateApi'
 
 import { useExerciseFlow } from '../../shared/context/ExerciseFlowContext'
+
 
 global.structuredClone = (value) =>
   JSON.parse(JSON.stringify(value))
@@ -36,6 +39,12 @@ jest.mock('../../shared/context/ExerciseFlowContext', () => ({
   useExerciseFlow: jest.fn(),
 }))
 
+const wrapper = ({ children }) => (
+  <ConfirmProvider>
+    {children}
+  </ConfirmProvider>
+)
+
 describe('useTemplateManager', () => {
   test(
     'does not refetch template when editingTemplate already exists',
@@ -65,11 +74,15 @@ describe('useTemplateManager', () => {
         setEditingTemplate: jest.fn(),
       }))
 
-      const { result } = renderHook(() =>
-        useTemplateManager(
-          'template-1',
-          jest.fn(),
-        ),
+      const { result } = renderHook(
+        () =>
+          useTemplateManager(
+            'template-1',
+            jest.fn(),
+          ),
+        {
+          wrapper,
+        },
       )
 
       await waitFor(() => {

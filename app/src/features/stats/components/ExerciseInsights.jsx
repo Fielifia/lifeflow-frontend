@@ -1,10 +1,4 @@
-import {
-  Award,
-  BarChart3,
-  Dumbbell,
-  Repeat,
-  Trophy,
-} from 'lucide-react'
+import { Award, BarChart3, Dumbbell, Repeat, Trophy } from 'lucide-react'
 
 import StatsGrid from '../../../shared/components/ui/statsgrid/StatsGrid'
 
@@ -23,27 +17,24 @@ import {
  * @param {object} props.stats - Statistics data
  * @returns {import('react').ReactElement} Exercise insights UI
  */
-export default function ExerciseInsights({
-  stats,
-}) {
-
+export default function ExerciseInsights({ stats }) {
   const items = [
     {
       icon: Dumbbell,
 
       label: 'Most Common Exercise',
 
-      value:
-        stats?.mostCommonExercise
-          ? `${stats.mostCommonExercise.name}`
-          : '—',
+      value: stats?.mostCommonExercise
+        ? `${stats.mostCommonExercise.name}`
+        : '—',
 
-      subValue:
-        stats?.mostCommonExercise
-          ? `${stats.mostCommonExercise.count} workouts`
-          : null,
+      subvalue: stats?.mostCommonExercise
+        ? `${stats.mostCommonExercise.count} workouts`
+        : null,
 
       valueSize: 'sm',
+
+      gridSpan: 2,
     },
 
     {
@@ -51,20 +42,16 @@ export default function ExerciseInsights({
 
       label: 'Best Volume Session',
 
-      value:
-        stats?.bestVolumeSession
-          ? formatWeight(
-            stats.bestVolumeSession.volume,
-          )
-          : '—',
+      value: stats?.bestVolumeSession
+        ? formatWeight(stats.bestVolumeSession.volume)
+        : '—',
 
-      subValue:
-        stats?.bestVolumeSession
-          ? `${stats.bestVolumeSession.workoutName} • ${formatDate(
-            stats.bestVolumeSession.startTime,
-          )}`
-          : null,
-      
+      subvalue: stats?.bestVolumeSession
+        ? `${stats.bestVolumeSession.workoutName} • ${formatDate(
+          stats.bestVolumeSession.startTime,
+        )}`
+        : null,
+
       valueSize: 'sm',
     },
 
@@ -73,20 +60,14 @@ export default function ExerciseInsights({
 
       label: 'Max Weight',
 
-      value:
-        stats?.maxWeight
-          ? formatWeight(
-            stats.maxWeight.weight,
-          )
-          : '—',
+      value: stats?.maxWeight ? formatWeight(stats.maxWeight.weight) : '—',
 
-      subValue:
-        stats?.maxWeight
-          ? `${stats.maxWeight.exercise} • ${formatDate(
-            stats.maxWeight.startTime,
-          )}`
-          : null,
-      
+      subvalue: stats?.maxWeight
+        ? `${stats.maxWeight.exercise} • ${formatDate(
+          stats.maxWeight.startTime,
+        )}`
+        : null,
+
       valueSize: 'sm',
     },
 
@@ -95,20 +76,12 @@ export default function ExerciseInsights({
 
       label: 'Most Reps in Set',
 
-      value:
-        stats?.maxReps
-          ? `${formatNumber(
-            stats.maxReps.reps,
-          )} reps`
-          : '—',
+      value: stats?.maxReps ? `${formatNumber(stats.maxReps.reps)} reps` : '—',
 
-      subValue:
-        stats?.maxReps
-          ? `${stats.maxReps.exercise} • ${formatDate(
-            stats.maxReps.startTime,
-          )}`
-          : null,
-      
+      subvalue: stats?.maxReps
+        ? `${stats.maxReps.exercise} • ${formatDate(stats.maxReps.startTime)}`
+        : null,
+
       valueSize: 'sm',
     },
 
@@ -117,18 +90,14 @@ export default function ExerciseInsights({
 
       label: 'Estimated 1RM',
 
-      value:
-        stats?.bestEstimated1RM
-          ? formatWeight(
-            stats.bestEstimated1RM.estimated1RM,
-          )
-          : '—',
+      value: stats?.bestEstimated1RM
+        ? formatWeight(stats.bestEstimated1RM.estimated1RM)
+        : '—',
 
-      subValue:
-        stats?.bestEstimated1RM
-          ? `${stats.bestEstimated1RM.exercise} • ${stats.bestEstimated1RM.weight}kg × ${stats.bestEstimated1RM.reps}`
-          : null,
-      
+      subvalue: stats?.bestEstimated1RM
+        ? `${stats.bestEstimated1RM.exercise} • ${stats.bestEstimated1RM.weight}kg × ${stats.bestEstimated1RM.reps}`
+        : null,
+
       valueSize: 'sm',
     },
   ]

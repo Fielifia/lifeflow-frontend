@@ -1,9 +1,13 @@
 import { render, screen, fireEvent } from '@testing-library/react'
+import { ConfirmProvider } from '../../shared/context/ConfirmContext'
 import Register from '../../features/auth/pages/RegisterPage'
 
 describe('Register', () => {
   test('shows error if passwords do not match', () => {
-    render(<Register setUser={jest.fn()} />)
+    render(
+      <ConfirmProvider>
+        <Register setUser={jest.fn()} />
+      </ConfirmProvider>)
 
     fireEvent.change(screen.getByPlaceholderText(/email/i), {
       target: { value: 'test@test.com' },

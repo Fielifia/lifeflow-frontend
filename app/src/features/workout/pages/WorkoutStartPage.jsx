@@ -16,6 +16,8 @@ import { useStartWorkout } from '../hooks/useStartWorkout'
 
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 
+import { useConfirm } from '../../../shared/hooks/useConfirm'
+
 import {
   draftWorkoutStorage,
   hasTemplateDraftContent,
@@ -39,6 +41,8 @@ export default function WorkoutStartPage() {
   const { draftTemplate } = useWorkoutContext()
 
   const { startWorkout } = useStartWorkout()
+
+  const confirm = useConfirm()
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -71,7 +75,12 @@ export default function WorkoutStartPage() {
   }, [])
 
   const handleDeleteTemplate = async (id) => {
-    const confirmed = window.confirm('Delete this template?')
+    const confirmed = await confirm({
+      title: 'Delete template?',
+      description: 'This cannot be undone.',
+      confirmText: 'Delete',
+      variant: 'danger',
+    })
 
     if (!confirmed) {
       return
@@ -94,7 +103,6 @@ export default function WorkoutStartPage() {
       <div className="section">
 
         <div className="hero-actions">
-
 
           {/* START / CONTINUE WORKOUT */}
 

@@ -1,25 +1,31 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 
 import { useWorkoutLogic } from '../hooks/useWorkoutLogic'
 
+import { formatElapsedTime } from '../../../shared/utils/format'
+
 import BackButton from '../../../shared/components/ui/button/BackButton'
+
+import Button from '../../../shared/components/ui/button/Button'
 
 import Header from '../../../shared/components/ui/Header'
 
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 
-import WorkoutControls from '../../../shared/components/WorkoutControls'
+import WorkoutControls from '../../../shared/components/ui/WorkoutControls/WorkoutControls'
 
-import ExerciseItem from '../../exercise/components/ExerciseItem'
+import ExerciseItem from '../../exercise/components/ExerciseItem/ExerciseItem'
 
 import RestTimer from '../components/time/RestTimer'
 
 import WorkoutHeader from '../components/WorkoutHeader'
 
 import EditStartTimeModal from '../components/time/EditStartTimeModal'
+
+import '../Workout.css'
 
 /**
  * Workout page for creating and tracking a workout session.
@@ -51,7 +57,6 @@ export default function WorkoutRunPage() {
   const {
     workout,
     saving,
-    success,
     error,
     setWorkout,
 
@@ -88,15 +93,11 @@ export default function WorkoutRunPage() {
   const openStartTimeModal = () => {
     const current = new Date(startTime)
 
-    const hours =
-      String(current.getHours()).padStart(2, '0')
+    const hours = String(current.getHours()).padStart(2, '0')
 
-    const minutes =
-      String(current.getMinutes()).padStart(2, '0')
+    const minutes = String(current.getMinutes()).padStart(2, '0')
 
-    setTempStartTime(
-      `${hours}:${minutes}`
-    )
+    setTempStartTime(`${hours}:${minutes}`)
 
     setShowStartTimeModal(true)
   }
@@ -142,11 +143,41 @@ export default function WorkoutRunPage() {
     },
   ]
 
+  const duration = formatElapsedTime(elapsed)
+
+  useEffect(() => {
+    let timeout
+
+    if (!isResting && restRemaining === 0) {
+      setFlash(true)
+
+      timeout = setTimeout(() => {
+        setFlash(false)
+      }, 300)
+    }
+
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout)
+      }
+    }
+  }, [isResting, restRemaining])
+
   return (
     <div className={`app ${flash ? 'flash' : ''}`}>
-      <Header title={workout.name} subtitle="In progress" />
+      <Header title={workout.name} subtitle={`In progress • ${duration}`} />
 
       <BackButton fallback={fallback} warnOnUnsavedChanges />
+
+      {/* REST TIMER */}
+
+      <RestTimer
+        isResting={isResting}
+        restRemaining={restRemaining}
+        adjustRest={adjustRest}
+        skipRest={skipRest}
+        exercises={workout?.exercises}
+      />
 
       {/* HEADER */}
 
@@ -192,55 +223,65 @@ export default function WorkoutRunPage() {
         hasExercises={workout.exercises.length > 0}
       />
 
-      {success && <p className="muted center">Saved ✔</p>}
       {error && <p className="error center">{error}</p>}
 
-      {/* REST TIMER */}
-
-      <RestTimer
-        isResting={isResting}
-        restRemaining={restRemaining}
-        adjustRest={adjustRest}
-        skipRest={skipRest}
-        setFlash={setFlash}
-      />
       <div className="section">
         {/* ADD EXERCISE */}
-        <button
-          className="btn btn-md btn-secondary btn-full"
-          onClick={openLibrary}
-        >
+        <Button variant="secondary" size="md" fullWidth onClick={openLibrary}>
           Add exercise
-        </button>
+        </Button>
       </div>
 
-      {/* EXERCISES */}
-      <DataState
-        data={workout.exercises}
-        emptyText="Add your first exercise to start building your workout."
-      >
-        <>
-          {workout.exercises.map((ex, i) => (
-            <ExerciseItem
-              mode="run"
-              key={ex.id}
-              ex={ex}
-              i={i}
-              navigate={navigate}
-              actions={exerciseActions}
-            />
-          ))}
-        </>
-      </DataState>
+      <div className="section">
+        {/* EXERCISES */}
+        <DataState
+          data={workout.exercises}
+          emptyText="Add your first exercise to start building your workout."
+        >
+          <>
+            {workout.exercises.map((ex, i) => (
+              <ExerciseItem
+                mode="run"
+                key={ex.id}
+                ex={ex}
+                i={i}
+                navigate={navigate}
+                actions={exerciseActions}
+              />
+            ))}
+          </>
+        </DataState>
 
-      {/* NOTES */}
-      {workout.exercises.length > 0 && (
-        <textarea
-          className="input-base textarea"
-          value={workout.notes}
-          placeholder="Workout Notes..."
-          onChange={(e) => updateWorkoutNotes(e.target.value)}
-        />
+        {/* NOTES */}
+        {workout.exercises.length > 0 && (
+          <textarea
+            className="input-base textarea"
+            value={workout.notes}
+            placeholder="Workout Notes..."
+            onChange={(e) => updateWorkoutNotes(e.target.value)}
+          />
+        )}
+      </div>
+
+      {/* BOTTOM ACTIONS */}
+
+      {workout.exercises.length >= 3 && (
+        <div className="section">
+
+          {/* ADD EXERCISE */}
+
+          <Button variant="secondary" size="md" fullWidth onClick={openLibrary}>
+            Add exercise
+          </Button>
+
+          <WorkoutControls
+            variant="run"
+            onFinishWorkout={saveWorkout}
+            onDiscardWorkout={discardWorkout}
+            saving={saving}
+            hasExercises={workout.exercises.length > 0}
+          />
+        </div>
       )}
     </div>
   )

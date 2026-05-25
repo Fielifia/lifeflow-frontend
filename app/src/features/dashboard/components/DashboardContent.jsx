@@ -12,9 +12,10 @@ import {
 
 import StatsGrid from '../../../shared/components/ui/statsgrid/StatsGrid'
 import MonthlyGoal from './MonthlyGoals'
-import RecentWorkoutCard from './RecentWorkoutCard'
+import WorkoutPreviewCard from '../../../shared/components/cards/WorkoutPreviewCard'
 
 import {
+  formatDate,
   formatDuration,
   formatNumber,
   formatWeight,
@@ -112,7 +113,9 @@ export default function DashboardContent({ stats, user, recentWorkouts }) {
             <div className="chart">
               <div className="y-axis">
                 {yAxisValues.map((value) => (
-                  <span key={value}>{value}</span>
+                  <span className="muted small" key={value}>
+                    {value}
+                  </span>
                 ))}
               </div>
 
@@ -183,13 +186,21 @@ export default function DashboardContent({ stats, user, recentWorkouts }) {
       <div className="section">
         <h3>Recent Workouts</h3>
 
-        <div className="recent-workouts">
-          {displayedWorkouts.map((workout) => (
-            <Link key={workout._id} to={`/workouts/${workout._id}`}>
-              <RecentWorkoutCard workout={workout} />
-            </Link>
-          ))}
-        </div>
+        {displayedWorkouts.map((workout) => (
+          <Link key={workout._id} to={`/workouts/${workout._id}`}>
+            <WorkoutPreviewCard
+              key={workout._id}
+              title={workout.name}
+              subtitle={`
+          ${formatDuration(
+            Math.round((workout.duration || 0) / 60),
+          )} • ${formatDate(workout.startTime)}
+          `}
+              exercises={workout.exercises}
+              hasExercises={workout.exercises?.length > 0}
+            />
+          </Link>
+        ))}
       </div>
     </div>
   )

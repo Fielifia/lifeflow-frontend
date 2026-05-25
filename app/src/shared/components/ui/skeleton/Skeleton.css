@@ -3,7 +3,7 @@
 /* ============================= */
 
 .dashboard-skeleton {
-  gap: 12px;
+  gap: var(--space-3);
 }
 
 /* Generic */
@@ -23,7 +23,7 @@
 .skeleton-quote {
   width: 190px;
   height: 14px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   margin: 6px 0 24px;
 }
 
@@ -31,7 +31,7 @@
 
 .skeleton-stat-card {
   height: 91px;
-  border-radius: 14px;
+  border-radius: var(--radius-lg);
 }
 
 /* Weekly chart */
@@ -76,9 +76,9 @@
   align-items: center;
 
   height: 79px;
-  padding: 12px;
+  padding: var(--space-3);
 
-  border-radius: 14px;
+  border-radius: var(--radius-md);
 }
 
 /* Goal */
@@ -92,7 +92,7 @@
 .skeleton-goal-text {
   width: 220px;
   height: 15px;
-  border-radius: 6px;
+  border-radius: var(--radius-sm);
   margin: 10px 0;
 }
 
@@ -100,7 +100,7 @@
 
 .skeleton-workout-card {
   height: 200px;
-  border-radius: 14px;
+  border-radius: var(--radius-md);
 }
 
 /* Animation */
@@ -130,7 +130,7 @@
 }
 
 .skeleton-card {
-  border-radius: 12px;
+  border-radius: var(--radius-md);
 }
 
 .skeleton-card-exercise {
@@ -147,7 +147,7 @@
 }
 
 .empty-state {
-  padding: 12px;
+  padding: var(--space-3);
 }
 
 .skeleton-row {
@@ -161,7 +161,7 @@
 
 .skeleton-container {
   display: grid;
-  gap: 12px;
+  gap: var(--space-2);
 }
 
 @keyframes shimmer {

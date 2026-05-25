@@ -7,7 +7,10 @@
 /* ============================= */
 
 :root {
+
+  /* color */
   --primary: #19686a;
+  --primary-rgb: 25, 104, 106;
   --primary-light: #478688;
 
   --bg: #111a20;
@@ -15,10 +18,51 @@
   --card: #131c21;
   --card-2: #172128;
 
+  /* text color */
+
   --text: #fff;
   --muted: #b0b8bb;
   --danger: #a83b3f8a;
   --border: rgba(255, 255, 255, 0.05);
+
+  /* text size */
+
+  --text-xl: clamp(1.8rem, 1.45rem + 1.2vw, 2.125rem);
+
+  --text-lg: clamp(1.35rem, 1.15rem + 0.7vw, 1.85rem);
+
+  --text-h1: clamp(1.15rem, 1.05rem + 0.4vw, 1.4rem);
+  --text-h2: clamp(1.02rem, 0.96rem + 0.22vw, 1.18rem);
+  --text-h3: clamp(0.92rem, 0.9rem + 0.12vw, 1rem);
+  --text-h4: clamp(0.85rem, 0.84rem + 0.08vw, 0.92rem);
+
+  --text-body: clamp(0.82rem, 0.8rem + 0.08vw, 0.9rem);
+
+  --text-sm: clamp(0.66rem, 0.64rem + 0.06vw, 0.74rem);
+  --text-xs: clamp(0.58rem, 0.56rem + 0.04vw, 0.66rem);
+
+  /* spacing */
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+
+  /* radius */
+
+  --radius-xs: 0.35rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-xxl: 2rem;
+
+  /* layout */
+
+  --app-width: 30rem;
+  --header-height: 4.4rem;
 }
 
 /* ============================= */
@@ -34,6 +78,7 @@ body {
   font-family: system-ui, -apple-system, sans-serif;
   background: var(--bg);
   color: var(--text);
+  font-size: var(--text-body);
 }
 
 /* ============================= */
@@ -41,20 +86,27 @@ body {
 /* ============================= */
 
 h1 {
-  font-size: 22px;
+  font-size: var(--text-h1);
 }
 
 h2 {
-  font-size: 18px;
+  font-size: var(--text-h2);
 }
 
 h3 {
-  font-size: 16px;
+  font-size: var(--text-h3);
 }
 
 h4 {
-  font-size: 14px;
-  margin: 0;
+  font-size: var(--text-h4);
+}
+
+.small {
+  font-size: var(--text-sm);
+}
+
+.xsmall {
+  font-size: var(--text-xs);
 }
 
 .close {
@@ -63,14 +115,6 @@ h4 {
 
 .muted {
   color: var(--muted);
-}
-
-.small {
-  font-size: 11px;
-}
-
-.medium {
-  font-size: 13px;
 }
 
 .center {
@@ -83,56 +127,8 @@ h4 {
 }
 
 .error {
-  color: #ff6b6b;
+  color: var(--danger)
 }
-
-/* ============================= */
-/* ========== HEADER =========== */
-/* ============================= */
-
-.header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-
-  display: flex;
-  max-width: 480px;
-  margin: 0 auto 40px;
-  padding: 0 24px;
-  height: 70px;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-
-  background: var(--dark);
-  border-bottom: 1px solid var(--border);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-
-  z-index: 100;
-}
-
-.header-content {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.header-profile-btn {
-  opacity: 0.8;
-  transition: .1s ease-in;
-}
-
-.header-profile-btn:hover {
-  opacity: 1;
-  transform: scale(1.02);
-}
-
-.header-profile-btn .profile-icon {
-  color: var(--primary-light);
-}
-
 
 /* ============================= */
 /* ========== LINKS ============ */
@@ -147,10 +143,6 @@ a {
 a:focus,
 a:active {
   outline: none;
-}
-
-.link {
-  cursor: pointer;
 }
 
 /* ============================= */
@@ -180,34 +172,34 @@ a:active {
   transform: scale(0.98);
 }
 
-
-
 /* ============================= */
 /* ========== LAYOUT =========== */
 /* ============================= */
 
-
 .app {
   position: relative;
-  max-width: 480px;
+
+  max-width: var(--app-width);
+  margin: 0 auto 3.75rem;
+  padding: var(--space-3);
   height: 100%;
-  margin: 0 auto 60px;
-  padding: 12px 12px;
+
   background: var(--bg);
 }
 
 .app-start {
-  margin: 40px auto 30px;
+  margin: 60px auto 30px;
 }
 
 .app:nth-child(1) {
-  padding-top: 40px;
+  padding-top: 48px;
 }
 
 .section {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: var(--space-3);
+  margin: var(--space-3) 0;
 }
 
 .section-with-bottom-action {
@@ -217,7 +209,34 @@ a:active {
 .grid-base {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: var(--space-3);
+}
+
+/* ============================= */
+/* ========== HEADER =========== */
+/* ============================= */
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  max-width: 480px;
+  margin: 0 auto 40px;
+  padding: 0 var(--space-5);
+  height: 70px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  background: var(--dark);
+  border-bottom: 1px solid var(--border);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+
+  z-index: 100;
 }
 
 /* ============================= */
@@ -226,26 +245,16 @@ a:active {
 
 .card-base {
   background: var(--card);
-  border-radius: 14px;
-  padding: 12px;
+  border-radius: var(--radius-md);
+  padding: var(--space-3);
   border: 1px solid var(--border);
 }
 
-.container {
-  background: var(--card);
-  padding: 16px;
-  border-radius: 18px;
-}
-
-
-/* WRAPPER */
 .hero-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin: 12px 0;
+  gap: var(--space-2);
 }
-
 
 /* ============================= */
 /* ========== INPUTS =========== */
@@ -287,36 +296,29 @@ input {
 
 .input-base {
   width: 100%;
-  padding: 10px 12px;
-  border-radius: 12px;
+  padding: var(--space-2);
+  border-radius: var(--radius-md);
   border: 1px solid var(--border);
   background: var(--card-2);
   color: var(--text);
 }
 
 .input-clean {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateY(-50%);
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 12px;
+  width: 48%;
   border: none;
   background: transparent;
   color: var(--text);
+  font-size: var(--text-small);
 }
 
 .input-clean:focus {
   outline: none;
   border: none;
-  font-size: 12px;
   padding: 0;
 }
 
 .input-base.input-exercise-notes {
-  padding: 8px 12px;
-  font-size: 12px;
+  padding: var(--space-2) var(--space-3);
   background: none;
 }
 
@@ -329,10 +331,9 @@ input[type="checkbox"] {
   cursor: pointer;
   width: 20px;
   height: 20px;
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
   background-color: var(--card);
   box-shadow: 0 0 0 2px rgba(25, 104, 106, 0.2);
-  cursor: pointer;
 }
 
 input[type="checkbox"]:checked {
@@ -344,8 +345,6 @@ input[type="checkbox"]:checked::after {
   content: "✔";
   display: block;
   text-align: center;
-  color: white;
-  font-size: 14px;
 }
 
 input[type="checkbox"]:hover {
@@ -355,10 +354,60 @@ input[type="checkbox"]:hover {
 
 .textarea {
   resize: vertical;
-  min-height: 30px;
+  font-family: system-ui, -apple-system, sans-serif;
+  min-height: 36px;
   height: 60px;
   max-height: 150px;
-  margin: 8px 0;
+  margin: var(--space-3) 0;
+}
+
+/* ============================= */
+/* ========== NAVBAR =========== */
+/* ============================= */
+
+.navbar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: var(--space-1) var(--space-2);
+
+  background: var(--dark);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border);
+
+  max-width: 480px;
+  margin: 0 auto;
+  z-index: 100;
+}
+
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--text);
+  gap: var(--space-1);
+}
+
+.nav-item.active {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+/* ============================= */
+/* ========== AUTH ========== */
+/* ============================= */
+
+.card-base.card-auth form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-3);
 }
 
 .password-wrapper {
@@ -367,7 +416,7 @@ input[type="checkbox"]:hover {
 
 .password-toggle {
   position: absolute;
-  right: 0.75rem;
+  right: var(--space-3);
   top: 50%;
   transform: translateY(-50%);
 }
@@ -384,498 +433,6 @@ input[type="checkbox"]:hover {
   color: var(--text-muted);
 }
 
-/* ============================= */
-/* ===== NUMBER INPUT FIX ====== */
-/* ============================= */
-
-.number-input,
-.reps-grid {
-  display: grid;
-  grid-template-columns: 24px 1fr 24px;
-  height: 100%;
-}
-
-.number-input input {
-  text-align: center;
-}
-
-/* ============================= */
-/* ========== SELECT =========== */
-/* ============================= */
-
-.select-base {
-  width: 100%;
-  padding: 10px 12px;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  background: var(--card-2);
-  color: var(--text);
-  font-size: 11px;
-  appearance: none;
-  cursor: pointer;
-}
-
-.select-wrapper {
-  position: relative;
-}
-
-.select-wrapper::after {
-  content: '▾';
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--muted);
-}
-
-/* ============================= */
-/* ========== NAVBAR =========== */
-/* ============================= */
-
-.navbar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
-
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  padding: 8px 4px;
-
-  background: var(--dark);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  border-top: 1px solid var(--border);
-
-  max-width: 480px;
-  margin: 0 auto;
-  z-index: 100;
-}
-
-.nav-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 12px;
-  color: var(--text);
-  gap: 4px;
-}
-
-.nav-item.active {
-  color: var(--primary);
-  font-weight: 600;
-}
-
-/* ============================= */
-/* ========== AUTH ========== */
-/* ============================= */
-
-.card-base.card-auth,
-.card-base.card-auth form {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  padding: 12px;
-}
-
-.card-base.card-auth h2 {
-  text-align: center;
-}
-
-/* ============================= */
-/* ========== WORKOUT ========== */
-/* ============================= */
-
-.workout-controls {
-  display: flex;
-  gap: 8px;
-  margin: 12px 0 0;
-}
-
-.workout-controls-card {
-  display: flex;
-  gap: 8px;
-  margin-top: 12px;
-}
-
-.workout-controls-run {
-  display: flex;
-  gap: 8px;
-  margin-bottom: 24px;
-}
-
-.workout-controls-detail,
-.workout-controls-editor {
-  display: flex;
-  gap: 8px;
-  margin: 24px 0;
-  height: 60px;
-}
-
-.workout-exercise {
-  border: 1px solid var(--border);
-  border-radius: 14px;
-  padding: 4px 12px 12px;
-  margin: 12px 0;
-  gap: 12px;
-  display: flex;
-  flex-direction: column;
-}
-
-.duration-section {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.duration {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin: 24px 0;
-}
-
-.duration-time {
-  font-size: 34px;
-}
-
-.start-time {
-  font-size: 14px;
-  min-height: 1rem;
-  transition: opacity 0.15s ease;
-}
-
-.start-time.hidden {
-  opacity: 0;
-}
-
-.start-time.visible {
-  opacity: 1;
-}
-
-.workout-header {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  margin: 12px 0;
-  gap: 12px;
-}
-
-.workout-header h2 {
-  cursor: pointer;
-}
-
-.workout-header .icon-small {
-  height: 14px;
-  width: 14px;
-  cursor: pointer;
-  color: var(--primary);
-}
-
-.modal-overlay {
-  position: fixed;
-  inset: 0;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background: rgba(0, 0, 0, 0.45);
-  backdrop-filter: blur(4px);
-
-  z-index: 1000;
-}
-
-.modal-card {
-  display: flex;
-  flex-direction: column;
-  background: var(--card);
-  border: 1px solid var(--border);
-
-  width: min(90%, 320px);
-  border-radius: 20px;
-
-  padding: 12px;
-  gap: 8px;
-
-  align-items: center;
-}
-
-.modal-card-content {
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) 100px 70px;
-  width: 100%;
-  gap: 8px;
-}
-
-.modal-card-content .input-base,
-.modal-card-content .btn {
-  height: 40px;
-}
-
-/* ============================= */
-/* ======= HISTORY SUMMARY ===== */
-/* ============================= */
-
-.grid-base.history-grid {
-  margin: 12px 0;
-}
-/* ============================= */
-/* ======= WORKOUT SUMMARY ===== */
-/* ============================= */
-
-.workout-summary-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
-  margin: 1rem 0;
-}
-
-.workout-summary-grid .card-base {
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  align-items: flex-start;
-  justify-content: center;
-}
-
-.workout-summary-grid h3 {
-  margin: 0;
-  font-size: 1.35rem;
-  font-weight: 700;
-  line-height: 1;
-}
-
-
-.recent-workouts {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-
-/* ========== MONTHLY GOAL ======== */
-.progress-bar {
-  height: 8px;
-  background: var(--card-2);
-  border-radius: 999px;
-  margin: 10px 0;
-}
-
-.progress-fill {
-  height: 100%;
-  width: 70%;
-  background: var(--primary);
-  border-radius: 999px;
-}
-
-/* ========== RECENT ACHIEVEMENTS ======== */
-.achievements-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-.achievement-card {
-  background: var(--card);
-  border-radius: 14px;
-  padding: 14px;
-  text-align: center;
-}
-
-.achievement-card .icon {
-  color: var(--primary);
-  width: 22px;
-  height: 22px;
-  background: none;
-  border-radius: 50%;
-  margin: 0 auto 8px;
-}
-
-.achievement-title {
-  font-size: 12px;
-  margin: 0;
-}
-
-/* ============================= */
-/* ===========REST TIMER ======= */
-/* ============================= */
-
-/* ========== PER EXERCISE ==========*/
-.rest-label {
-  position: relative;
-  display: flex;
-  padding: 6px 8px;
-  border-radius: 10px;
-  background: var(--card-2);
-  border: 1px solid var(--border);
-  font-size: 12px;
-  width: 80px;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: background 0.2s ease;
-  gap: 8px;
-}
-
-.rest-label .icon-small {
-  width: 12px;
-  height: 12px;
-  color: var(--primary-light);
-}
-
-.rest-label:hover {
-  background: var(--card-hover);
-}
-
-.rest-label.is-static {
-  padding: 0;
-  border: none;
-  background: transparent;
-  cursor: default;
-}
-
-.rest-label.is-static:hover {
-  background: transparent;
-}
-
-.rest-badge {
-  text-align: center;
-}
-
-.rest-input {
-  width: 50px;
-  padding: 4px 6px;
-  border-radius: 10px;
-  border: 1px solid var(--primary);
-  background: var(--card-2);
-  color: var(--text);
-  font-size: 11px;
-  text-align: center;
-}
-
-/* ========== FLOATING ==========*/
-
-.rest-timer-floating {
-  position: fixed;
-  top: 40px;
-  left: 50%;
-
-  transform: translate(-50%, -10px);
-  opacity: 0;
-  pointer-events: none;
-
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  z-index: 999;
-
-  background: linear-gradient(135deg,
-      var(--primary),
-      rgba(25, 104, 106, 0.85));
-
-  color: white;
-  padding: 12px 24px;
-  border: 1px solid var(--border);
-  border-radius: 30px;
-
-  transition: transform 0.08s ease, opacity 0.2s ease;
-
-  box-shadow: 0 4px 20px rgba(25, 104, 106, 0.2);
-}
-
-.rest-timer-floating.show {
-  opacity: 1;
-  transform: translate(-50%, 0);
-  pointer-events: auto;
-}
-
-.rest-timer-floating:active {
-  transform: translate(-50%, 0) scale(0.98);
-}
-
-.flash {
-  animation: flash-bg 0.25s ease-in-out 3;
-  animation-fill-mode: none;
-}
-
-@keyframes flash-bg {
-  0% {
-    background: transparent;
-  }
-
-  50% {
-    background: #47868848;
-  }
-
-  100% {
-    background: transparent;
-  }
-}
-
-/* ============================= */
-/* ========== TEMPLATE ======= */
-/* ============================= */
-
-.template-card {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.template-card.menu-open {
-  transform: none !important;
-}
-
-.template-card.menu-open:active {
-  transform: none !important;
-}
-
-.template-card-header,
-.workout-card-header {
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-.template-card-header-content p,
-.workout-card-header-content p {
-  margin: 8px 0 16px;
-}
-
-.template-card-header h3,
-.workout-card-header h3 {
-  margin: 0;
-  font-size: 16px;
-}
-
-.template-card-exercise-list,
-.workout-card-exercise-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.template-card-exercise-list li,
-.workout-card-exercise-list li {
-  font-size: 13px;
-  color: var(--text);
-  position: relative;
-  padding-left: 12px;
-  line-height: 1.8;
-}
-
-.template-card-exercise-list li::before,
-.workout-card-exercise-list li::before {
-  content: "•";
-  position: absolute;
-  left: 0;
-  color: var(--primary);
-}
 
 /* ============================= */
 /* =========== TOAST =========== */
@@ -888,15 +445,15 @@ input[type="checkbox"]:hover {
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: var(--space-2);
   z-index: 999;
 }
 
 .toast {
-  padding: 12px 16px;
-  border-radius: 10px;
+  padding: var(--space-3);
+  border-radius: var(--radius-md);
   background: #2b2b2b;
-  color: white;
+  color: var(--text);
   min-width: 200px;
   text-align: center;
   animation: fadeIn 0.2s ease;
@@ -931,16 +488,10 @@ input[type="checkbox"]:hover {
 /* =========== STATS =========== */
 /* ============================= */
 
-.stats-header {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
 .stats-ranges {
   display: flex;
-  margin: 24px 0;
-  gap: 8px;
+  margin: var(--space-5) 0;
+  gap: var(--space-2);
   overflow-x: auto;
 
   scrollbar-width: none;
@@ -955,14 +506,12 @@ input[type="checkbox"]:hover {
 .stats-range-btn {
   flex: 0 0 calc(25% - 12px);
   min-width: 88px;
-  padding: 14px 12px;
+  padding: var(--space-3);
 
-  border-radius: 12px;
+  border-radius: var(--radius-md);
   border: 1px solid var(--border);
   background: var(--card);
   color: var(--text);
-
-  font-size: 12px;
   font-weight: 600;
 
   cursor: pointer;
@@ -984,4 +533,3 @@ input[type="checkbox"]:hover {
 .stats-range-btn:not(.active) {
   opacity: 0.85;
 }
-

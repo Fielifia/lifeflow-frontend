@@ -1,4 +1,5 @@
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
+import { ConfirmProvider } from '../../shared/context/ConfirmContext'
 import Login from '../../features/auth/pages/LoginPage'
 import * as authApi from '../../shared/api/authApi'
 
@@ -12,7 +13,11 @@ describe('Login', () => {
       username: 'Sofia',
     })
 
-    render(<Login setUser={mockSetUser} />)
+    render(
+      <ConfirmProvider>
+        <Login setUser={mockSetUser} />
+      </ConfirmProvider>
+    )
 
     fireEvent.change(screen.getByPlaceholderText(/email/i), {
       target: { value: 'test@test.com' },
@@ -35,7 +40,11 @@ test('shows error on failed login', async () => {
     response: { data: { error: 'Invalid credentials' } },
   })
 
-  render(<Login setUser={jest.fn()} />)
+  render(
+    <ConfirmProvider>
+      <Login setUser={jest.fn()} />
+    </ConfirmProvider>
+  )
 
   fireEvent.change(screen.getByPlaceholderText(/email/i), {
     target: { value: 'test@test.com' },

@@ -4,7 +4,15 @@ import {
   useState
 } from 'react'
 
+import { createWorkoutApi } from '../../../shared/api/workoutApi'
+
+import { createTemplateApi } from '../../../shared/api/templateApi'
+
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
+
+import { useToast } from '../../../shared/context/ToastContext'
+
+import { useConfirm } from '../../../shared/hooks/useConfirm'
 
 import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations'
 
@@ -12,11 +20,14 @@ import { appendExercisesToWorkout } from '../utils/appendExercisesToWorkout'
 
 import { draftWorkoutStorage } from '../../../shared/utils/storage/draftStorage'
 
+import { buildWorkoutPayload } from '../utils/buildWorkoutPayload'
+
+import { buildTemplatePayload } from '../../template/utils/buildTemplatePayload'
+
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 
 import { EMPTY_WORKOUT } from '../../../shared/utils/constants'
 
-import { saveWorkoutAsTemplate, saveWorkoutSession } from '../utils/workoutPersistence'
 
 /**
  * Handles active workout session state,
@@ -53,7 +64,6 @@ import { saveWorkoutAsTemplate, saveWorkoutSession } from '../utils/workoutPersi
  *  handleStartPause: () => void,
  *
  *  saving: boolean,
- *  success: boolean,
  *  error: string | null,
  *
  *  isEditingName: boolean,
@@ -119,8 +129,9 @@ export function useWorkoutLogic(workoutId, navigate) {
   // ===== STATE =====
 
   const [saving, setSaving] = useState(false)
-  const [success, setSuccess] = useState(false)
+
   const [error, setError] = useState(null)
+
   const [isEditingName, setIsEditingName] = useState(false)
 
   const {
@@ -129,6 +140,8 @@ export function useWorkoutLogic(workoutId, navigate) {
     setSelectedExercises,
 
   } = useExerciseFlow()
+
+  const toast = useToast()
 
   const hasAddedRef = useRef(false)
 
@@ -147,6 +160,7 @@ export function useWorkoutLogic(workoutId, navigate) {
     registerActivity,
   } = useWorkoutContext()
 
+  const confirm = useConfirm()
 
   // ===== INIT =====
 
@@ -236,20 +250,33 @@ export function useWorkoutLogic(workoutId, navigate) {
 
   const saveWorkout = async () => {
     try {
+      const hasCompletedSets =
+        workout.exercises.some((ex) =>
+          ex.sets?.some((set) => set.completed),
+        )
+
+      if (!hasCompletedSets) {
+        toast.error('Complete at least one set')
+        return
+      }
+
+      setSaving(true)
       setSaving(true)
       setError(null)
-      setSuccess(false)
 
-      const saved =
-        await saveWorkoutSession({
+      const payload =
+        buildWorkoutPayload(
           workout,
           elapsed,
           startTime,
-        })
+        )
 
-      setSuccess(true)
-      
-      await delay(700)
+      const saved =
+        await createWorkoutApi(payload)
+
+      toast.success('Workout saved')
+
+      await delay(300)
 
       navigate(
         `/workouts/${saved._id}?from=workouts`
@@ -276,14 +303,18 @@ export function useWorkoutLogic(workoutId, navigate) {
     try {
       setSaving(true)
       setError(null)
-      setSuccess(false)
 
-      await saveWorkoutAsTemplate({
-        workout,
-      })
+      const created =
+        await createTemplateApi(
+          buildTemplatePayload(workout),
+        )
 
-      setSuccess(true)
-      
+      toast.success('Template created')
+
+      await delay(300)
+
+      navigate(`/templates/${created._id}`)
+
     } catch (err) {
       setError('Could not save template')
     } finally {
@@ -293,12 +324,14 @@ export function useWorkoutLogic(workoutId, navigate) {
 
   // ===== DISCARD WORKOUT (CREATE) =====
 
-  const discardWorkout = () => {
+  const discardWorkout = async () => {
 
-    const confirmed =
-      window.confirm(
-        'Discard current workout?'
-      )
+    const confirmed = await confirm({
+      title: 'Discard current workout?',
+      description: 'Your active workout will be lost.',
+      confirmText: 'Discard',
+      variant: 'danger',
+    })
 
     if (!confirmed) {
       return
@@ -329,7 +362,6 @@ export function useWorkoutLogic(workoutId, navigate) {
     handleStartPause,
 
     saving,
-    success,
     error,
 
     isEditingName,

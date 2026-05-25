@@ -1,11 +1,6 @@
-import {
-  useEffect,
-  useState
-} from 'react'
-import {
-  useLocation,
-  useParams
-} from 'react-router-dom'
+
+import { useEffect, useState } from 'react'
+import { useLocation, useParams } from 'react-router-dom'
 
 import { getExerciseByIdApi } from '../../../shared/api/exerciseApi'
 
@@ -16,18 +11,27 @@ import { normalizeExercise } from '../utils/exerciseAdapter'
 
 import BackButton from '../../../shared/components/ui/button/BackButton'
 
+import FavoriteButton from '../../../shared/components/ui/button/FavoriteButton'
+
 import Header from '../../../shared/components/ui/Header'
 
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 
+import './Exercise.css'
 
 /**
- * Displays detailed information about a selected exercise.
+ * Displays detailed information
+ * for a selected exercise.
  *
- * Fetches exercise data by ID, handles loading/error states,
- * rotates exercise images automatically, and displays
- * exercise metadata and instructions.
- * @returns {import('react').ReactElement} Exercise detail page
+ * Responsibilities:
+ * - fetching exercise data
+ * - handling loading/error states
+ * - rotating exercise images
+ * - displaying exercise metadata
+ * - toggling favorite status
+ * - rendering exercise instructions
+ * @returns {import('react').ReactElement}
+ * Exercise detail page UI.
  */
 export default function ExerciseDetail() {
   const { id } = useParams()
@@ -83,23 +87,20 @@ export default function ExerciseDetail() {
 
   searchParams.delete('from')
 
-  const libraryFallback =
-    searchParams.toString()
-      ? `/exercises?${searchParams.toString()}`
-      : '/exercises'
+  const libraryFallback = searchParams.toString()
+    ? `/exercises?${searchParams.toString()}`
+    : '/exercises'
 
   const fallback = from || libraryFallback
 
   if (loading || error || !ex) {
     return (
       <div className="app">
-
         <Header title="Exercise" />
 
         <BackButton fallback={fallback} />
 
         <div className="section">
-
           <DataState
             loading={loading}
             error={error}
@@ -115,24 +116,18 @@ export default function ExerciseDetail() {
 
   return (
     <div className="app">
-
       {/* HEADER */}
 
-      <Header
-        title="Exercise"
-        subtitle="Details"
-      />
+      <Header title="Exercise" subtitle="Details" />
 
       {/* BACK BUTTON */}
 
       <BackButton fallback={fallback} />
 
-      <div className="section">
-
-
+      <div className="exercise-detail-header">
         {/* TITLE */}
 
-        <div className="section">
+        <div className="header-content">
           <h2>{ex.name}</h2>
 
           <p className="muted">
@@ -145,9 +140,16 @@ export default function ExerciseDetail() {
           </p>
         </div>
 
-        {/* IMAGE */}
+        {/* FAVORITE TOGGLE */}
+        
+        <FavoriteButton exerciseId={ex.id} />
 
-        <div className="container">
+      </div>
+
+      {/* IMAGE */}
+
+      <div className="section">
+        <div className="card-base">
           <img
             src={imageSrc}
             alt={ex.name}
@@ -170,34 +172,20 @@ export default function ExerciseDetail() {
             </div>
           )}
         </div>
+      </div>
 
-        {/* INFO CARDS */}
+      {/* INSTRUCTIONS */}
 
-        <div className="section exercise-overview">
-          <div className="card-base">
-            <p className="stat-label">Muscle</p>
-            <p>{ex.muscle}</p>
-          </div>
+      <h3>Instructions</h3>
 
-          <div className="card-base">
-            <p className="stat-label">Equipment</p>
-            <p>{ex.equipment}</p>
-          </div>
-        </div>
-
-        {/* INSTRUCTIONS */}
-
-        <div className="section">
-          <h3>Instructions</h3>
-
-          <div className="container">
-            {ex.instructions?.map((step, i) => (
-              <div key={i} className="instruction-step">
-                <span className="step-number">{i + 1}</span>
-                <p>{step}</p>
-              </div>
-            ))}
-          </div>
+      <div className="section">
+        <div className="card-base">
+          {ex.instructions?.map((step, i) => (
+            <div key={i} className="instruction-step">
+              <span className="step-number">{i + 1}</span>
+              <p>{step}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
