@@ -4,6 +4,8 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useWorkoutManager } from '../hooks/useWorkoutManager'
 
 import BackButton from '../../../shared/components/ui/button/BackButton'
+import Button from '../../../shared/components/ui/button/Button'
+
 import Header from '../../../shared/components/ui/Header'
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 import WorkoutControls from '../../../shared/components/ui/WorkoutControls/WorkoutControls'
@@ -197,36 +199,64 @@ export default function WorkoutEditPage() {
 
       {error && <p className="error center">{error}</p>}
 
-      {/* ADD EXERCISE */}
+      <div className="section">
+        {/* ADD EXERCISE(S) */}
 
-      <button
-        className="btn btn-md btn-secondary btn-full"
-        onClick={openLibrary}
+        <Button variant="secondary" size="md" fullWidth onClick={openLibrary}>
+          Add exercise
+        </Button>
+      </div>
+
+      {/* EMPTY WORKOUT */}
+
+      <DataState
+        data={workout.exercises}
+        emptyText="Add your first exercise to start building your workout."
       >
-        Add exercise
-      </button>
+        <div className="section">
+          {/* EXERCISES */}
 
-      {/* EXERCISES */}
+          {workout.exercises.map((ex, i) => (
+            <ExerciseItem
+              key={ex.id}
+              ex={ex}
+              i={i}
+              navigate={navigate}
+              actions={exerciseActions}
+            />
+          ))}
 
-      {workout.exercises.map((ex, i) => (
-        <ExerciseItem
-          key={ex.id}
-          ex={ex}
-          i={i}
-          navigate={navigate}
-          actions={exerciseActions}
-        />
-      ))}
+          {/* NOTES */}
 
-      {/* NOTES */}
+          {workout.exercises.length > 0 && (
+            <textarea
+              className="input-base textarea"
+              value={workout.notes}
+              placeholder="Workout Notes..."
+              onChange={(e) => updateWorkoutNotes(e.target.value)}
+            />
+          )}
+        </div>
+      </DataState>
 
-      {workout.exercises.length > 0 && (
-        <textarea
-          className="input-base textarea"
-          value={workout.notes}
-          placeholder="Workout Notes..."
-          onChange={(e) => updateWorkoutNotes(e.target.value)}
-        />
+      {/* BOTTOM ACTIONS */}
+
+      {workout.exercises.length >= 3 && (
+        <div className="section">
+          {/* ADD EXERCISE */}
+
+          <Button variant="secondary" size="md" fullWidth onClick={openLibrary}>
+            Add exercise
+          </Button>
+
+          <WorkoutControls
+            variant="editor"
+            saving={saving}
+            onSave={saveWorkout}
+            onDiscardChanges={discardChanges}
+            hasExercises={workout.exercises.length > 0}
+          />
+        </div>
       )}
     </div>
   )

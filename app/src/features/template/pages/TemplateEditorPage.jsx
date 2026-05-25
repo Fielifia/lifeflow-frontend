@@ -3,6 +3,8 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useTemplateManager } from '../hooks/useTemplateManager'
 
 import BackButton from '../../../shared/components/ui/button/BackButton'
+import Button from '../../../shared/components/ui/button/Button'
+
 import Header from '../../../shared/components/ui/Header'
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 import WorkoutControls from '../../../shared/components/ui/WorkoutControls/WorkoutControls'
@@ -94,68 +96,66 @@ export default function TemplateEditorPage() {
         onDiscardTemplate={isCreate ? discardTemplate : undefined}
       />
 
+      {/* WORKOUT HEADER */}
+
+      <WorkoutHeader
+        name={template.name}
+        isEditing={isEditingName}
+        setIsEditing={setIsEditingName}
+        onChangeName={(value) =>
+          setTemplate((prev) => ({
+            ...prev,
+            name: value,
+          }))
+        }
+        isEditable={true}
+        showDuration={false}
+      />
+
+      {/* CONTROLS */}
+
+      <WorkoutControls
+        variant="editor"
+        saving={saving}
+        onSave={saveTemplate}
+        onDiscardChanges={!isCreate ? discardChanges : undefined}
+        onDiscardTemplate={isCreate ? discardTemplate : undefined}
+        saveLabel="Save template"
+        discardLabel="Discard"
+        cancelLabel="Cancel"
+        hasExercises={template.exercises.length > 0}
+      />
+
+      {/* FEEDBACK */}
+
+      {error && <p className="error center">{error}</p>}
+
       <div className="section">
-        {/* WORKOUT HEADER */}
-        <WorkoutHeader
-          name={template.name}
-          isEditing={isEditingName}
-          setIsEditing={setIsEditingName}
-          onChangeName={(value) =>
-            setTemplate((prev) => ({
-              ...prev,
-              name: value,
-            }))
-          }
-          isEditable={true}
-          showDuration={false}
-        />
+        {/* ADD EXERCISE(S) */}
 
-        {/* CONTROLS */}
-
-        <WorkoutControls
-          variant="editor"
-          saving={saving}
-          onSave={saveTemplate}
-          onDiscardChanges={!isCreate ? discardChanges : undefined}
-          onDiscardTemplate={isCreate ? discardTemplate : undefined}
-          saveLabel="Save template"
-          discardLabel="Discard"
-          cancelLabel="Cancel"
-          hasExercises={template.exercises.length > 0}
-        />
-
-        {/* FEEDBACK */}
-
-        {error && <p className="error center">{error}</p>}
-
-        {/* ADD EXERCISE */}
-
-        <button
-          className="btn btn-md btn-secondary btn-full"
-          onClick={openLibrary}
-        >
+        <Button variant="secondary" size="md" fullWidth onClick={openLibrary}>
           Add exercise
-        </button>
+        </Button>
+      </div>
 
-        {/* EMPTY TEMPLATE */}
+      {/* EMPTY TEMPLATE */}
 
-        <DataState
-          data={template.exercises}
-          emptyText="Add your first exercise to start building your template."
-        >
-          {/* EXERCISES */}
+      <DataState
+        data={template.exercises}
+        emptyText="Add your first exercise to start building your template."
+      >
+        {/* EXERCISES */}
 
-          {template.exercises.map((ex, i) => (
-            <ExerciseItem
-              mode="template"
-              key={ex.id}
-              ex={ex}
-              i={i}
-              navigate={navigate}
-              actions={exerciseActions}
-            />
-          ))}
-        </DataState>
+        {template.exercises.map((ex, i) => (
+          <ExerciseItem
+            mode="template"
+            key={ex.id}
+            ex={ex}
+            i={i}
+            navigate={navigate}
+            actions={exerciseActions}
+          />
+        ))}
 
         {/* NOTES */}
 
@@ -167,7 +167,32 @@ export default function TemplateEditorPage() {
             onChange={(e) => updateTemplateNotes(e.target.value)}
           />
         )}
-      </div>
+        
+      </DataState>
+
+      {/* BOTTOM ACTIONS */}
+
+      {template.exercises.length >= 3 && (
+        <div className="section">
+          {/* ADD EXERCISE */}
+
+          <Button variant="secondary" size="md" fullWidth onClick={openLibrary}>
+            Add exercise
+          </Button>
+
+          <WorkoutControls
+            variant="editor"
+            saving={saving}
+            onSave={saveTemplate}
+            onDiscardChanges={!isCreate ? discardChanges : undefined}
+            onDiscardTemplate={isCreate ? discardTemplate : undefined}
+            saveLabel="Save template"
+            discardLabel="Discard"
+            cancelLabel="Cancel"
+            hasExercises={template.exercises.length > 0}
+          />
+        </div>
+      )}
     </div>
   )
 }

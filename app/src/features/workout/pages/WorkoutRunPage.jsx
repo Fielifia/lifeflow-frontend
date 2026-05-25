@@ -9,6 +9,8 @@ import { formatElapsedTime } from '../../../shared/utils/format'
 
 import BackButton from '../../../shared/components/ui/button/BackButton'
 
+import Button from '../../../shared/components/ui/button/Button'
+
 import Header from '../../../shared/components/ui/Header'
 
 import DataState from '../../../shared/components/ui/skeleton/DataState'
@@ -148,6 +150,16 @@ export default function WorkoutRunPage() {
 
       <BackButton fallback={fallback} warnOnUnsavedChanges />
 
+      {/* REST TIMER */}
+
+      <RestTimer
+        isResting={isResting}
+        restRemaining={restRemaining}
+        adjustRest={adjustRest}
+        skipRest={skipRest}
+        setFlash={setFlash}
+      />
+
       {/* HEADER */}
 
       <WorkoutHeader
@@ -194,58 +206,55 @@ export default function WorkoutRunPage() {
 
       {error && <p className="error center">{error}</p>}
 
-      {/* REST TIMER */}
-
-      <RestTimer
-        isResting={isResting}
-        restRemaining={restRemaining}
-        adjustRest={adjustRest}
-        skipRest={skipRest}
-        setFlash={setFlash}
-      />
       <div className="section">
         {/* ADD EXERCISE */}
-        <button
-          className="btn btn-md btn-secondary btn-full"
-          onClick={openLibrary}
-        >
+        <Button variant="secondary" size="md" fullWidth onClick={openLibrary}>
           Add exercise
-        </button>
+        </Button>
       </div>
 
-      {/* EXERCISES */}
-      <DataState
-        data={workout.exercises}
-        emptyText="Add your first exercise to start building your workout."
-      >
-        <>
-          {workout.exercises.map((ex, i) => (
-            <ExerciseItem
-              mode="run"
-              key={ex.id}
-              ex={ex}
-              i={i}
-              navigate={navigate}
-              actions={exerciseActions}
-            />
-          ))}
-        </>
-      </DataState>
+      <div className="section">
+        {/* EXERCISES */}
+        <DataState
+          data={workout.exercises}
+          emptyText="Add your first exercise to start building your workout."
+        >
+          <>
+            {workout.exercises.map((ex, i) => (
+              <ExerciseItem
+                mode="run"
+                key={ex.id}
+                ex={ex}
+                i={i}
+                navigate={navigate}
+                actions={exerciseActions}
+              />
+            ))}
+          </>
+        </DataState>
 
-      {/* NOTES */}
-      {workout.exercises.length > 0 && (
-        <textarea
-          className="input-base textarea"
-          value={workout.notes}
-          placeholder="Workout Notes..."
-          onChange={(e) => updateWorkoutNotes(e.target.value)}
-        />
-      )}
+        {/* NOTES */}
+        {workout.exercises.length > 0 && (
+          <textarea
+            className="input-base textarea"
+            value={workout.notes}
+            placeholder="Workout Notes..."
+            onChange={(e) => updateWorkoutNotes(e.target.value)}
+          />
+        )}
+      </div>
 
       {/* BOTTOM ACTIONS */}
 
       {workout.exercises.length >= 3 && (
-        <div className="section section-with-bottom-action">
+        <div className="section">
+          
+          {/* ADD EXERCISE */}
+
+          <Button variant="secondary" size="md" fullWidth onClick={openLibrary}>
+            Add exercise
+          </Button>
+
           <WorkoutControls
             variant="run"
             onFinishWorkout={saveWorkout}
