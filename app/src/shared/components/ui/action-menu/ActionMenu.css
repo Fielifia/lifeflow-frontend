@@ -29,8 +29,8 @@
   top: 0;
   right: 0;
 
-  min-width: 80px;
-  padding: 0.4rem;
+  min-width: 120px;
+  padding: var(--space-2);
   border-radius: var(--radius-md);
   
   background: var(--card);
@@ -41,19 +41,19 @@
 
 .action-menu-item {
   width: 100%;
-  padding: .5rem;
-  
+  padding: var(--space-2);
+
   border: none;
   background: transparent;
   color: var(--text);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
 
   text-align: left;
   cursor: pointer;
 }
 
 .action-menu-item:hover {
-  background: var(--hover);
+  background: rgba(var(--primary-rgb), 0.4);
 }
 
 .action-menu-item.danger {
@@ -91,4 +91,34 @@
 .action-menu-toggle {
   font-size: var(--text-md);
   color: var(--text-muted);
+}
+
+.toggle {
+  width: 40px;
+  height: 22px;
+  border-radius: var(--radius-lg);
+  background: var(--primary);
+  position: relative;
+  transition: 0.2s ease;
+  flex-shrink: 0;
+}
+
+.toggle::after {
+  content: '';
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: white;
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  transition: 0.2s ease;
+}
+
+.toggle.active {
+  background: var(--primary);
+}
+
+.toggle.active::after {
+  transform: translateX(18px);
 }

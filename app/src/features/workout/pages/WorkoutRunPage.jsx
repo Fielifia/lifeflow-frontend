@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
@@ -89,6 +89,14 @@ export default function WorkoutRunPage() {
     flash,
   } = useWorkoutContext()
 
+  // ===== TOGGLE REST TIMER =====
+
+  useEffect(() => {
+    if (!restTimerEnabled && isResting) {
+      skipRest()
+    }
+  }, [restTimerEnabled, isResting, skipRest])
+
   // ===== START TIME MODAL =====
 
   const openStartTimeModal = () => {
@@ -122,6 +130,7 @@ export default function WorkoutRunPage() {
 
     {
       label: 'Rest timer',
+      subtitle: restTimerEnabled ? 'Enabled' : 'Disabled',
       type: 'toggle',
       value: restTimerEnabled,
       onChange: setRestTimerEnabled,

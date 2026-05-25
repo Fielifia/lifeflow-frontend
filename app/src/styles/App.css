@@ -352,6 +352,16 @@ input[type="checkbox"]:hover {
   opacity: 0.5;
 }
 
+input[type='time'] {
+  cursor: text;
+}
+
+input[type='time']::-webkit-calendar-picker-indicator {
+  filter:
+    brightness(0) saturate(100%) invert(32%) sepia(33%) saturate(1086%) hue-rotate(133deg) brightness(95%) contrast(92%);
+    cursor: pointer;
+}
+
 .textarea {
   resize: vertical;
   font-family: system-ui, -apple-system, sans-serif;

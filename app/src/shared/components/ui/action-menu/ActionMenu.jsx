@@ -6,6 +6,8 @@ import {
 
 import { EllipsisVertical } from 'lucide-react'
 
+import './ActionMenu.css'
+
 // ===== DEVICE DETECTION =====
 
 const isTouchDevice =

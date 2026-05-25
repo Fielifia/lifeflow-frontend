@@ -89,3 +89,9 @@
   height: 40px;
 }
 
+.modal-card-content .input-base .icon-small {
+  height: 14px;
+  width: 14px;
+  cursor: pointer;
+  color: var(--primary);
+}

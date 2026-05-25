@@ -1,12 +1,16 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 /**
- * Hook for rest timer between sets.
+ * Hook for managing rest timer state between sets.
+ * Supports countdown, persistence, completion feedback,
+ * and timer recovery after refresh.
+ * @param {object} [options] - Hook options
+ * @param {() => void} [options.onComplete]
+ * Called when the timer finishes
  * @returns {{
- *  setRestTime: (value: number) => void,
  *  restRemaining: number,
  *  isResting: boolean,
- *  startRest: (time?: number) => void,
+ *  startRest: (duration?: number) => void,
  *  adjust: (amount: number) => void,
  *  skip: () => void,
  *  reset: () => void
@@ -37,12 +41,43 @@ export function useRestTimer({
     }
   }, [isResting])
 
+  useEffect(() => {
+    const saved =
+      localStorage.getItem('restEndTime')
+
+    if (!saved) {
+      return
+    }
+
+    const remaining = Math.ceil(
+      (Number(saved) - Date.now()) / 1000,
+    )
+
+    if (remaining > 0) {
+      setRestRemaining(remaining)
+      setIsResting(true)
+    } else {
+      localStorage.removeItem(
+        'restEndTime',
+      )
+    }
+  }, [])
+
   /**
    * Start rest timer
    * @param {number} duration - Workout duration
    */
   const startRest = (duration) => {
+
     if (!duration) return
+
+    const endTime =
+      Date.now() + duration * 1000
+
+    localStorage.setItem(
+      'restEndTime',
+      String(endTime),
+    )
 
     setIsResting(false)
     setRestRemaining(0)
@@ -60,7 +95,9 @@ export function useRestTimer({
     ) {
       setIsResting(false)
 
-      navigator.vibrate([200, 100, 200])
+      if (navigator.vibrate) {
+        navigator.vibrate([200, 100, 200])
+      }
 
       const audio = new Audio(
         '/sounds/rest-complete.mp3',
@@ -73,6 +110,10 @@ export function useRestTimer({
       if (onComplete) {
         onComplete()
       }
+
+      localStorage.removeItem(
+        'restEndTime',
+      )
     }
   }, [
     isResting,
@@ -85,7 +126,22 @@ export function useRestTimer({
    * @param {number} amount - Seconds to add or subtract
    */
   const adjust = (amount) => {
-    setRestRemaining((prev) => Math.max(0, prev + amount))
+    setRestRemaining((prev) => {
+      const updated = Math.max(
+        0,
+        prev + amount,
+      )
+
+      const endTime =
+        Date.now() + updated * 1000
+
+      localStorage.setItem(
+        'restEndTime',
+        String(endTime),
+      )
+
+      return updated
+    })
   }
 
   /**
@@ -94,6 +150,10 @@ export function useRestTimer({
   const skip = () => {
     setIsResting(false)
     setRestRemaining(0)
+
+    localStorage.removeItem(
+      'restEndTime',
+    )
   }
 
   /**
@@ -102,6 +162,10 @@ export function useRestTimer({
   const reset = () => {
     setIsResting(false)
     setRestRemaining(0)
+
+    localStorage.removeItem(
+      'restEndTime',
+    )
   }
 
   return {
