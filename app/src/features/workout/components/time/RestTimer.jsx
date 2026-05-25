@@ -11,6 +11,7 @@ import './RestTimer.css'
  * @param {(amount: number) => void} props.adjustRest - Adjust time (+/-)
  * @param {() => void} props.skipRest - Skip current rest
  * @param props.setFlash - Flash when rest is over
+ * @param {string} props.exercises - Exercises
  * @returns {import('react').ReactElement|null} Rest timer UI or null
  */
 export default function RestTimer({
@@ -40,7 +41,7 @@ export default function RestTimer({
         <span>Next: </span>
         <span className="exercise-name">{currentExercise}</span>
       </div>
-      
+
       <div className="rest-controls">
         <button onClick={() => adjustRest(-15)}>−</button>
 
