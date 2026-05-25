@@ -111,7 +111,9 @@ export function useExerciseMutations(
         prev.exercises[exIndex]?.restTime || 0
 
       if (checked && onSetCompleted) {
-        onSetCompleted(rest)
+        setTimeout(() => {
+          onSetCompleted(rest)
+        }, 0)
       }
 
       return workoutMutation.toggleSetComplete(

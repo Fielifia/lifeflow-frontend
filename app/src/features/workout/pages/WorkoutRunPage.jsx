@@ -45,7 +45,6 @@ export default function WorkoutRunPage() {
   const fallback = flow === 'template-detail' ? '/templates' : '/workouts'
 
   const { id: workoutId } = useParams()
-  const [flash, setFlash] = useState(false)
 
   const [showStartTimeModal, setShowStartTimeModal] = useState(false)
 
@@ -86,6 +85,8 @@ export default function WorkoutRunPage() {
     isResting,
     adjustRest,
     skipRest,
+
+    flash,
   } = useWorkoutContext()
 
   // ===== START TIME MODAL =====
@@ -157,7 +158,6 @@ export default function WorkoutRunPage() {
         restRemaining={restRemaining}
         adjustRest={adjustRest}
         skipRest={skipRest}
-        setFlash={setFlash}
         exercises={workout?.exercises}
       />
 

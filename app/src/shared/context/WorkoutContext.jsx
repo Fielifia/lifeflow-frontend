@@ -39,7 +39,18 @@ export function WorkoutProvider({ children }) {
   // ===== TIMERS =====
 
   const timer = useWorkoutTimer()
-  const rest = useRestTimer()
+
+  const [flash, setFlash] = useState(false)
+
+  const rest = useRestTimer({
+    onComplete: () => {
+      setFlash(true)
+
+      setTimeout(() => {
+        setFlash(false)
+      }, 300)
+    },
+  })
 
   // ===== TEMPLATE DRAFT =====
 
@@ -80,6 +91,7 @@ export function WorkoutProvider({ children }) {
         setDraftTemplate,
 
         registerActivity: timer.registerActivity,
+        flash,
       }}
     >
 

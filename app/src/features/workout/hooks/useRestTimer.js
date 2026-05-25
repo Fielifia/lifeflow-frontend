@@ -25,6 +25,17 @@ export function useRestTimer() {
         setRestRemaining((prev) => {
           if (prev <= 1) {
             setIsResting(false)
+
+            navigator.vibrate([200, 100, 200])
+
+            const audio = new Audio(
+              '/sounds/rest-complete.mp3',
+            )
+
+            audio.play().catch(() => {
+              // Ignore autoplay/audio errors.
+            })
+
             return 0
           }
           return prev - 1

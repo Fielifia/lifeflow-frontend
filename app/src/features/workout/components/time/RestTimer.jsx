@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react'
 import { getCurrentExercise } from '../../../../shared/utils/getCurrentExercise'
 
 import './RestTimer.css'
@@ -10,7 +9,6 @@ import './RestTimer.css'
  * @param {number} props.restRemaining - Seconds left
  * @param {(amount: number) => void} props.adjustRest - Adjust time (+/-)
  * @param {() => void} props.skipRest - Skip current rest
- * @param props.setFlash - Flash when rest is over
  * @param {string} props.exercises - Exercises
  * @returns {import('react').ReactElement|null} Rest timer UI or null
  */
@@ -19,21 +17,10 @@ export default function RestTimer({
   restRemaining,
   adjustRest,
   skipRest,
-  setFlash,
   exercises,
 }) {
-  const prevTime = useRef(restRemaining)
 
   const currentExercise = getCurrentExercise(exercises || [])
-
-  useEffect(() => {
-    if (prevTime.current > 0 && restRemaining <= 0) {
-      setFlash(true)
-      setTimeout(() => setFlash(false), 300)
-    }
-
-    prevTime.current = restRemaining
-  }, [restRemaining, setFlash])
 
   return (
     <div className={`rest-timer-floating ${isResting ? 'show' : ''}`}>
