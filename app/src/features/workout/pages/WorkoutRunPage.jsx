@@ -158,6 +158,7 @@ export default function WorkoutRunPage() {
         adjustRest={adjustRest}
         skipRest={skipRest}
         setFlash={setFlash}
+        exercises={workout?.exercises}
       />
 
       {/* HEADER */}
@@ -248,7 +249,7 @@ export default function WorkoutRunPage() {
 
       {workout.exercises.length >= 3 && (
         <div className="section">
-          
+
           {/* ADD EXERCISE */}
 
           <Button variant="secondary" size="md" fullWidth onClick={openLibrary}>

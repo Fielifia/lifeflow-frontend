@@ -1,5 +1,6 @@
 import { ChevronUp } from 'lucide-react'
 import { useWorkoutContext } from '../../../../shared/context/WorkoutContext'
+import { getCurrentExercise } from '../../../../shared/utils/getCurrentExercise'
 
 /**
  * Workout session bar display and controls.
@@ -36,16 +37,7 @@ export default function WorkoutSessionBar({
 
   const exercises = workout?.exercises || []
 
-  const nextExercise = exercises.find((ex) => {
-    if (!ex.sets?.length) {
-      return false
-    }
-
-    return !ex.sets.every((set) => set.completed)
-  })
-
-  const currentExercise = nextExercise ? `${nextExercise.name}` : 'Done ✔'
-  
+  const currentExercise = getCurrentExercise(exercises)
 
   return (
     <div

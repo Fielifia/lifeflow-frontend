@@ -144,30 +144,31 @@ export default function TemplateEditorPage() {
         data={template.exercises}
         emptyText="Add your first exercise to start building your template."
       >
-        {/* EXERCISES */}
+        <div className="section">
+          {/* EXERCISES */}
 
-        {template.exercises.map((ex, i) => (
-          <ExerciseItem
-            mode="template"
-            key={ex.id}
-            ex={ex}
-            i={i}
-            navigate={navigate}
-            actions={exerciseActions}
-          />
-        ))}
+          {template.exercises.map((ex, i) => (
+            <ExerciseItem
+              mode="template"
+              key={ex.id}
+              ex={ex}
+              i={i}
+              navigate={navigate}
+              actions={exerciseActions}
+            />
+          ))}
 
-        {/* NOTES */}
+          {/* NOTES */}
 
-        {template.exercises.length > 0 && (
-          <textarea
-            className="input-base textarea"
-            value={template.notes}
-            placeholder="Workout Notes..."
-            onChange={(e) => updateTemplateNotes(e.target.value)}
-          />
-        )}
-        
+          {template.exercises.length > 0 && (
+            <textarea
+              className="input-base textarea"
+              value={template.notes}
+              placeholder="Workout Notes..."
+              onChange={(e) => updateTemplateNotes(e.target.value)}
+            />
+          )}
+        </div>
       </DataState>
 
       {/* BOTTOM ACTIONS */}

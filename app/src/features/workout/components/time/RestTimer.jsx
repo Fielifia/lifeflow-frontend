@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react'
+import { getCurrentExercise } from '../../../../shared/utils/getCurrentExercise'
 
 import './RestTimer.css'
 
@@ -18,8 +19,11 @@ export default function RestTimer({
   adjustRest,
   skipRest,
   setFlash,
+  exercises,
 }) {
   const prevTime = useRef(restRemaining)
+
+  const currentExercise = getCurrentExercise(exercises || [])
 
   useEffect(() => {
     if (prevTime.current > 0 && restRemaining <= 0) {
@@ -31,15 +35,16 @@ export default function RestTimer({
   }, [restRemaining, setFlash])
 
   return (
-    <div
-      className={`rest-timer-floating ${isResting ? 'show' : ''}`}
-    >
+    <div className={`rest-timer-floating ${isResting ? 'show' : ''}`}>
+      <div className="session-exercise">
+        <span>Next: </span>
+        <span className="exercise-name">{currentExercise}</span>
+      </div>
+      
       <div className="rest-controls">
         <button onClick={() => adjustRest(-15)}>−</button>
 
-        <span className="rest-time">
-          {Math.max(0, restRemaining)}s
-        </span>
+        <span className="rest-time">{Math.max(0, restRemaining)}s</span>
 
         <button onClick={() => adjustRest(15)}>+</button>
 
