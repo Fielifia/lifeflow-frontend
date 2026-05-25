@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
@@ -142,7 +142,26 @@ export default function WorkoutRunPage() {
       onClick: saveAsTemplate,
     },
   ]
+
   const duration = formatElapsedTime(elapsed)
+
+  useEffect(() => {
+    let timeout
+
+    if (!isResting && restRemaining === 0) {
+      setFlash(true)
+
+      timeout = setTimeout(() => {
+        setFlash(false)
+      }, 300)
+    }
+
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout)
+      }
+    }
+  }, [isResting, restRemaining])
 
   return (
     <div className={`app ${flash ? 'flash' : ''}`}>
@@ -157,7 +176,6 @@ export default function WorkoutRunPage() {
         restRemaining={restRemaining}
         adjustRest={adjustRest}
         skipRest={skipRest}
-        setFlash={setFlash}
         exercises={workout?.exercises}
       />
 
