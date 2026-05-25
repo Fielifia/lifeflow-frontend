@@ -12,39 +12,28 @@ import { useState, useEffect } from 'react'
  *  reset: () => void
  * }} Rest timer state and controls
  */
-export function useRestTimer() {
+export function useRestTimer({
+  onComplete,
+} = {}) {
   const [restRemaining, setRestRemaining] = useState(0)
   const [isResting, setIsResting] = useState(false)
 
   // countdown
   useEffect(() => {
     let interval
-  
+
     if (isResting) {
       interval = setInterval(() => {
         setRestRemaining((prev) => {
-          if (prev <= 1) {
-            setIsResting(false)
-
-            navigator.vibrate([200, 100, 200])
-
-            const audio = new Audio(
-              '/sounds/rest-complete.mp3',
-            )
-
-            audio.play().catch(() => {
-              // Ignore autoplay/audio errors.
-            })
-
-            return 0
-          }
-          return prev - 1
+          return Math.max(0, prev - 1)
         })
       }, 1000)
     }
-  
+
     return () => {
-      if (interval) clearInterval(interval)
+      if (interval) {
+        clearInterval(interval)
+      }
     }
   }, [isResting])
 
@@ -63,6 +52,33 @@ export function useRestTimer() {
       setIsResting(true)
     }, 0)
   }
+
+  useEffect(() => {
+    if (
+      isResting &&
+      restRemaining === 0
+    ) {
+      setIsResting(false)
+
+      navigator.vibrate([200, 100, 200])
+
+      const audio = new Audio(
+        '/sounds/rest-complete.mp3',
+      )
+
+      audio.play().catch(() => {
+        // Ignore autoplay/audio errors.
+      })
+
+      if (onComplete) {
+        onComplete()
+      }
+    }
+  }, [
+    isResting,
+    restRemaining,
+    onComplete,
+  ])
 
   /**
    * Adjust remaining rest time (+/- seconds)
