@@ -23,7 +23,6 @@
  * }} Serialized backend exercise
  */
 export function serializeWorkoutExercise(ex) {
-  console.log(ex)
   return {
     exerciseId:
       ex.exerciseId || ex.id,

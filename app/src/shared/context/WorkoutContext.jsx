@@ -44,7 +44,6 @@ export function WorkoutProvider({ children }) {
 
   const rest = useRestTimer({
     onComplete: () => {
-      console.log('FLASH TRUE')
       setFlash(true)
 
       setTimeout(() => {

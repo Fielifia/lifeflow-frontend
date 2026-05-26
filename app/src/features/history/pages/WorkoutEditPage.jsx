@@ -37,13 +37,19 @@ export default function WorkoutEditPage() {
 
   const { id } = useParams()
 
+  // ===== STATE =====
+
+  // Rename
   const [showRenameModal, setShowRenameModal] = useState(false)
-
-  const [showStartTimeModal, setShowStartTimeModal] = useState(false)
-
   const [tempWorkoutName, setTempWorkoutName] = useState('')
 
+  // Start time
+  const [showStartTimeModal, setShowStartTimeModal] = useState(false)
   const [tempStartTime, setTempStartTime] = useState('')
+
+  //Duration
+  const [showDurationModal, setShowDurationModal] = useState(false)
+  const [tempDuration, setTempDuration] = useState('')
 
   const {
     workout,
@@ -104,6 +110,13 @@ export default function WorkoutEditPage() {
     setShowStartTimeModal(true)
   }
 
+  // ===== DURATION MODAL =====
+  const openDurationModal = () => {
+    setTempDuration(String(Math.floor((workout.duration || 0) / 60)))
+
+    setShowDurationModal(true)
+  }
+
   // ===== ACTION MENU =====
 
   const workoutMenuItems = [
@@ -115,6 +128,11 @@ export default function WorkoutEditPage() {
     {
       label: 'Edit Start Time',
       onClick: openStartTimeModal,
+    },
+
+    {
+      label: 'Edit Duration',
+      onClick: openDurationModal,
     },
 
     {
@@ -215,21 +233,24 @@ export default function WorkoutEditPage() {
             updated.setMinutes(Number(minutes))
             updated.setSeconds(0)
 
-            const timestamp = updated.getTime()
+            const newStartTime = updated.getTime()
 
-            const endTime =
-              workout.endTime || workout.startTime + workout.duration * 1000
+            const currentDuration = Number(workout.duration) || 0
 
-            const duration = Math.max(
-              0,
-              Math.floor((endTime - timestamp) / 1000),
+            const oldStartTime = new Date(workout.startTime).getTime()
+
+            const oldEndTime = oldStartTime + currentDuration * 1000
+
+            const updatedDuration = Math.floor(
+              (oldEndTime - newStartTime) / 1000,
             )
 
             setWorkout((prev) => ({
               ...prev,
-              startTime: timestamp,
-              duration,
-              endTime,
+
+              startTime: newStartTime,
+
+              duration: Math.max(0, updatedDuration),
             }))
 
             setShowStartTimeModal(false)
@@ -237,7 +258,7 @@ export default function WorkoutEditPage() {
         />
       )}
 
-      {/* DURATION MODAL
+      {/* DURATION MODAL */}
 
       {showDurationModal && (
         <EditModal
@@ -247,24 +268,24 @@ export default function WorkoutEditPage() {
           setTempValue={setTempDuration}
           onClose={() => setShowDurationModal(false)}
           onSave={() => {
-            const duration = Number(tempDuration)
+            const minutes = Number(tempDuration)
 
-            if (isNaN(duration)) {
+            const duration = minutes * 60
+
+            if (isNaN(duration) || duration < 0) {
               return
             }
 
-            const endTime = workout.startTime + duration * 1000
-
             setWorkout((prev) => ({
               ...prev,
+
               duration,
-              endTime,
             }))
 
             setShowDurationModal(false)
           }}
         />
-      )} */}
+      )}
 
       {/* CONTROLS */}
 

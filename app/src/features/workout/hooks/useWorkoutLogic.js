@@ -344,8 +344,6 @@ export function useWorkoutLogic(workoutId, navigate) {
           startTime,
         )
 
-      console.log(payload)
-
       const saved =
         await createWorkoutApi(payload)
 

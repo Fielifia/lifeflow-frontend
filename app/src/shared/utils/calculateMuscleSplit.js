@@ -22,14 +22,12 @@ export function calculateMuscleSplit(workout) {
     const setCount = ex.sets?.length || 0
 
     muscleMap[muscle] = (muscleMap[muscle] || 0) + setCount
-    console.log(ex)
   })
 
 
   // ===== PERCENTAGE CALCULATION =====
   
   const totalSets = Object.values(muscleMap).reduce((sum, val) => sum + val, 0)
-  console.log(muscleMap)
 
   return Object.entries(muscleMap).map(([muscle, sets]) => ({
     muscle,
