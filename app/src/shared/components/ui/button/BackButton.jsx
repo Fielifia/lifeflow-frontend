@@ -8,12 +8,19 @@ import Button from './Button'
 
 /**
  * Reusable navigation back button.
+ *
+ * Supports optional unsaved changes confirmation
+ * before navigating away.
  * @param {object} props - Component props.
- * @param {string} props.fallback - Route to navigate to when going back.
- * @param {boolean} props.warnOnUnsavedChanges - Whether to show a warning before navigating away.
- * @param {boolean} props.hasUnsavedChanges - Whether there are unsaved changes.
- * @param {() => void} [props.onDiscard] - Callback triggered after confirming discard.
- * @returns {import('react').ReactElement} - Back button component
+ * @param {string} props.fallback - Route to navigate to.
+ * @param {boolean} [props.warnOnUnsavedChanges]
+ * Whether to show discard confirmation.
+ * @param {boolean} [props.hasUnsavedChanges]
+ * Whether unsaved changes currently exist.
+ * @param {() => void} [props.onDiscard]
+ * Callback triggered after confirming discard.
+ * @returns {import('react').ReactElement}
+ * Back button UI.
  */
 export default function BackButton({
   fallback,
