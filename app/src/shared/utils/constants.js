@@ -2,7 +2,6 @@ export const STORAGE_KEYS = {
   USER: 'user',
   DRAFT_WORKOUT: 'draftWorkout',
   DRAFT_TEMPLATE: 'draftTemplate',
-  REST_TIMER_END: 'restTimerEnd',
 }
 
 // ===== WORKOUT DEFAULTS =====

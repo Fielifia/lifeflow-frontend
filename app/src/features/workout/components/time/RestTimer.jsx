@@ -9,7 +9,7 @@ import './RestTimer.css'
  * @param {number} props.restRemaining - Seconds left
  * @param {(amount: number) => void} props.adjustRest - Adjust time (+/-)
  * @param {() => void} props.skipRest - Skip current rest
- * @param {Array<object>} props.exercises - Workout exercises
+ * @param {string} props.exercises - Exercises
  * @returns {import('react').ReactElement|null} Rest timer UI or null
  */
 export default function RestTimer({
@@ -19,35 +19,24 @@ export default function RestTimer({
   skipRest,
   exercises,
 }) {
+
   const currentExercise = getCurrentExercise(exercises || [])
 
   return (
     <div className={`rest-timer-floating ${isResting ? 'show' : ''}`}>
       <div className="session-exercise">
         <span>Next: </span>
-
-        <span className="exercise-name">
-          {currentExercise}
-        </span>
+        <span className="exercise-name">{currentExercise}</span>
       </div>
 
       <div className="rest-controls">
-        <button onClick={() => adjustRest(-15)}>
-          −
-        </button>
+        <button onClick={() => adjustRest(-15)}>−</button>
 
-        <span className="rest-time">
-          {Math.max(0, restRemaining)}s
-        </span>
+        <span className="rest-time">{Math.max(0, restRemaining)}s</span>
 
-        <button onClick={() => adjustRest(15)}>
-          +
-        </button>
+        <button onClick={() => adjustRest(15)}>+</button>
 
-        <button
-          className="skip"
-          onClick={skipRest}
-        >
+        <button className="skip" onClick={skipRest}>
           Skip
         </button>
       </div>
