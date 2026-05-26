@@ -11,6 +11,8 @@ import BackButton from '../../../shared/components/ui/button/BackButton'
 
 import Button from '../../../shared/components/ui/button/Button'
 
+import EditModal from '../components/time/EditStartTimeModal'
+
 import Header from '../../../shared/components/ui/Header'
 
 import DataState from '../../../shared/components/ui/skeleton/DataState'
@@ -22,8 +24,6 @@ import ExerciseItem from '../../exercise/components/ExerciseItem/ExerciseItem'
 import RestTimer from '../components/time/RestTimer'
 
 import WorkoutHeader from '../components/WorkoutHeader'
-
-import EditStartTimeModal from '../components/time/EditStartTimeModal'
 
 import '../Workout.css'
 
@@ -46,11 +46,16 @@ export default function WorkoutRunPage() {
 
   const { id: workoutId } = useParams()
 
+  const [showRenameModal, setShowRenameModal] = useState(false)
+
+  const [tempWorkoutName, setTempWorkoutName] = useState('')
+
+  const [restTimerEnabled, setRestTimerEnabled] = useState(true)
+
   const [showStartTimeModal, setShowStartTimeModal] = useState(false)
 
   const [tempStartTime, setTempStartTime] = useState('')
 
-  const [restTimerEnabled, setRestTimerEnabled] = useState(true)
   const [defaultRestTime] = useState(120)
 
   const {
@@ -60,9 +65,6 @@ export default function WorkoutRunPage() {
     setWorkout,
 
     elapsed,
-
-    isEditingName,
-    setIsEditingName,
 
     startTime,
     adjustStartTime,
@@ -97,6 +99,13 @@ export default function WorkoutRunPage() {
     }
   }, [restTimerEnabled, isResting, skipRest])
 
+  // ===== RENAME MODAL =====
+
+  const openRenameModal = () => {
+    setTempWorkoutName(workout.name)
+    setShowRenameModal(true)
+  }
+
   // ===== START TIME MODAL =====
 
   const openStartTimeModal = () => {
@@ -116,11 +125,11 @@ export default function WorkoutRunPage() {
   const workoutMenuItems = [
     {
       label: 'Rename',
-      onClick: () => setIsEditingName(true),
+      onClick: openRenameModal,
     },
 
     {
-      label: 'Edit start time',
+      label: 'Edit Start Time',
       onClick: openStartTimeModal,
     },
 
@@ -129,8 +138,8 @@ export default function WorkoutRunPage() {
     },
 
     {
-      label: 'Rest timer',
-      subtitle: restTimerEnabled ? 'Enabled' : 'Disabled',
+      label: 'Rest Timer ',
+      subtitle: restTimerEnabled ? 'On' : 'Off',
       type: 'toggle',
       value: restTimerEnabled,
       onChange: setRestTimerEnabled,
@@ -138,7 +147,7 @@ export default function WorkoutRunPage() {
     },
 
     {
-      label: 'Default rest time',
+      label: 'Default Rest Time: ',
       subtitle: `${defaultRestTime}s`,
       onClick: () => console.log('default rest'),
     },
@@ -148,7 +157,7 @@ export default function WorkoutRunPage() {
     },
 
     {
-      label: 'Save as template',
+      label: 'Save As Template',
       onClick: saveAsTemplate,
     },
   ]
@@ -175,27 +184,59 @@ export default function WorkoutRunPage() {
       <WorkoutHeader
         name={workout.name}
         startTime={startTime}
-        isEditing={isEditingName}
-        setIsEditing={setIsEditingName}
-        onChangeName={(value) =>
-          setWorkout((prev) => ({ ...prev, name: value }))
-        }
         elapsed={elapsed}
         showDuration={true}
         menuItems={workoutMenuItems}
+        onEditName={openRenameModal}
         onEditStartTime={openStartTimeModal}
       />
+
+      {/* RENAME MODAL */}
+
+      {showRenameModal && (
+        <EditModal
+          title="Edit workout name"
+          tempValue={tempWorkoutName}
+          setTempValue={setTempWorkoutName}
+          onClose={() => setShowRenameModal(false)}
+          onSave={() => {
+            setWorkout((prev) => ({
+              ...prev,
+              name: tempWorkoutName.trim() || 'Workout',
+            }))
+
+            setShowRenameModal(false)
+          }}
+        />
+      )}
 
       {/* START TIME MODAL */}
 
       {showStartTimeModal && (
-        <EditStartTimeModal
-          startTime={startTime}
-          tempStartTime={tempStartTime}
-          setTempStartTime={setTempStartTime}
+        <EditModal
+          title="Edit start time"
+          inputType="time"
+          tempValue={tempStartTime}
+          setTempValue={setTempStartTime}
           onClose={() => setShowStartTimeModal(false)}
-          onSave={(updatedTime) => {
-            adjustStartTime(updatedTime)
+          onSave={() => {
+            const [hours, minutes] = tempStartTime.split(':')
+
+            const updated = new Date(startTime)
+
+            updated.setHours(Number(hours))
+            updated.setMinutes(Number(minutes))
+            updated.setSeconds(0)
+
+            const timestamp = updated.getTime()
+
+            adjustStartTime(timestamp)
+
+            setWorkout((prev) => ({
+              ...prev,
+              startTime: timestamp,
+            }))
+
             setShowStartTimeModal(false)
           }}
         />
@@ -258,7 +299,6 @@ export default function WorkoutRunPage() {
 
       {workout.exercises.length >= 3 && (
         <div className="section">
-
           {/* ADD EXERCISE */}
 
           <Button variant="secondary" size="md" fullWidth onClick={openLibrary}>

@@ -42,20 +42,14 @@ export default function DurationDisplay({
 
   return (
     <div className="duration">
-
-      {label && (
-        <p className="muted small close">
-          {label}
-        </p>
-      )}
+      {label && <p className="muted small close">{label}</p>}
 
       <div className="duration-time">
         <strong>{formatted}</strong>
       </div>
 
-      {mode === 'run' && (
-        <div
-          className={`start-time ${startTime ? 'visible' : 'hidden'}`}>
+      {mode !== 'template' && (
+        <div className={`start-time ${startTime ? 'visible' : 'hidden'}`}>
           <Button
             type="button"
             variant="ghost"

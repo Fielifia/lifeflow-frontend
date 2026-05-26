@@ -348,16 +348,14 @@ export function useWorkoutManager(
       setSaving(true)
       setError(null)
 
-      const created =
-        await createTemplateApi(
-          buildTemplatePayload(workout),
-        )
+      await createTemplateApi(
+        buildTemplatePayload(workout),
+      )
 
       toast.success('Template created')
 
       await delay(300)
 
-      navigate(`/templates/${created._id}`)
     } catch (err) {
       setError('Could not save template')
     } finally {
