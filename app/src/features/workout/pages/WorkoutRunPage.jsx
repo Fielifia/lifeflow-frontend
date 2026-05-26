@@ -58,6 +58,8 @@ export default function WorkoutRunPage() {
 
   const [restTimerEnabled, setRestTimerEnabled] = useState(true)
 
+  const [flash, setFlash] = useState(false)
+
   const [showStartTimeModal, setShowStartTimeModal] = useState(false)
 
   const [tempStartTime, setTempStartTime] = useState('')
@@ -219,6 +221,25 @@ export default function WorkoutRunPage() {
 
     exerciseActions.reorderExercises(oldIndex, newIndex)
   }
+
+
+  useEffect(() => {
+    let timeout
+
+    if (!isResting && restRemaining === 0) {
+      setFlash(true)
+
+      timeout = setTimeout(() => {
+        setFlash(false)
+      }, 300)
+    }
+
+    return () => {
+      if (timeout) {
+        clearTimeout(timeout)
+      }
+    }
+  }, [isResting, restRemaining])
 
   return (
     <div className={`app ${flash ? 'flash' : ''}`}>
