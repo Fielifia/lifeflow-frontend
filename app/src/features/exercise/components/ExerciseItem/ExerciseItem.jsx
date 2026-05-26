@@ -86,7 +86,7 @@ export default function ExerciseItem({
 
   const [editingRest, setEditingRest] = useState(false)
 
-  const safeRest = ex.restTime ?? 120
+  const safeRest = ex.defaultRest ?? 120
 
   const historicalBest = ex.historicalBest || {
     weight: 0,
@@ -146,12 +146,12 @@ export default function ExerciseItem({
             className={`
     rest-label clickable
     ${!isEditable ? 'is-static' : ''}
-    ${!restTimerEnabled ? 'is-disabled' : ''}
+    ${isRunMode && !restTimerEnabled ? 'is-disabled' : ''}
   `}
             onClick={(e) => {
               e.stopPropagation()
 
-              if (!restTimerEnabled) {
+              if (isRunMode && !restTimerEnabled) {
                 toast.warning('Rest timer disabled')
                 return
               }

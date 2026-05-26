@@ -26,6 +26,7 @@ import {
  */
 export function useStartWorkout() {
   const navigate = useNavigate()
+  
   const {
     start,
     resetTimer,
@@ -68,12 +69,29 @@ export function useStartWorkout() {
     if (template) {
       preparedWorkout = {
         name: template.name,
+
         notes: '',
+
+        sourceTemplateId: template._id,
+
+        templateSnapshot: {
+          name: template.name,
+
+          notes: template.notes,
+
+          exercises: template.exercises,
+        },
+
         exercises:
           template.exercises.map((ex) =>
-            buildWorkoutExercise(ex, null, {
-              resetCompleted: true,
-            }),
+            buildWorkoutExercise(
+              ex,
+              null,
+              undefined,
+              {
+                resetCompleted: true,
+              },
+            ),
           ),
       }
     }

@@ -8,7 +8,7 @@ import { arrayMove } from '@dnd-kit/sortable'
 
 import { createWorkoutApi } from '../../../shared/api/workoutApi'
 
-import { createTemplateApi } from '../../../shared/api/templateApi'
+import { createTemplateApi, updateTemplateApi } from '../../../shared/api/templateApi'
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
@@ -161,7 +161,7 @@ export function useWorkoutLogic(workoutId, navigate) {
     setSelectedExercises,
 
   } = useExerciseFlow()
-  
+
 
   const toast = useToast()
 
@@ -324,6 +324,30 @@ export function useWorkoutLogic(workoutId, navigate) {
 
   const saveWorkout = async () => {
     try {
+
+      const hasTemplateChanges =
+        JSON.stringify(
+          buildTemplatePayload(workout),
+        ) !== JSON.stringify(
+          workout.templateSnapshot,
+        )
+
+      let shouldUpdateTemplate = false
+
+      if (
+        workout.sourceTemplateId &&
+        hasTemplateChanges
+      ) {
+        shouldUpdateTemplate =
+          await confirm({
+            title: 'Update template?',
+            description:
+              'You changed this workout template during the session.',
+            confirmText: 'Update Template',
+            cancelText: 'Keep Original',
+          })
+      }
+
       const hasCompletedSets =
         workout.exercises.some((ex) =>
           ex.sets?.some((set) => set.completed),
@@ -347,7 +371,18 @@ export function useWorkoutLogic(workoutId, navigate) {
       const saved =
         await createWorkoutApi(payload)
 
-      toast.success('Workout saved')
+      if (shouldUpdateTemplate) {
+        await updateTemplateApi(
+          workout.sourceTemplateId,
+          buildTemplatePayload(workout),
+        )
+
+        toast.success(
+          'Workout and template updated',
+        )
+      } else {
+        toast.success('Workout saved')
+      }
 
       await delay(300)
 
