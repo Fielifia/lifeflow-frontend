@@ -1,4 +1,4 @@
-import { Eye } from 'lucide-react'
+import { Info } from 'lucide-react'
 
 import { useLocation, useNavigate } from 'react-router-dom'
 
@@ -57,22 +57,25 @@ export default function ExerciseCard({
 
       {/* EXERCISE INFO */}
 
-      <div className="exercise-info">
-        {/* FAVORITE TOGGLE */}
+      <div className="exercise-card-content">
+        <div className="exercise-info-wrapper">
+          <div className="exercise-info">
+            <h4 className="close">{exercise.name}</h4>
 
-        <FavoriteButton exerciseId={exercise.id} />
-        
-        <h4>
-          {exercise.name}
-          {showDetailsButton && (
-            <button className="details-btn" onClick={handleView}>
-              <Eye className="details-icon" />
-            </button>
-          )}
-        </h4>
-        <p>
-          {exercise.equipment} • {exercise.muscle}{' '}
-        </p>
+            <p className="muted close">
+              {exercise.equipment} • {exercise.muscle}
+            </p>
+          </div>
+
+          <div className="exercise-actions">
+            {showDetailsButton && (
+              <button className="details-btn" onClick={handleView}>
+                <Info className="details-icon" />
+              </button>
+            )}
+            <FavoriteButton exerciseId={exercise.id} />
+          </div>
+        </div>
       </div>
     </div>
   )

@@ -16,7 +16,7 @@ export default function FavoriteButton({ exerciseId }) {
   return (
     <Button
       variant="ghost"
-      size="icon-small"
+      size="icon"
       onClick={(e) => {
         e.stopPropagation()
 

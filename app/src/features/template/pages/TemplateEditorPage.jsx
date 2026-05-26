@@ -1,11 +1,19 @@
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
+import { DndContext, closestCenter } from '@dnd-kit/core'
+
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
+
+import SortableExerciseItem from '../../exercise/components/SortableExerciseItem'
+
 import { useTemplateManager } from '../hooks/useTemplateManager'
 
 import BackButton from '../../../shared/components/ui/button/BackButton'
 import Button from '../../../shared/components/ui/button/Button'
 
 import Header from '../../../shared/components/ui/Header'
+
+
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 import WorkoutControls from '../../../shared/components/ui/WorkoutControls/WorkoutControls'
 
@@ -53,6 +61,46 @@ export default function TemplateEditorPage() {
 
     discardChanges,
   } = useTemplateManager(id, navigate)
+
+  // ===== REORDER =====
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event
+
+    if (!over || active.id === over.id) {
+      return
+    }
+
+    const oldIndex = template.exercises.findIndex((ex) => ex.id === active.id)
+
+    const newIndex = template.exercises.findIndex((ex) => ex.id === over.id)
+
+    exerciseActions.reorderExercises(oldIndex, newIndex)
+  }
+
+  // ===== ACTION MENU =====
+
+  const templateMenuItems = [
+    {
+      label: 'Rename',
+      onClick: () => setIsEditingName(true),
+    },
+
+    {
+      divider: true,
+    },
+
+    {
+      label: 'Discard changes',
+      onClick: discardChanges,
+    },
+
+    {
+      label: 'Discard template',
+      variant: 'danger',
+      onClick: discardTemplate,
+    },
+  ]
 
   // ===== LOADING / ERROR / EMPTY =====
 
@@ -110,6 +158,7 @@ export default function TemplateEditorPage() {
         }
         isEditable={true}
         showDuration={false}
+        menuItems={templateMenuItems}
       />
 
       {/* CONTROLS */}
@@ -147,16 +196,30 @@ export default function TemplateEditorPage() {
         <div className="section">
           {/* EXERCISES */}
 
-          {template.exercises.map((ex, i) => (
-            <ExerciseItem
-              mode="template"
-              key={ex.id}
-              ex={ex}
-              i={i}
-              navigate={navigate}
-              actions={exerciseActions}
-            />
-          ))}
+          <DndContext
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext
+              items={template.exercises.map((ex) => ex.id)}
+              strategy={verticalListSortingStrategy}
+            >
+              {template.exercises.map((ex, i) => (
+                <SortableExerciseItem key={ex.id} id={ex.id}>
+                  {({ dragHandleProps }) => (
+                    <ExerciseItem
+                      mode="template"
+                      ex={ex}
+                      i={i}
+                      navigate={navigate}
+                      actions={exerciseActions}
+                      dragHandleProps={dragHandleProps}
+                    />
+                  )}
+                </SortableExerciseItem>
+              ))}
+            </SortableContext>
+          </DndContext>
 
           {/* NOTES */}
 

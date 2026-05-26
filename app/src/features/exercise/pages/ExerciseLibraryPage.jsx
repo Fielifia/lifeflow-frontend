@@ -201,7 +201,7 @@ export default function ExercisesLibraryPage() {
         {/* SHOW FAVORITES */}
 
         <Button
-          variant={favoritesOnly ? 'primary' : 'secondary'}
+          variant={favoritesOnly ? 'secondary' : 'primary'}
           size="sm"
           onClick={() => {
             updateParams({
@@ -209,7 +209,7 @@ export default function ExercisesLibraryPage() {
             })
           }}
         >
-          Show Favorites
+          {favoritesOnly ? 'Hide Favorites' : 'Show Favorites'}
         </Button>
 
         {/* SEARCH */}

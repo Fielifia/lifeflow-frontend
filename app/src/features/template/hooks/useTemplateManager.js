@@ -4,6 +4,7 @@ import {
   useState,
 } from 'react'
 
+import { arrayMove } from '@dnd-kit/sortable'
 
 import {
   createTemplateApi,
@@ -296,6 +297,20 @@ export function useTemplateManager(
     )
   }
 
+  // ===== REORDER EXERCISES =====
+
+  const reorderExercises = (oldIndex, newIndex) => {
+    setTemplate((prev) => ({
+      ...prev,
+
+      exercises: arrayMove(
+        prev.exercises,
+        oldIndex,
+        newIndex,
+      ),
+    }))
+  }
+
   // ===== EXERCISE MUTATIONS =====
 
   const {
@@ -316,6 +331,7 @@ export function useTemplateManager(
     removeExercise,
     updateExerciseRest,
     updateExerciseNotes,
+    reorderExercises,
   }
 
   // ===== NOTES =====
