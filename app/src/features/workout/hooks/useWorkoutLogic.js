@@ -54,6 +54,12 @@ import { EMPTY_WORKOUT } from '../../../shared/utils/constants'
  *  setWorkout: import('react').Dispatch<
  *    import('react').SetStateAction<object>
  *  >,
+ * 
+ *  defaultRestTime: number,
+ *
+ *  updateDefaultRestTime: (
+ *    value: number
+ *  ) => void,
  *
  *  status: 'idle' | 'running' | 'paused',
  *  elapsed: number,
@@ -136,12 +142,26 @@ export function useWorkoutLogic(workoutId, navigate) {
 
   const [error, setError] = useState(null)
 
+  const updateDefaultRestTime = (value) => {
+    setWorkout((prev) => ({
+      ...prev,
+
+      defaultRestTime: value,
+
+      exercises: prev.exercises.map((ex) => ({
+        ...ex,
+        restTime: value,
+      })),
+    }))
+  }
+
   const {
 
     selectedExercises,
     setSelectedExercises,
 
   } = useExerciseFlow()
+  
 
   const toast = useToast()
 
@@ -200,6 +220,7 @@ export function useWorkoutLogic(workoutId, navigate) {
       await appendExercisesToWorkout({
         exercises: selectedExercises,
         setWorkout,
+        defaultRestTime: workout.defaultRestTime,
       })
 
       setSelectedExercises([])
@@ -227,6 +248,11 @@ export function useWorkoutLogic(workoutId, navigate) {
 
   // ===== REORDER EXERCISES =====
 
+  /**
+   * Reorders exercises in workout state.
+   * @param {number} oldIndex - Original exercise index.
+   * @param {number} newIndex - Target exercise index.
+   */
   const reorderExercises = (oldIndex, newIndex) => {
     setWorkout((prev) => ({
       ...prev,
@@ -408,6 +434,9 @@ export function useWorkoutLogic(workoutId, navigate) {
     startTime,
     adjustStartTime,
     handleStartPause,
+
+    defaultRestTime: workout.defaultRestTime ?? 120,
+    updateDefaultRestTime,
 
     saving,
     error,

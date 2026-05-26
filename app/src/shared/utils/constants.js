@@ -19,6 +19,7 @@ export const DEFAULT_SETS = [
 export const EMPTY_WORKOUT = {
   name: 'Workout',
   exercises: [],
+  defaultRestTime: 120,
   notes: '',
 }
 

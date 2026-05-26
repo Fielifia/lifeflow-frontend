@@ -4,6 +4,8 @@ import { useRef, useState } from 'react'
 
 import { useLocation } from 'react-router-dom'
 
+import { useToast } from '../../../../shared/context/ToastContext'
+
 import { formatRestTime } from '../../../../shared/utils/format'
 
 import ExerciseSetRow from '../ExerciseSetRow'
@@ -43,10 +45,13 @@ export default function ExerciseItem({
   mode = 'run',
   isEditable = true,
   dragHandleProps,
+  restTimerEnabled,
 }) {
   const location = useLocation()
   const inputRefs = useRef([])
   const currentRoute = `${location.pathname}${location.search}`
+
+  const toast = useToast()
 
   const isRunMode = mode === 'run'
   const isWorkoutMode = mode === 'workout'
@@ -137,11 +142,23 @@ export default function ExerciseItem({
           {/* REST TIME */}
 
           <div
-            className={`rest-label clickable ${!isEditable ? 'is-static' : ''}`}
+            className={`
+    rest-label clickable
+    ${!isEditable ? 'is-static' : ''}
+    ${!restTimerEnabled ? 'is-disabled' : ''}
+  `}
             onClick={(e) => {
-              if (!isEditable) return
-
               e.stopPropagation()
+
+              if (!restTimerEnabled) {
+                toast.warning('Rest timer disabled')
+                return
+              }
+
+              if (!isEditable) {
+                return
+              }
+
               setEditingRest(true)
             }}
           >

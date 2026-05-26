@@ -190,6 +190,10 @@
   gap: var(--space-2);
 }
 
+.rest-label.is-disabled {
+  opacity: 0.45;
+}
+
 .rest-label .icon-small {
   width: 12px;
   height: 12px;

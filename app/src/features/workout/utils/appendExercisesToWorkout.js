@@ -12,13 +12,15 @@ import { buildWorkoutExercise } from './buildWorkoutExercise'
  *  exercises: object[],
  *  setWorkout: import('react').Dispatch<
  *    import('react').SetStateAction<object>
- *  >
+ *  >,
+ *  defaultRestTime?: number,
  * }} params - Append exercise dependencies
  * @returns {Promise<void>}
  */
 export async function appendExercisesToWorkout({
   exercises,
   setWorkout,
+  defaultRestTime,
 }) {
   const results = await Promise.all(
     exercises.map(async (ex) => {
@@ -30,6 +32,7 @@ export async function appendExercisesToWorkout({
       return buildWorkoutExercise(
         ex,
         prev,
+        defaultRestTime,
       )
     }),
   )

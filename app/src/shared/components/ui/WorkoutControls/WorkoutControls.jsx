@@ -31,6 +31,7 @@ import './WorkoutControls.css'
  * @param {boolean} [props.saving] - Whether save action is in progress
  * @param {boolean} [props.deleting] - Whether delete action is in progress
  * @param {boolean} [props.hasExercises] - Whether content contains exercises
+ * @param {boolean} [props.hasUnsavedChanges] - Whether unsaved changes exists
  * @returns {import('react').ReactElement} Controls UI
  */
 export default function WorkoutControls({
@@ -130,7 +131,12 @@ export default function WorkoutControls({
           {/* DISCARD */}
 
           {onDiscardWorkout && (
-            <Button variant="danger" size="lg" onClick={onDiscardWorkout}>
+            <Button
+              variant="danger"
+              size="lg"
+              onClick={onDiscardWorkout}
+              disabled={!hasExercises}
+            >
               Discard
             </Button>
           )}

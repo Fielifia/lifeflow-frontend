@@ -6,7 +6,6 @@ import { formatWeight } from '../../../../shared/utils/format'
  * Workout duration display.
  * @param {object} props - Component props.
  * @param {number} [props.elapsed] - Elapsed workout time in seconds.
- * @param {number} [props.completedSets]
  * @param {{
  *   completedSets: number,
  *   totalVolume: number

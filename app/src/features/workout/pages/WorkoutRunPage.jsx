@@ -62,7 +62,9 @@ export default function WorkoutRunPage() {
 
   const [tempStartTime, setTempStartTime] = useState('')
 
-  const [defaultRestTime] = useState(120)
+  const [showDefaultRestModal, setShowDefaultRestModal] = useState(false)
+
+  const [tempDefaultRest, setTempDefaultRest] = useState('120')
 
   const {
     workout,
@@ -76,6 +78,9 @@ export default function WorkoutRunPage() {
 
     startTime,
     adjustStartTime,
+
+    defaultRestTime,
+    updateDefaultRestTime,
 
     openLibrary,
 
@@ -128,6 +133,14 @@ export default function WorkoutRunPage() {
     setShowStartTimeModal(true)
   }
 
+  // ===== DEFAULT REST MODAL =====
+
+  const openDefaultRestModal = () => {
+    setTempDefaultRest(String(defaultRestTime))
+    setShowDefaultRestModal(true)
+  }
+
+
   // ===== ACTION MENU =====
 
   const workoutMenuItems = [
@@ -157,7 +170,7 @@ export default function WorkoutRunPage() {
     {
       label: 'Default Rest Time: ',
       subtitle: `${defaultRestTime}s`,
-      onClick: () => console.log('default rest'),
+      onClick: openDefaultRestModal,
     },
 
     {
@@ -191,11 +204,9 @@ export default function WorkoutRunPage() {
   return (
     <div className={`app ${flash ? 'flash' : ''}`}>
       <Header title={workout.name} subtitle={`In progress • ${duration}`} />
-
       <BackButton fallback={fallback} warnOnUnsavedChanges />
 
       {/* REST TIMER */}
-
       <RestTimer
         isResting={isResting}
         restRemaining={restRemaining}
@@ -205,7 +216,6 @@ export default function WorkoutRunPage() {
       />
 
       {/* HEADER */}
-
       <WorkoutHeader
         name={workout.name}
         startTime={startTime}
@@ -221,7 +231,6 @@ export default function WorkoutRunPage() {
       />
 
       {/* RENAME MODAL */}
-
       {showRenameModal && (
         <EditModal
           title="Edit workout name"
@@ -240,7 +249,6 @@ export default function WorkoutRunPage() {
       )}
 
       {/* START TIME MODAL */}
-
       {showStartTimeModal && (
         <EditModal
           title="Edit start time"
@@ -271,8 +279,29 @@ export default function WorkoutRunPage() {
         />
       )}
 
-      {/* TOP CONTROLS */}
+      {/* REST TIME MODAL */}
+      {showDefaultRestModal && (
+        <EditModal
+          title="Default rest time"
+          inputType="number"
+          tempValue={tempDefaultRest}
+          setTempValue={setTempDefaultRest}
+          onClose={() => setShowDefaultRestModal(false)}
+          onSave={() => {
+            const value = Number(tempDefaultRest)
 
+            if (isNaN(value) || value < 0) {
+              return
+            }
+
+            updateDefaultRestTime(value)
+
+            setShowDefaultRestModal(false)
+          }}
+        />
+      )}
+
+      {/* TOP CONTROLS */}
       <WorkoutControls
         variant="run"
         status={status}
@@ -283,16 +312,13 @@ export default function WorkoutRunPage() {
         saving={saving}
         hasExercises={workout.exercises.length > 0}
       />
-
       {error && <p className="error center">{error}</p>}
-
       <div className="section">
         {/* ADD EXERCISE */}
         <Button variant="secondary" size="md" fullWidth onClick={openLibrary}>
           Add exercise
         </Button>
       </div>
-
       <div className="section">
         {/* EXERCISES */}
         <DataState
@@ -318,6 +344,7 @@ export default function WorkoutRunPage() {
                         navigate={navigate}
                         actions={exerciseActions}
                         dragHandleProps={dragHandleProps}
+                        restTimerEnabled={restTimerEnabled}
                       />
                     )}
                   </SortableExerciseItem>
@@ -337,9 +364,7 @@ export default function WorkoutRunPage() {
           />
         )}
       </div>
-
       {/* BOTTOM ACTIONS */}
-
       {workout.exercises.length >= 3 && (
         <div className="section">
           {/* ADD EXERCISE */}

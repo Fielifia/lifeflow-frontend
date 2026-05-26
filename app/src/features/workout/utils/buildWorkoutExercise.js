@@ -16,6 +16,7 @@ import {
  * - default sets/rest values
  * @param {object} ex - Exercise data
  * @param {object|null} prev - Previous workout data
+ * @param {number} [defaultRestTime] - Default exercise rest time in seconds.
  * @param {{
  *  resetCompleted?: boolean
  * }} [options] - Build options
@@ -24,6 +25,7 @@ import {
 export function buildWorkoutExercise(
   ex,
   prev = null,
+  defaultRestTime,
   options = {},
 ) {
   const {
@@ -69,8 +71,9 @@ export function buildWorkoutExercise(
     ...normalizeExercise(ex),
 
     restTime:
-      ex.restTime ??
+      defaultRestTime ??
       prev?.restTime ??
+      ex.restTime ??
       DEFAULT_REST,
 
     sets,

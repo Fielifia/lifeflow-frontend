@@ -65,7 +65,6 @@ button {
 .btn-lg {
   padding: var(--space-4);
   font-size: var(--text-h3);
-  min-height: 60px;
 }
 
 .btn-icon {

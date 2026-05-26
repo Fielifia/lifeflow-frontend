@@ -295,6 +295,11 @@ export function useTemplateManager(
 
   // ===== REORDER EXERCISES =====
 
+  /**
+   * Reorders exercises in workout state.
+   * @param {number} oldIndex - Original exercise index.
+   * @param {number} newIndex - Target exercise index.
+   */
   const reorderExercises = (oldIndex, newIndex) => {
     setTemplate((prev) => ({
       ...prev,
