@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
-
 import { useWorkoutManager } from '../hooks/useWorkoutManager'
 
 import BackButton from '../../../shared/components/ui/button/BackButton'
@@ -13,7 +12,7 @@ import WorkoutControls from '../../../shared/components/ui/WorkoutControls/Worko
 
 import ExerciseItem from '../../exercise/components/ExerciseItem/ExerciseItem'
 
-import EditModal from '../../workout/components/time/EditStartTimeModal'
+import EditModal from '../../workout/components/time/EditModal'
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
 
 /**
@@ -35,7 +34,7 @@ export default function WorkoutEditPage() {
   const [showRenameModal, setShowRenameModal] = useState(false)
 
   const [showStartTimeModal, setShowStartTimeModal] = useState(false)
-  
+
   const [tempWorkoutName, setTempWorkoutName] = useState('')
 
   const [tempStartTime, setTempStartTime] = useState('')
@@ -217,7 +216,7 @@ export default function WorkoutEditPage() {
         />
       )}
 
-      {/* DURATION MODAL */}
+      {/* DURATION MODAL
 
       {showDurationModal && (
         <EditModal
@@ -244,7 +243,7 @@ export default function WorkoutEditPage() {
             setShowDurationModal(false)
           }}
         />
-      )}
+      )} */}
 
       {/* CONTROLS */}
 

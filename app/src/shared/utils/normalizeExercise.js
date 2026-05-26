@@ -43,10 +43,10 @@ export function normalizeExercise(ex) {
       ex.muscle ||
       ex.target ||
       ex.bodyPart ||
-    'Other',
+      '',
 
     bodyPart:
-      ex.bodyPart || 'Other',
+      ex.bodyPart || '',
 
     primaryMuscles:
       ex.primaryMuscles?.length

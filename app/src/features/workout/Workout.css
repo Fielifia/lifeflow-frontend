@@ -68,7 +68,8 @@
   background: var(--card);
   border: 1px solid var(--border);
 
-  width: min(90%, 320px);
+  max-width: 428px;
+  min-width: 280px;
   border-radius: var(--radius-xl);
 
   padding: var(--space-3);
@@ -78,10 +79,18 @@
 }
 
 .modal-card-content {
-  display: grid;
-  grid-template-columns: minmax(0, 2fr) 100px 70px;
+  display: flex;
   width: 100%;
   gap: var(--space-2);
+}
+
+.modal-card-content .input-base {
+  flex: 1;
+  min-width: 120px;
+}
+
+.modal-card-content .btn {
+  flex-shrink: 0;
 }
 
 .modal-card-content .input-base,
@@ -89,9 +98,34 @@
   height: 40px;
 }
 
+.modal-card-content .input-base[type='text'] {
+  flex: 1;
+}
+
+.modal-card-content .input-base[type='time'] {
+  max-width: 120px;
+  flex: 0 0 auto;
+}
+
 .modal-card-content .input-base .icon-small {
   height: 14px;
   width: 14px;
   cursor: pointer;
   color: var(--primary);
+}
+
+@media (max-width: 380px) {
+  .modal-card-content {
+    flex-direction: column;
+  }
+
+  .modal-card-content .input-base[type='text'],
+  .modal-card-content .input-base[type='time'] {
+    max-width: 100%;
+  }
+
+
+  .modal-card-content .btn {
+    flex: 1;
+  }
 }

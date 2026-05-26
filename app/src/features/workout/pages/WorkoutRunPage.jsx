@@ -11,7 +11,7 @@ import BackButton from '../../../shared/components/ui/button/BackButton'
 
 import Button from '../../../shared/components/ui/button/Button'
 
-import EditModal from '../components/time/EditStartTimeModal'
+import EditModal from '../components/time/EditModal'
 
 import Header from '../../../shared/components/ui/Header'
 

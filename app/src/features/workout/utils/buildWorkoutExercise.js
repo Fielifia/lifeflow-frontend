@@ -61,6 +61,10 @@ export function buildWorkoutExercise(
     }))
   }
 
+  console.log(ex)
+
+  console.log(normalizeExercise(ex))
+
   return {
     ...normalizeExercise(ex),
 

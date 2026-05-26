@@ -8,8 +8,14 @@ export function mapExerciseToWorkout(ex, previous) {
   return {
     id: ex.id,
     exerciseId: ex.exerciseId || ex.id,
-    
+
     name: ex.name,
+
+    muscle: ex.muscle || '',
+
+    bodyPart: ex.bodyPart || '',
+
+    primaryMuscles: ex.primaryMuscles || [],
 
     images: ex.images?.length
       ? ex.images

@@ -72,30 +72,29 @@ export default function TemplateDetailPage() {
 
       <BackButton fallback="/workouts" />
 
+      {/* CONTROLS */}
+
+      <WorkoutControls
+        variant="detail"
+        onStartWorkout={(e) => {
+          e.stopPropagation?.()
+
+          startWorkout({ template })
+        }}
+        onEdit={() => {
+          navigate(`/templates/${template._id}/edit?from=workouts`)
+        }}
+        onDelete={handleDeleteTemplate}
+        editLabel="Edit Template"
+        deleteLabel="Delete"
+      />
+
+      {/* FEEDBACK */}
+
+      {error && <p className="error center">{error}</p>}
+
+      {/* EXERCISES */}
       <div className="section">
-        {/* CONTROLS */}
-
-        <WorkoutControls
-          variant="detail"
-          onStartWorkout={(e) => {
-            e.stopPropagation?.()
-
-            startWorkout({ template })
-          }}
-          onEdit={() => {
-            navigate(`/templates/${template._id}/edit?from=workouts`)
-          }}
-          onDelete={handleDeleteTemplate}
-          editLabel="Edit Template"
-          deleteLabel="Delete"
-        />
-
-        {/* FEEDBACK */}
-
-        {error && <p className="error center">{error}</p>}
-
-        {/* EXERCISES */}
-
         {template.exercises.map((ex, i) => (
           <ExerciseItem
             mode="template"

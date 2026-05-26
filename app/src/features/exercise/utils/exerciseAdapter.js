@@ -220,5 +220,9 @@ function getMuscle(e, bodyPart) {
     return getChestMuscle(e)
   }
 
-  return e.target
+  return (
+    e.target ||
+    e.primaryMuscles?.[0] ||
+    bodyPart
+  )
 }

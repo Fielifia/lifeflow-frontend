@@ -2,8 +2,6 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 import { useWorkoutManager } from '../hooks/useWorkoutManager'
 
-import { calculateMuscleSplit } from '../../../shared/utils/calculateMuscleSplit'
-
 import { formatDate } from '../../../shared/utils/format'
 
 import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
@@ -41,8 +39,6 @@ export default function WorkoutDetailPage() {
   const { startWorkout } = useStartWorkout()
 
   const { workout, loading, error, stats } = useWorkoutDetail(id)
-
-  const muscleSplit = calculateMuscleSplit(workout)
 
   const { deleteWorkout } = useWorkoutManager(id, navigate)
 
@@ -106,7 +102,7 @@ export default function WorkoutDetailPage() {
         totalReps={stats.totalReps}
         totalVolume={stats.totalVolume}
         personalBests={stats.personalBests}
-        muscleSplit={muscleSplit}
+        muscleSplit={stats.muscleSplit}
       />
 
       {/* CONTROLS */}
@@ -131,18 +127,19 @@ export default function WorkoutDetailPage() {
       {error && <p className="error center">{error}</p>}
 
       {/* EXERCISES */}
-
-      {workout.exercises.map((ex, i) => (
-        <ExerciseItem
-          mode="workout"
-          key={ex.id || i}
-          ex={ex}
-          i={i}
-          navigate={navigate}
-          isEditable={false}
-          showCheckbox={false}
-        />
-      ))}
+      <div className="section">
+        {workout.exercises.map((ex, i) => (
+          <ExerciseItem
+            mode="workout"
+            key={ex.id || i}
+            ex={ex}
+            i={i}
+            navigate={navigate}
+            isEditable={false}
+            showCheckbox={false}
+          />
+        ))}
+      </div>
 
       {/* NOTES */}
 
