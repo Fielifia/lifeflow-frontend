@@ -4,6 +4,8 @@ import {
   useState,
 } from 'react'
 
+import { arrayMove } from '@dnd-kit/sortable'
+
 import { createTemplateApi } from '../../../shared/api/templateApi'
 
 import {
@@ -90,6 +92,11 @@ import { buildWorkoutPayload } from '../../workout/utils/buildWorkoutPayload'
  *      exIndex: number,
  *      setIndex: number,
  *      checked: boolean
+ *    ) => void,
+ * 
+ *    reorderExercises: (
+ *      oldIndex: number,
+ *      newIndex: number
  *    ) => void,
  *  },
  *
@@ -262,6 +269,21 @@ export function useWorkoutManager(
     )
   }
 
+  // ===== REORDER EXERCISES =====
+
+  const reorderExercises = (oldIndex, newIndex) => {
+    setWorkout((prev) => ({
+      ...prev,
+
+      exercises: arrayMove(
+        prev.exercises,
+        oldIndex,
+        newIndex,
+      ),
+    }))
+  }
+
+
   // ===== MUTATIONS =====
 
   const {
@@ -284,6 +306,7 @@ export function useWorkoutManager(
     toggleSetComplete,
     updateExerciseRest,
     updateExerciseNotes,
+    reorderExercises,
   }
 
   // ===== NOTES =====

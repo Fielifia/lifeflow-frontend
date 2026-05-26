@@ -82,6 +82,11 @@ import { buildTemplatePayload } from '../utils/buildTemplatePayload'
  *      index: number,
  *      notes: string
  *    ) => void,
+ * 
+ *    reorderExercises: (
+ *      oldIndex: number,
+ *      newIndex: number
+ *    ) => void,
  *  },
  *  updateTemplateNotes: (
  *    notes: string

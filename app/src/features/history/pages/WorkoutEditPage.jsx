@@ -1,6 +1,12 @@
 import { useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
+import { DndContext, closestCenter } from '@dnd-kit/core'
+
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
+
+import SortableExerciseItem from '../../exercise/components/SortableExerciseItem'
+
 import { useWorkoutManager } from '../hooks/useWorkoutManager'
 
 import BackButton from '../../../shared/components/ui/button/BackButton'
@@ -47,9 +53,8 @@ export default function WorkoutEditPage() {
     saving,
     error,
 
-    exerciseActions,
-
     openLibrary,
+    exerciseActions,
 
     updateWorkoutNotes,
 
@@ -61,6 +66,22 @@ export default function WorkoutEditPage() {
 
     discardChanges,
   } = useWorkoutManager(id, navigate)
+
+  // ===== REORDER =====
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event
+
+    if (!over || active.id === over.id) {
+      return
+    }
+
+    const oldIndex = workout.exercises.findIndex((ex) => ex.id === active.id)
+
+    const newIndex = workout.exercises.findIndex((ex) => ex.id === over.id)
+
+    exerciseActions.reorderExercises(oldIndex, newIndex)
+  }
 
   // ===== RENAME MODAL =====
 
@@ -281,15 +302,30 @@ export default function WorkoutEditPage() {
         <div className="section">
           {/* EXERCISES */}
 
-          {workout.exercises.map((ex, i) => (
-            <ExerciseItem
-              key={ex.id}
-              ex={ex}
-              i={i}
-              navigate={navigate}
-              actions={exerciseActions}
-            />
-          ))}
+          <DndContext
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext
+              items={workout.exercises.map((ex) => ex.id)}
+              strategy={verticalListSortingStrategy}
+            >
+              {workout.exercises.map((ex, i) => (
+                <SortableExerciseItem key={ex.id} id={ex.id}>
+                  {({ dragHandleProps }) => (
+                    <ExerciseItem
+                      key={ex.id}
+                      ex={ex}
+                      i={i}
+                      navigate={navigate}
+                      actions={exerciseActions}
+                      dragHandleProps={dragHandleProps}
+                    />
+                  )}
+                </SortableExerciseItem>
+              ))}
+            </SortableContext>
+          </DndContext>
 
           {/* NOTES */}
 

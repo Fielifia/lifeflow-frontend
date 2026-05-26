@@ -109,6 +109,11 @@ import { EMPTY_WORKOUT } from '../../../shared/utils/constants'
  *      index: number,
  *      notes: string
  *    ) => void,
+ * 
+ *    reorderExercises: (
+ *      oldIndex: number,
+ *      newIndex: number
+ *    ) => void,
  *  },
  *
  *  updateWorkoutNotes: (
