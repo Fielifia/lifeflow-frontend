@@ -42,7 +42,19 @@ export default function DurationDisplay({
       minute: '2-digit',
     })
     : '--:--'
-  
+
+  const endTime =
+    startTime && total
+      ? new Date(new Date(startTime).getTime() + total * 1000)
+      : null
+
+  const end = endTime
+    ? endTime.toLocaleTimeString([], {
+      hour: '2-digit',
+      minute: '2-digit',
+    })
+    : '--:--'
+
   const completedSets = liveStats?.completedSets || 0
 
   const totalVolume = liveStats?.totalVolume || 0
@@ -57,17 +69,39 @@ export default function DurationDisplay({
         </div>
 
         {mode !== 'template' && (
-          <div className={`start-time ${startTime ? 'visible' : 'hidden'}`}>
-            <Button
-              type="button"
-              variant="ghost"
-              size="xs"
-              onClick={onClickStartTime}
-            >
-              <span className="muted">
-                {startTime ? `Started at ${start}` : ''}
-              </span>
-            </Button>
+          <div
+            className={`
+      workout-times
+      ${startTime ? 'visible' : 'hidden'}
+    `}
+          >
+            {mode === 'run' ? (
+              <Button
+                type="button"
+                variant="ghost"
+                size="xs"
+                onClick={onClickStartTime}
+              >
+                <span className="muted small">Started at {start}</span>
+              </Button>
+            ) : (
+              <>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="xs"
+                  onClick={onClickStartTime}
+                >
+                  <span className="muted small">Time: {start}</span>
+                </Button>
+
+                <span className="muted small">→</span>
+
+                <Button type="button" variant="ghost" size="xs">
+                  <span className="muted small">{end}</span>
+                </Button>
+              </>
+            )}
           </div>
         )}
       </div>

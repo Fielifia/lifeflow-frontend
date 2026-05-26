@@ -43,13 +43,11 @@ export default function WorkoutEditPage() {
   const [showRenameModal, setShowRenameModal] = useState(false)
   const [tempWorkoutName, setTempWorkoutName] = useState('')
 
-  // Start time
-  const [showStartTimeModal, setShowStartTimeModal] = useState(false)
+  // Time
   const [tempStartTime, setTempStartTime] = useState('')
+  const [showTimeModal, setShowTimeModal] = useState(false)
 
-  //Duration
-  const [showDurationModal, setShowDurationModal] = useState(false)
-  const [tempDuration, setTempDuration] = useState('')
+  const [tempEndTime, setTempEndTime] = useState('')
 
   const {
     workout,
@@ -96,25 +94,69 @@ export default function WorkoutEditPage() {
     setShowRenameModal(true)
   }
 
-  // ===== START TIME MODAL =====
+  // ===== TIME MODAL =====
 
-  const openStartTimeModal = () => {
-    const current = new Date(workout.startTime)
+  // ===== TIME MODAL =====
 
-    const hours = String(current.getHours()).padStart(2, '0')
+  const openTimeModal = () => {
+    const start = new Date(workout.startTime)
 
-    const minutes = String(current.getMinutes()).padStart(2, '0')
+    const end = new Date(
+      new Date(workout.startTime).getTime() + (workout.duration || 0) * 1000,
+    )
 
-    setTempStartTime(`${hours}:${minutes}`)
+    setTempStartTime(
+      `${String(start.getHours()).padStart(2, '0')}:${String(
+        start.getMinutes(),
+      ).padStart(2, '0')}`,
+    )
 
-    setShowStartTimeModal(true)
+    setTempEndTime(
+      `${String(end.getHours()).padStart(2, '0')}:${String(
+        end.getMinutes(),
+      ).padStart(2, '0')}`,
+    )
+
+    setShowTimeModal(true)
   }
 
-  // ===== DURATION MODAL =====
-  const openDurationModal = () => {
-    setTempDuration(String(Math.floor((workout.duration || 0) / 60)))
+  const calculatedMinutes = Math.max(
+    0,
+    Math.floor(
+      (new Date(`2000-01-01T${tempEndTime}`) -
+        new Date(`2000-01-01T${tempStartTime}`)) /
+        60000,
+    ),
+  )
 
-    setShowDurationModal(true)
+  const handleSaveTimes = () => {
+    const [startHours, startMinutes] = tempStartTime.split(':')
+
+    const [endHours, endMinutes] = tempEndTime.split(':')
+
+    const start = new Date(workout.startTime)
+
+    start.setHours(Number(startHours))
+    start.setMinutes(Number(startMinutes))
+    start.setSeconds(0)
+
+    const end = new Date(start)
+
+    end.setHours(Number(endHours))
+    end.setMinutes(Number(endMinutes))
+    end.setSeconds(0)
+
+    const duration = Math.floor((end.getTime() - start.getTime()) / 1000)
+
+    setWorkout((prev) => ({
+      ...prev,
+
+      startTime: start.getTime(),
+
+      duration: Math.max(0, duration),
+    }))
+
+    setShowTimeModal(false)
   }
 
   // ===== ACTION MENU =====
@@ -126,13 +168,8 @@ export default function WorkoutEditPage() {
     },
 
     {
-      label: 'Edit Start Time',
-      onClick: openStartTimeModal,
-    },
-
-    {
-      label: 'Edit Duration',
-      onClick: openDurationModal,
+      label: 'Edit Times',
+      onClick: openTimeModal,
     },
 
     {
@@ -193,7 +230,7 @@ export default function WorkoutEditPage() {
         showDuration={true}
         menuItems={workoutMenuItems}
         onEditName={openRenameModal}
-        onEditStartTime={openStartTimeModal}
+        onEditStartTime={openTimeModal}
       />
 
       {/* RENAME MODAL */}
@@ -215,76 +252,37 @@ export default function WorkoutEditPage() {
         />
       )}
 
-      {/* START TIME MODAL */}
+      {/* TIME MODAL */}
 
-      {showStartTimeModal && (
+      {showTimeModal && (
         <EditModal
-          title="Edit start time"
-          inputType="time"
-          tempValue={tempStartTime}
-          setTempValue={setTempStartTime}
-          onClose={() => setShowStartTimeModal(false)}
-          onSave={() => {
-            const [hours, minutes] = tempStartTime.split(':')
+          title="Edit workout times"
+          contentClassName="time-range"
+          onClose={() => setShowTimeModal(false)}
+          onSave={handleSaveTimes}
+        >
+          <div className="time-modal">
+            <input
+              className="input-base"
+              type="time"
+              value={tempStartTime}
+              onChange={(e) => setTempStartTime(e.target.value)}
+            />
 
-            const updated = new Date(workout.startTime)
+            <span className="muted"> → </span>
 
-            updated.setHours(Number(hours))
-            updated.setMinutes(Number(minutes))
-            updated.setSeconds(0)
+            <input
+              className="input-base"
+              type="time"
+              value={tempEndTime}
+              onChange={(e) => setTempEndTime(e.target.value)}
+            />
 
-            const newStartTime = updated.getTime()
-
-            const currentDuration = Number(workout.duration) || 0
-
-            const oldStartTime = new Date(workout.startTime).getTime()
-
-            const oldEndTime = oldStartTime + currentDuration * 1000
-
-            const updatedDuration = Math.floor(
-              (oldEndTime - newStartTime) / 1000,
-            )
-
-            setWorkout((prev) => ({
-              ...prev,
-
-              startTime: newStartTime,
-
-              duration: Math.max(0, updatedDuration),
-            }))
-
-            setShowStartTimeModal(false)
-          }}
-        />
-      )}
-
-      {/* DURATION MODAL */}
-
-      {showDurationModal && (
-        <EditModal
-          title="Edit duration"
-          inputType="number"
-          tempValue={tempDuration}
-          setTempValue={setTempDuration}
-          onClose={() => setShowDurationModal(false)}
-          onSave={() => {
-            const minutes = Number(tempDuration)
-
-            const duration = minutes * 60
-
-            if (isNaN(duration) || duration < 0) {
-              return
-            }
-
-            setWorkout((prev) => ({
-              ...prev,
-
-              duration,
-            }))
-
-            setShowDurationModal(false)
-          }}
-        />
+            <span className="muted small duration-preview">{`Duration: 
+              ${calculatedMinutes} min`}
+            </span>
+          </div>
+        </EditModal>
       )}
 
       {/* CONTROLS */}

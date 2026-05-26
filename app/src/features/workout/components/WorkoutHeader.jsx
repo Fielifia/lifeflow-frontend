@@ -11,7 +11,7 @@ import ActionMenu from '../../../shared/components/ui/action-menu/ActionMenu'
  *   totalVolume: number
  * }} [props.liveStats] - Live workout statistics shown during active sessions.
  * @param {Date | null} props.startTime - Workout start time.
- * @param {'run' | 'history'} [props.mode] - Duration display mode.
+ * @param {'run' | 'edit' | 'history'} [props.mode] - Duration display mode.
  * @param {number} props.duration - Workout duration in seconds.
  * @param {string} [props.durationLabel] - Duration label text.
  * @param {(duration: number) => void} props.onChangeDuration - Updates workout duration.
