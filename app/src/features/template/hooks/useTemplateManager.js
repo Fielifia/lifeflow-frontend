@@ -135,6 +135,8 @@ export function useTemplateManager(
 
     editingTemplate,
     setEditingTemplate,
+
+    setShouldRestoreScroll,
   } = useExerciseFlow()
 
   const toast = useToast()
@@ -278,6 +280,10 @@ export function useTemplateManager(
   // ===== OPEN LIBRARY FLOW =====
 
   const openLibrary = () => {
+    setShouldRestoreScroll(false)
+
+    window.scrollTo(0, 0)
+    
     setEditingTemplate(template)
 
     if (isCreate) {

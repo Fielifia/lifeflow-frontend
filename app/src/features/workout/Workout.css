@@ -209,9 +209,6 @@ export default function EditModal({
   width: 100%;
   gap: var(--space-2);
 }
-.modal-actions button {
-
-}
 
 .time-range {
   display: flex;

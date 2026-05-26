@@ -216,6 +216,7 @@ export default function ExercisesLibraryPage() {
 
         <input
           className="input-base"
+          id="search-exercises"
           placeholder="Search exercises..."
           value={search}
           onFocus={(e) => e.target.select()}

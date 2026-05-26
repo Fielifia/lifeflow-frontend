@@ -160,6 +160,7 @@ export function useWorkoutLogic(workoutId, navigate) {
     selectedExercises,
     setSelectedExercises,
 
+    setShouldRestoreScroll,
   } = useExerciseFlow()
 
 
@@ -267,7 +268,6 @@ export function useWorkoutLogic(workoutId, navigate) {
 
   // ===== COMPLETED SETS =====
 
-
   const completedSets =
     workout.exercises.reduce(
       (sum, ex) =>
@@ -315,9 +315,15 @@ export function useWorkoutLogic(workoutId, navigate) {
   // ===== OPEN LIBRARY FLOW =====
 
   const openLibrary = () => {
+    setShouldRestoreScroll(false)
+
     navigate(
       '/exercises?select=true&flow=workout-run'
     )
+
+    requestAnimationFrame(() => {
+      window.scrollTo(0, 0)
+    })
   }
 
   // ===== SAVE WORKOUT =====

@@ -104,6 +104,25 @@ export default function WorkoutRunPage() {
     flash,
   } = useWorkoutContext()
 
+  useEffect(() => {
+    const fromLibrary = location.state?.fromLibrary
+
+    if (!fromLibrary) {
+      window.scrollTo(0, 0)
+      return
+    }
+
+    const saved = sessionStorage.getItem('workout-run-scroll')
+
+    if (!saved) {
+      return
+    }
+
+    requestAnimationFrame(() => {
+      window.scrollTo(0, Number(saved))
+    })
+  }, [])
+
   // ===== TOGGLE REST TIMER =====
 
   useEffect(() => {

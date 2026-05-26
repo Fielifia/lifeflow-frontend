@@ -143,6 +143,8 @@ export function useWorkoutManager(
 
     editingWorkout,
     setEditingWorkout,
+
+    setShouldRestoreScroll,
   } = useExerciseFlow()
 
   const toast = useToast()
@@ -260,6 +262,10 @@ export function useWorkoutManager(
   // ===== OPEN LIBRARY FLOW =====
 
   const openLibrary = () => {
+    setShouldRestoreScroll(false)
+
+    window.scrollTo(0, 0)
+
     setEditingWorkout(workout)
 
     setSelectedExercises([])
