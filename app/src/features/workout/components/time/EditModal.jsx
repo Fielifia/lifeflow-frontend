@@ -5,14 +5,14 @@ import Button from '../../../../shared/components/ui/button/Button'
  * @param {object} props - Component props
  * @param {string} props.title - Modal title
  * @param {string} props.tempValue - Temporary input value
- * @param {(value: string) => void} props.setTempValue
+ * @param {(value: string) => void} props.setTempValue - Set temporary value
  * @param {'text' | 'time'} [props.inputType]
  * Input type
  * Updates temporary value
  * @param {() => void} props.onClose - Closes modal
  * @param {() => void} props.onSave - Saves changes
  * @param {import('react').ReactNode} props.children - Modal content
- * @param {string} props.contentClassname - Modal classname
+ * @param {string} props.contentClassName - Modal classname
  * @param {string} props.saveLabel - Save label
  * @param {string} props.cancelLabel - Cancel label
  * @returns {import('react').ReactElement}

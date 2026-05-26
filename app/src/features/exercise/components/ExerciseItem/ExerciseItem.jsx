@@ -34,6 +34,7 @@ import './ExerciseItem.css'
  * @param {object} props.actions - Exercise action handlers.
  * @param {'run' | 'workout' | 'edit' | 'template'} [props.mode] - Exercise item mode.
  * @param {boolean} [props.isEditable] - Whether the exercise can be edited.
+ * @param {boolean} [props.restTimerEnabled] - Whether rest timer is enabled
  * @param {object} [props.dragHandleProps] - Drag handle props
  * @returns {import('react').ReactElement} Exercise item UI.
  */
