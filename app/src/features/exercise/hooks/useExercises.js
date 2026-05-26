@@ -6,6 +6,8 @@ import {
 
 import { getExercisesApi } from '../../../shared/api/exerciseApi'
 
+import { useFavorites } from '../../../shared/hooks/useFavorites'
+
 import { normalizeExercise } from '../utils/exerciseAdapter'
 
 import { CATEGORIES } from '../utils/exerciseCategories'
@@ -39,7 +41,8 @@ export default function useExercises(filters) {
     muscleGroup,
     equipment,
     category,
-    visibleCount
+    visibleCount,
+    favoritesOnly,
   } = filters
 
   const [exercises, setExercises] = useState([])
@@ -72,41 +75,83 @@ export default function useExercises(filters) {
     fetchExercises()
   }, [sort])
 
+  // ===== FAVORITES =====
+
+  const { isFavorite } = useFavorites()
+
   // ===== FILTERED =====
 
   const filtered = useMemo(() => {
-
     const filteredExercises = exercises
+
+    // ===== FAVORITES =====
+
+      .filter((e) => {
+        if (!favoritesOnly) {
+          return true
+        }
+
+        return isFavorite(e.id)
+      })
+
+    // ===== BODY PART =====
+
       .filter((e) => {
         if (!bodyPart) return true
-        if (SPECIAL.includes(bodyPart)) return e.category === bodyPart
+        if (SPECIAL.includes(bodyPart)) {
+          return e.category === bodyPart
+        }
 
         return e.bodyPart === bodyPart
       })
+
+    // ===== MUSCLE =====
+
       .filter((e) => {
         if (!muscleGroup) return true
-        if (SPECIAL.includes(bodyPart)) return e.bodyPart === muscleGroup
 
-        return e.muscle?.toLowerCase() === muscleGroup.toLowerCase()
+        if (SPECIAL.includes(bodyPart)) {
+          return e.bodyPart === muscleGroup
+        }
+
+        return (
+          e.muscle?.toLowerCase() ===
+          muscleGroup.toLowerCase()
+        )
       })
+
+    // ===== EQUIPMENT =====
+
       .filter((e) => {
         if (!equipment) return true
 
-        return e.equipment?.toLowerCase() === equipment.toLowerCase()
+        return (
+          e.equipment?.toLowerCase() ===
+          equipment.toLowerCase()
+        )
       })
+
+    // ===== CATEGORY =====
+
       .filter((e) => {
         if (!category) return true
 
         return e.category === category
       })
+
+    // ===== SEARCH =====
+
       .filter((e) =>
-        e.name.toLowerCase().includes(search.toLowerCase()),
+        e.name.toLowerCase().includes(
+          search.toLowerCase(),
+        ),
       )
 
     return filteredExercises
-
   }, [
     exercises,
+    favoritesOnly,
+    isFavorite,
     search,
     bodyPart,
     muscleGroup,

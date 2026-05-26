@@ -69,6 +69,8 @@ export default function ExercisesLibraryPage() {
 
   const category = searchParams.get('category') || ''
 
+  const favoritesOnly = searchParams.get('favorites') === 'true'
+
   const visibleCount = Number(searchParams.get('limit')) || 20
 
   const {
@@ -91,6 +93,7 @@ export default function ExercisesLibraryPage() {
       equipment,
       category,
       visibleCount,
+      favoritesOnly,
     })
 
   // ===== FILTER OPTIONS =====
@@ -195,6 +198,20 @@ export default function ExercisesLibraryPage() {
           </p>
         )}
 
+        {/* SHOW FAVORITES */}
+
+        <Button
+          variant={favoritesOnly ? 'primary' : 'secondary'}
+          size="sm"
+          onClick={() => {
+            updateParams({
+              favorites: favoritesOnly ? '' : 'true',
+            })
+          }}
+        >
+          Show Favorites
+        </Button>
+
         {/* SEARCH */}
 
         <input
@@ -291,7 +308,8 @@ export default function ExercisesLibraryPage() {
 
           {/* ACTIVE FILTERS */}
 
-          {(sort !== 'most-used' ||
+          {(favoritesOnly ||
+            sort !== 'most-used' ||
             bodyPart ||
             muscleGroup ||
             equipment ||
@@ -300,6 +318,19 @@ export default function ExercisesLibraryPage() {
               <p className="small">Active filters</p>
 
               <div className="active-filters">
+                {favoritesOnly && (
+                  <button
+                    className="filter-chip"
+                    onClick={() =>
+                      updateParams({
+                        favorites: null,
+                      })
+                    }
+                  >
+                    Favorites ✕
+                  </button>
+                )}
+
                 {sort !== 'most-used' && (
                   <button
                     className="filter-chip"
@@ -377,7 +408,8 @@ export default function ExercisesLibraryPage() {
                   className="clear-filters"
                   onClick={() =>
                     updateParams({
-                      sort: 'a-z',
+                      favorites: null,
+                      sort: 'most-used',
                       bodyPart: null,
                       muscleGroup: null,
                       equipment: null,
