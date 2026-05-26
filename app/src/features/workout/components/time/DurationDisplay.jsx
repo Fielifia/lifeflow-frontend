@@ -1,9 +1,15 @@
 import Button from '../../../../shared/components/ui/button/Button'
 
+import { formatWeight } from '../../../../shared/utils/format'
+
 /**
  * Workout duration display.
  * @param {object} props - Component props.
  * @param {number} [props.elapsed] - Elapsed workout time in seconds.
+ * @param {number} [props.completedSets]
+ * Completed workout sets.
+ * @param {number} [props.totalVolume]
+ * Completed workout volume.
  * @param {number} [props.startTime] - Workout start timestamp.
  * @param {number} [props.duration] - Workout duration in seconds.
  * @param {string} [props.mode] - Display mode.
@@ -18,18 +24,17 @@ export default function DurationDisplay({
   mode = 'run',
   label,
   onClickStartTime,
-}) {
 
-  const total =
-    mode === 'run'
-      ? elapsed
-      : duration
+  completedSets = 0,
+  totalVolume = 0,
+}) {
+  const total = mode === 'run' ? elapsed : duration
 
   const minutes = Math.floor(total / 60)
   const seconds = total % 60
 
   const formatted = `${String(minutes).padStart(2, '0')}:${String(
-    seconds
+    seconds,
   ).padStart(2, '0')}`
 
   const start = startTime
@@ -39,27 +44,44 @@ export default function DurationDisplay({
     })
     : '--:--'
 
-
   return (
-    <div className="duration">
-      {label && <p className="muted small close">{label}</p>}
+    <div className="section">
+      <div className="duration">
+        {label && <p className="muted small close">{label}</p>}
 
-      <div className="duration-time">
-        <strong>{formatted}</strong>
+        <div className="duration-time">
+          <strong>{formatted}</strong>
+        </div>
+
+        {mode !== 'template' && (
+          <div className={`start-time ${startTime ? 'visible' : 'hidden'}`}>
+            <Button
+              type="button"
+              variant="ghost"
+              size="xs"
+              onClick={onClickStartTime}
+            >
+              <span className="muted">
+                {startTime ? `Started at ${start}` : ''}
+              </span>
+            </Button>
+          </div>
+        )}
       </div>
 
-      {mode !== 'template' && (
-        <div className={`start-time ${startTime ? 'visible' : 'hidden'}`}>
-          <Button
-            type="button"
-            variant="ghost"
-            size="xs"
-            onClick={onClickStartTime}
-          >
-            <span className="muted">
-              {startTime ? `Started at ${start}` : ''}
-            </span>
-          </Button>
+      {mode === 'run' && (
+        <div
+          className={`workout-live-stats ${
+            completedSets > 0 ? 'visible' : 'hidden'
+          }`}
+        >
+          <div className="workout-stat-badge">{completedSets} sets</div>
+
+          {totalVolume > 0 && (
+            <div className="workout-stat-badge">
+              {formatWeight(totalVolume)} volume
+            </div>
+          )}
         </div>
       )}
     </div>

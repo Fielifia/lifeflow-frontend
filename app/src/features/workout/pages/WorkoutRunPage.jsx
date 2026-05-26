@@ -65,6 +65,8 @@ export default function WorkoutRunPage() {
     setWorkout,
 
     elapsed,
+    completedSets,
+    totalVolume,
 
     startTime,
     adjustStartTime,
@@ -185,6 +187,8 @@ export default function WorkoutRunPage() {
         name={workout.name}
         startTime={startTime}
         elapsed={elapsed}
+        completedSets={completedSets}
+        totalVolume={totalVolume}
         showDuration={true}
         menuItems={workoutMenuItems}
         onEditName={openRenameModal}

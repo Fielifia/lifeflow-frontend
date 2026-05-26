@@ -56,6 +56,9 @@ import { EMPTY_WORKOUT } from '../../../shared/utils/constants'
  *  status: 'idle' | 'running' | 'paused',
  *  elapsed: number,
  *  startTime: number | null,
+ * 
+ *  completedSets: number,
+ *  totalVolume: number,
  *
  *  adjustStartTime: (
  *    offsetMs: number
@@ -223,6 +226,37 @@ export function useWorkoutLogic(workoutId, navigate) {
     },
   })
 
+  // ===== COMPLETED SETS =====
+
+
+  const completedSets =
+    workout.exercises.reduce(
+      (sum, ex) =>
+        sum +
+        ex.sets.filter((set) => set.completed).length,
+      0,
+    )
+
+  // ===== TOTAL VOLUME FROM COMPLETED SETS =====
+
+  const totalVolume =
+    workout.exercises.reduce(
+      (sum, ex) =>
+        sum +
+        ex.sets.reduce((setSum, set) => {
+          if (!set.completed) {
+            return setSum
+          }
+
+          return (
+            setSum +
+            (Number(set.weight) || 0) *
+            (Number(set.reps) || 0)
+          )
+        }, 0),
+      0,
+    )
+
   // ===== EXERCISE ACTIONS =====
 
   const exerciseActions = {
@@ -261,7 +295,6 @@ export function useWorkoutLogic(workoutId, navigate) {
       }
 
       setSaving(true)
-      setSaving(true)
       setError(null)
 
       const payload =
@@ -270,7 +303,7 @@ export function useWorkoutLogic(workoutId, navigate) {
           elapsed,
           startTime,
         )
-      
+
       console.log(payload)
 
       const saved =
@@ -356,6 +389,10 @@ export function useWorkoutLogic(workoutId, navigate) {
 
     status,
     elapsed,
+
+    completedSets,
+    totalVolume,
+    
     startTime,
     adjustStartTime,
     handleStartPause,

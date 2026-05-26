@@ -58,6 +58,10 @@ export default function ExerciseCard({
       {/* EXERCISE INFO */}
 
       <div className="exercise-info">
+        {/* FAVORITE TOGGLE */}
+
+        <FavoriteButton exerciseId={exercise.id} />
+        
         <h4>
           {exercise.name}
           {showDetailsButton && (
@@ -70,10 +74,6 @@ export default function ExerciseCard({
           {exercise.equipment} • {exercise.muscle}{' '}
         </p>
       </div>
-
-      {/* FAVORITE TOGGLE */}
-
-      <FavoriteButton exerciseId={exercise.id} />
     </div>
   )
 }
