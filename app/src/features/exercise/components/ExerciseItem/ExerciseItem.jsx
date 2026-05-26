@@ -86,7 +86,7 @@ export default function ExerciseItem({
 
   const [editingRest, setEditingRest] = useState(false)
 
-  const safeRest = ex.defaultRest ?? 120
+  const safeRest = ex.restTime ?? ex.defaultRest ?? 120
 
   const historicalBest = ex.historicalBest || {
     weight: 0,
