@@ -38,6 +38,7 @@ export default function WorkoutPreviewCard({
       className={`
         card-base
         preview-card
+        card-clickable
         ${!menuOpen ? 'card-clickable' : ''}
         ${menuOpen ? 'menu-open' : ''}
       `}

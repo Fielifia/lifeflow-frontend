@@ -111,9 +111,11 @@ export default function ExerciseItem({
       {/* EXERCISE ITEM HEADER */}
 
       <div className="exercise-item-header">
-        <div className="exercise-drag-handle" {...dragHandleProps}>
-          <GripVertical className="icon-small" />
-        </div>
+        {isEditable && (
+          <div className="exercise-drag-handle" {...dragHandleProps}>
+            <GripVertical className="icon-small" />
+          </div>
+        )}
         <div className="exercise-item-title clickable">
           <img
             src={ex.image || ex.images?.[0] || '/placeholder.png'}

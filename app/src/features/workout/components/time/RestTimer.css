@@ -21,7 +21,7 @@
 
   background: linear-gradient(135deg,
       var(--primary),
-      rgba(25, 104, 106, 0.85));
+      rgba(25, 104, 106, 0.8));
 
   color: white;
   padding: var(--space-2) var(--space-4);

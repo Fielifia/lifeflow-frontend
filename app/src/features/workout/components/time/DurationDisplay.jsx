@@ -7,9 +7,10 @@ import { formatWeight } from '../../../../shared/utils/format'
  * @param {object} props - Component props.
  * @param {number} [props.elapsed] - Elapsed workout time in seconds.
  * @param {number} [props.completedSets]
- * Completed workout sets.
- * @param {number} [props.totalVolume]
- * Completed workout volume.
+ * @param {{
+ *   completedSets: number,
+ *   totalVolume: number
+ * }} [props.liveStats] - Active workout statistics
  * @param {number} [props.startTime] - Workout start timestamp.
  * @param {number} [props.duration] - Workout duration in seconds.
  * @param {string} [props.mode] - Display mode.
@@ -25,8 +26,7 @@ export default function DurationDisplay({
   label,
   onClickStartTime,
 
-  completedSets = 0,
-  totalVolume = 0,
+  liveStats,
 }) {
   const total = mode === 'run' ? elapsed : duration
 
@@ -43,6 +43,10 @@ export default function DurationDisplay({
       minute: '2-digit',
     })
     : '--:--'
+  
+  const completedSets = liveStats?.completedSets || 0
+
+  const totalVolume = liveStats?.totalVolume || 0
 
   return (
     <div className="section">

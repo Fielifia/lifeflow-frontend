@@ -8,6 +8,7 @@
 
 .workout-header h2 {
   cursor: pointer;
+  width: 80%;
 }
 
 .workout-live-stats {

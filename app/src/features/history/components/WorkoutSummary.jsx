@@ -1,4 +1,11 @@
-import { Dumbbell, TrendingUp, Repeat, Weight, Award, BicepsFlexed } from 'lucide-react'
+import {
+  Dumbbell,
+  TrendingUp,
+  Repeat,
+  Weight,
+  Award,
+  BicepsFlexed,
+} from 'lucide-react'
 
 import { formatMuscle } from '../../../shared/utils/format'
 
@@ -22,22 +29,16 @@ export default function WorkoutSummary({
   personalBests,
   muscleSplit = [],
 }) {
-
   const primaryMuscle = muscleSplit.reduce(
     (highest, current) =>
-      current.percentage > highest.percentage
-        ? current
-        : highest,
-    muscleSplit[0]
+      current.percentage > highest.percentage ? current : highest,
+    muscleSplit[0],
   )
 
-  const primaryMuscleValue = primaryMuscle
-    ? `${primaryMuscle.muscle}`
-    : '—'
+  const primaryMuscleValue = primaryMuscle ? `${primaryMuscle.muscle}` : '—'
 
   return (
-    <>
-
+    <div className="section">
       {/* EXERCISES */}
 
       <StatsGrid
@@ -78,7 +79,6 @@ export default function WorkoutSummary({
           },
         ]}
       />
-
-    </>
+    </div>
   )
 }

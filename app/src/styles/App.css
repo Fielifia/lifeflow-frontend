@@ -140,6 +140,10 @@ a {
   -webkit-tap-highlight-color: transparent;
 }
 
+a:hover {
+  opacity: 0.85;
+}
+
 a:focus,
 a:active {
   outline: none;

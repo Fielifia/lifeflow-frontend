@@ -6,10 +6,10 @@ import ActionMenu from '../../../shared/components/ui/action-menu/ActionMenu'
  * @param {object} props - Component props.
  * @param {string} props.name - Workout name.
  * @param {number} props.elapsed - Duration in seconds.
- * @param {number} [props.completedSets]
- * Completed workout sets.
- * @param {number} [props.totalVolume]
- * Completed workout volume.
+ * @param {{
+ *   completedSets: number,
+ *   totalVolume: number
+ * }} [props.liveStats] - Live workout statistics shown during active sessions.
  * @param {Date | null} props.startTime - Workout start time.
  * @param {'run' | 'history'} [props.mode] - Duration display mode.
  * @param {number} props.duration - Workout duration in seconds.
@@ -27,11 +27,10 @@ export default function WorkoutHeader({
   name,
   elapsed,
 
-  completedSets,
-  totalVolume,
-
   startTime,
   mode = 'run',
+
+  liveStats,
 
   duration,
   durationLabel,
@@ -71,8 +70,7 @@ export default function WorkoutHeader({
         <DurationDisplay
           mode={mode}
           elapsed={elapsed}
-          completedSets={completedSets}
-          totalVolume={totalVolume}
+          liveStats={liveStats}
           startTime={startTime}
           duration={duration}
           label={durationLabel}

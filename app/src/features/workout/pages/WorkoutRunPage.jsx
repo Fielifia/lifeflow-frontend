@@ -210,8 +210,10 @@ export default function WorkoutRunPage() {
         name={workout.name}
         startTime={startTime}
         elapsed={elapsed}
-        completedSets={completedSets}
-        totalVolume={totalVolume}
+        liveStats={{
+          completedSets,
+          totalVolume,
+        }}
         showDuration={true}
         menuItems={workoutMenuItems}
         onEditName={openRenameModal}
