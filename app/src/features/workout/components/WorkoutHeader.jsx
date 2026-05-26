@@ -19,7 +19,7 @@ import ActionMenu from '../../../shared/components/ui/action-menu/ActionMenu'
  * @param {boolean} [props.showDuration] - Whether duration should be displayed.
  * @param {Array<object>} props.menuItems - Contextual action menu items.
  * @param {() => void} [props.onEditName]
-* Callback triggered when clicking workout name.
+ * Callback triggered when clicking workout name.
  * @param {() => void} [props.onEditStartTime] - Callback triggered when editing workout start time.
  * @returns {import('react').ReactElement} Header UI.
  */
@@ -29,7 +29,7 @@ export default function WorkoutHeader({
 
   completedSets,
   totalVolume,
-  
+
   startTime,
   mode = 'run',
 

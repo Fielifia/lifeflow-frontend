@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
+import { DndContext, closestCenter } from '@dnd-kit/core'
+
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
+
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 
 import { useWorkoutLogic } from '../hooks/useWorkoutLogic'
@@ -18,6 +22,8 @@ import Header from '../../../shared/components/ui/Header'
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 
 import WorkoutControls from '../../../shared/components/ui/WorkoutControls/WorkoutControls'
+
+import SortableExerciseItem from '../../exercise/components/SortableExerciseItem'
 
 import ExerciseItem from '../../exercise/components/ExerciseItem/ExerciseItem'
 
@@ -163,7 +169,24 @@ export default function WorkoutRunPage() {
       onClick: saveAsTemplate,
     },
   ]
+
   const duration = formatElapsedTime(elapsed)
+
+  // ===== REORDER =====
+
+  const handleDragEnd = (event) => {
+    const { active, over } = event
+
+    if (!over || active.id === over.id) {
+      return
+    }
+
+    const oldIndex = workout.exercises.findIndex((ex) => ex.id === active.id)
+
+    const newIndex = workout.exercises.findIndex((ex) => ex.id === over.id)
+
+    exerciseActions.reorderExercises(oldIndex, newIndex)
+  }
 
   return (
     <div className={`app ${flash ? 'flash' : ''}`}>
@@ -275,16 +298,30 @@ export default function WorkoutRunPage() {
           emptyText="Add your first exercise to start building your workout."
         >
           <>
-            {workout.exercises.map((ex, i) => (
-              <ExerciseItem
-                mode="run"
-                key={ex.id}
-                ex={ex}
-                i={i}
-                navigate={navigate}
-                actions={exerciseActions}
-              />
-            ))}
+            <DndContext
+              collisionDetection={closestCenter}
+              onDragEnd={handleDragEnd}
+            >
+              <SortableContext
+                items={workout.exercises.map((ex) => ex.id)}
+                strategy={verticalListSortingStrategy}
+              >
+                {workout.exercises.map((ex, i) => (
+                  <SortableExerciseItem key={ex.id} id={ex.id}>
+                    {({ dragHandleProps }) => (
+                      <ExerciseItem
+                        mode="run"
+                        ex={ex}
+                        i={i}
+                        navigate={navigate}
+                        actions={exerciseActions}
+                        dragHandleProps={dragHandleProps}
+                      />
+                    )}
+                  </SortableExerciseItem>
+                ))}
+              </SortableContext>
+            </DndContext>
           </>
         </DataState>
 

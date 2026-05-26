@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -20,10 +23,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-  
     "test": "react-scripts test --verbose",
     "test:ci": "react-scripts test --watchAll=false --verbose",
-  
     "eject": "react-scripts eject",
     "lint": "npx eslint src",
     "lint:fix": "npx eslint src --fix",

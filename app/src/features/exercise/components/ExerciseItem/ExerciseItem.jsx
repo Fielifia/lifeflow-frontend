@@ -1,4 +1,4 @@
-import { Clock, Trash2, Weight } from 'lucide-react'
+import { Clock, Trash2, Weight, GripVertical } from 'lucide-react'
 
 import { useRef, useState } from 'react'
 
@@ -32,6 +32,7 @@ import './ExerciseItem.css'
  * @param {object} props.actions - Exercise action handlers.
  * @param {'run' | 'workout' | 'edit' | 'template'} [props.mode] - Exercise item mode.
  * @param {boolean} [props.isEditable] - Whether the exercise can be edited.
+ * @param {object} [props.dragHandleProps] - Drag handle props
  * @returns {import('react').ReactElement} Exercise item UI.
  */
 export default function ExerciseItem({
@@ -41,6 +42,7 @@ export default function ExerciseItem({
   actions,
   mode = 'run',
   isEditable = true,
+  dragHandleProps,
 }) {
   const location = useLocation()
   const inputRefs = useRef([])
@@ -109,6 +111,9 @@ export default function ExerciseItem({
       {/* EXERCISE ITEM HEADER */}
 
       <div className="exercise-item-header">
+        <div className="exercise-drag-handle" {...dragHandleProps}>
+          <GripVertical className="icon-small" />
+        </div>
         <div className="exercise-item-title clickable">
           <img
             src={ex.image || ex.images?.[0] || '/placeholder.png'}

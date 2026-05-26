@@ -29,6 +29,22 @@
   opacity: 0.7;
 }
 
+.exercise-drag-handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--muted);
+  opacity: 0.55;
+
+  cursor: grab;
+  touch-action: none;
+}
+
+.exercise-drag-handle:active {
+  cursor: grabbing;
+}
+
 .exercise-item-header .controls {
   margin-left: auto;
 }

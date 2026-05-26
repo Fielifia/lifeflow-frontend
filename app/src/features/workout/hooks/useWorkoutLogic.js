@@ -4,6 +4,8 @@ import {
   useState
 } from 'react'
 
+import { arrayMove } from '@dnd-kit/sortable'
+
 import { createWorkoutApi } from '../../../shared/api/workoutApi'
 
 import { createTemplateApi } from '../../../shared/api/templateApi'
@@ -226,6 +228,20 @@ export function useWorkoutLogic(workoutId, navigate) {
     },
   })
 
+  // ===== REORDER EXERCISES =====
+
+  const reorderExercises = (oldIndex, newIndex) => {
+    setWorkout((prev) => ({
+      ...prev,
+
+      exercises: arrayMove(
+        prev.exercises,
+        oldIndex,
+        newIndex,
+      ),
+    }))
+  }
+
   // ===== COMPLETED SETS =====
 
 
@@ -267,6 +283,7 @@ export function useWorkoutLogic(workoutId, navigate) {
     toggleSetComplete,
     updateExerciseRest,
     updateExerciseNotes,
+    reorderExercises,
   }
 
   const updateWorkoutNotes = (notes) =>
@@ -392,7 +409,7 @@ export function useWorkoutLogic(workoutId, navigate) {
 
     completedSets,
     totalVolume,
-    
+
     startTime,
     adjustStartTime,
     handleStartPause,
