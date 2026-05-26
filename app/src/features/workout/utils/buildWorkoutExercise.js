@@ -68,9 +68,9 @@ export function buildWorkoutExercise(
     ...normalizeExercise(ex),
 
     restTime:
+      ex.restTime ??
       defaultRestTime ??
       prev?.restTime ??
-      ex.restTime ??
       DEFAULT_REST,
 
     sets,

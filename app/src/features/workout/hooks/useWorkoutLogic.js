@@ -315,15 +315,13 @@ export function useWorkoutLogic(workoutId, navigate) {
   // ===== OPEN LIBRARY FLOW =====
 
   const openLibrary = () => {
+    draftWorkoutStorage.set(workout)
+
     setShouldRestoreScroll(false)
 
     navigate(
       '/exercises?select=true&flow=workout-run'
     )
-
-    requestAnimationFrame(() => {
-      window.scrollTo(0, 0)
-    })
   }
 
   // ===== SAVE WORKOUT =====
