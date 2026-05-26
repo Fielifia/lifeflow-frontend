@@ -56,10 +56,6 @@ import { buildTemplatePayload } from '../utils/buildTemplatePayload'
  *  saving: boolean,
  *  error: string | null,
  *
- *  isEditingName: boolean,
- *  setIsEditingName: import('react').Dispatch<
- *    import('react').SetStateAction<boolean>
- *  >,
  *  openLibrary: () => void,
  *  exerciseActions: {
  *    addSet: (
@@ -127,11 +123,6 @@ export function useTemplateManager(
 
   const [error, setError] =
     useState(null)
-
-  const [
-    isEditingName,
-    setIsEditingName,
-  ] = useState(false)
 
   const {
     selectedExercises,
@@ -421,8 +412,6 @@ export function useTemplateManager(
 
     setTemplate(EMPTY_TEMPLATE)
 
-    setIsEditingName(false)
-
     draftTemplateStorage.clear()
 
     navigate('/workouts')
@@ -456,8 +445,10 @@ export function useTemplateManager(
       )
 
     setTemplate(restored)
+
     setEditingTemplate(restored)
-    setIsEditingName(false)
+
+    toast.success('Template restored')
 
   }
 
@@ -511,9 +502,6 @@ export function useTemplateManager(
     loading,
     saving,
     error,
-
-    isEditingName,
-    setIsEditingName,
 
     openLibrary,
 

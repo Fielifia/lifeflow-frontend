@@ -49,7 +49,7 @@ export default function DurationDisplay({
   const totalVolume = liveStats?.totalVolume || 0
 
   return (
-    <div className="section">
+    <>
       <div className="duration">
         {label && <p className="muted small close">{label}</p>}
 
@@ -88,6 +88,6 @@ export default function DurationDisplay({
           )}
         </div>
       )}
-    </div>
+    </>
   )
 }

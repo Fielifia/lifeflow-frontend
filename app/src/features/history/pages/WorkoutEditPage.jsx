@@ -253,9 +253,10 @@ export default function WorkoutEditPage() {
         onSave={saveWorkout}
         onSecondaryAction={saveAsTemplate}
         secondaryActionLabel="Save As Template"
+        hasUnsavedChanges={hasUnsavedChanges}
         onDiscardChanges={discardChanges}
         saveLabel="Save Workout"
-        discardLabel="Cancel"
+        discardLabel="Discard Changes"
         hasExercises={workout.exercises.length > 0}
       />
 
@@ -318,6 +319,7 @@ export default function WorkoutEditPage() {
             saving={saving}
             onSave={saveWorkout}
             onDiscardChanges={discardChanges}
+            hasUnsavedChanges={hasUnsavedChanges}
             hasExercises={workout.exercises.length > 0}
           />
         </div>

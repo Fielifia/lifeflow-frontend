@@ -39,7 +39,6 @@ export default function WorkoutSummary({
 
   return (
     <div className="section">
-      {/* EXERCISES */}
 
       <StatsGrid
         items={[

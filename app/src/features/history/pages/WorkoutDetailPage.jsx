@@ -88,6 +88,7 @@ export default function WorkoutDetailPage() {
       <WorkoutHeader
         name={workout.name}
         mode="history"
+        startTime={workout.startTime}
         duration={workout.duration}
         isEditable={false}
         showDuration

@@ -71,12 +71,6 @@ import { EMPTY_WORKOUT } from '../../../shared/utils/constants'
  *  saving: boolean,
  *  error: string | null,
  *
- *  isEditingName: boolean,
- *
- *  setIsEditingName: import('react').Dispatch<
- *    import('react').SetStateAction<boolean>
- *  >,
- *
  *  openLibrary: () => void,
  *
  *  exerciseActions: {
@@ -136,8 +130,6 @@ export function useWorkoutLogic(workoutId, navigate) {
   const [saving, setSaving] = useState(false)
 
   const [error, setError] = useState(null)
-
-  const [isEditingName, setIsEditingName] = useState(false)
 
   const {
 
@@ -339,7 +331,6 @@ export function useWorkoutLogic(workoutId, navigate) {
       resetTimer()
       resetRest()
 
-      setIsEditingName(false)
 
       draftWorkoutStorage.clear()
     } catch (err) {
@@ -391,7 +382,6 @@ export function useWorkoutLogic(workoutId, navigate) {
     resetTimer()
     resetRest()
 
-    setIsEditingName(false)
 
     draftWorkoutStorage.clear()
 
@@ -416,9 +406,6 @@ export function useWorkoutLogic(workoutId, navigate) {
 
     saving,
     error,
-
-    isEditingName,
-    setIsEditingName,
 
     openLibrary,
 

@@ -26,7 +26,7 @@ import './WorkoutControls.css'
  * @param {string} [props.saveLabel] - Save button label
  * @param {string} [props.deleteLabel] - Delete button label
  * @param {string} [props.discardLabel] - Discard button label
- * @param {string} [props.cancelLabel] - Discard changes button label
+ * @param {string} [props.discardChangesLabel] - Discard changes button label
  * @param {string} [props.secondaryActionLabel] - Secondary action button label
  * @param {boolean} [props.saving] - Whether save action is in progress
  * @param {boolean} [props.deleting] - Whether delete action is in progress
@@ -49,12 +49,13 @@ export default function WorkoutControls({
   onSave,
   onDelete,
   onSecondaryAction,
+  hasUnsavedChanges,
 
   editLabel = 'Edit',
   saveLabel = 'Save',
   deleteLabel = 'Delete',
   discardLabel = 'Discard',
-  cancelLabel = 'Cancel',
+  discardChangesLabel = 'Discard Changes',
   secondaryActionLabel = '',
 
   saving = false,
@@ -227,8 +228,13 @@ export default function WorkoutControls({
 
           {/* DISCARD */}
           {onDiscardChanges && (
-            <Button variant="danger" size="lg" onClick={onDiscardChanges}>
-              {cancelLabel}
+            <Button
+              variant="danger"
+              size="lg"
+              onClick={onDiscardChanges}
+              disabled={!hasUnsavedChanges}
+            >
+              {discardChangesLabel}
             </Button>
           )}
         </>

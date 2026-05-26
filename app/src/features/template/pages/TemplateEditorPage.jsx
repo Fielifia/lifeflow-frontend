@@ -1,3 +1,5 @@
+import { useState } from 'react'
+
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import { DndContext, closestCenter } from '@dnd-kit/core'
@@ -13,6 +15,7 @@ import Button from '../../../shared/components/ui/button/Button'
 
 import Header from '../../../shared/components/ui/Header'
 
+import EditModal from '../../workout/components/time/EditModal'
 
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 import WorkoutControls from '../../../shared/components/ui/WorkoutControls/WorkoutControls'
@@ -38,6 +41,10 @@ export default function TemplateEditorPage() {
   const { id } = useParams()
   const isCreate = !id
 
+  const [showRenameModal, setShowRenameModal] = useState(false)
+
+  const [tempTemplateName, setTempTemplateName] = useState('')
+
   const {
     template,
     setTemplate,
@@ -45,9 +52,6 @@ export default function TemplateEditorPage() {
     loading,
     saving,
     error,
-
-    isEditingName,
-    setIsEditingName,
 
     openLibrary,
     exerciseActions,
@@ -78,12 +82,25 @@ export default function TemplateEditorPage() {
     exerciseActions.reorderExercises(oldIndex, newIndex)
   }
 
+  // ===== RENAME MODAL =====
+
+  const openRenameModal = () => {
+    setTempTemplateName(template.name)
+    setShowRenameModal(true)
+  }
+
   // ===== ACTION MENU =====
 
   const templateMenuItems = [
     {
       label: 'Rename',
-      onClick: () => setIsEditingName(true),
+      onClick: openRenameModal,
+    },
+
+    {
+      label: 'Default Rest Time',
+      subtitle: '120s',
+      onClick: () => console.log('default rest'),
     },
 
     {
@@ -91,14 +108,8 @@ export default function TemplateEditorPage() {
     },
 
     {
-      label: 'Discard changes',
-      onClick: discardChanges,
-    },
-
-    {
-      label: 'Discard template',
-      variant: 'danger',
-      onClick: discardTemplate,
+      label: 'Duplicate Template',
+      onClick: () => console.log('duplicate template'),
     },
   ]
 
@@ -148,18 +159,29 @@ export default function TemplateEditorPage() {
 
       <WorkoutHeader
         name={template.name}
-        isEditing={isEditingName}
-        setIsEditing={setIsEditingName}
-        onChangeName={(value) =>
-          setTemplate((prev) => ({
-            ...prev,
-            name: value,
-          }))
-        }
-        isEditable={true}
+        onEditName={openRenameModal}
         showDuration={false}
         menuItems={templateMenuItems}
       />
+
+      {/* RENAME MODAL */}
+
+      {showRenameModal && (
+        <EditModal
+          title="Edit template name"
+          tempValue={tempTemplateName}
+          setTempValue={setTempTemplateName}
+          onClose={() => setShowRenameModal(false)}
+          onSave={() => {
+            setTemplate((prev) => ({
+              ...prev,
+              name: tempTemplateName.trim() || 'Template',
+            }))
+
+            setShowRenameModal(false)
+          }}
+        />
+      )}
 
       {/* CONTROLS */}
 
@@ -171,7 +193,8 @@ export default function TemplateEditorPage() {
         onDiscardTemplate={isCreate ? discardTemplate : undefined}
         saveLabel="Save template"
         discardLabel="Discard"
-        cancelLabel="Cancel"
+        discardChangesLabel="Discard Changes"
+        hasUnsavedChanges={hasUnsavedChanges}
         hasExercises={template.exercises.length > 0}
       />
 
@@ -252,7 +275,8 @@ export default function TemplateEditorPage() {
             onDiscardTemplate={isCreate ? discardTemplate : undefined}
             saveLabel="Save template"
             discardLabel="Discard"
-            cancelLabel="Cancel"
+            discardChangesLabel="Discard Changes"
+            hasUnsavedChanges={hasUnsavedChanges}
             hasExercises={template.exercises.length > 0}
           />
         </div>

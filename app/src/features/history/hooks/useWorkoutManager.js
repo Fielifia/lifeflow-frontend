@@ -53,11 +53,6 @@ import { buildWorkoutPayload } from '../../workout/utils/buildWorkoutPayload'
  *  saving: boolean,
  *  error: string | null,
  *
- *  isEditingName: boolean,
- *  setIsEditingName: import('react').Dispatch<
- *    import('react').SetStateAction<boolean>
- *  >,
- *
  *  openLibrary: () => void,
  *
  *  exerciseActions: {
@@ -134,11 +129,6 @@ export function useWorkoutManager(
 
   const [error, setError] =
     useState(null)
-
-  const [
-    isEditingName,
-    setIsEditingName,
-  ] = useState(false)
 
   const {
     selectedExercises,
@@ -388,7 +378,8 @@ export function useWorkoutManager(
 
     setEditingWorkout(restored)
 
-    setIsEditingName(false)
+    toast.success('Workout restored')
+
   }
 
   // ===== DELETE =====
@@ -438,9 +429,6 @@ export function useWorkoutManager(
     loading,
     saving,
     error,
-
-    isEditingName,
-    setIsEditingName,
 
     openLibrary,
 
