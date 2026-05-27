@@ -62,6 +62,7 @@ export function buildWorkoutExercise(
           : (s.completed ?? false),
     }))
   }
+  console.log('PREV', prev)
 
 
   return {

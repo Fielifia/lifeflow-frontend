@@ -4,6 +4,10 @@ import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 
 import { useConfirm } from '../../../shared/hooks/useConfirm'
 
+import { getPreviousExerciseApi } from '../../../shared/api/workoutApi'
+
+import { buildPreviousExerciseData } from '../utils/buildPreviousExerciseData'
+
 import { buildWorkoutExercise } from '../utils/buildWorkoutExercise'
 
 import {
@@ -82,17 +86,24 @@ export function useStartWorkout() {
           exercises: template.exercises,
         },
 
-        exercises:
-          template.exercises.map((ex) =>
-            buildWorkoutExercise(
+        exercises: await Promise.all(
+          template.exercises.map(async (ex) => {
+            const res =
+              await getPreviousExerciseApi(ex.exerciseId)
+
+            const prev =
+              buildPreviousExerciseData(res)
+
+            return buildWorkoutExercise(
               ex,
-              null,
+              prev,
               undefined,
               {
                 resetCompleted: true,
               },
-            ),
-          ),
+            )
+          }),
+        ),
       }
     }
 
@@ -102,12 +113,24 @@ export function useStartWorkout() {
       preparedWorkout = {
         name: workout.name,
         notes: '',
-        exercises:
-          workout.exercises.map((ex) =>
-            buildWorkoutExercise(ex, null, {
-              resetCompleted: true,
-            }),
-          ),
+        exercises: await Promise.all(
+          workout.exercises.map(async (ex) => {
+            const res =
+              await getPreviousExerciseApi(ex.exerciseId)
+
+            const prev =
+              buildPreviousExerciseData(res)
+
+            return buildWorkoutExercise(
+              ex,
+              prev,
+              undefined,
+              {
+                resetCompleted: true,
+              },
+            )
+          }),
+        ),
       }
     }
 

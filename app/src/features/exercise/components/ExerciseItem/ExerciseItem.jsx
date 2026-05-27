@@ -254,15 +254,17 @@ export default function ExerciseItem({
 
       {/* SETS */}
 
+      {/* SETS */}
+
       {ex.sets.map((set, j) => {
         const previousBest = j === 0 ? historicalBest : bests[j - 1]
 
-        const isHistoricalPB =
-          (isRunMode || isWorkoutMode) &&
-          set.completed &&
-          (set.weight > previousBest.weight ||
-            (set.weight === previousBest.weight &&
-              set.reps > previousBest.reps))
+        const isHistoricalPB = isRunMode
+          ? set.completed &&
+            (set.weight > previousBest.weight ||
+              (set.weight === previousBest.weight &&
+                set.reps > previousBest.reps))
+          : Boolean(set.personalBest)
 
         return (
           <ExerciseSetRow
