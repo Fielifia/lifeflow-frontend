@@ -10,6 +10,8 @@ import {
   CalendarDays,
 } from 'lucide-react'
 
+import { useProfileSettings } from '../../profile/hooks/useProfileSettings'
+
 import StatsGrid from '../../../shared/components/ui/statsgrid/StatsGrid'
 import MonthlyGoal from './MonthlyGoals'
 import WorkoutPreviewCard from '../../../shared/components/cards/WorkoutPreviewCard'
@@ -48,6 +50,8 @@ export default function DashboardContent({ stats, user, recentWorkouts }) {
 
   const hasWorkouts = (stats?.allTime?.workouts ?? 0) > 0
   const hasActivity = activityData.some((d) => d.minutes > 0)
+
+  const { settings } = useProfileSettings()
 
   return (
     <div className="section">
@@ -177,7 +181,7 @@ export default function DashboardContent({ stats, user, recentWorkouts }) {
       <div className="section">
         <MonthlyGoal
           current={stats?.currentMonth?.workouts ?? 0}
-          target={null}
+          target={settings?.monthlyGoal || null}
         />
       </div>
 

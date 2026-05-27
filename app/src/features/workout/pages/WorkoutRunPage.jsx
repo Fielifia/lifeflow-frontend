@@ -5,6 +5,8 @@ import { DndContext, closestCenter } from '@dnd-kit/core'
 
 import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
+import { useProfileSettings } from '../../profile/hooks/useProfileSettings'
+
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 
 import { useWorkoutLogic } from '../hooks/useWorkoutLogic'
@@ -66,6 +68,8 @@ export default function WorkoutRunPage() {
 
   const [tempDefaultRest, setTempDefaultRest] = useState('120')
 
+  const { settings } = useProfileSettings()
+
   const {
     workout,
     saving,
@@ -121,7 +125,7 @@ export default function WorkoutRunPage() {
     requestAnimationFrame(() => {
       window.scrollTo(0, Number(saved))
     })
-  }, [])
+  }, [location.state?.fromLibrary])
 
   // ===== TOGGLE REST TIMER =====
 
@@ -363,7 +367,7 @@ export default function WorkoutRunPage() {
                         navigate={navigate}
                         actions={exerciseActions}
                         dragHandleProps={dragHandleProps}
-                        restTimerEnabled={restTimerEnabled}
+                        restTimerEnabled={settings?.restTimerEnabled}
                       />
                     )}
                   </SortableExerciseItem>

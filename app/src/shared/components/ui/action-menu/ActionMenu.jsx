@@ -6,6 +6,8 @@ import {
 
 import { EllipsisVertical } from 'lucide-react'
 
+import Toggle from '../toggle/Toggle'
+
 import './ActionMenu.css'
 
 // ===== DEVICE DETECTION =====
@@ -139,16 +141,8 @@ export default function ActionMenu({
             return (
               <button
                 type="button"
-                role={
-                  item.type === 'toggle'
-                    ? 'switch'
-                    : 'menuitem'
-                }
-                aria-checked={
-                  item.type === 'toggle'
-                    ? item.value
-                    : undefined
-                }
+                role={item.type === 'toggle' ? 'switch' : 'menuitem'}
+                aria-checked={item.type === 'toggle' ? item.value : undefined}
                 disabled={item.disabled}
                 key={item.id || item.label || i}
                 className={`
@@ -175,12 +169,9 @@ export default function ActionMenu({
                 }}
               >
                 <div className="action-menu-item-content">
-
                   {/* ICON */}
 
-                  {item.icon && (
-                    <item.icon className="icon-small" />
-                  )}
+                  {item.icon && <item.icon className="icon-small" />}
 
                   {/* TEXT */}
 
@@ -196,15 +187,7 @@ export default function ActionMenu({
 
                   {/* TOGGLE */}
 
-                  {item.type === 'toggle' && (
-                    <div
-                      className={`
-                        toggle
-                        ${item.value ? 'active' : ''}
-                      `}
-                    />
-                  )}
-
+                  {item.type === 'toggle' && <Toggle active={item.value} />}
                 </div>
               </button>
             )
