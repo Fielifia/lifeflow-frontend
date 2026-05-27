@@ -44,6 +44,9 @@ export default function WorkoutEditPage() {
   const [tempWorkoutName, setTempWorkoutName] = useState('')
 
   // Time
+  const [tempStartDate, setTempStartDate] = useState('')
+  const [tempEndDate, setTempEndDate] = useState('')
+  
   const [tempStartTime, setTempStartTime] = useState('')
   const [showTimeModal, setShowTimeModal] = useState(false)
 
@@ -99,11 +102,22 @@ export default function WorkoutEditPage() {
   // ===== TIME MODAL =====
 
   const openTimeModal = () => {
+    const formatLocalDateTime = (date) => {
+      const offset = date.getTimezoneOffset()
+
+      const local = new Date(date.getTime() - offset * 60000)
+
+      return local.toISOString().slice(0, 16)
+    }
+
     const start = new Date(workout.startTime)
 
     const end = new Date(
       new Date(workout.startTime).getTime() + (workout.duration || 0) * 1000,
     )
+
+    setTempStartDate(formatLocalDateTime(start))
+    setTempEndDate(formatLocalDateTime(end))
 
     setTempStartTime(
       `${String(start.getHours()).padStart(2, '0')}:${String(
@@ -264,6 +278,20 @@ export default function WorkoutEditPage() {
           <div className="time-modal">
             <input
               className="input-base"
+              type="datetime-local"
+              value={tempStartDate}
+              onChange={(e) => setTempStartDate(e.target.value)}
+            />
+
+            <input
+              className="input-base"
+              type="datetime-local"
+              value={tempEndDate}
+              onChange={(e) => setTempEndDate(e.target.value)}
+            />
+
+            <input
+              className="input-base"
               type="time"
               value={tempStartTime}
               onChange={(e) => setTempStartTime(e.target.value)}
@@ -278,7 +306,8 @@ export default function WorkoutEditPage() {
               onChange={(e) => setTempEndTime(e.target.value)}
             />
 
-            <span className="muted small duration-preview">{`Duration: 
+            <span className="muted small duration-preview">
+              {`Duration: 
               ${calculatedMinutes} min`}
             </span>
           </div>

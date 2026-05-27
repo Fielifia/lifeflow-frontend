@@ -76,7 +76,7 @@ build-image:
       --context "${CI_PROJECT_DIR}/app"
       --dockerfile "${CI_PROJECT_DIR}/app/Dockerfile"
       --cache=true
-      --destination "${CI_REGISTRY_IMAGE}:${CI_COMMIT_SHA}"
+      --destination "${CI_REGISTRY_IMAGE}:latest"
 
   rules:
     - if: '$CI_COMMIT_BRANCH == "main"'
