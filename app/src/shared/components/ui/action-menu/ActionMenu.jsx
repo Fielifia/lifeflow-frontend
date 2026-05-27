@@ -39,6 +39,8 @@ const isTouchDevice =
  * Dropdown action menu for contextual actions.
  * @param {object} props - Component props
  * @param {ActionMenuItem[]} props.items - Menu actions
+ * @param {'default'|'profile'} [props.variant]
+ * Menu trigger variant
  * @param {import('lucide-react').LucideIcon} [props.triggerIcon]
  * Trigger button icon
  * @param {'left'|'right'} [props.align]
@@ -49,6 +51,7 @@ const isTouchDevice =
  */
 export default function ActionMenu({
   items = [],
+  variant = 'default',
   triggerIcon: TriggerIcon = EllipsisVertical,
   align = 'right',
   onOpenChange,
@@ -105,7 +108,10 @@ export default function ActionMenu({
     >
       <button
         type="button"
-        className="btn btn-dots"
+        className={`
+          action-menu-icon-button
+          action-menu-${variant}
+        `}
         aria-expanded={open}
         aria-haspopup="menu"
         onClick={(e) => {
@@ -114,7 +120,7 @@ export default function ActionMenu({
           setOpen((prev) => !prev)
         }}
       >
-        <TriggerIcon className="action-menu-dots" />
+        <TriggerIcon className="action-menu-icon" />
       </button>
 
       {open && (

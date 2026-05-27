@@ -18,11 +18,15 @@
   animation: shimmer 1.2s infinite;
 }
 
+.skeleton-header {
+  height: 74px;
+}
+
 /* Welcome */
 
 .skeleton-quote {
   width: 190px;
-  height: 14px;
+  height: 17px;
   border-radius: var(--radius-sm);
   margin: 6px 0 24px;
 }
@@ -30,7 +34,7 @@
 /* Stats */
 
 .skeleton-stat-card {
-  height: 91px;
+  height: 81px;
   border-radius: var(--radius-lg);
 }
 
@@ -79,6 +83,7 @@
   padding: var(--space-3);
 
   border-radius: var(--radius-md);
+  justify-content: center;
 }
 
 /* Goal */
@@ -99,7 +104,7 @@
 /* Workouts */
 
 .skeleton-workout-card {
-  height: 200px;
+  height: 188px;
   border-radius: var(--radius-md);
 }
 
@@ -134,15 +139,15 @@
 }
 
 .skeleton-card-exercise {
-  height: 109px;
+  height: 86px;
 }
 
 .skeleton-card-workout {
-  height: 237px;
+  height: 229px;
 }
 
 .skeleton-card-template {
-  height: 266px;
+  height: 234px;
   margin-top: 0;
 }
 
