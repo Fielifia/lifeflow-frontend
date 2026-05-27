@@ -5,7 +5,7 @@
 .workout-exercise {
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  padding: 4px 12px 12px;
+  padding: var(--space-3);
   gap: var(--space-3);
   display: flex;
   flex-direction: column;
@@ -23,6 +23,12 @@
   gap: var(--space-2);
   cursor: pointer;
   transition: 0.2s ease;
+}
+
+.exercise-item-title h3,
+.exercise-item-title label,
+.exercise-item-title span {
+  line-height: 1;
 }
 
 .exercise-item-title:hover {
@@ -47,11 +53,14 @@
 
 .exercise-item-header .controls {
   margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 
 .exercise-item-header .controls .icon-small-trash {
-  height: 17px;
-  width: 17px;
+  height: 16px;
+  width: 16px;
   color: var(--danger);
 }
 
@@ -176,13 +185,12 @@
 /* ============================= */
 
 .rest-label {
-  position: relative;
-  display: flex;
   padding: var(--space-2);
   border-radius: var(--radius-md);
   background: var(--card-2);
   border: 1px solid var(--border);
-  width: 80px;
+  width: 60px;
+  max-width: 110px;
   align-items: center;
   justify-content: center;
   cursor: pointer;
@@ -194,10 +202,8 @@
   opacity: 0.45;
 }
 
-.rest-label .icon-small {
-  width: 12px;
-  height: 12px;
-  color: var(--primary-light);
+.rest-badge {
+  font-size: var(--text-sm);
 }
 
 .rest-label:hover {

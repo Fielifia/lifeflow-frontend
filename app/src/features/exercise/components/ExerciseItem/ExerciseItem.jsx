@@ -1,4 +1,4 @@
-import { Clock, Trash2, Weight, GripVertical } from 'lucide-react'
+import { GripVertical, Trash2, Weight } from 'lucide-react'
 
 import { useRef, useState } from 'react'
 
@@ -198,7 +198,6 @@ export default function ExerciseItem({
             ) : (
               <span className="rest-badge">{formatRestTime(safeRest)}</span>
             )}
-            <Clock className="icon-small" />
           </div>
 
           {/* REMOVE EXERCISE */}
