@@ -6,11 +6,15 @@ import {
 
 import { EllipsisVertical } from 'lucide-react'
 
+import Toggle from '../toggle/Toggle'
+
 import './ActionMenu.css'
 
 // ===== DEVICE DETECTION =====
 
 const isTouchDevice =
+  typeof window !== 'undefined' &&
+  typeof window.matchMedia === 'function' &&
   window.matchMedia('(hover: none)').matches
 
 /**
@@ -37,6 +41,8 @@ const isTouchDevice =
  * Dropdown action menu for contextual actions.
  * @param {object} props - Component props
  * @param {ActionMenuItem[]} props.items - Menu actions
+ * @param {'default'|'profile'} [props.variant]
+ * Menu trigger variant
  * @param {import('lucide-react').LucideIcon} [props.triggerIcon]
  * Trigger button icon
  * @param {'left'|'right'} [props.align]
@@ -47,6 +53,7 @@ const isTouchDevice =
  */
 export default function ActionMenu({
   items = [],
+  variant = 'default',
   triggerIcon: TriggerIcon = EllipsisVertical,
   align = 'right',
   onOpenChange,
@@ -103,7 +110,10 @@ export default function ActionMenu({
     >
       <button
         type="button"
-        className="btn btn-dots"
+        className={`
+          action-menu-icon-button
+          action-menu-${variant}
+        `}
         aria-expanded={open}
         aria-haspopup="menu"
         onClick={(e) => {
@@ -112,7 +122,7 @@ export default function ActionMenu({
           setOpen((prev) => !prev)
         }}
       >
-        <TriggerIcon className="action-menu-dots" />
+        <TriggerIcon className="action-menu-icon" />
       </button>
 
       {open && (
@@ -139,16 +149,8 @@ export default function ActionMenu({
             return (
               <button
                 type="button"
-                role={
-                  item.type === 'toggle'
-                    ? 'switch'
-                    : 'menuitem'
-                }
-                aria-checked={
-                  item.type === 'toggle'
-                    ? item.value
-                    : undefined
-                }
+                role={item.type === 'toggle' ? 'switch' : 'menuitem'}
+                aria-checked={item.type === 'toggle' ? item.value : undefined}
                 disabled={item.disabled}
                 key={item.id || item.label || i}
                 className={`
@@ -175,12 +177,9 @@ export default function ActionMenu({
                 }}
               >
                 <div className="action-menu-item-content">
-
                   {/* ICON */}
 
-                  {item.icon && (
-                    <item.icon className="icon-small" />
-                  )}
+                  {item.icon && <item.icon className="icon-small" />}
 
                   {/* TEXT */}
 
@@ -196,15 +195,7 @@ export default function ActionMenu({
 
                   {/* TOGGLE */}
 
-                  {item.type === 'toggle' && (
-                    <div
-                      className={`
-                        toggle
-                        ${item.value ? 'active' : ''}
-                      `}
-                    />
-                  )}
-
+                  {item.type === 'toggle' && <Toggle active={item.value} />}
                 </div>
               </button>
             )

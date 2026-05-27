@@ -10,6 +10,8 @@ import {
   CalendarDays,
 } from 'lucide-react'
 
+import { useProfileSettings } from '../../profile/hooks/useProfileSettings'
+
 import StatsGrid from '../../../shared/components/ui/statsgrid/StatsGrid'
 import MonthlyGoal from './MonthlyGoals'
 import WorkoutPreviewCard from '../../../shared/components/cards/WorkoutPreviewCard'
@@ -48,6 +50,8 @@ export default function DashboardContent({ stats, user, recentWorkouts }) {
 
   const hasWorkouts = (stats?.allTime?.workouts ?? 0) > 0
   const hasActivity = activityData.some((d) => d.minutes > 0)
+
+  const { settings } = useProfileSettings()
 
   return (
     <div className="section">
@@ -105,7 +109,7 @@ export default function DashboardContent({ stats, user, recentWorkouts }) {
 
       {/* Weekly activity */}
 
-      <div className="section">
+      <div className="container">
         <h3>Weekly Activity</h3>
 
         {hasActivity ? (
@@ -152,7 +156,7 @@ export default function DashboardContent({ stats, user, recentWorkouts }) {
 
       {/* Quick actions */}
 
-      <div className="section">
+      <div className="container">
         <h3>Quick Access</h3>
 
         <div className="grid-base quick-labels">
@@ -174,33 +178,35 @@ export default function DashboardContent({ stats, user, recentWorkouts }) {
 
       {/* Monthly goal */}
 
-      <div className="section">
+      <div className="container">
         <MonthlyGoal
           current={stats?.currentMonth?.workouts ?? 0}
-          target={null}
+          target={settings?.monthlyGoal || null}
         />
       </div>
 
       {/* Recent Workouts */}
 
-      <div className="section">
+      <div className="container">
         <h3>Recent Workouts</h3>
 
-        {displayedWorkouts.map((workout) => (
-          <Link key={workout._id} to={`/workouts/${workout._id}`}>
-            <WorkoutPreviewCard
-              key={workout._id}
-              title={workout.name}
-              subtitle={`
+        <div className="section">
+          {displayedWorkouts.map((workout) => (
+            <Link key={workout._id} to={`/workouts/${workout._id}`}>
+              <WorkoutPreviewCard
+                key={workout._id}
+                title={workout.name}
+                subtitle={`
           ${formatDuration(
-            Math.round((workout.duration || 0) / 60),
-          )} • ${formatDate(workout.startTime)}
+              Math.round((workout.duration || 0) / 60),
+            )} • ${formatDate(workout.startTime)}
           `}
-              exercises={workout.exercises}
-              hasExercises={workout.exercises?.length > 0}
-            />
-          </Link>
-        ))}
+                exercises={workout.exercises}
+                hasExercises={workout.exercises?.length > 0}
+              />
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   )

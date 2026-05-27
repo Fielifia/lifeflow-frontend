@@ -29,19 +29,9 @@ export default function Dashboard() {
 
   return (
     <div className="app">
-      <Header
-        title="LifeFlow Fitness"
-      />
+      <Header title="LifeFlow Fitness" />
 
-      <div className="section">
-
-        <DashboardContent
-          stats={stats}
-          user={user}
-          recentWorkouts={workouts}
-        />
-
-      </div>
+      <DashboardContent stats={stats} user={user} recentWorkouts={workouts} />
     </div>
   )
 }

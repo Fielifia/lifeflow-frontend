@@ -1,7 +1,14 @@
-.btn-dots {
-  position: absolute;
-  top: 0;
-  right: -8px;
+.action-menu {
+  position: relative;
+}
+
+.action-menu button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.action-menu-icon {
   display: flex;
   margin: 0;
   transition: opacity 0.15s ease;
@@ -10,16 +17,16 @@
   color: var(--text);
 }
 
-.btn-dots.hidden {
-  opacity: 0.15;
+.action-menu-default .action-menu-icon {
+  position: absolute;
+  top: 0;
+  width: 1.1rem;
+  height: 1.1rem;
 }
 
-.action-menu {
-  position: relative;
-}
-
-.action-menu-dots {
-  height: 16px;
+.action-menu-profile .action-menu-icon {
+  width: 1.45rem;
+  height: 1.45rem;
 }
 
 .action-menu-dropdown {
@@ -32,9 +39,9 @@
   min-width: 120px;
   padding: var(--space-2);
   border-radius: var(--radius-md);
-  
+
   background: var(--card);
-  opacity: .9;
+  opacity: .95;
   border: 1px solid var(--border);
   z-index: 100;
 }
@@ -86,39 +93,4 @@
   margin: 0;
   margin-top: 0.1rem;
   color: var(--text-muted);
-}
-
-.action-menu-toggle {
-  font-size: var(--text-md);
-  color: var(--text-muted);
-}
-
-.toggle {
-  width: 40px;
-  height: 22px;
-  border-radius: var(--radius-lg);
-  background: var(--primary);
-  position: relative;
-  transition: 0.2s ease;
-  flex-shrink: 0;
-}
-
-.toggle::after {
-  content: '';
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: white;
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  transition: 0.2s ease;
-}
-
-.toggle.active {
-  background: var(--primary);
-}
-
-.toggle.active::after {
-  transform: translateX(18px);
 }

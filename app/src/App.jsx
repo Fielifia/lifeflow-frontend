@@ -20,6 +20,8 @@ import WorkoutHistoryPage from './features/history/pages/WorkoutHistoryPage'
 import TemplateDetailPage from './features/template/pages/TemplateDetailPage'
 import TemplateEditorPage from './features/template/pages/TemplateEditorPage'
 
+import ProfilePage from './features/profile/pages/ProfilePage'
+
 import StatsPage from './features/stats/pages/StatsPage'
 
 import WorkoutSessionBarWrapper from './features/workout/components/session/WorkoutSessionBarWrapper'
@@ -132,6 +134,10 @@ function App() {
                       />
 
                       <Route path="/stats" element={<StatsPage />} />
+                      <Route
+                        path="/profile"
+                        element={<ProfilePage />}
+                      />
                       <Route
                         path="/calendar"
                         element={

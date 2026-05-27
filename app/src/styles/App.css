@@ -38,6 +38,7 @@
 
   --text-body: clamp(0.82rem, 0.8rem + 0.08vw, 0.9rem);
 
+  --text-md: clamp(0.92rem, 0.9rem + 0.12vw, 1rem);;
   --text-sm: clamp(0.66rem, 0.64rem + 0.06vw, 0.74rem);
   --text-xs: clamp(0.58rem, 0.56rem + 0.04vw, 0.66rem);
 

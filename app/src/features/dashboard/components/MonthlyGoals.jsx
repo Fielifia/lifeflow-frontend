@@ -18,7 +18,7 @@ export default function MonthlyGoal({
   const remaining = Math.max(target - current, 0)
 
   return (
-    <div className="section">
+    <>
       <h3>Monthly Goal</h3>
 
       <div className="progress-bar">
@@ -40,6 +40,6 @@ export default function MonthlyGoal({
               </span>
             )}
       </p>
-    </div>
+    </>
   )
 }
