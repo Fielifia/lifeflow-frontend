@@ -8,6 +8,8 @@ import { useToast } from '../../../../shared/context/ToastContext'
 
 import { formatRestTime } from '../../../../shared/utils/format'
 
+import { isPersonalBest } from '../../../../shared/utils/personalBest'
+
 import ExerciseSetRow from '../ExerciseSetRow'
 
 import './ExerciseItem.css'
@@ -260,10 +262,7 @@ export default function ExerciseItem({
         const previousBest = j === 0 ? historicalBest : bests[j - 1]
 
         const isHistoricalPB = isRunMode
-          ? set.completed &&
-            (set.weight > previousBest.weight ||
-              (set.weight === previousBest.weight &&
-                set.reps > previousBest.reps))
+          ? isPersonalBest(set, previousBest)
           : Boolean(set.personalBest)
 
         return (
