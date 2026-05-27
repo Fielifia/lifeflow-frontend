@@ -13,6 +13,8 @@ import './ActionMenu.css'
 // ===== DEVICE DETECTION =====
 
 const isTouchDevice =
+  typeof window !== 'undefined' &&
+  typeof window.matchMedia === 'function' &&
   window.matchMedia('(hover: none)').matches
 
 /**

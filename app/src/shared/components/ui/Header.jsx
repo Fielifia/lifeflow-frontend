@@ -1,21 +1,17 @@
 import {
+  LogOut,
+  Settings,
   User,
   UserCheck,
   UserLock,
   UserPlus,
-  LogOut,
-  Settings,
 } from 'lucide-react'
-
-import { useNavigate } from 'react-router-dom'
 
 import { userStorage } from '../../utils/storage/userStorage'
 
 import { useConfirm } from '../../hooks/useConfirm'
 
 import ActionMenu from './action-menu/ActionMenu'
-
-import Button from './button/Button'
 
 /**
  * Shared app header.
@@ -27,8 +23,6 @@ import Button from './button/Button'
  */
 export default function Header({ title, subtitle, variant = 'authenticated' }) {
   const confirm = useConfirm()
-
-  const navigate = useNavigate()
 
   /**
    * Handles logout flow.
@@ -77,21 +71,16 @@ export default function Header({ title, subtitle, variant = 'authenticated' }) {
           {
             label: 'Profile',
             icon: Settings,
-            onClick: () => navigate('/profile'),
+            onClick: () => (window.location.href = '/profile'),
           },
 
           {
             label: 'Log out',
             icon: LogOut,
-            variant: 'danger',
             onClick: handleLogout,
           },
         ]}
-      >
-        <Button variant="ghost" size="icon">
-          <Icon className="profile-icon" />
-        </Button>
-      </ActionMenu>
+      ></ActionMenu>
     </div>
   )
 }
