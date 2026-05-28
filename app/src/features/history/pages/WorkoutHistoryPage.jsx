@@ -60,7 +60,7 @@ export default function WorkoutHistoryPage() {
     <div className="app">
       {/* HEADER */}
 
-      <Header title="Workout History" subtitle="Your completed sessions" />
+      <Header subtitle="Your completed sessions" />
 
       {/* CURRENT WEEK SUMMARY */}
 

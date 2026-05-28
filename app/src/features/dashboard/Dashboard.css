@@ -69,7 +69,8 @@
 }
 
 .bar {
-  width: 40px;
+  width: 10vw;
+  max-width: 40px;
   background: linear-gradient(180deg, var(--primary), rgba(25, 104, 106, 0.3));
   border-radius: 6px 6px 0 0;
 }

@@ -95,7 +95,7 @@ export default function ExerciseDetail() {
   if (loading || error || !ex) {
     return (
       <div className="app">
-        <Header title="LifeFlow Fitness" subtitle="Exercise Details" />
+        <Header subtitle="Exercise Details" />
 
         <BackButton fallback={fallback} />
 
@@ -117,7 +117,7 @@ export default function ExerciseDetail() {
     <div className="app">
       {/* HEADER */}
 
-      <Header title="LifeFlow Fitness" subtitle="Exercise Details" />
+      <Header subtitle="Exercise Details" />
 
       {/* BACK BUTTON */}
 

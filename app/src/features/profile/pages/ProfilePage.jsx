@@ -23,7 +23,7 @@ export default function ProfilePage() {
 
   return (
     <div className="app">
-      <Header title="Profile" />
+      <Header subtitle="Profile" />
 
       <div className="profile-header">
         <div>

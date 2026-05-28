@@ -58,15 +58,13 @@ export default function WorkoutRunPage() {
 
   const [tempWorkoutName, setTempWorkoutName] = useState('')
 
-  const [restTimerEnabled, setRestTimerEnabled] = useState(true)
-
   const [showStartTimeModal, setShowStartTimeModal] = useState(false)
 
   const [tempStartTime, setTempStartTime] = useState('')
 
   const [showDefaultRestModal, setShowDefaultRestModal] = useState(false)
 
-  const [tempDefaultRest, setTempDefaultRest] = useState('120')
+  const [tempDefaultRest, setTempDefaultRest] = useState('')
 
   const { settings } = useProfileSettings()
 
@@ -107,6 +105,20 @@ export default function WorkoutRunPage() {
 
     flash,
   } = useWorkoutContext()
+
+  const restTimerEnabled = workout.restTimerEnabled ?? true
+
+  useEffect(() => {
+    if (
+      settings?.restTimerEnabled != null &&
+      workout.restTimerEnabled == null
+    ) {
+      setWorkout((prev) => ({
+        ...prev,
+        restTimerEnabled: settings.restTimerEnabled,
+      }))
+    }
+  }, [settings, workout.restTimerEnabled, setWorkout])
 
   useEffect(() => {
     const fromLibrary = location.state?.fromLibrary
@@ -159,10 +171,12 @@ export default function WorkoutRunPage() {
   // ===== DEFAULT REST MODAL =====
 
   const openDefaultRestModal = () => {
-    setTempDefaultRest(String(defaultRestTime))
+    setTempDefaultRest(
+      String(defaultRestTime),
+    )
+
     setShowDefaultRestModal(true)
   }
-
 
   // ===== ACTION MENU =====
 
@@ -186,12 +200,16 @@ export default function WorkoutRunPage() {
       subtitle: restTimerEnabled ? 'On' : 'Off',
       type: 'toggle',
       value: restTimerEnabled,
-      onChange: setRestTimerEnabled,
+      onChange: (value) =>
+        setWorkout((prev) => ({
+          ...prev,
+          restTimerEnabled: value,
+        })),
       closeOnClick: false,
     },
 
     {
-      label: 'Default Rest Time: ',
+      label: 'Workout Rest Time: ',
       subtitle: `${defaultRestTime}s`,
       onClick: openDefaultRestModal,
     },
@@ -226,17 +244,19 @@ export default function WorkoutRunPage() {
 
   return (
     <div className={`app ${flash ? 'flash' : ''}`}>
-      <Header title={workout.name} subtitle={`In progress • ${duration}`} />
+      <Header subtitle={`In progress • ${duration}`} />
       <BackButton fallback={fallback} warnOnUnsavedChanges />
 
       {/* REST TIMER */}
-      <RestTimer
-        isResting={isResting}
-        restRemaining={restRemaining}
-        adjustRest={adjustRest}
-        skipRest={skipRest}
-        exercises={workout?.exercises}
-      />
+      {restTimerEnabled && (
+        <RestTimer
+          isResting={isResting}
+          restRemaining={restRemaining}
+          adjustRest={adjustRest}
+          skipRest={skipRest}
+          exercises={workout?.exercises}
+        />
+      )}
 
       {/* HEADER */}
       <WorkoutHeader
@@ -367,7 +387,7 @@ export default function WorkoutRunPage() {
                         navigate={navigate}
                         actions={exerciseActions}
                         dragHandleProps={dragHandleProps}
-                        restTimerEnabled={settings?.restTimerEnabled}
+                        restTimerEnabled={restTimerEnabled}
                       />
                     )}
                   </SortableExerciseItem>

@@ -74,9 +74,6 @@ export default function LoginPage({ setUser }) {
               setEmail(e.target.value)
               setError('')
             }}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') handleLogin()
-            }}
           />
 
           <div className="password-wrapper">
@@ -89,9 +86,6 @@ export default function LoginPage({ setUser }) {
               onChange={(e) => {
                 setPassword(e.target.value)
                 setError('')
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') handleLogin()
               }}
             />
 

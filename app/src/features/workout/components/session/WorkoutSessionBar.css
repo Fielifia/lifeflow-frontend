@@ -182,6 +182,8 @@
   opacity: 0.85;
 }
 
+
+
 /* hover effect */
 .workout-session-bar:hover {
   border-color: rgba(255, 255, 255, 0.1);
@@ -190,4 +192,21 @@
 /* subtle press */
 .workout-session-bar:active {
   transform: scale(0.98);
+}
+
+@media (max-width: 380px) {
+
+  .workout-session-bar,
+  .workout-session-bar.rest-active .session-center,
+  .workout-session-bar.rest-active .session-center .session-name {
+    font-size: var(--text-sm);
+  }
+  
+  .rest-controls {
+    gap: var(--space-1);
+  }
+
+    .workout-session-bar.rest-active .rest-controls button {
+    display: none;
+  }
 }

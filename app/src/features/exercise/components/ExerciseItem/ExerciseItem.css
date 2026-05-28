@@ -83,7 +83,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-1);
 }
 
 .set-row {
@@ -107,12 +106,31 @@
 .number-input,
 .reps-grid {
   display: grid;
-  grid-template-columns: 24px 1fr 24px;
+  grid-template-columns: 1fr 2fr 1fr;
   height: 100%;
 }
 
 .set-grid-workout {
   grid-template-columns: 48px 80px minmax(80px, 1fr) 40px;
+}
+
+@media (max-width: 360px) {
+
+  .set-grid-run,
+  .set-row-run {
+    grid-template-columns:
+      20px 1fr 1fr 3fr 30px;
+  }
+
+  .set-header,
+  .set-row {
+    grid-template-columns: 20px 1fr 1fr 2fr 30px;
+    gap: var(--space-1);
+  }
+
+  .set-grid-workout {
+    grid-template-columns: 1fr 2fr 2fr 1fr;
+  }
 }
 
 .set-grid-template {
@@ -229,6 +247,7 @@
   border: none;
   background: transparent;
   cursor: default;
+  pointer-events: none;
 }
 
 .rest-label.is-static:hover {

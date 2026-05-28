@@ -8,6 +8,7 @@ import BackButton from '../../../shared/components/ui/button/BackButton'
 import Header from '../../../shared/components/ui/Header'
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 import WorkoutControls from '../../../shared/components/ui/WorkoutControls/WorkoutControls'
+import WorkoutHeader from '../../workout/components/WorkoutHeader'
 
 import ExerciseItem from '../../exercise/components/ExerciseItem/ExerciseItem'
 
@@ -41,7 +42,7 @@ export default function TemplateDetailPage() {
   if (loading || error || !template) {
     return (
       <div className="app">
-        <Header title="Template" />
+        <Header />
 
         <div className="section">
           <BackButton fallback="/workouts" />
@@ -64,13 +65,20 @@ export default function TemplateDetailPage() {
       {/* HEADER */}
 
       <Header
-        title={template.name}
-        subtitle={`${template.exercises.length} exercises`}
+        subtitle={`Template (${template.exercises.length} exercises)`}
       />
 
       {/* BACK BUTTON */}
 
       <BackButton fallback="/workouts" />
+
+      {/* WORKOUT HEADER */}
+
+      <WorkoutHeader
+        name={template.name}
+        mode="template"
+        showDuration={false}
+      />
 
       {/* CONTROLS */}
 

@@ -146,17 +146,17 @@ export function formatWeight(kg) {
 
 /**
  * Formats a timestamp into relative workout date text.
- * @param {string|Date} timestamp - Workout timestamp
+ * @param {string|Date} startTime - Workout start time
  * @returns {string} Formatted relative date
  */
-export function formatDate(timestamp) {
-  if (!timestamp) {
+export function formatDate(startTime) {
+  if (!startTime) {
     return ''
   }
 
   // ===== DATE REFERENCES =====
 
-  const workoutDate = new Date(timestamp)
+  const workoutDate = new Date(startTime)
 
   const today = new Date()
   const yesterday = new Date()
