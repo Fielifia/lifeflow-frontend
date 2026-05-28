@@ -7,6 +7,8 @@ import useExercises from '../hooks/useExercises'
 
 import { CATEGORY_ORDER } from '../utils/exerciseCategories'
 
+import Header from '../../../shared/components/ui/Header'
+
 import BackButton from '../../../shared/components/ui/button/BackButton'
 
 import Button from '../../../shared/components/ui/button/Button'
@@ -74,7 +76,7 @@ export default function ExercisesLibraryPage() {
   const visibleCount = Number(searchParams.get('limit')) || 20
 
   // ===== URL PARAMS UPDATE =====
-  
+
   const updateParams = (updates) => {
     const params = new URLSearchParams(searchParams)
 
@@ -209,18 +211,20 @@ export default function ExercisesLibraryPage() {
 
   return (
     <div className="app">
+      <Header
+        subtitle={isSelectMode ? 'Select Exercise' : 'Exercise Library'}
+      />
       {/* BACK BUTTON */}
 
       <BackButton fallback={fallback} />
 
       <div className="section exercise-library-page">
-        <h2>{isSelectMode ? 'Select exercise' : 'Exercise Library'}</h2>
+        <p className="medium">
+          {isSelectMode
+            ? 'Choose an exercise to add to your workout'
+            : 'Explore exercises'}
+        </p>
 
-        {isSelectMode && (
-          <p className="muted small">
-            Choose an exercise to add to your workout
-          </p>
-        )}
 
         {/* SHOW FAVORITES */}
 

@@ -7,6 +7,7 @@ import {
   UserPlus,
 } from 'lucide-react'
 
+
 import { userStorage } from '../../utils/storage/userStorage'
 
 import { useConfirm } from '../../hooks/useConfirm'
@@ -16,12 +17,11 @@ import ActionMenu from './action-menu/ActionMenu'
 /**
  * Shared app header.
  * @param {object} props - Component props
- * @param {string} props.title - Header title
  * @param {string} [props.subtitle] - Header subtitle
  * @param {'guest'|'register'|'login'|'authenticated'} [props.variant] - Icon variant
  * @returns {import('react').ReactElement} Header
  */
-export default function Header({ title, subtitle, variant = 'authenticated' }) {
+export default function Header({ subtitle, variant = 'authenticated' }) {
   const confirm = useConfirm()
 
   /**
@@ -57,7 +57,14 @@ export default function Header({ title, subtitle, variant = 'authenticated' }) {
       {/* HEADER CONTENT */}
 
       <div className="header-content">
-        <h1 className="close">{title}</h1>
+        <h1
+          className="close header-title-link"
+          onClick={() => {
+            window.location.href = '/'
+          }}
+        >
+          LifeFlow Fitness
+        </h1>
 
         {subtitle && <p className="body muted close">{subtitle}</p>}
       </div>

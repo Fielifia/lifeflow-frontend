@@ -4,7 +4,6 @@ import { useLocation, useParams } from 'react-router-dom'
 
 import { getExerciseByIdApi } from '../../../shared/api/exerciseApi'
 
-
 import { formatLabel } from '../../../shared/utils/format'
 
 import { normalizeExercise } from '../utils/exerciseAdapter'
@@ -96,7 +95,7 @@ export default function ExerciseDetail() {
   if (loading || error || !ex) {
     return (
       <div className="app">
-        <Header title="Exercise" />
+        <Header title="LifeFlow Fitness" subtitle="Exercise Details" />
 
         <BackButton fallback={fallback} />
 
@@ -118,7 +117,7 @@ export default function ExerciseDetail() {
     <div className="app">
       {/* HEADER */}
 
-      <Header title="Exercise" subtitle="Details" />
+      <Header title="LifeFlow Fitness" subtitle="Exercise Details" />
 
       {/* BACK BUTTON */}
 
