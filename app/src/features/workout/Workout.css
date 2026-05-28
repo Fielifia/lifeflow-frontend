@@ -49,77 +49,16 @@
 /* ===== DURATION DISPLAY ====== */
 /* ============================= */
 
-/*
-
-export default function EditModal({
-
-  title,
-  tempValue,
-  setTempValue,
-  onClose,
-  onSave,
-  inputType='text',
-}) {
-  return (<div className="modal-overlay" onClick= {
-      onClose
-    }
-
-    > <div className="modal-card" onClick= {
-      (e)=> e.stopPropagation()
-    }
-
-    > <h3> {
-      title
-    }
-
-    </h3> <div className="modal-card-content" > <input type= {
-      inputType
-    }
-
-    className="input-base"
-
-    value= {
-      tempValue
-    }
-
-    autoFocus onFocus= {
-      (e)=> e.target.select()
-    }
-
-    onChange= {
-      (e)=> setTempValue(e.target.value)
-    }
-
-    onKeyDown= {
-      (e)=> {
-        if (e.key==='Enter') {
-          e.preventDefault() onSave()
-        }
-      }
-    }
-
-    /> <button className="btn btn-sm btn-primary" onClick= {
-      onSave
-    }
-
-    > Save </button> <button className="btn btn-sm btn-secondary" onClick= {
-      onClose
-    }
-
-    > Cancel </button> </div> </div> </div>)
-}
-*/
-
 .duration {
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
   margin: var(--space-5) 0;
-  pointer-events: none;
 }
 
 .duration-time {
   font-size: var(--text-xl);
+  pointer-events: none;
 }
 
 .workout-times {

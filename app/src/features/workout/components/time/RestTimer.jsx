@@ -1,5 +1,7 @@
 import { getCurrentExercise } from '../../../../shared/utils/getCurrentExercise'
 
+import { formatRestTime } from '../../../../shared/utils/format'
+
 import './RestTimer.css'
 
 /**
@@ -32,7 +34,9 @@ export default function RestTimer({
       <div className="rest-controls">
         <button onClick={() => adjustRest(-15)}>−</button>
 
-        <span className="rest-time">{Math.max(0, restRemaining)}s</span>
+        <span className="rest-time">
+          {formatRestTime(Math.max(0, restRemaining))}
+        </span>
 
         <button onClick={() => adjustRest(15)}>+</button>
 

@@ -109,6 +109,7 @@ export function formatElapsedTime(seconds) {
   return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
 }
 
+
 /**
  * Formats numbers using locale separators.
  * @param {number} value - Numeric value
@@ -213,7 +214,7 @@ export function formatRestTime(seconds) {
 
   if (seconds >= 60) {
     return seconds % 60 === 0
-      ? `${seconds / 60} min`
+      ? `${seconds / 60} m`
       : `${Math.floor(seconds / 60)}m ${seconds % 60}s`
   }
 

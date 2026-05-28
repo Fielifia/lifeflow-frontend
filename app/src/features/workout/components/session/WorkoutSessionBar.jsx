@@ -1,6 +1,7 @@
 import { ChevronUp } from 'lucide-react'
 import { useWorkoutContext } from '../../../../shared/context/WorkoutContext'
 import { getCurrentExercise } from '../../../../shared/utils/getCurrentExercise'
+import { formatRestTime } from '../../../../shared/utils/format'
 
 /**
  * Workout session bar display and controls.
@@ -72,7 +73,9 @@ export default function WorkoutSessionBar({
               −
             </button>
 
-            <span className="rest-time">{restRemaining}s</span>
+            <span className="rest-time">
+              {formatRestTime(Math.max(0, restRemaining))}
+            </span>
 
             <button
               onClick={(e) => {
