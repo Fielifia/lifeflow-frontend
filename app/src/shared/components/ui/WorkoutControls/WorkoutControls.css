@@ -3,6 +3,7 @@
   gap: var(--space-2);
 }
 
+
 .workout-controls-card {
   margin-top: var(--space-2);
 }
@@ -18,5 +19,30 @@
   display: flex;
   gap: var(--space-2);
   margin: var(--space-5) 0;
-  height: 60px;
+}
+
+@media (max-width: 400px) {
+
+  .workout-controls,
+  .workout-controls-run,
+  .workout-controls-detail,
+  .workout-controls-editor {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  html body div#root div.app div.app div.workout-controls-run button.btn.btn-secondary.btn-lg,
+  html body div#root div.app div.app div.workout-controls-run button.btn.btn-danger.btn-lg,
+    html body div#root div.app div.app div.workout-controls-editor button.btn.btn-secondary.btn-lg,
+    html body div#root div.app div.app div.workout-controls-editor button.btn.btn-danger.btn-lg,
+  html body div#root div.app div.app div.workout-controls-detail button.btn.btn-secondary.btn-lg,
+  html body div#root div.app div.app div.workout-controls-detail button.btn.btn-danger.btn-lg {
+    grid-column: span 1;
+  }
+
+  html body div#root div.app div.app div.workout-controls-run button.btn.btn-primary.btn-lg.btn-full,
+  html body div#root div.app div.app div.workout-controls-detail button.btn.btn-primary.btn-lg.btn-full,
+  html body div#root div.app div.app div.workout-controls-editor button.btn.btn-primary.btn-lg.btn-full {
+    grid-column: span 2;
+  }
 }

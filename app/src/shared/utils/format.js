@@ -109,6 +109,7 @@ export function formatElapsedTime(seconds) {
   return `${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`
 }
 
+
 /**
  * Formats numbers using locale separators.
  * @param {number} value - Numeric value
@@ -145,17 +146,17 @@ export function formatWeight(kg) {
 
 /**
  * Formats a timestamp into relative workout date text.
- * @param {string|Date} timestamp - Workout timestamp
+ * @param {string|Date} startTime - Workout start time
  * @returns {string} Formatted relative date
  */
-export function formatDate(timestamp) {
-  if (!timestamp) {
+export function formatDate(startTime) {
+  if (!startTime) {
     return ''
   }
 
   // ===== DATE REFERENCES =====
 
-  const workoutDate = new Date(timestamp)
+  const workoutDate = new Date(startTime)
 
   const today = new Date()
   const yesterday = new Date()
@@ -213,7 +214,7 @@ export function formatRestTime(seconds) {
 
   if (seconds >= 60) {
     return seconds % 60 === 0
-      ? `${seconds / 60} min`
+      ? `${seconds / 60} m`
       : `${Math.floor(seconds / 60)}m ${seconds % 60}s`
   }
 

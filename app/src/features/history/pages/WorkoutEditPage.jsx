@@ -170,7 +170,7 @@ export default function WorkoutEditPage() {
   if (loading || error || !workout) {
     return (
       <div className="app">
-        <Header title="Workout" />
+        <Header subtitle="Edit Workout" />
         <BackButton fallback="/workouts" />
 
         <DataState
@@ -189,7 +189,7 @@ export default function WorkoutEditPage() {
     <div className="app">
       {/* HEADER */}
 
-      <Header title={workout.name} subtitle="Edit workout" />
+      <Header subtitle="Edit workout" />
 
       {/* BACK BUTTON */}
 

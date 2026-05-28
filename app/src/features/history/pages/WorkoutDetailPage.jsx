@@ -57,7 +57,7 @@ export default function WorkoutDetailPage() {
   if (loading || error || !workout) {
     return (
       <div className="app">
-        <Header title="Workout" />
+        <Header/>
 
         <BackButton fallback="/workouts" />
 
@@ -77,7 +77,7 @@ export default function WorkoutDetailPage() {
     <div className="app">
       {/* HEADER */}
 
-      <Header title={workout.name} subtitle={formatDate(workout.timestamp)} />
+      <Header subtitle={formatDate(workout.startTime)} />
 
       {/* BACK BUTTON */}
 

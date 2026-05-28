@@ -91,6 +91,21 @@ export default function WorkoutControls({
 
       {variant === 'run' && (
         <>
+          {/* FINISH & SAVE */}
+
+          {onFinishWorkout && (
+            <Button
+              variant="primary"
+              size="lg"
+              fullWidth
+              loading={saving}
+              disabled={!hasExercises}
+              onClick={onFinishWorkout}
+            >
+              Finish & Save
+            </Button>
+          )}
+          
           {/* START / PAUSE / RESUME */}
           {handleStartPause && (
             <Button
@@ -110,21 +125,6 @@ export default function WorkoutControls({
                     ? 'Resume'
                     : 'Start'}
               </span>
-            </Button>
-          )}
-
-          {/* FINISH & SAVE */}
-
-          {onFinishWorkout && (
-            <Button
-              variant="primary"
-              size="lg"
-              fullWidth
-              loading={saving}
-              disabled={!hasExercises}
-              onClick={onFinishWorkout}
-            >
-              Finish & Save
             </Button>
           )}
 

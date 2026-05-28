@@ -80,6 +80,7 @@ body {
   background: var(--bg);
   color: var(--text);
   font-size: var(--text-body);
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* ============================= */
@@ -100,6 +101,10 @@ h3 {
 
 h4 {
   font-size: var(--text-h4);
+}
+
+.medium {
+  font-size: var(--text-md);
 }
 
 .small {
@@ -188,6 +193,7 @@ a:active {
   margin: 0 auto 3.75rem;
   padding: var(--space-3);
   height: 100%;
+  min-height: 100dvh;
 
   background: var(--bg);
 }
@@ -242,6 +248,13 @@ a:active {
   backdrop-filter: blur(10px);
 
   z-index: 100;
+
+  .header-title-link {
+      cursor: pointer; }
+}
+
+.header-title-link:hover {
+  opacity: 0.85;
 }
 
 /* ============================= */
@@ -309,11 +322,11 @@ input {
 }
 
 .input-clean {
-  width: 50px;
+  width: 80px;
   border: none;
   background: transparent;
   color: var(--text);
-  font-size: var(--text-sm);
+  font-size: var(--text-body);
 }
 
 .input-clean:focus {
@@ -331,10 +344,11 @@ input {
 input[type="checkbox"] {
   appearance: none;
   align-self: center;
+  align-content: center;
   accent-color: var(--primary);
   cursor: pointer;
-  width: 20px;
-  height: 20px;
+  width: 1.5rem;
+  height: 1.5rem;
   border-radius: var(--radius-xs);
   background-color: var(--card);
   box-shadow: 0 0 0 2px rgba(25, 104, 106, 0.2);

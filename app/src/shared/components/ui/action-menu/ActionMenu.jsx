@@ -65,27 +65,25 @@ export default function ActionMenu({
   // ===== CLOSE ON OUTSIDE CLICK =====
 
   useEffect(() => {
+    if (!open) {
+      return undefined
+    }
+
     const handleClickOutside = (e) => {
-      if (
-        menuRef.current &&
-        !menuRef.current.contains(e.target)
-      ) {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        e.preventDefault()
+        e.stopPropagation()
+
         setOpen(false)
       }
     }
 
-    document.addEventListener(
-      'click',
-      handleClickOutside
-    )
+    document.addEventListener('pointerdown', handleClickOutside)
 
     return () => {
-      document.removeEventListener(
-        'click',
-        handleClickOutside
-      )
+      document.removeEventListener('pointerdown', handleClickOutside)
     }
-  }, [])
+  }, [open])
 
   // ===== OPEN STATE CALLBACK =====
 

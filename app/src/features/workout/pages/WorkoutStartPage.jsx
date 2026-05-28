@@ -98,7 +98,7 @@ export default function WorkoutStartPage() {
   return (
     <div className="app">
 
-      <Header title="Start Workout" subtitle="Build your next session" />
+      <Header subtitle="Build your next session" />
 
       <div className="section">
 

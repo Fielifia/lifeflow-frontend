@@ -24,4 +24,21 @@ API.interceptors.request.use((config) => {
   return config
 })
 
+// ===== UNAUTHORIZED HANDLER =====
+
+API.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      userStorage.clear()
+
+      if (window.location.pathname !== '/login') {
+        window.location.href = '/login'
+      }
+    }
+
+    return Promise.reject(error)
+  },
+)
+
 export default API

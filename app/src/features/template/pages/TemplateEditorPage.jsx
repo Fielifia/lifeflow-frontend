@@ -118,7 +118,7 @@ export default function TemplateEditorPage() {
   if (loading || error || !template) {
     return (
       <div className="app">
-        <Header title="Template" />
+        <Header subtitle={isCreate ? 'Create Template' : 'Edit Template'} />
 
         <div className="section">
           <BackButton fallback="/workouts" />
@@ -141,7 +141,6 @@ export default function TemplateEditorPage() {
       {/* HEADER */}
 
       <Header
-        title={template.name}
         subtitle={isCreate ? 'Create Template' : 'Edit Template'}
       />
 

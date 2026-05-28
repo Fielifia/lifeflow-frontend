@@ -66,9 +66,11 @@ export default function ExerciseSetRow({
       )}
 
       <span className={`set-number ${isHistoricalPB ? 'pb' : ''}`}>
-        {isRunMode && isHistoricalPB
-          ? <Trophy className="icon-small" />
-          : j + 1}
+        {isRunMode && isHistoricalPB ? (
+          <Trophy className="icon-small" />
+        ) : (
+          j + 1
+        )}
       </span>
 
       {/* PREVIOUS */}
@@ -87,6 +89,7 @@ export default function ExerciseSetRow({
         <input
           ref={(el) => (inputRefs.current[j] = el)}
           className="input-base"
+          aria-label="Weight"
           type="number"
           value={set.weight ?? ''}
           onFocus={(e) => e.target.select()}
@@ -95,9 +98,7 @@ export default function ExerciseSetRow({
               i,
               j,
               'weight',
-              e.target.value === ''
-                ? ''
-                : Number(e.target.value),
+              e.target.value === '' ? '' : Number(e.target.value),
             )
           }
         />
@@ -113,12 +114,7 @@ export default function ExerciseSetRow({
             variant="ghost"
             type="button"
             onClick={() =>
-              updateSet(
-                i,
-                j,
-                'reps',
-                Math.max(0, (set.reps || 0) - 1),
-              )
+              updateSet(i, j, 'reps', Math.max(0, (set.reps || 0) - 1))
             }
           >
             −
@@ -127,6 +123,7 @@ export default function ExerciseSetRow({
           <input
             className="input-base"
             type="number"
+            aria-label="Reps"
             value={set.reps ?? ''}
             onFocus={(e) => e.target.select()}
             onChange={(e) =>
@@ -134,9 +131,7 @@ export default function ExerciseSetRow({
                 i,
                 j,
                 'reps',
-                e.target.value === ''
-                  ? ''
-                  : Number(e.target.value),
+                e.target.value === '' ? '' : Number(e.target.value),
               )
             }
           />
@@ -144,14 +139,7 @@ export default function ExerciseSetRow({
           <Button
             variant="ghost"
             type="button"
-            onClick={() =>
-              updateSet(
-                i,
-                j,
-                'reps',
-                (set.reps || 0) + 1,
-              )
-            }
+            onClick={() => updateSet(i, j, 'reps', (set.reps || 0) + 1)}
           >
             +
           </Button>
@@ -159,6 +147,7 @@ export default function ExerciseSetRow({
       ) : isEditable ? (
         <input
           className="input-base"
+          aria-label="Reps"
           type="number"
           value={set.reps ?? ''}
           onFocus={(e) => e.target.select()}
@@ -167,9 +156,7 @@ export default function ExerciseSetRow({
               i,
               j,
               'reps',
-              e.target.value === ''
-                ? ''
-                : Number(e.target.value),
+              e.target.value === '' ? '' : Number(e.target.value),
             )
           }
         />
@@ -179,9 +166,7 @@ export default function ExerciseSetRow({
 
       {isWorkoutMode && (
         <span className="set-pb">
-          {isHistoricalPB && (
-            <Trophy className="icon-small" />
-          )}
+          {isHistoricalPB && <Trophy className="icon-small" />}
         </span>
       )}
 
@@ -190,11 +175,10 @@ export default function ExerciseSetRow({
       {isRunMode && isEditable && (
         <input
           type="checkbox"
+          aria-label="complete"
           className="checkbox"
           checked={set.completed}
-          onChange={(e) =>
-            toggleSetComplete(i, j, e.target.checked)
-          }
+          onChange={(e) => toggleSetComplete(i, j, e.target.checked)}
         />
       )}
     </div>
