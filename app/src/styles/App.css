@@ -246,6 +246,13 @@ a:active {
   backdrop-filter: blur(10px);
 
   z-index: 100;
+
+  .header-title-link {
+      cursor: pointer; }
+}
+
+.header-title-link:hover {
+  opacity: 0.85;
 }
 
 /* ============================= */
