@@ -38,7 +38,6 @@ export default function WorkoutPreviewCard({
       className={`
         card-base
         preview-card
-        card-clickable
         ${!menuOpen ? 'card-clickable' : ''}
         ${menuOpen ? 'menu-open' : ''}
       `}
@@ -48,11 +47,6 @@ export default function WorkoutPreviewCard({
         }
 
         onClick()
-      }}
-      onMouseDown={(e) => {
-        if (menuOpen) {
-          e.preventDefault()
-        }
       }}
     >
       {/* HEADER */}
@@ -67,7 +61,7 @@ export default function WorkoutPreviewCard({
         {/* ACTION MENU */}
 
         {hasMenu && (
-          <ActionMenu items={menuItems} onClickChange={setMenuOpen} />
+          <ActionMenu items={menuItems} onOpenChange={setMenuOpen} />
         )}
       </div>
 

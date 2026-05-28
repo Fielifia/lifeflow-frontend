@@ -12,6 +12,12 @@
   transform: none !important;
 }
 
+
+.preview-card.menu-open .action-menu {
+  pointer-events: auto;
+  transform: none !important;
+}
+
 .preview-card-header {
   position: relative;
   display: flex;

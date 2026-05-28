@@ -33,13 +33,16 @@
 
   html body div#root div.app div.app div.workout-controls-run button.btn.btn-secondary.btn-lg,
   html body div#root div.app div.app div.workout-controls-run button.btn.btn-danger.btn-lg,
+    html body div#root div.app div.app div.workout-controls-editor button.btn.btn-secondary.btn-lg,
+    html body div#root div.app div.app div.workout-controls-editor button.btn.btn-danger.btn-lg,
   html body div#root div.app div.app div.workout-controls-detail button.btn.btn-secondary.btn-lg,
   html body div#root div.app div.app div.workout-controls-detail button.btn.btn-danger.btn-lg {
     grid-column: span 1;
   }
 
   html body div#root div.app div.app div.workout-controls-run button.btn.btn-primary.btn-lg.btn-full,
-  html body div#root div.app div.app div.workout-controls-detail button.btn.btn-primary.btn-lg.btn-full {
+  html body div#root div.app div.app div.workout-controls-detail button.btn.btn-primary.btn-lg.btn-full,
+  html body div#root div.app div.app div.workout-controls-editor button.btn.btn-primary.btn-lg.btn-full {
     grid-column: span 2;
   }
 }
