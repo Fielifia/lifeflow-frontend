@@ -169,6 +169,15 @@
   background: none;
 }
 
+.set-row .btn-ghost {
+  font-size: var(--text-h2);
+  padding: var(--space-2);
+}
+
+.set-row .btn-ghost:hover {
+  opacity: 0.8;
+}
+
 .set-row.completed {
   opacity: 0.7;
 }
@@ -185,6 +194,7 @@
 /* ============================= */
 
 .rest-label {
+  display: flex;
   padding: var(--space-2);
   border-radius: var(--radius-md);
   background: var(--card-2);
@@ -203,7 +213,11 @@
 }
 
 .rest-badge {
-  font-size: var(--text-sm);
+  font-size: var(--text-body);
+}
+
+.rest-label .input-clean {
+  text-align: center;
 }
 
 .rest-label:hover {

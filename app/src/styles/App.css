@@ -320,11 +320,11 @@ input {
 }
 
 .input-clean {
-  width: 50px;
+  width: 80px;
   border: none;
   background: transparent;
   color: var(--text);
-  font-size: var(--text-sm);
+  font-size: var(--text-body);
 }
 
 .input-clean:focus {
@@ -342,10 +342,11 @@ input {
 input[type="checkbox"] {
   appearance: none;
   align-self: center;
+  align-content: center;
   accent-color: var(--primary);
   cursor: pointer;
-  width: 20px;
-  height: 20px;
+  width: 1.5rem;
+  height: 1.5rem;
   border-radius: var(--radius-xs);
   background-color: var(--card);
   box-shadow: 0 0 0 2px rgba(25, 104, 106, 0.2);
