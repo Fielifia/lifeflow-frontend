@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
@@ -73,6 +73,44 @@ export default function ExercisesLibraryPage() {
 
   const visibleCount = Number(searchParams.get('limit')) || 20
 
+  // ===== URL PARAMS UPDATE =====
+  
+  const updateParams = (updates) => {
+    const params = new URLSearchParams(searchParams)
+
+    Object.entries(updates).forEach(([key, value]) => {
+      if (value === null || value === undefined || value === '') {
+        params.delete(key)
+      } else {
+        params.set(key, value)
+      }
+    })
+
+    setSearchParams(params)
+  }
+
+  // ===== SEARCH INPUT =====
+
+  const [searchInput, setSearchInput] = useState(search)
+
+  useEffect(() => {
+    setSearchInput(search)
+  }, [search])
+
+  useEffect(() => {
+    const timeout = setTimeout(() => {
+      updateParams({
+        search: searchInput,
+        limit: null,
+      })
+    }, 250)
+
+    return () => clearTimeout(timeout)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchInput])
+
+  // ===== EXERCISE FLOW =====
+
   const {
     selectedExercises,
     setSelectedExercises,
@@ -114,20 +152,6 @@ export default function ExercisesLibraryPage() {
 
       return exists ? prev.filter((e) => e.id !== ex.id) : [...prev, ex]
     })
-  }
-
-  const updateParams = (updates) => {
-    const params = new URLSearchParams(searchParams)
-
-    Object.entries(updates).forEach(([key, value]) => {
-      if (value === null || value === undefined || value === '') {
-        params.delete(key)
-      } else {
-        params.set(key, value)
-      }
-    })
-
-    setSearchParams(params)
   }
 
   // ===== RESTORE SCROLL =====
@@ -218,14 +242,9 @@ export default function ExercisesLibraryPage() {
           className="input-base"
           id="search-exercises"
           placeholder="Search exercises..."
-          value={search}
+          value={searchInput}
           onFocus={(e) => e.target.select()}
-          onChange={(e) =>
-            updateParams({
-              search: e.target.value,
-              limit: null,
-            })
-          }
+          onChange={(e) => setSearchInput(e.target.value)}
         />
 
         {/* FILTERS */}

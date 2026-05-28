@@ -4,6 +4,8 @@ import {
   useState
 } from 'react'
 
+import Fuse from 'fuse.js'
+
 import { getExercisesApi } from '../../../shared/api/exerciseApi'
 
 import { useFavorites } from '../../../shared/hooks/useFavorites'
@@ -25,6 +27,7 @@ const SPECIAL = CATEGORIES.SPECIAL
  * @param {string} filters.equipment - Selected equipment filter.
  * @param {string} filters.category - Selected category filter.
  * @param {number} filters.visibleCount - Number of visible exercises.
+ * @param {boolean} filters.favoritesOnly - Show only favorite exercises.
  * @returns {{
  *  loading: boolean,
  *  error: string | null,
@@ -83,7 +86,6 @@ export default function useExercises(filters) {
 
   const filtered = useMemo(() => {
     const filteredExercises = exercises
-
     // ===== FAVORITES =====
 
       .filter((e) => {
@@ -98,6 +100,7 @@ export default function useExercises(filters) {
 
       .filter((e) => {
         if (!bodyPart) return true
+
         if (SPECIAL.includes(bodyPart)) {
           return e.category === bodyPart
         }
@@ -141,13 +144,25 @@ export default function useExercises(filters) {
 
     // ===== SEARCH =====
 
-      .filter((e) =>
-        e.name.toLowerCase().includes(
-          search.toLowerCase(),
-        ),
-      )
+    if (!search.trim()) {
+      return filteredExercises
+    }
 
-    return filteredExercises
+    const fuse = new Fuse(filteredExercises, {
+      threshold: 0.35,
+      ignoreLocation: true,
+
+      keys: [
+        'name',
+        'bodyPart',
+        'muscle',
+        'equipment',
+        'category',
+      ],
+    })
+
+    return fuse.search(search).map((r) => r.item)
+
   }, [
     exercises,
     favoritesOnly,

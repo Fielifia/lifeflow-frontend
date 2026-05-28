@@ -1,10 +1,12 @@
-import { createContext, useEffect, useMemo, useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 
 import {
   addFavoriteExerciseApi,
   getFavoriteExercisesApi,
   removeFavoriteExerciseApi,
 } from '../api/exerciseApi'
+
+import { userStorage } from '../utils/storage/userStorage'
 
 export const FavoritesContext = createContext(null)
 
@@ -25,6 +27,14 @@ export function FavoritesProvider({ children }) {
   // ===== LOAD FAVORITES =====
 
   useEffect(() => {
+    const storedUser = userStorage.get()
+
+    if (!storedUser?.token) {
+      setLoading(false)
+
+      return
+    }
+
     const loadFavorites = async () => {
       try {
         setLoading(true)
@@ -70,17 +80,13 @@ export function FavoritesProvider({ children }) {
 
   // ===== CONTEXT VALUE =====
 
-  const value = useMemo(
-    () => ({
-      favorites,
-      loading,
+  const value = {
+    favorites,
+    loading,
 
-      isFavorite,
-      toggleFavorite,
-    }),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [favorites, loading],
-  )
+    isFavorite,
+    toggleFavorite,
+  }
 
   return (
     <FavoritesContext.Provider value={value}>
