@@ -165,7 +165,7 @@ export default function EditModal({
   background: var(--card);
   border: 1px solid var(--border);
 
-  max-width: 428px;
+  max-width: 90vw;
   min-width: 280px;
   border-radius: var(--radius-xl);
 

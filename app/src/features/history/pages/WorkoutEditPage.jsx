@@ -46,11 +46,9 @@ export default function WorkoutEditPage() {
   // Time
   const [tempStartDate, setTempStartDate] = useState('')
   const [tempEndDate, setTempEndDate] = useState('')
-  
-  const [tempStartTime, setTempStartTime] = useState('')
+
   const [showTimeModal, setShowTimeModal] = useState(false)
 
-  const [tempEndTime, setTempEndTime] = useState('')
 
   const {
     workout,
@@ -119,54 +117,25 @@ export default function WorkoutEditPage() {
     setTempStartDate(formatLocalDateTime(start))
     setTempEndDate(formatLocalDateTime(end))
 
-    setTempStartTime(
-      `${String(start.getHours()).padStart(2, '0')}:${String(
-        start.getMinutes(),
-      ).padStart(2, '0')}`,
-    )
-
-    setTempEndTime(
-      `${String(end.getHours()).padStart(2, '0')}:${String(
-        end.getMinutes(),
-      ).padStart(2, '0')}`,
-    )
-
     setShowTimeModal(true)
   }
 
   const calculatedMinutes = Math.max(
     0,
-    Math.floor(
-      (new Date(`2000-01-01T${tempEndTime}`) -
-        new Date(`2000-01-01T${tempStartTime}`)) /
-        60000,
-    ),
+    Math.floor((new Date(tempEndDate) - new Date(tempStartDate)) / 60000),
   )
 
   const handleSaveTimes = () => {
-    const [startHours, startMinutes] = tempStartTime.split(':')
 
-    const [endHours, endMinutes] = tempEndTime.split(':')
 
-    const start = new Date(workout.startTime)
-
-    start.setHours(Number(startHours))
-    start.setMinutes(Number(startMinutes))
-    start.setSeconds(0)
-
-    const end = new Date(start)
-
-    end.setHours(Number(endHours))
-    end.setMinutes(Number(endMinutes))
-    end.setSeconds(0)
+    const start = new Date(tempStartDate)
+    const end = new Date(tempEndDate)
 
     const duration = Math.floor((end.getTime() - start.getTime()) / 1000)
 
     setWorkout((prev) => ({
       ...prev,
-
       startTime: start.getTime(),
-
       duration: Math.max(0, duration),
     }))
 
@@ -288,22 +257,6 @@ export default function WorkoutEditPage() {
               type="datetime-local"
               value={tempEndDate}
               onChange={(e) => setTempEndDate(e.target.value)}
-            />
-
-            <input
-              className="input-base"
-              type="time"
-              value={tempStartTime}
-              onChange={(e) => setTempStartTime(e.target.value)}
-            />
-
-            <span className="muted"> → </span>
-
-            <input
-              className="input-base"
-              type="time"
-              value={tempEndTime}
-              onChange={(e) => setTempEndTime(e.target.value)}
             />
 
             <span className="muted small duration-preview">
