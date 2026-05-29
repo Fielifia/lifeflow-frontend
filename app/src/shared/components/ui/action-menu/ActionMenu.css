@@ -8,6 +8,16 @@
   cursor: pointer;
 }
 
+.action-menu button.action-menu-icon-button.action-menu-profile {
+  width: 3rem;
+  height: 3rem;
+}
+
+.action-menu button.action-menu-icon-button.action-menu-default {
+  width: 2rem;
+  height: 2rem;
+}
+
 .action-menu-icon {
   display: flex;
   margin: 0;
