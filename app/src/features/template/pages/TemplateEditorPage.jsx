@@ -140,9 +140,7 @@ export default function TemplateEditorPage() {
     <div className="app">
       {/* HEADER */}
 
-      <Header
-        subtitle={isCreate ? 'Create Template' : 'Edit Template'}
-      />
+      <Header subtitle={isCreate ? 'Create Template' : 'Edit Template'} />
 
       {/* BACK BUTTON */}
 
@@ -183,25 +181,24 @@ export default function TemplateEditorPage() {
       )}
 
       {/* CONTROLS */}
+      <div className="container">
+        <WorkoutControls
+          variant="editor"
+          saving={saving}
+          onSave={saveTemplate}
+          onDiscardChanges={!isCreate ? discardChanges : undefined}
+          onDiscardTemplate={isCreate ? discardTemplate : undefined}
+          saveLabel="Save template"
+          discardLabel="Discard"
+          discardChangesLabel="Discard Changes"
+          hasUnsavedChanges={hasUnsavedChanges}
+          hasExercises={template.exercises.length > 0}
+        />
 
-      <WorkoutControls
-        variant="editor"
-        saving={saving}
-        onSave={saveTemplate}
-        onDiscardChanges={!isCreate ? discardChanges : undefined}
-        onDiscardTemplate={isCreate ? discardTemplate : undefined}
-        saveLabel="Save template"
-        discardLabel="Discard"
-        discardChangesLabel="Discard Changes"
-        hasUnsavedChanges={hasUnsavedChanges}
-        hasExercises={template.exercises.length > 0}
-      />
+        {/* FEEDBACK */}
 
-      {/* FEEDBACK */}
+        {error && <p className="error center">{error}</p>}
 
-      {error && <p className="error center">{error}</p>}
-
-      <div className="section">
         {/* ADD EXERCISE(S) */}
 
         <Button variant="secondary" size="md" fullWidth onClick={openLibrary}>
@@ -259,7 +256,7 @@ export default function TemplateEditorPage() {
       {/* BOTTOM ACTIONS */}
 
       {template.exercises.length >= 3 && (
-        <div className="section">
+        <div className="container">
           {/* ADD EXERCISE */}
 
           <Button variant="secondary" size="md" fullWidth onClick={openLibrary}>

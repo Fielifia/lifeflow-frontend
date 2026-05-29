@@ -39,7 +39,31 @@ export function buildWorkoutExercise(
     reps: 0,
   }
 
-  if (prev) {
+  if (ex.sets?.length) {
+    sets = ex.sets.map((s, index) => {
+      const previousSet = prev?.sets?.[index]
+
+      return {
+        ...s,
+
+        completed:
+          resetCompleted
+            ? false
+            : (s.completed ?? false),
+
+        weight: previousSet?.weight ?? s.weight,
+        reps: previousSet?.reps ?? s.reps,
+
+        prevWeight: previousSet?.weight,
+        prevReps: previousSet?.reps,
+      }
+    })
+
+    historicalBest = prev?.bestSet || {
+      weight: 0,
+      reps: 0,
+    }
+  } else if (prev) {
     sets = prev.sets.map((s) => ({
       reps: s.reps,
       weight: s.weight,
@@ -52,7 +76,6 @@ export function buildWorkoutExercise(
       weight: 0,
       reps: 0,
     }
-
   } else if (ex.sets?.length) {
     sets = ex.sets.map((s) => ({
       ...s,

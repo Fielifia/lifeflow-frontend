@@ -49,7 +49,6 @@ export default function WorkoutEditPage() {
 
   const [showTimeModal, setShowTimeModal] = useState(false)
 
-
   const {
     workout,
     setWorkout,
@@ -126,8 +125,6 @@ export default function WorkoutEditPage() {
   )
 
   const handleSaveTimes = () => {
-
-
     const start = new Date(tempStartDate)
     const end = new Date(tempEndDate)
 
@@ -268,25 +265,24 @@ export default function WorkoutEditPage() {
       )}
 
       {/* CONTROLS */}
+      <div className="container">
+        <WorkoutControls
+          variant="editor"
+          saving={saving}
+          onSave={saveWorkout}
+          onSecondaryAction={saveAsTemplate}
+          secondaryActionLabel="Save As Template"
+          hasUnsavedChanges={hasUnsavedChanges}
+          onDiscardChanges={discardChanges}
+          saveLabel="Save Workout"
+          discardLabel="Discard Changes"
+          hasExercises={workout.exercises.length > 0}
+        />
 
-      <WorkoutControls
-        variant="editor"
-        saving={saving}
-        onSave={saveWorkout}
-        onSecondaryAction={saveAsTemplate}
-        secondaryActionLabel="Save As Template"
-        hasUnsavedChanges={hasUnsavedChanges}
-        onDiscardChanges={discardChanges}
-        saveLabel="Save Workout"
-        discardLabel="Discard Changes"
-        hasExercises={workout.exercises.length > 0}
-      />
+        {/* FEEDBACK */}
 
-      {/* FEEDBACK */}
+        {error && <p className="error center">{error}</p>}
 
-      {error && <p className="error center">{error}</p>}
-
-      <div className="section">
         {/* ADD EXERCISE(S) */}
 
         <Button variant="secondary" size="md" fullWidth onClick={openLibrary}>
@@ -344,7 +340,7 @@ export default function WorkoutEditPage() {
       {/* BOTTOM ACTIONS */}
 
       {workout.exercises.length >= 3 && (
-        <div className="section">
+        <div className="contrainer">
           {/* ADD EXERCISE */}
 
           <Button variant="secondary" size="md" fullWidth onClick={openLibrary}>
@@ -355,8 +351,12 @@ export default function WorkoutEditPage() {
             variant="editor"
             saving={saving}
             onSave={saveWorkout}
-            onDiscardChanges={discardChanges}
+            onSecondaryAction={saveAsTemplate}
+            secondaryActionLabel="Save As Template"
             hasUnsavedChanges={hasUnsavedChanges}
+            onDiscardChanges={discardChanges}
+            saveLabel="Save Workout"
+            discardLabel="Discard Changes"
             hasExercises={workout.exercises.length > 0}
           />
         </div>
