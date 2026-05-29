@@ -171,9 +171,7 @@ export default function WorkoutRunPage() {
   // ===== DEFAULT REST MODAL =====
 
   const openDefaultRestModal = () => {
-    setTempDefaultRest(
-      String(defaultRestTime),
-    )
+    setTempDefaultRest(String(defaultRestTime))
 
     setShowDefaultRestModal(true)
   }
@@ -345,24 +343,26 @@ export default function WorkoutRunPage() {
       )}
 
       {/* TOP CONTROLS */}
-      <WorkoutControls
-        variant="run"
-        status={status}
-        handleStartPause={handleStartPause}
-        onFinishWorkout={saveWorkout}
-        onSaveTemplate={saveAsTemplate}
-        onDiscardWorkout={discardWorkout}
-        saving={saving}
-        hasExercises={workout.exercises.length > 0}
-      />
-      {error && <p className="error center">{error}</p>}
-      <div className="section">
+      <div className="container">
+        <WorkoutControls
+          variant="run"
+          status={status}
+          handleStartPause={handleStartPause}
+          onFinishWorkout={saveWorkout}
+          onSaveTemplate={saveAsTemplate}
+          onDiscardWorkout={discardWorkout}
+          saving={saving}
+          hasExercises={workout.exercises.length > 0}
+        />
+        {error && <p className="error center">{error}</p>}
+
         {/* ADD EXERCISE */}
         <Button variant="secondary" size="md" fullWidth onClick={openLibrary}>
           Add exercise
         </Button>
       </div>
-      <div className="section">
+
+      <div className="container">
         {/* EXERCISES */}
         <DataState
           data={workout.exercises}
@@ -418,6 +418,8 @@ export default function WorkoutRunPage() {
 
           <WorkoutControls
             variant="run"
+            status={status}
+            handleStartPause={handleStartPause}
             onFinishWorkout={saveWorkout}
             onDiscardWorkout={discardWorkout}
             saving={saving}
