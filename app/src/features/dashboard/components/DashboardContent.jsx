@@ -12,6 +12,8 @@ import {
 
 import { useProfileSettings } from '../../profile/hooks/useProfileSettings'
 
+import { getRandomMotivationQuote } from '../../../shared/utils/quoteGenerator'
+
 import StatsGrid from '../../../shared/components/ui/statsgrid/StatsGrid'
 import MonthlyGoal from './MonthlyGoals'
 import WorkoutPreviewCard from '../../../shared/components/cards/WorkoutPreviewCard'
@@ -62,7 +64,7 @@ export default function DashboardContent({ stats, user, recentWorkouts }) {
           {hasWorkouts ? 'Welcome back' : 'Welcome'}
           {user?.username ? `, ${user.username}` : ''}
         </p>
-        <p className="quote">"Progress is built one rep at a time"</p>
+        <p className="quote">{getRandomMotivationQuote()}</p>
       </div>
 
       {/* Stats cards */}

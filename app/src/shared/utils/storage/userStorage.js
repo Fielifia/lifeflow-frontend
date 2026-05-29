@@ -1,4 +1,4 @@
-import { STORAGE_KEYS } from '../constants'
+import { STORAGE_KEYS } from '../constants/constants'
 import { safeStorage } from './safeStorage'
 
 /**

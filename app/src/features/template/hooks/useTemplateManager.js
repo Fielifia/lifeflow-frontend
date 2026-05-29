@@ -24,7 +24,7 @@ import { useExerciseMutations } from '../../../shared/hooks/useExerciseMutations
 
 import { draftTemplateStorage, hasTemplateDraftContent } from '../../../shared/utils/storage/draftStorage'
 
-import { EMPTY_TEMPLATE } from '../../../shared/utils/constants'
+import { EMPTY_TEMPLATE } from '../../../shared/utils/constants/constants'
 
 import { hasMeaningfulContent } from '../../../shared/utils/editorUtils'
 
@@ -283,7 +283,7 @@ export function useTemplateManager(
     setShouldRestoreScroll(false)
 
     window.scrollTo(0, 0)
-    
+
     setEditingTemplate(template)
 
     if (isCreate) {

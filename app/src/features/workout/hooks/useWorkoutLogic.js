@@ -28,7 +28,7 @@ import { buildTemplatePayload } from '../../template/utils/buildTemplatePayload'
 
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 
-import { EMPTY_WORKOUT } from '../../../shared/utils/constants'
+import { EMPTY_WORKOUT } from '../../../shared/utils/constants/constants'
 
 
 /**

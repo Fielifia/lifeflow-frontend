@@ -1,13 +1,10 @@
-import { createContext,
-  useContext,
-  useEffect,
-  useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 
 import { useRestTimer } from '../../features/workout/hooks/useRestTimer'
 
 import { useWorkoutTimer } from '../../features/workout/hooks/useWorkoutTimer'
 
-import { EMPTY_TEMPLATE } from '../utils/constants'
+import { EMPTY_TEMPLATE } from '../utils/constants/constants'
 
 import {
   draftTemplateStorage,
@@ -18,7 +15,6 @@ import {
  * Shared workout session context.
  */
 const WorkoutContext = createContext()
-
 
 /**
  * Accesses workout context values.
@@ -35,7 +31,6 @@ export function useWorkoutContext() {
  * @returns {import('react').ReactElement} Workout provider UI
  */
 export function WorkoutProvider({ children }) {
-  
   // ===== TIMERS =====
 
   const timer = useWorkoutTimer()
@@ -69,7 +64,6 @@ export function WorkoutProvider({ children }) {
   // ===== WORKOUT SOURCES =====
 
   return (
-
     <WorkoutContext.Provider
       value={{
         status: timer.status,
@@ -94,10 +88,7 @@ export function WorkoutProvider({ children }) {
         flash,
       }}
     >
-
       {children}
-
     </WorkoutContext.Provider>
-
   )
 }
