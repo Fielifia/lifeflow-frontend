@@ -19,7 +19,7 @@ Built with:
 - Workout logging
 - Workout history
 - Workout templates
-- Personal best feedback
+- Personal best detection
 - Exercise library
 - Statistics and progress tracking
 - Responsive design
@@ -33,7 +33,7 @@ Built with:
 
 ```bash
 git clone <repo-url>
-cd app
+cd lifeflow-frontend/app
 npm install
 ```
 
@@ -51,15 +51,17 @@ REACT_APP_API_URL=http://localhost:5000
 npm start
 ```
 
+Frontend runs on:
+
+`http://localhost:3000`
+
 ## Production Build
 
 ```bash
 npm run build
 ```
 
-Frontend runs on:
-
-`http://localhost:3000`
+The generated build folder is served through nginx in the production environment.
 
 ## Testing
 
@@ -71,7 +73,7 @@ npm test
 Run CI test suite:
 
 ```bash
-npm run rest:ci
+npm run test:ci
 ```
 
 Run end-to-end tests:
@@ -98,7 +100,7 @@ npm run docker:prod
 
 The frontend follows a feature-based architecture:
 
-```bash
+```txt
 src/
 ├── features/
 ├── shared/
