@@ -1,68 +1,114 @@
-# LifeFlow Frontend
-Frontend for the LifeFlow Fitness project.
-This is a React application created with Create React App.
+# LifeFlow Fitness Frontend
 
-> Note: The main React app lives in the `app/` folder. All commands below should be run inside `app/`.
+Frontend application for LifeFlow Fitness.
+
+Built with:
+
+- React
+- React Router
+- Axios
+- DnD Kit
+- Jest
+- React Testing Library
+- Playwright
+
+## Features
+
+- Authentication
+- Dashboard
+- Workout logging
+- Workout history
+- Workout templates
+- Personal best feedback
+- Exercise library
+- Statistics and progress tracking
+- Responsive design
 
 ## Requirements
-- Node.js (recommended v18+)
+
+- Node.js 18+
 - npm
 
 ## Installation
-Clone the repository and install dependencies:
 
 ```bash
 git clone <repo-url>
-cd lifeflow-frontend/app
+cd app
 npm install
 ```
 
-## Run the development server
-Start the app with:
+## Environment Variables
+
+Create a `.env` file:
+
+```env
+REACT_APP_API_URL=http://localhost:5000
+```
+
+## Development
 
 ```bash
 npm start
 ```
-The server will run on:
-```
-http://localhost:3000
-```
-The frontend communicates with the backend API at http://localhost:5000
 
-## API
-The frontend uses a simple API wrapper in `src/api.js`:
-```javascript
-import axios from 'axios'
-
-const API_URL = 'http://localhost:5000'
-
-export const getTestMessage = async () => {
-    try {
-        const response = await axios.get(`${API_URL}/`)
-        return response.data
-    } catch (error) {
-        console.error('Error fetching test message:', error)
-        return null
-    }
-}
-```
-
-### Example endpoint
-- `GET /` — test endpoint to verify backend connectivity.
-
-## Environment variables
-You can create a `.env` file in  `app` if needed (e.g., to configure the API URL).
-
-Example:
+## Production Build
 
 ```bash
-REACT_APP_API_URL=http://localhost:5000
+npm run build
 ```
 
-## Available scripts
-| Script          | Description                                 |
-| --------------- | ------------------------------------------- |
-| `npm start`     | Runs the app in development mode            |
-| `npm test`      | Launches test runner                        |
-| `npm run build` | Builds the app for production               |
-| `npm run eject` | Ejects CRA configuration (use with caution) |
+Frontend runs on:
+
+`http://localhost:3000`
+
+## Testing
+
+Run unit tests:
+
+```bash
+npm test
+```
+Run CI test suite:
+
+```bash
+npm run rest:ci
+```
+
+Run end-to-end tests:
+
+```bash
+npx playwright test
+```
+
+## Code Quality
+
+```bash
+npm run lint
+npm run lint:fix
+```
+
+## Docker
+
+```bash
+npm run docker:dev
+npm run docker:prod
+```
+
+## Project structure
+
+The frontend follows a feature-based architecture:
+
+```bash
+src/
+├── features/
+├── shared/
+├── styles/
+├── tests/
+└── App.jsx
+```
+
+## Related Repositories
+
+- [Backend](https://gitlab.lnu.se/1dv613/student/sa226jf/workspace/lifeflow-backend)
+- [Deployment](https://gitlab.lnu.se/1dv613/student/sa226jf/workspace/lifeflow-deploy)
+- [Project Hub](https://gitlab.lnu.se/1dv613/student/sa226jf/project-hub)
