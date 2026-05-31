@@ -12,6 +12,7 @@ import { useWorkoutManager } from '../hooks/useWorkoutManager'
 import BackButton from '../../../shared/components/ui/button/BackButton'
 import Button from '../../../shared/components/ui/button/Button'
 
+import Notes from '../../../shared/components/ui/input/Notes'
 import Header from '../../../shared/components/ui/Header'
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 import WorkoutControls from '../../../shared/components/ui/WorkoutControls/WorkoutControls'
@@ -327,11 +328,12 @@ export default function WorkoutEditPage() {
           {/* NOTES */}
 
           {workout.exercises.length > 0 && (
-            <textarea
-              className="input-base textarea"
+            <Notes
               value={workout.notes}
+              className="input-base textarea"
+              onChange={updateWorkoutNotes}
               placeholder="Workout Notes..."
-              onChange={(e) => updateWorkoutNotes(e.target.value)}
+              maxLength={500}
             />
           )}
         </div>

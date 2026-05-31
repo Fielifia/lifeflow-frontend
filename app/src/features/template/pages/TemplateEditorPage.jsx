@@ -13,6 +13,7 @@ import { useTemplateManager } from '../hooks/useTemplateManager'
 import BackButton from '../../../shared/components/ui/button/BackButton'
 import Button from '../../../shared/components/ui/button/Button'
 
+import Notes from '../../../shared/components/ui/input/Notes'
 import Header from '../../../shared/components/ui/Header'
 
 import EditModal from '../../workout/components/time/EditModal'
@@ -243,11 +244,12 @@ export default function TemplateEditorPage() {
           {/* NOTES */}
 
           {template.exercises.length > 0 && (
-            <textarea
-              className="input-base textarea"
+            <Notes
               value={template.notes}
-              placeholder="Workout Notes..."
-              onChange={(e) => updateTemplateNotes(e.target.value)}
+              className="input-base textarea"
+              onChange={updateTemplateNotes}
+              placeholder="Template Notes..."
+              maxLength={500}
             />
           )}
         </div>

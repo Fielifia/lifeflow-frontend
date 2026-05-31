@@ -4,7 +4,7 @@ import DataState from '../../../shared/components/ui/skeleton/DataState'
 
 import Header from '../../../shared/components/ui/Header'
 
-import GoalCard from '../components/GoalCard'
+import SettingInput from '../components/SettingInput'
 
 import SettingToggle from '../components/SettingToggle'
 
@@ -36,8 +36,10 @@ export default function ProfilePage() {
       <h2>Workout Settings</h2>
       <div className="section">
         <div className="settings-list">
-          <GoalCard
+          <SettingInput
+            label="Monthly goal"
             value={settings.monthlyGoal}
+            suffix="workouts"
             onSave={(value) =>
               updateSettings({
                 monthlyGoal: value,
@@ -45,35 +47,36 @@ export default function ProfilePage() {
             }
           />
 
-          <div className="settings-row">
-            <span>Default rest time</span>
+          <SettingInput
+            label="Default rest time"
+            value={settings.defaultRestTime}
+            suffix="s"
+            onSave={(value) =>
+              updateSettings({
+                defaultRestTime: value,
+              })
+            }
+          />
 
-            <strong>{settings.defaultRestTime}s</strong>
-          </div>
+          <SettingToggle
+            label="Rest timer"
+            checked={settings.restTimerEnabled}
+            onChange={(checked) =>
+              updateSettings({
+                restTimerEnabled: checked,
+              })
+            }
+          />
 
-          <div className="settings-row">
-            <SettingToggle
-              label="Rest timer"
-              checked={settings.restTimerEnabled}
-              onChange={(checked) =>
-                updateSettings({
-                  restTimerEnabled: checked,
-                })
-              }
-            />
-          </div>
-
-          <div className="settings-row">
-            <SettingToggle
-              label="Sound effects"
-              checked={settings.soundEnabled}
-              onChange={(checked) =>
-                updateSettings({
-                  soundEnabled: checked,
-                })
-              }
-            />
-          </div>
+          <SettingToggle
+            label="Sound effects"
+            checked={settings.soundEnabled}
+            onChange={(checked) =>
+              updateSettings({
+                soundEnabled: checked,
+              })
+            }
+          />
         </div>
       </div>
     </div>

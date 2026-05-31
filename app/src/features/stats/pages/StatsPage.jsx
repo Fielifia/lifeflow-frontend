@@ -6,6 +6,8 @@ import DataState from '../../../shared/components/ui/skeleton/DataState'
 import StatsHeader from '../components/StatsHeader'
 import StatsHero from '../components/StatsHero'
 
+import { getRandomProgressQuote } from '../../../shared/utils/quoteGenerator'
+
 import { useStatistics } from '../hooks/useStatistics'
 import ExerciseInsights from '../components/ExerciseInsights'
 
@@ -35,7 +37,7 @@ export default function StatsPage() {
           selectedRange={range}
           onChangeRange={setRange}
         />
-        <p className="quote">"Every workout is a step closer to your best self"</p>
+        <p className="quote">{getRandomProgressQuote()}</p>
         <DataState
           loading={loading}
           error={error}

@@ -4,7 +4,7 @@ import {
   INACTIVITY_LIMIT,
   MAX_DURATION,
   WARNING_TIME
-} from '../../../shared/utils/constants'
+} from '../../../shared/utils/constants/constants'
 
 import { safeStorage } from '../../../shared/utils/storage/safeStorage'
 

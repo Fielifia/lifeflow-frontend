@@ -28,7 +28,7 @@ import { buildTemplatePayload } from '../../template/utils/buildTemplatePayload'
 
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 
-import { EMPTY_WORKOUT } from '../../../shared/utils/constants'
+import { EMPTY_WORKOUT } from '../../../shared/utils/constants/constants'
 
 
 /**
@@ -49,7 +49,13 @@ import { EMPTY_WORKOUT } from '../../../shared/utils/constants'
  * React Router navigation function.
  * Current workout route id.
  * @returns {{
- *  workout: object,
+ * workout: {
+ *    defaultRestTime?: number | null,
+ *    restTimerEnabled?: boolean | null,
+ *    exercises: object[],
+ *    notes: string,
+ *    name: string,
+ *  },
  *
  *  setWorkout: import('react').Dispatch<
  *    import('react').SetStateAction<object>

@@ -28,6 +28,7 @@ import WorkoutControls from '../../../shared/components/ui/WorkoutControls/Worko
 import SortableExerciseItem from '../../exercise/components/SortableExerciseItem'
 
 import ExerciseItem from '../../exercise/components/ExerciseItem/ExerciseItem'
+import Notes from '../../../shared/components/ui/input/Notes'
 
 import RestTimer from '../components/time/RestTimer'
 
@@ -119,6 +120,15 @@ export default function WorkoutRunPage() {
       }))
     }
   }, [settings, workout.restTimerEnabled, setWorkout])
+
+  useEffect(() => {
+    if (settings?.defaultRestTime != null && workout.defaultRestTime == null) {
+      setWorkout((prev) => ({
+        ...prev,
+        defaultRestTime: settings.defaultRestTime,
+      }))
+    }
+  }, [settings, workout.defaultRestTime, setWorkout])
 
   useEffect(() => {
     const fromLibrary = location.state?.fromLibrary
@@ -399,11 +409,12 @@ export default function WorkoutRunPage() {
 
         {/* NOTES */}
         {workout.exercises.length > 0 && (
-          <textarea
-            className="input-base textarea"
+          <Notes
             value={workout.notes}
+            className="input-base textarea"
+            onChange={updateWorkoutNotes}
             placeholder="Workout Notes..."
-            onChange={(e) => updateWorkoutNotes(e.target.value)}
+            maxLength={500}
           />
         )}
       </div>

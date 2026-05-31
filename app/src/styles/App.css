@@ -384,9 +384,23 @@ input[type='time']::-webkit-calendar-picker-indicator {
   resize: vertical;
   font-family: system-ui, -apple-system, sans-serif;
   min-height: 36px;
-  height: 60px;
   max-height: 150px;
   margin: var(--space-3) 0;
+}
+
+.notes {
+  display: flex;
+  flex-direction: column;
+}
+
+.notes .textarea {
+  resize: none;
+  overflow: hidden;
+}
+
+.notes-counter {
+  align-self: flex-end;
+  font-size: var(--font-size-sm);
 }
 
 /* ============================= */

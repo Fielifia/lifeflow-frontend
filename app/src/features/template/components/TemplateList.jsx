@@ -71,10 +71,9 @@ export default function TemplateList({
               {
                 label: 'Open',
                 onClick: () =>
-                  navigate(`/templates/${template._id}?from=workouts`)(
-                    template,
-                  ),
+                  navigate(`/templates/${template._id}?from=workouts`),
               },
+              ,
               {
                 label: 'Edit',
                 onClick: () => navigate(`/templates/${template._id}/edit`),

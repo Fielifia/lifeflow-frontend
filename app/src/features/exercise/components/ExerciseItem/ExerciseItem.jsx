@@ -1,4 +1,4 @@
-import { GripVertical, Trash2, Weight } from 'lucide-react'
+import { GripVertical, Clock3, Trash2, Weight } from 'lucide-react'
 
 import { useRef, useState } from 'react'
 
@@ -196,7 +196,7 @@ export default function ExerciseItem({
                 }}
               />
             ) : (
-              <span className="rest-badge">{formatRestTime(safeRest)}</span>
+              <span className="rest-badge">{formatRestTime(safeRest)} <Clock3 /></span>
             )}
           </div>
 

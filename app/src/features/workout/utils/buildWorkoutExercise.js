@@ -3,7 +3,7 @@ import { normalizeExercise } from '../../../shared/utils/normalizeExercise'
 import {
   DEFAULT_REST,
   DEFAULT_SETS,
-} from '../../../shared/utils/constants'
+} from '../../../shared/utils/constants/constants'
 
 /**
  * Builds a normalized workout exercise object.
