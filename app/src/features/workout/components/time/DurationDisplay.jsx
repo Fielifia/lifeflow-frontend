@@ -75,7 +75,7 @@ export default function DurationDisplay({
       ${startTime ? 'visible' : 'hidden'}
     `}
           >
-            {mode === 'run' ? (
+            {mode === 'run' && mode === 'edit' ? (
               <Button
                 type="button"
                 variant="ghost"
