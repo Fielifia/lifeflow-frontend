@@ -122,6 +122,15 @@ export default function WorkoutRunPage() {
   }, [settings, workout.restTimerEnabled, setWorkout])
 
   useEffect(() => {
+    if (settings?.defaultRestTime != null && workout.defaultRestTime == null) {
+      setWorkout((prev) => ({
+        ...prev,
+        defaultRestTime: settings.defaultRestTime,
+      }))
+    }
+  }, [settings, workout.defaultRestTime, setWorkout])
+
+  useEffect(() => {
     const fromLibrary = location.state?.fromLibrary
 
     if (!fromLibrary) {

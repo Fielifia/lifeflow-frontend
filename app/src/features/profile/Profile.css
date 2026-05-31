@@ -33,6 +33,29 @@
 
 .settings-row {
   padding: var(--space-2);
+  height: 3rem;
+}
+
+.btn-settings {
+  cursor: pointer;
+
+  transition:
+    transform 0.08s ease,
+    opacity 0.08s ease,
+    background 0.15s ease,
+    border-color 0.15s ease;
+
+  padding: var(--space-2);
+
+  border-radius: var(--radius-md);
+
+  background: var(--card-2);
+  border: 1px solid var(--border);
+  color: var(--text);
+
+  text-align: center;
+  font-size: var(--text-sm);
+  font-weight: 600;
 }
 
 .settings-toggle {
@@ -50,7 +73,7 @@
   font-weight: 600;
 }
 
-.settings-row:not(:last-child) {
+.settings-row {
   border-bottom: 1px solid var(--border);
 }
 
@@ -58,16 +81,10 @@
   opacity: 0.8;
 }
 
-
-.profile-goal-input {
-  width: 6rem;
-  height: 2.25rem;
-
-  padding: 0 var(--space-2);
-
+.profile-input-field {
+  padding: var(--space-2);
   border-radius: var(--radius-md);
   border: 1px solid var(--border);
-
   background: var(--card-2);
   color: var(--text);
 
@@ -76,7 +93,7 @@
   font-weight: 600;
 }
 
-.profile-goal-input:focus {
+.profile-input-field:focus {
   outline: none;
   border-color: var(--primary);
   box-shadow: 0 0 0 1px rgba(25, 104, 106, 0.2);

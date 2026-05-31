@@ -11,14 +11,16 @@ import Toggle from '../../../shared/components/ui/toggle/Toggle'
  */
 export default function SettingToggle({ label, checked, onChange }) {
   return (
-    <button
-      type="button"
-      className="settings-toggle"
-      onClick={() => onChange(!checked)}
-    >
-      <span>{label}</span>
+    <div className="settings-row">
+      <button
+        type="button"
+        className="settings-toggle"
+        onClick={() => onChange(!checked)}
+      >
+        <span>{label}</span>
 
-      <Toggle active={checked} />
-    </button>
+        <Toggle active={checked} />
+      </button>
+    </div>
   )
 }
