@@ -124,6 +124,10 @@ src/
 └── App.jsx
 ```
 
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](https://gitlab.lnu.se/1dv613/student/sa226jf/workspace/lifeflow-frontend/-/edit/main/LICENSE?ref_type=heads) file for details.
+
 ## Related Repositories
 
 - [Backend](https://gitlab.lnu.se/1dv613/student/sa226jf/workspace/lifeflow-backend)
