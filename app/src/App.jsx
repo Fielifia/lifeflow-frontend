@@ -55,36 +55,36 @@ function App() {
     <BrowserRouter>
       <ConfirmProvider>
         <ToastProvider>
-          <FavoritesProvider>
-            <WorkoutProvider>
-              <ExerciseFlowProvider>
-                {!user ? (
-                  <div className="app">
-                    {showRegister ? (
-                      <>
-                        <Register setUser={setUser} />
+          <WorkoutProvider>
+            <ExerciseFlowProvider>
+              {!user ? (
+                <div className="app">
+                  {showRegister ? (
+                    <>
+                      <Register setUser={setUser} />
 
-                        <p
-                          className="message"
-                          onClick={() => setShowRegister(false)}
-                        >
-                          Already have an account? Login
-                        </p>
-                      </>
-                    ) : (
-                      <>
-                        <Login setUser={setUser} />
+                      <p
+                        className="message"
+                        onClick={() => setShowRegister(false)}
+                      >
+                        Already have an account? Login
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <Login setUser={setUser} />
 
-                        <p
-                          className="message"
-                          onClick={() => setShowRegister(true)}
-                        >
-                          Create account
-                        </p>
-                      </>
-                    )}
-                  </div>
-                ) : (
+                      <p
+                        className="message"
+                        onClick={() => setShowRegister(true)}
+                      >
+                        Create account
+                      </p>
+                    </>
+                  )}
+                </div>
+              ) : (
+                <FavoritesProvider>
                   <div className="app">
                     <Routes>
                       <Route
@@ -134,10 +134,7 @@ function App() {
                       />
 
                       <Route path="/stats" element={<StatsPage />} />
-                      <Route
-                        path="/profile"
-                        element={<ProfilePage />}
-                      />
+                      <Route path="/profile" element={<ProfilePage />} />
                       <Route
                         path="/calendar"
                         element={
@@ -156,10 +153,10 @@ function App() {
                     <Navbar />
                     <WorkoutSessionBarWrapper />
                   </div>
-                )}
-              </ExerciseFlowProvider>
-            </WorkoutProvider>
-          </FavoritesProvider>
+                </FavoritesProvider>
+              )}
+            </ExerciseFlowProvider>
+          </WorkoutProvider>
         </ToastProvider>
       </ConfirmProvider>
     </BrowserRouter>
