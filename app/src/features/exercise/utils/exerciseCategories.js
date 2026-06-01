@@ -23,16 +23,3 @@ export const CATEGORY_ORDER = [
   'Shoulders',
   'Mobility',
 ]
-
-/**
- * Supported exercise equipment options.
- * @type {Array<string>}
- */
-export const equipmentList = [
-  'Bands',
-  'Body Weight',
-  'Barbell',
-  'Dumbbell',
-  'Machine',
-  'Other',
-]
