@@ -138,6 +138,6 @@ This project is licensed under the MIT License. See the [LICENSE](https://gitlab
 
 ## Related Repositories
 
-- [Backend](https://gitlab.lnu.se/1dv613/student/sa226jf/workspace/lifeflow-backend)
-- [Deployment](https://gitlab.lnu.se/1dv613/student/sa226jf/workspace/lifeflow-deploy)
-- [Project Hub](https://gitlab.lnu.se/1dv613/student/sa226jf/project-hub)
+- [Backend](https://github.com/Fielifia/lifeflow-backend)
+- [Deployment](https://github.com/Fielifia/lifeflow-deploy)
+- [Project Documents](https://github.com/Fielifia/lifeflow-docs)
