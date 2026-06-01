@@ -6,8 +6,8 @@ import { useEffect, useRef } from 'react'
  * @param {object} props - Component props.
  * @param {string} props.value - Current note value.
  * @param {(value: string) => void} props.onChange - Change handler.
- * @param {string} [props.placeholder='Notes...'] - Placeholder text.
- * @param {number} [props.maxLength=500] - Maximum allowed characters.
+ * @param {string} [props.placeholder] - Placeholder text.
+ * @param {number} [props.maxLength] - Maximum allowed characters.
  * @returns {import('react').ReactElement} Notes component.
  */
 export default function Notes({
