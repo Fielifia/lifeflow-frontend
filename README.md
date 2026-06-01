@@ -26,7 +26,7 @@ Built with:
 
 ## Requirements
 
-- Node.js 18+
+- Node.js 22+
 - npm
 
 ## Installation
@@ -70,6 +70,7 @@ Run unit tests:
 ```bash
 npm test
 ```
+
 Run CI test suite:
 
 ```bash
@@ -81,6 +82,20 @@ Run end-to-end tests:
 ```bash
 npx playwright test
 ```
+
+## CI/CD
+
+The frontend is automatically validated through GitLab CI/CD.
+
+Pipeline checks include:
+
+- ESLint
+- Jest
+- React Testing Library
+- Playwright end-to-end tests
+- Production build verification
+
+All checks must pass before deployment.
 
 ## Code Quality
 
