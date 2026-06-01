@@ -83,6 +83,14 @@ Run end-to-end tests:
 npx playwright test
 ```
 
+Prerequisites:
+
+- Frontend running on http://localhost:3000
+- Backend running on http://localhost:5000
+- Exercise database seeded
+
+The test creates a temporary user automatically.
+
 ## CI/CD
 
 The frontend is automatically validated through GitLab CI/CD.
