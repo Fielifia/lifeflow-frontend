@@ -22,6 +22,8 @@
 
   --text: #fff;
   --muted: #b0b8bb;
+  --success: #478688e5;
+  --warning: #ed6c02e5;
   --danger: #a83b3f8a;
   --border: rgba(255, 255, 255, 0.05);
 
@@ -494,7 +496,7 @@ input[type='time']::-webkit-calendar-picker-indicator {
 .toast {
   padding: var(--space-3);
   border-radius: var(--radius-md);
-  background: #2b2b2b;
+  background: var(--card);
   color: var(--text);
   min-width: 200px;
   text-align: center;
@@ -502,15 +504,15 @@ input[type='time']::-webkit-calendar-picker-indicator {
 }
 
 .toast-success {
-  background: #2e7d32;
+  background: var(--success);
 }
 
 .toast-error {
-  background: #c62828;
+  background: var(--danger);
 }
 
 .toast-warning {
-  background: #ed6c02;
+  background: var(--warning);
 }
 
 @keyframes fadeIn {
