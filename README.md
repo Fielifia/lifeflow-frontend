@@ -24,6 +24,43 @@ Built with:
 - Statistics and progress tracking
 - Responsive design
 
+## Application Screenshots
+
+The following screenshots illustrate key workflows and functionality available in the final MVP release of LifeFlow Fitness.
+
+<details>
+<summary>LifeFlow Fitness Print Screens</summary>
+
+<img width="271" height="600" alt="LifeFlow Fitness Dashboard" src="https://github.com/user-attachments/assets/927b1f53-ebd3-4a00-ae5d-3c779cbcc17e" />
+
+**Dashboard** displaying workout statistics, recent activity, monthly goal progress, and an active workout session.
+
+<img width="271" height="600" alt="LifeFlow Fitness Workout Templates Page" src="https://github.com/user-attachments/assets/008db3c1-ceb5-4d6b-bed2-5c753473e4e8" />
+
+**Workout templates page** showing reusable workout routines and the ability to start a workout from scratch or a saved template. Or continue ongoing workout.
+
+<img width="271" height="600" alt="LifeFlow Fitness Active Workout" src="https://github.com/user-attachments/assets/e6559e30-541c-4f1c-bb36-2e0b244100e4" />
+
+**Active workout session** with exercise tracking, set logging, rest timers, and automatic personal best detection.
+
+<img width="271" height="600" alt="LifeFlow Fitness Exercise Library" src="https://github.com/user-attachments/assets/3025ef47-2e4a-418f-9950-ef9744ea1099" />
+
+**Exercise library** with search, filtering, favorites, and exercise selection during an active workout.
+
+<img width="271" height="600" alt="LifeFlow Fitness Workout History Page" src="https://github.com/user-attachments/assets/6a0a7395-5bea-45e8-a3f1-ab7aa314742b" />
+
+**Workout history page** showing completed workouts, workout details, and the ability to reuse previous sessions.
+
+<img width="271" height="600" alt="LifeFlow Fitness Statistics Page" src="https://github.com/user-attachments/assets/fd38267b-8172-4822-8a45-cff283364218" />
+
+**Statistics page** displaying workout volume, workout frequency, personal bests, and exercise insights.
+
+<img width="271" height="600" alt="LifeFlow Fitness Profile Page" src="https://github.com/user-attachments/assets/46f4860f-cba7-4919-8610-443790a11939" />
+
+**Profile page** with workout preferences, monthly goals, rest timer settings, and account-specific configuration.
+
+</details>
+
 ## Requirements
 
 - Node.js 22+
