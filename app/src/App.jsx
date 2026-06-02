@@ -140,9 +140,10 @@ function App() {
                         element={
                           <DataState
                             variant="card-empty"
-                            emptyText="Coming soon"
+                            emptyTitle="Coming soon"
+                            emptyText="This feature is planned for a future release. Stay tuned!"
                             count={1}
-                          ></DataState>
+                          />
                         }
                       />
 

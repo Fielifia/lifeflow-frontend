@@ -26,37 +26,24 @@ export default function StatsPage() {
 
   return (
     <div className="app">
-      <Header
-        title="Statistics"
-        subtitle="Your progress"
-      />
+      <Header title="Statistics" subtitle="Your progress" />
 
       <div className="section">
-
-        <StatsHeader
-          selectedRange={range}
-          onChangeRange={setRange}
-        />
+        <StatsHeader selectedRange={range} onChangeRange={setRange} />
         <p className="quote">{getRandomProgressQuote()}</p>
         <DataState
           loading={loading}
           error={error}
           data={stats}
           variant="card-template"
-          emptyText="No statistics yet"
+          emptyTitle="No statistics yet"
+          emptyText="Complete a workout to start building your statistics."
           count={1}
         >
+          <StatsHero stats={stats} />
 
-          <StatsHero
-            stats={stats}
-          />
-
-          <ExerciseInsights
-            stats={stats}
-          />
-
+          <ExerciseInsights stats={stats} />
         </DataState>
-
       </div>
     </div>
   )

@@ -176,7 +176,8 @@ export default function WorkoutEditPage() {
           error={error}
           data={workout ? [workout] : []}
           variant="card-workout"
-          emptyText="No workout found"
+          emptyTitle="Workout not found"
+          emptyText="It may have been deleted or no longer exists."
           count={1}
         />
       </div>
@@ -295,7 +296,8 @@ export default function WorkoutEditPage() {
 
       <DataState
         data={workout.exercises}
-        emptyText="Add your first exercise to start building your workout."
+        emptyTitle="No exercises added"
+        emptyText="Add an exercise to start building your workout."
       >
         <div className="section">
           {/* EXERCISES */}

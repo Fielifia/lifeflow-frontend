@@ -57,7 +57,7 @@ export default function WorkoutDetailPage() {
   if (loading || error || !workout) {
     return (
       <div className="app">
-        <Header/>
+        <Header />
 
         <BackButton fallback="/workouts" />
 
@@ -66,7 +66,8 @@ export default function WorkoutDetailPage() {
           error={error}
           data={workout ? [workout] : []}
           variant="card-workout"
-          emptyText="No workout found"
+          emptyTitle="Workout not found"
+          emptyText="It may have been deleted or no longer exists."
           count={1}
         />
       </div>

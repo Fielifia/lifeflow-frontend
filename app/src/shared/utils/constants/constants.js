@@ -41,3 +41,23 @@ export const INACTIVITY_LIMIT = 15 * 60 * 1000
 
 // Warning shown before inactivity pause (2 min)
 export const WARNING_TIME = 2 * 60 * 1000
+
+export const ERROR_MESSAGES = {
+  LOAD_DATA: 'Unable to load data. Please try again.',
+  LOAD_WORKOUT: 'Unable to load workout.',
+  LOAD_TEMPLATE: 'Unable to load template.',
+  LOAD_TEMPLATES: 'Unable to load templates.',
+  LOAD_EXERCISE: 'Unable to load exercise.',
+  LOAD_STATISTICS: 'Unable to load statistics.',
+
+  TEMPLATE_NOT_FOUND: 'Template not found.',
+  WORKOUT_NOT_FOUND: 'Workout not found.',
+
+  SAVE_WORKOUT: 'Unable to save workout. Please try again.',
+  UPDATE_WORKOUT: 'Unable to update workout. Please try again.',
+  DELETE_WORKOUT: 'Unable to delete workout. Please try again.',
+
+  SAVE_TEMPLATE: 'Unable to save template. Please try again.',
+  UPDATE_TEMPLATE: 'Unable to update template. Please try again.',
+  DELETE_TEMPLATE: 'Unable to delete template. Please try again.',
+}

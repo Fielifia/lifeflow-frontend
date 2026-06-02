@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getWorkoutsApi } from '../../../shared/api/workoutApi'
+import { ERROR_MESSAGES } from '../../../shared/utils/constants/constants'
 
 /**
  * Fetches paginated workouts for the authenticated user.
@@ -36,7 +37,7 @@ export const useWorkouts = ({
         setWorkouts(data.results)
         setTotal(data.total)
       } catch (err) {
-        setError('Failed to load workouts')
+        setError(ERROR_MESSAGES.LOAD_WORKOUT)
       } finally {
         setLoading(false)
       }

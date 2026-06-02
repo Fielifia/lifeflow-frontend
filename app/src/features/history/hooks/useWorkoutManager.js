@@ -8,6 +8,8 @@ import { arrayMove } from '@dnd-kit/sortable'
 
 import { createTemplateApi } from '../../../shared/api/templateApi'
 
+import { ERROR_MESSAGES } from '../../../shared/utils/constants/constants'
+
 import {
   deleteWorkoutApi,
   getWorkoutByIdApi,
@@ -210,7 +212,7 @@ export function useWorkoutManager(
 
         setEditingWorkout(data)
       } catch (err) {
-        setError('Failed to load workout')
+        setError(ERROR_MESSAGES.LOAD_WORKOUT)
       } finally {
         setLoading(false)
       }
@@ -359,7 +361,7 @@ export function useWorkoutManager(
 
       navigate(`/workouts/${updated._id}`)
     } catch (err) {
-      setError('Could not update workout')
+      setError(ERROR_MESSAGES.UPDATE_WORKOUT)
     } finally {
       setSaving(false)
     }
@@ -381,7 +383,7 @@ export function useWorkoutManager(
       await delay(300)
 
     } catch (err) {
-      setError('Could not save template')
+      setError(ERROR_MESSAGES.SAVE_TEMPLATE)
     } finally {
       setSaving(false)
     }
@@ -449,7 +451,7 @@ export function useWorkoutManager(
 
         return true
       } catch (err) {
-        setError(err?.message || 'Could not delete workout')
+        setError(ERROR_MESSAGES.DELETE_WORKOUT)
         return false
       } finally {
         setSaving(false)

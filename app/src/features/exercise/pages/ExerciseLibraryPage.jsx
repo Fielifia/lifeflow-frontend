@@ -225,7 +225,6 @@ export default function ExercisesLibraryPage() {
             : 'Explore exercises'}
         </p>
 
-
         {/* SHOW FAVORITES */}
 
         <Button
@@ -456,7 +455,8 @@ export default function ExercisesLibraryPage() {
           error={error}
           data={filtered}
           variant="card-exercise"
-          emptyText="No exercises found"
+          emptyTitle="No exercises found"
+          emptyText="No exercises match your current filters. Try adjusting your search or filter settings."
           count={12}
         >
           <ExerciseList

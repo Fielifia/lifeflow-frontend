@@ -15,10 +15,23 @@ import '../Profile.css'
  * @returns {import('react').ReactElement} Profile page UI.
  */
 export default function ProfilePage() {
-  const { user, settings, loading, updateSettings } = useProfileSettings()
+  const { user, settings, loading, error, updateSettings } = useProfileSettings()
 
-  if (loading || !settings || !user) {
-    return <DataState variant="card" />
+  if (loading) {
+    return <DataState variant='card-template' loading={loading} error={error} data={user} />
+  }
+
+  if (!user || !settings) {
+    return (
+      <div className="app">
+        <Header subtitle="Profile" />
+
+        <div className="empty-state">
+          <h3>Profile unavailable</h3>
+          <p>{error}</p>
+        </div>
+      </div>
+    )
   }
 
   return (

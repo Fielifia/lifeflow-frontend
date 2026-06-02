@@ -8,6 +8,8 @@ import { arrayMove } from '@dnd-kit/sortable'
 
 import { createWorkoutApi } from '../../../shared/api/workoutApi'
 
+import { ERROR_MESSAGES } from '../../../shared/utils/constants/constants'
+
 import { createTemplateApi, updateTemplateApi } from '../../../shared/api/templateApi'
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
@@ -408,7 +410,7 @@ export function useWorkoutLogic(workoutId, navigate) {
 
       draftWorkoutStorage.clear()
     } catch (err) {
-      setError(err?.message || 'Could not save workout')
+      setError(err?.message || ERROR_MESSAGES.SAVE_WORKOUT)
     } finally {
       setSaving(false)
     }
@@ -430,7 +432,7 @@ export function useWorkoutLogic(workoutId, navigate) {
       await delay(300)
 
     } catch (err) {
-      setError('Could not save template')
+      setError(ERROR_MESSAGES.SAVE_TEMPLATE)
     } finally {
       setSaving(false)
     }

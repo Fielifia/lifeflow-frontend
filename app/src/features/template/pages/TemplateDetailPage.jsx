@@ -52,7 +52,8 @@ export default function TemplateDetailPage() {
             error={error}
             data={template ? [template] : []}
             variant="card-workout"
-            emptyText="No template found"
+            emptyTitle="Template not found"
+            emptyText="It may have been deleted or no longer exists."
             count={1}
           />
         </div>

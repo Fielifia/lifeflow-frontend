@@ -29,14 +29,19 @@ export function useProfileSettings() {
 
   const [loading, setLoading] = useState(true)
 
+  const [error, setError] = useState(null)
+
   const loadSettings = async () => {
     try {
+      setError(null)
+
       const userData =
         await getCurrentUserApi()
 
       setUser(userData)
-
       setSettings(userData.settings)
+    } catch {
+      setError('Unable to load profile')
     } finally {
       setLoading(false)
     }
@@ -62,6 +67,7 @@ export function useProfileSettings() {
     user,
     settings,
     loading,
+    error,
     updateSettings,
   }
 }

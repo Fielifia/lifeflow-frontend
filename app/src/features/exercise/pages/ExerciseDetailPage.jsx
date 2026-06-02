@@ -1,8 +1,9 @@
-
 import { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 
 import { getExerciseByIdApi } from '../../../shared/api/exerciseApi'
+
+import { ERROR_MESSAGES } from '../../../shared/utils/constants/constants'
 
 import { formatLabel } from '../../../shared/utils/format'
 
@@ -53,7 +54,7 @@ export default function ExerciseDetail() {
         const data = await getExerciseByIdApi(id)
         setExercise(normalizeExercise(data))
       } catch (err) {
-        setError('Failed to load exercise')
+        setError(ERROR_MESSAGES.LOAD_EXERCISE)
       } finally {
         setLoading(false)
       }
@@ -105,7 +106,8 @@ export default function ExerciseDetail() {
             error={error}
             data={ex ? [ex] : []}
             variant="card-workout"
-            emptyText="No exercise found"
+            emptyTitle="Exercise not found"
+            emptyText="It may have been deleted or no longer exists."
             count={1}
           />
         </div>
@@ -140,9 +142,8 @@ export default function ExerciseDetail() {
         </div>
 
         {/* FAVORITE TOGGLE */}
-        
-        <FavoriteButton exerciseId={ex.id} />
 
+        <FavoriteButton exerciseId={ex.id} />
       </div>
 
       {/* IMAGE */}

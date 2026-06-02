@@ -66,7 +66,8 @@ export default function WorkoutList({
         error={error}
         data={workouts}
         variant="card-workout"
-        emptyText="No workouts yet"
+        emptyTitle="No workouts yet"
+        emptyText="Start your first workout to begin tracking your progress."
         count={5}
       >
         <div className="section">

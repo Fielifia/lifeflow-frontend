@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getOverviewStats } from '../../../shared/api/statsApi'
+import { ERROR_MESSAGES } from '../../../shared/utils/constants/constants'
 
 export const useOverviewStats = () => {
   const [stats, setStats] = useState(null)
@@ -9,12 +10,12 @@ export const useOverviewStats = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        
+
         const data = await getOverviewStats()
 
         setStats(data)
       } catch (error) {
-        setError('Failed to load dashboard stats')
+        setError(ERROR_MESSAGES.LOAD_DATA)
       } finally {
         setLoading(false)
       }

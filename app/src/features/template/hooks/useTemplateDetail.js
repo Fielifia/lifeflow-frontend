@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { getTemplateByIdApi } from '../../../shared/api/templateApi'
+import { ERROR_MESSAGES } from '../../../shared/utils/constants/constants'
 import { calculateWorkoutStats } from '../../../shared/utils/calculateWorkoutStats'
 
 
@@ -33,7 +34,7 @@ export function useTemplateDetail(id) {
 
         setTemplate(data)
       } catch {
-        setError('Failed to load template')
+        setError(ERROR_MESSAGES.LOAD_TEMPLATE)
       } finally {
         setLoading(false)
       }

@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react'
 
-import { getWorkoutsApi } from '../../../shared/api/workoutApi'
-import { useWorkoutManager } from '../hooks/useWorkoutManager'
 import { useOverviewStats } from '../../../features/dashboard/hooks/useOverviewStats'
+import { getWorkoutsApi } from '../../../shared/api/workoutApi'
+
+import { ERROR_MESSAGES } from '../../../shared/utils/constants/constants'
+
+import { useWorkoutManager } from '../hooks/useWorkoutManager'
 
 import Header from '../../../shared/components/ui/Header'
 
@@ -37,7 +40,7 @@ export default function WorkoutHistoryPage() {
 
         setWorkouts(Array.isArray(data) ? data : data.results || [])
       } catch (err) {
-        setError('Failed to load workouts')
+        setError(ERROR_MESSAGES.LOAD_WORKOUT)
       } finally {
         setLoading(false)
       }

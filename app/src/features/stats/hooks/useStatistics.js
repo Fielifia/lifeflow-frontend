@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react'
 
 import { getStatistics } from '../../../shared/api/statsApi'
 
+import { ERROR_MESSAGES } from '../../../shared/utils/constants/constants'
+
 export const useStatistics = (range) => {
   const [stats, setStats] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -16,7 +18,7 @@ export const useStatistics = (range) => {
 
         setStats(data)
       } catch {
-        setError('Failed to load statistics')
+        setError(ERROR_MESSAGES.LOAD_STATISTICS)
       } finally {
         setLoading(false)
       }

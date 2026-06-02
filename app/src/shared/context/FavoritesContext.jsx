@@ -24,6 +24,8 @@ export function FavoritesProvider({ children }) {
 
   const [loading, setLoading] = useState(true)
 
+  const [error, setError] = useState(null)
+
   // ===== LOAD FAVORITES =====
 
   useEffect(() => {
@@ -43,7 +45,7 @@ export function FavoritesProvider({ children }) {
 
         setFavorites(data.map((ex) => ex._id))
       } catch (err) {
-        console.error(err)
+        setError('Unable to load favorite exercises.')
       } finally {
         setLoading(false)
       }
@@ -74,7 +76,7 @@ export function FavoritesProvider({ children }) {
 
       setFavorites((prev) => [...prev, id])
     } catch (err) {
-      console.error(err)
+      setError('Unable to update favorite exercises.')
     }
   }
 
@@ -83,6 +85,7 @@ export function FavoritesProvider({ children }) {
   const value = {
     favorites,
     loading,
+    error,
 
     isFavorite,
     toggleFavorite,

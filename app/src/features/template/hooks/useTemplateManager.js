@@ -13,6 +13,8 @@ import {
   updateTemplateApi,
 } from '../../../shared/api/templateApi'
 
+import { ERROR_MESSAGES } from '../../../shared/utils/constants/constants'
+
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
 import { useToast } from '../../../shared/context/ToastContext'
@@ -211,7 +213,7 @@ export function useTemplateManager(
             structuredClone(normalized)
 
         } catch {
-          setError('Failed to load template')
+          setError(ERROR_MESSAGES.LOAD_TEMPLATE)
         } finally {
           setLoading(false)
         }
@@ -404,8 +406,8 @@ export function useTemplateManager(
       } catch (err) {
         setError(
           isCreate
-            ? 'Could not save template'
-            : 'Could not update template',
+            ? ERROR_MESSAGES.SAVE_TEMPLATE
+            : ERROR_MESSAGES.UPDATE_TEMPLATE,
         )
       } finally {
         setSaving(false)
@@ -485,6 +487,7 @@ export function useTemplateManager(
       }
 
       try {
+        setSaving(true)
         setError(null)
 
         await deleteTemplateApi(
@@ -500,9 +503,9 @@ export function useTemplateManager(
         return true
       } catch (err) {
         if (err.response?.status === 404) {
-          setError('Template no longer exists')
+          setError(ERROR_MESSAGES.TEMPLATE_NOT_FOUND)
         } else {
-          setError('Could not delete template')
+          setError(ERROR_MESSAGES.DELETE_TEMPLATE)
         }
 
         return false

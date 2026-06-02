@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react'
 import { getWorkoutByIdApi } from '../../../shared/api/workoutApi'
+import { ERROR_MESSAGES } from '../../../shared/utils/constants/constants'
 import { calculateWorkoutStats } from '../../../shared/utils/calculateWorkoutStats'
 
 /**
@@ -42,7 +43,7 @@ export function useWorkoutDetail(id) {
 
         setWorkout(data)
       } catch {
-        setError('Failed to load workout')
+        setError(ERROR_MESSAGES.LOAD_WORKOUT)
       } finally {
         setLoading(false)
       }

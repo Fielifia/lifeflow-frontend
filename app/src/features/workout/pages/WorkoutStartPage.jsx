@@ -1,16 +1,12 @@
-import {
-  useEffect,
-  useState
-} from 'react'
-import {
-  useNavigate
-} from 'react-router-dom'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 import {
   deleteTemplateApi,
   getTemplatesApi,
 } from '../../../shared/api/templateApi'
 
+import { ERROR_MESSAGES } from '../../../shared/utils/constants/constants'
 
 import { useStartWorkout } from '../hooks/useStartWorkout'
 
@@ -25,7 +21,6 @@ import {
 } from '../../../shared/utils/storage/draftStorage'
 
 import Button from '../../../shared/components/ui/button/Button'
-
 
 import Header from '../../../shared/components/ui/Header'
 
@@ -64,8 +59,7 @@ export default function WorkoutStartPage() {
 
         setTemplates(Array.isArray(data) ? data : data.results || [])
       } catch (err) {
-        console.error(err)
-        setError('Failed to load templates')
+        setError(ERROR_MESSAGES.LOAD_TEMPLATES)
       } finally {
         setLoading(false)
       }
@@ -91,19 +85,16 @@ export default function WorkoutStartPage() {
 
       setTemplates((prev) => prev.filter((template) => template._id !== id))
     } catch (err) {
-      console.error(err)
+      setError(ERROR_MESSAGES.DELETE_TEMPLATE)
     }
   }
 
   return (
     <div className="app">
-
       <Header subtitle="Build your next session" />
 
       <div className="section">
-
         <div className="hero-actions">
-
           {/* START / CONTINUE WORKOUT */}
 
           <Button
@@ -142,14 +133,10 @@ export default function WorkoutStartPage() {
                 : 'New Workout Template'}
             </span>
           </Button>
-
-
         </div>
-
       </div>
 
       <div className="section">
-
         {/* TEMPLATE LIST */}
 
         <TemplateList
@@ -159,7 +146,6 @@ export default function WorkoutStartPage() {
           limit={5}
           onDeleteTemplate={handleDeleteTemplate}
         />
-
       </div>
     </div>
   )

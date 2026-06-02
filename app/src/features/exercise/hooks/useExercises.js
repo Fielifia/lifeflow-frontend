@@ -7,6 +7,7 @@ import {
 import Fuse from 'fuse.js'
 
 import { getExercisesApi } from '../../../shared/api/exerciseApi'
+import { ERROR_MESSAGES } from '../../../shared/utils/constants/constants'
 
 import { useFavorites } from '../../../shared/hooks/useFavorites'
 
@@ -69,7 +70,7 @@ export default function useExercises(filters) {
           data.results.map(normalizeExercise),
         )
       } catch (err) {
-        setError('Failed to load exercises')
+        setError(ERROR_MESSAGES.LOAD_EXERCISE)
       } finally {
         setLoading(false)
       }

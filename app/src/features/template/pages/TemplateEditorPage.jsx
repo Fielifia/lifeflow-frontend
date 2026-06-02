@@ -129,7 +129,8 @@ export default function TemplateEditorPage() {
             error={error}
             data={template ? [template] : []}
             variant="card-workout"
-            emptyText="No template found"
+            emptyTitle="Template not found"
+            emptyText="It may have been deleted or no longer exists."
             count={1}
           />
         </div>
@@ -211,7 +212,8 @@ export default function TemplateEditorPage() {
 
       <DataState
         data={template.exercises}
-        emptyText="Add your first exercise to start building your template."
+        emptyTitle="No exercises added"
+        emptyText="Add exercises to create your workout template."
       >
         <div className="section">
           {/* EXERCISES */}

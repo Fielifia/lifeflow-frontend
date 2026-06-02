@@ -62,7 +62,8 @@ export default function TemplateList({
         error={error}
         data={filteredTemplates}
         variant="card-template"
-        emptyText="No templates found"
+        emptyTitle="No templates yet"
+        emptyText="Create a template to quickly start future workouts."
         count={5}
       >
         <div className="section">

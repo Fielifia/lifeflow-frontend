@@ -376,7 +376,8 @@ export default function WorkoutRunPage() {
         {/* EXERCISES */}
         <DataState
           data={workout.exercises}
-          emptyText="Add your first exercise to start building your workout."
+          emptyTitle="No exercises added"
+          emptyText="Add an exercise to start building your workout."
         >
           <>
             <DndContext
