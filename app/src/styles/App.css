@@ -375,6 +375,10 @@ input {
   background: none;
 }
 
+::placeholder {
+  color: var(--muted);
+}
+
 /* checkbox */
 
 input[type="checkbox"] {
