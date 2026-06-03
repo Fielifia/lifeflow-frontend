@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { userStorage } from './shared/utils/storage/userStorage'
+import { useOnlineStatus } from './shared/hooks/useOnlineStatus'
 
 import Login from './features/auth/pages/LoginPage'
 import Register from './features/auth/pages/RegisterPage'
@@ -51,6 +52,8 @@ function App() {
   const [user, setUser] = useState(storedUser || null)
   const [showRegister, setShowRegister] = useState(false)
 
+  const isOnline = useOnlineStatus()
+
   return (
     <BrowserRouter>
       <ConfirmProvider>
@@ -85,74 +88,88 @@ function App() {
                 </div>
               ) : (
                 <FavoritesProvider>
-                  <div className="app">
-                    <Routes>
-                      <Route
-                        path="/"
-                        element={<Dashboard setUser={setUser} />}
-                      />
-                      <Route
-                        path="/exercises"
-                        element={<ExerciseLibraryPage />}
-                      />
-                      <Route
-                        path="/exercises/:id"
-                        element={<ExerciseDetailPage />}
-                      />
+                  <div className="app-wrapper">
+                    {!isOnline && (
+                      <div className="offline-banner">
+                        You're offline. Some data may be unavailable.
+                      </div>
+                    )}
 
-                      <Route path="/workouts" element={<WorkoutStartPage />} />
-                      <Route
-                        path="/workouts/:id/run"
-                        element={<WorkoutRunPage />}
-                      />
-                      <Route
-                        path="/workouts/:id/exercises"
-                        element={<ExerciseLibraryPage />}
-                      />
+                    <div className="app">
+                      <Routes>
+                        <Route
+                          path="/"
+                          element={<Dashboard setUser={setUser} />}
+                        />
+                        <Route
+                          path="/exercises"
+                          element={<ExerciseLibraryPage />}
+                        />
+                        <Route
+                          path="/exercises/:id"
+                          element={<ExerciseDetailPage />}
+                        />
 
-                      <Route
-                        path="/templates/:id"
-                        element={<TemplateDetailPage />}
-                      />
-                      <Route
-                        path="/templates/create"
-                        element={<TemplateEditorPage />}
-                      />
-                      <Route
-                        path="/templates/:id/edit"
-                        element={<TemplateEditorPage />}
-                      />
+                        <Route
+                          path="/workouts"
+                          element={<WorkoutStartPage />}
+                        />
+                        <Route
+                          path="/workouts/:id/run"
+                          element={<WorkoutRunPage />}
+                        />
+                        <Route
+                          path="/workouts/:id/exercises"
+                          element={<ExerciseLibraryPage />}
+                        />
 
-                      <Route path="/history" element={<WorkoutHistoryPage />} />
-                      <Route
-                        path="/workouts/:id"
-                        element={<WorkoutDetailPage />}
-                      />
-                      <Route
-                        path="/workouts/:id/edit"
-                        element={<WorkoutEditPage />}
-                      />
+                        <Route
+                          path="/templates/:id"
+                          element={<TemplateDetailPage />}
+                        />
+                        <Route
+                          path="/templates/create"
+                          element={<TemplateEditorPage />}
+                        />
+                        <Route
+                          path="/templates/:id/edit"
+                          element={<TemplateEditorPage />}
+                        />
 
-                      <Route path="/stats" element={<StatsPage />} />
-                      <Route path="/profile" element={<ProfilePage />} />
-                      <Route
-                        path="/calendar"
-                        element={
-                          <DataState
-                            variant="card-empty"
-                            emptyTitle="Coming soon"
-                            emptyText="This feature is planned for a future release. Stay tuned!"
-                            count={1}
-                          />
-                        }
-                      />
+                        <Route
+                          path="/history"
+                          element={<WorkoutHistoryPage />}
+                        />
+                        <Route
+                          path="/workouts/:id"
+                          element={<WorkoutDetailPage />}
+                        />
+                        <Route
+                          path="/workouts/:id/edit"
+                          element={<WorkoutEditPage />}
+                        />
 
-                      {/* fallback */}
-                      <Route path="*" element={<Navigate to="/" />} />
-                    </Routes>
+                        <Route path="/stats" element={<StatsPage />} />
+                        <Route path="/profile" element={<ProfilePage />} />
+                        <Route
+                          path="/calendar"
+                          element={
+                            <DataState
+                              variant="card-empty"
+                              emptyTitle="Coming soon"
+                              emptyText="This feature is planned for a future release. Stay tuned!"
+                              count={1}
+                            />
+                          }
+                        />
 
-                    <Navbar />
-                    <WorkoutSessionBarWrapper />
+                        {/* fallback */}
+                        <Route path="*" element={<Navigate to="/" />} />
+                      </Routes>
+
+                      <Navbar />
+                      <WorkoutSessionBarWrapper />
+                    </div>
                   </div>
                 </FavoritesProvider>
               )}

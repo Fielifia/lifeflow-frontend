@@ -367,7 +367,7 @@ export default function WorkoutRunPage() {
         {error && <p className="error center">{error}</p>}
 
         {/* ADD EXERCISE */}
-        <Button variant="secondary" size="md" fullWidth onClick={openLibrary}>
+        <Button variant="action" size="md" fullWidth onClick={openLibrary}>
           Add exercise
         </Button>
       </div>
@@ -424,7 +424,7 @@ export default function WorkoutRunPage() {
         <div className="section">
           {/* ADD EXERCISE */}
 
-          <Button variant="secondary" size="md" fullWidth onClick={openLibrary}>
+          <Button variant="action" size="md" fullWidth onClick={openLibrary}>
             Add exercise
           </Button>
 

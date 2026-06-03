@@ -29,6 +29,10 @@ API.interceptors.request.use((config) => {
 API.interceptors.response.use(
   (response) => response,
   (error) => {
+    if (!navigator.onLine) {
+      error.isOffline = true
+    }
+
     if (error.response?.status === 401) {
       userStorage.clear()
 

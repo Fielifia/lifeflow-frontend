@@ -56,15 +56,27 @@ export default function WorkoutControls({
   saveLabel = 'Save',
   deleteLabel = 'Delete',
   discardLabel = 'Discard',
-  discardChangesLabel = 'Discard Changes',
+  discardChangesLabel = 'Discard',
   secondaryActionLabel = '',
 
   saving = false,
   deleting = false,
   hasExercises = false,
 }) {
+
+  const buttonCount = [
+    onSave,
+    onSecondaryAction,
+    onDiscardTemplate,
+    onDiscardChanges,
+  ].filter(Boolean).length
+
   return (
-    <div className={`workout-controls-${variant}`}>
+    <div
+      className={`workout-controls-${variant} ${
+        buttonCount === 2 ? 'two-buttons' : ''
+      }`}
+    >
       {/* =========================
                 CARD
       ========================== */}
@@ -105,7 +117,7 @@ export default function WorkoutControls({
               Finish & Save
             </Button>
           )}
-          
+
           {/* START / PAUSE / RESUME */}
           {handleStartPause && (
             <Button
@@ -218,7 +230,6 @@ export default function WorkoutControls({
             <Button
               variant="secondary"
               size="lg"
-              fullWidth
               onClick={onSecondaryAction}
             >
               {secondaryActionLabel}
@@ -227,7 +238,11 @@ export default function WorkoutControls({
 
           {/* DISCARD */}
           {onDiscardTemplate && (
-            <Button variant="danger" size="lg" onClick={onDiscardTemplate}>
+            <Button
+              variant="danger"
+              size="lg"
+              onClick={onDiscardTemplate}
+            >
               {discardLabel}
             </Button>
           )}

@@ -192,7 +192,7 @@ export default function TemplateEditorPage() {
           onDiscardTemplate={isCreate ? discardTemplate : undefined}
           saveLabel="Save template"
           discardLabel="Discard"
-          discardChangesLabel="Discard Changes"
+          discardChangesLabel="Discard"
           hasUnsavedChanges={hasUnsavedChanges}
           hasExercises={template.exercises.length > 0}
         />
@@ -275,7 +275,7 @@ export default function TemplateEditorPage() {
             onDiscardTemplate={isCreate ? discardTemplate : undefined}
             saveLabel="Save template"
             discardLabel="Discard"
-            discardChangesLabel="Discard Changes"
+            discardChangesLabel="Discard"
             hasUnsavedChanges={hasUnsavedChanges}
             hasExercises={template.exercises.length > 0}
           />

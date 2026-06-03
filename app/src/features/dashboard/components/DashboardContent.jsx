@@ -38,6 +38,25 @@ export default function DashboardContent({ stats, user, recentWorkouts }) {
 
   const monthlyMinutes = stats?.currentMonth?.durationMinutes ?? 0
 
+  const month = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ]
+
+  const date = new Date()
+  const currentYear = date.getFullYear()
+  const currentMonth = month[date.getMonth()]
+
   const rawMax = Math.max(...activityData.map((d) => d.minutes), 1)
 
   const maxValue = Math.ceil(rawMax / 25) * 25
@@ -69,7 +88,7 @@ export default function DashboardContent({ stats, user, recentWorkouts }) {
 
       {/* Stats cards */}
 
-      <h3>This month</h3>
+      <h3>{`${currentMonth} ${currentYear}`}</h3>
       <StatsGrid
         items={[
           {

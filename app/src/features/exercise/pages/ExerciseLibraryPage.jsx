@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
@@ -37,6 +37,10 @@ const BASE_CATEGORIES = CATEGORY_ORDER
  */
 export default function ExercisesLibraryPage() {
   const navigate = useNavigate()
+
+  const addButtonRef = useRef(null)
+
+  const [showFloatingButton, setShowFloatingButton] = useState(false)
 
   const [searchParams, setSearchParams] = useSearchParams()
 
@@ -209,6 +213,30 @@ export default function ExercisesLibraryPage() {
     })
   }, [exercises])
 
+
+  // ===== FLOATING ADD BUTTON =====
+
+  useEffect(() => {
+    const button = addButtonRef.current
+
+    if (!button) {
+      return undefined
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setShowFloatingButton(!entry.isIntersecting)
+      },
+      {
+        threshold: 0.1,
+      },
+    )
+
+    observer.observe(button)
+
+    return () => observer.disconnect()
+  }, [selectedExercises.length])
+
   return (
     <div className="app">
       <Header
@@ -228,8 +256,8 @@ export default function ExercisesLibraryPage() {
         {/* SHOW FAVORITES */}
 
         <Button
-          variant={favoritesOnly ? 'secondary' : 'primary'}
-          size="sm"
+          variant={favoritesOnly ? 'secondary' : 'action'}
+          size="md"
           onClick={() => {
             updateParams({
               favorites: favoritesOnly ? '' : 'true',
@@ -470,7 +498,8 @@ export default function ExercisesLibraryPage() {
 
         {isSelectMode && selectedExercises.length > 0 && (
           <button
-            className="btn btn-md btn-primary"
+            ref={addButtonRef}
+            className="btn btn-md btn-action"
             onClick={() => {
               navigate(fallback)
             }}
@@ -483,7 +512,7 @@ export default function ExercisesLibraryPage() {
 
         {visibleCount < filtered.length && (
           <button
-            className="btn btn-md btn-primary"
+            className="btn btn-md btn-action"
             onClick={() =>
               updateParams({
                 limit: visibleCount + 20,
@@ -495,8 +524,8 @@ export default function ExercisesLibraryPage() {
         )}
 
         {/* FLOATING BUTTON */}
-        {isSelectMode && selectedExercises.length > 0 && (
-          <div className="floating-add-btn">
+        {isSelectMode && selectedExercises.length > 0 && showFloatingButton && (
+          <div className="add-floating">
             <Button
               variant="floating btn-primary"
               size="md"

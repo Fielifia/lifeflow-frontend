@@ -6,6 +6,8 @@
   background: none;
   border: none;
   cursor: pointer;
+  justify-content: end;
+  padding: var(--space-1) 0;
 }
 
 .action-menu button.action-menu-icon-button.action-menu-profile {
