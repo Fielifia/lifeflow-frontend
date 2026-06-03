@@ -2,8 +2,8 @@ import {
   createContext,
   useCallback,
   useContext,
-  useState
-
+  useMemo,
+  useState,
 } from 'react'
 
 import ToastContainer from '../components/ui/ToastContainer'
@@ -30,7 +30,6 @@ const ToastContext = createContext()
  * @returns {import('react').ReactElement} Toast provider UI
  */
 export function ToastProvider({ children }) {
-
   const [toasts, setToasts] = useState([])
 
   // ===== REMOVE TOAST =====
@@ -51,20 +50,23 @@ export function ToastProvider({ children }) {
 
   // ===== TOAST API =====
 
-  const api = {
-    show,
-    success: (msg) => show({ message: msg, type: 'success' }),
-    error: (msg) => show({ message: msg, type: 'error' }),
-    warning: (msg) => show({ message: msg, type: 'warning' }),
-  }
+  const api = useMemo(() => {
+    return {
+      show,
+      success: (msg) => show({ message: msg, type: 'success' }),
+      error: (msg) => show({ message: msg, type: 'error' }),
+      warning: (msg) => show({ message: msg, type: 'warning' }),
+      online: () => show({ message: 'You are back online', type: 'success' }),
+      offline: () =>
+        show({ message: 'You are offline', type: 'warning', duration: 5000 }),
+    }
+  }, [show])
 
   return (
-
     <ToastContext.Provider value={api}>
       {children}
       <ToastContainer toasts={toasts} />
     </ToastContext.Provider>
-
   )
 }
 

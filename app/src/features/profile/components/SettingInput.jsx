@@ -3,11 +3,12 @@ import { useEffect, useState } from 'react'
 /**
  * Reusable component for editing numeric settings in the profile page.
  * @param {object} props - Component props.
- * @param {number} props.value - Current value.
+ * @param {string|number} props.value - Current value.
  * @param {string} props.label - Setting label.
  * @param {string} [props.suffix] - Optional suffix to display after the value.
  * @param {number} [props.min] - Minimum allowed value.
- * @param {(value:number)=>void} props.onSave
+ * @param {string} [props.type] - Input type.
+ * @param {(value:string|number)=>void} props.onSave
  * Save handler.
  * @returns {import('react').ReactElement} Setting input UI.
  */
@@ -16,6 +17,7 @@ export default function SettingInput({
   value,
   suffix,
   min = 0,
+  type = 'number',
   onSave,
 }) {
   const [editing, setEditing] = useState(false)
@@ -26,7 +28,12 @@ export default function SettingInput({
   }, [value])
 
   const handleSave = () => {
-    const normalizedValue = Number.isNaN(inputValue) ? 0 : inputValue
+    const normalizedValue =
+      typeof value === 'number'
+        ? Number.isNaN(inputValue)
+          ? 0
+          : inputValue
+        : String(inputValue).trim()
 
     if (normalizedValue !== value) {
       onSave(normalizedValue)
@@ -42,13 +49,17 @@ export default function SettingInput({
       {editing ? (
         <div className="profile-field">
           <input
-            type="number"
+            type={type}
             className="profile-input-field"
             min={min}
             autoFocus
             value={inputValue}
             onFocus={(e) => e.target.select()}
-            onChange={(e) => setInputValue(Number(e.target.value))}
+            onChange={(e) =>
+              setInputValue(
+                type === 'number' ? Number(e.target.value) : e.target.value,
+              )
+            }
             onBlur={handleSave}
             onKeyDown={(e) => {
               if (e.key === 'Enter') {

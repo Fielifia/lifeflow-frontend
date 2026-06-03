@@ -277,7 +277,7 @@ export default function WorkoutEditPage() {
           hasUnsavedChanges={hasUnsavedChanges}
           onDiscardChanges={discardChanges}
           saveLabel="Save Workout"
-          discardLabel="Discard Changes"
+          discardLabel="Discard"
           hasExercises={workout.exercises.length > 0}
         />
 
@@ -287,7 +287,7 @@ export default function WorkoutEditPage() {
 
         {/* ADD EXERCISE(S) */}
 
-        <Button variant="secondary" size="md" fullWidth onClick={openLibrary}>
+        <Button variant="action" size="md" fullWidth onClick={openLibrary}>
           Add exercise
         </Button>
       </div>
@@ -344,10 +344,10 @@ export default function WorkoutEditPage() {
       {/* BOTTOM ACTIONS */}
 
       {workout.exercises.length >= 3 && (
-        <div className="contrainer">
+        <div className="container">
           {/* ADD EXERCISE */}
 
-          <Button variant="secondary" size="md" fullWidth onClick={openLibrary}>
+          <Button variant="action" size="md" fullWidth onClick={openLibrary}>
             Add exercise
           </Button>
 
@@ -360,7 +360,7 @@ export default function WorkoutEditPage() {
             hasUnsavedChanges={hasUnsavedChanges}
             onDiscardChanges={discardChanges}
             saveLabel="Save Workout"
-            discardLabel="Discard Changes"
+            discardLabel="Discard"
             hasExercises={workout.exercises.length > 0}
           />
         </div>

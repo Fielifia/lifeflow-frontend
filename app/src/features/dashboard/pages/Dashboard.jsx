@@ -1,6 +1,6 @@
 import Header from '../../../shared/components/ui/Header'
 import DashboardSkeleton from '../../../shared/components/ui/skeleton/DashboardSkeleton'
-import { userStorage } from '../../../shared/utils/storage/userStorage'
+import { useUser } from '../../../shared/context/UserContext'
 import DashboardContent from '../components/DashboardContent'
 import { useOverviewStats } from '../hooks/useOverviewStats'
 import { useWorkouts } from '../hooks/useWorkouts'
@@ -10,7 +10,7 @@ import { useWorkouts } from '../hooks/useWorkouts'
  * @returns {import('react').ReactElement} Dashboard page UI
  */
 export default function Dashboard() {
-  const user = userStorage.get()
+  const { user } = useUser()
 
   const { stats, loading, error } = useOverviewStats()
 

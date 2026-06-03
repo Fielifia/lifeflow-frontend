@@ -136,17 +136,15 @@ export default function WorkoutStartPage() {
         </div>
       </div>
 
-      <div className="section">
-        {/* TEMPLATE LIST */}
+      {/* TEMPLATE LIST */}
 
-        <TemplateList
-          templates={templates}
-          loading={loading}
-          error={error}
-          limit={5}
-          onDeleteTemplate={handleDeleteTemplate}
-        />
-      </div>
+      <TemplateList
+        templates={templates}
+        loading={loading}
+        error={error}
+        limit={5}
+        onDeleteTemplate={handleDeleteTemplate}
+      />
     </div>
   )
 }

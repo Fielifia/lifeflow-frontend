@@ -1,6 +1,9 @@
-import { useState } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import { userStorage } from './shared/utils/storage/userStorage'
+
+import { useState } from 'react'
+
+import { useUser } from './shared/context/UserContext'
+import { useOnlineStatus } from './shared/hooks/useOnlineStatus'
 
 import Login from './features/auth/pages/LoginPage'
 import Register from './features/auth/pages/RegisterPage'
@@ -33,23 +36,19 @@ import { ConfirmProvider } from './shared/context/ConfirmContext'
 import { ExerciseFlowProvider } from './shared/context/ExerciseFlowContext'
 import { FavoritesProvider } from './shared/context/FavoritesContext'
 import { ToastProvider } from './shared/context/ToastContext'
+import { UserProvider } from './shared/context/UserContext'
 import { WorkoutProvider } from './shared/context/WorkoutContext'
 
 /**
  * Root application component handling authentication and routing.
  * @returns {import('react').ReactElement} Application UI
  */
-function App() {
-  let storedUser = null
+function AppContent() {
+  const { user } = useUser()
 
-  try {
-    storedUser = userStorage.get()
-  } catch {
-    storedUser = null
-  }
-
-  const [user, setUser] = useState(storedUser || null)
   const [showRegister, setShowRegister] = useState(false)
+
+  const isOnline = useOnlineStatus()
 
   return (
     <BrowserRouter>
@@ -61,7 +60,7 @@ function App() {
                 <div className="app">
                   {showRegister ? (
                     <>
-                      <Register setUser={setUser} />
+                      <Register />
 
                       <p
                         className="message"
@@ -72,7 +71,7 @@ function App() {
                     </>
                   ) : (
                     <>
-                      <Login setUser={setUser} />
+                      <Login />
 
                       <p
                         className="message"
@@ -85,74 +84,85 @@ function App() {
                 </div>
               ) : (
                 <FavoritesProvider>
-                  <div className="app">
-                    <Routes>
-                      <Route
-                        path="/"
-                        element={<Dashboard setUser={setUser} />}
-                      />
-                      <Route
-                        path="/exercises"
-                        element={<ExerciseLibraryPage />}
-                      />
-                      <Route
-                        path="/exercises/:id"
-                        element={<ExerciseDetailPage />}
-                      />
+                  <div className="app-wrapper">
+                    {!isOnline && (
+                      <div className="offline-banner">
+                        You're offline. Some data may be unavailable.
+                      </div>
+                    )}
 
-                      <Route path="/workouts" element={<WorkoutStartPage />} />
-                      <Route
-                        path="/workouts/:id/run"
-                        element={<WorkoutRunPage />}
-                      />
-                      <Route
-                        path="/workouts/:id/exercises"
-                        element={<ExerciseLibraryPage />}
-                      />
+                    <div className="app">
+                      <Routes>
+                        <Route path="/" element={<Dashboard />} />
+                        <Route
+                          path="/exercises"
+                          element={<ExerciseLibraryPage />}
+                        />
+                        <Route
+                          path="/exercises/:id"
+                          element={<ExerciseDetailPage />}
+                        />
 
-                      <Route
-                        path="/templates/:id"
-                        element={<TemplateDetailPage />}
-                      />
-                      <Route
-                        path="/templates/create"
-                        element={<TemplateEditorPage />}
-                      />
-                      <Route
-                        path="/templates/:id/edit"
-                        element={<TemplateEditorPage />}
-                      />
+                        <Route
+                          path="/workouts"
+                          element={<WorkoutStartPage />}
+                        />
+                        <Route
+                          path="/workouts/:id/run"
+                          element={<WorkoutRunPage />}
+                        />
+                        <Route
+                          path="/workouts/:id/exercises"
+                          element={<ExerciseLibraryPage />}
+                        />
 
-                      <Route path="/history" element={<WorkoutHistoryPage />} />
-                      <Route
-                        path="/workouts/:id"
-                        element={<WorkoutDetailPage />}
-                      />
-                      <Route
-                        path="/workouts/:id/edit"
-                        element={<WorkoutEditPage />}
-                      />
+                        <Route
+                          path="/templates/:id"
+                          element={<TemplateDetailPage />}
+                        />
+                        <Route
+                          path="/templates/create"
+                          element={<TemplateEditorPage />}
+                        />
+                        <Route
+                          path="/templates/:id/edit"
+                          element={<TemplateEditorPage />}
+                        />
 
-                      <Route path="/stats" element={<StatsPage />} />
-                      <Route path="/profile" element={<ProfilePage />} />
-                      <Route
-                        path="/calendar"
-                        element={
-                          <DataState
-                            variant="card-empty"
-                            emptyTitle="Coming soon"
-                            emptyText="This feature is planned for a future release. Stay tuned!"
-                            count={1}
-                          />
-                        }
-                      />
+                        <Route
+                          path="/history"
+                          element={<WorkoutHistoryPage />}
+                        />
+                        <Route
+                          path="/workouts/:id"
+                          element={<WorkoutDetailPage />}
+                        />
+                        <Route
+                          path="/workouts/:id/edit"
+                          element={<WorkoutEditPage />}
+                        />
 
-                      {/* fallback */}
-                      <Route path="*" element={<Navigate to="/" />} />
-                    </Routes>
+                        <Route path="/stats" element={<StatsPage />} />
+                        <Route path="/profile" element={<ProfilePage />} />
+                        <Route
+                          path="/calendar"
+                          element={
+                            <DataState
+                              variant="card-empty"
+                              emptyTitle="Coming soon"
+                              emptyText="This feature is planned for a future release. Stay tuned!"
+                              count={1}
+                            />
+                          }
+                        />
 
-                    <Navbar />
-                    <WorkoutSessionBarWrapper />
+                        {/* fallback */}
+                        <Route path="*" element={<Navigate to="/" />} />
+                      </Routes>
+
+                      <Navbar />
+                      <WorkoutSessionBarWrapper />
+                    </div>
                   </div>
                 </FavoritesProvider>
               )}
@@ -164,4 +174,14 @@ function App() {
   )
 }
 
-export default App
+/**
+ * Root application component.
+ * @returns {import('react').ReactElement} Application UI
+ */
+export default function App() {
+  return (
+    <UserProvider>
+      <AppContent />
+    </UserProvider>
+  )
+}

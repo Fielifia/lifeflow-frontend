@@ -7,9 +7,27 @@ import API from './api'
  * @returns {Promise<object>} User response
  */
 export const getCurrentUserApi = async () => {
-  const res = await API.get('/users/me')
+  const res = await API.get('/user/me')
 
   return res.data
+}
+
+// ===== UPDATE USER INFO =====
+
+/**
+ * Updates the current user's information.
+ * @param {object} updates - User information updates
+ * @returns {Promise<object>} Updated user response
+ */
+export const updateUserInformationApi = async (
+  updates
+) => {
+  const { data } = await API.patch(
+    '/user',
+    updates
+  )
+
+  return data
 }
 
 // ===== UPDATE USER SETTINGS =====
@@ -20,7 +38,17 @@ export const getCurrentUserApi = async () => {
  * @returns {Promise<object>} User response
  */
 export const updateUserSettingsApi = async (settings) => {
-  const res = await API.patch('/users/settings', settings)
+  const res = await API.patch('/user/settings', settings)
 
   return res.data
+}
+
+// ===== DELETE ACCOUNT =====
+
+/**
+ * Deletes the current user's account.
+ * @returns {Promise<void>} Resolves when account is deleted
+ */
+export const deleteAccountApi = async () => {
+  await API.delete('/user')
 }
