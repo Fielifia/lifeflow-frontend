@@ -65,9 +65,7 @@ export default function TemplateDetailPage() {
     <div className="app">
       {/* HEADER */}
 
-      <Header
-        subtitle={`Template (${template.exercises.length} exercises)`}
-      />
+      <Header subtitle={`Template (${template.exercises.length} exercises)`} />
 
       {/* BACK BUTTON */}
 
@@ -91,16 +89,12 @@ export default function TemplateDetailPage() {
           startWorkout({ template })
         }}
         onEdit={() => {
-          navigate(`/templates/${template._id}/edit?from=workouts`)
+          navigate(`/templates/${template._id}/edit`)
         }}
         onDelete={handleDeleteTemplate}
         editLabel="Edit Template"
         deleteLabel="Delete"
       />
-
-      {/* FEEDBACK */}
-
-      {error && <p className="error center">{error}</p>}
 
       {/* EXERCISES */}
       <div className="section">

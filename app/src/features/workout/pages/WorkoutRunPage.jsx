@@ -74,7 +74,6 @@ export default function WorkoutRunPage() {
   const {
     workout,
     saving,
-    error,
     setWorkout,
 
     elapsed,
@@ -369,7 +368,6 @@ export default function WorkoutRunPage() {
           saving={saving}
           hasExercises={workout.exercises.length > 0}
         />
-        {error && <p className="error center">{error}</p>}
 
         {/* ADD EXERCISE */}
         <Button variant="action" size="md" fullWidth onClick={openLibrary}>

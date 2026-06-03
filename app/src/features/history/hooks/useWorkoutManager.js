@@ -213,6 +213,7 @@ export function useWorkoutManager(
         setEditingWorkout(data)
       } catch (err) {
         setError(ERROR_MESSAGES.LOAD_WORKOUT)
+
       } finally {
         setLoading(false)
       }
@@ -338,7 +339,6 @@ export function useWorkoutManager(
 
     try {
       setSaving(true)
-      setError(null)
 
       const payload =
         buildWorkoutPayload(
@@ -361,7 +361,7 @@ export function useWorkoutManager(
 
       navigate(`/workouts/${updated._id}`)
     } catch (err) {
-      setError(ERROR_MESSAGES.UPDATE_WORKOUT)
+      toast.error(ERROR_MESSAGES.UPDATE_WORKOUT)
     } finally {
       setSaving(false)
     }
@@ -372,7 +372,6 @@ export function useWorkoutManager(
   const saveAsTemplate = async () => {
     try {
       setSaving(true)
-      setError(null)
 
       await createTemplateApi(
         buildTemplatePayload(workout),
@@ -383,7 +382,7 @@ export function useWorkoutManager(
       await delay(300)
 
     } catch (err) {
-      setError(ERROR_MESSAGES.SAVE_TEMPLATE)
+      toast.error(ERROR_MESSAGES.SAVE_TEMPLATE)
     } finally {
       setSaving(false)
     }
@@ -435,7 +434,6 @@ export function useWorkoutManager(
       }
 
       try {
-        setError(null)
 
         setSaving(true)
 
@@ -451,7 +449,7 @@ export function useWorkoutManager(
 
         return true
       } catch (err) {
-        setError(ERROR_MESSAGES.DELETE_WORKOUT)
+        toast.error(ERROR_MESSAGES.DELETE_WORKOUT)
         return false
       } finally {
         setSaving(false)

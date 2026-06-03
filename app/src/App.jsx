@@ -1,7 +1,8 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
+import { useToast } from './shared/context/ToastContext'
 import { useUser } from './shared/context/UserContext'
 import { useOnlineStatus } from './shared/hooks/useOnlineStatus'
 
@@ -48,12 +49,34 @@ function AppContent() {
 
   const [showRegister, setShowRegister] = useState(false)
 
-  const isOnline = useOnlineStatus()
+  function OnlineStatusNotifier() {
+    const isOnline = useOnlineStatus()
+
+    const toast = useToast()
+
+    const firstRender = useRef(true)
+
+    useEffect(() => {
+      if (firstRender.current) {
+        firstRender.current = false
+        return
+      }
+
+      if (isOnline) {
+        toast.success('Connection restored.')
+      } else {
+        toast.warning("You're offline. Some data may be unavailable.")
+      }
+    }, [isOnline, toast])
+
+    return null
+  }
 
   return (
     <BrowserRouter>
       <ConfirmProvider>
         <ToastProvider>
+          <OnlineStatusNotifier />
           <WorkoutProvider>
             <ExerciseFlowProvider>
               {!user ? (
@@ -85,12 +108,6 @@ function AppContent() {
               ) : (
                 <FavoritesProvider>
                   <div className="app-wrapper">
-                    {!isOnline && (
-                      <div className="offline-banner">
-                        You're offline. Some data may be unavailable.
-                      </div>
-                    )}
-
                     <div className="app">
                       <Routes>
                         <Route path="/" element={<Dashboard />} />

@@ -37,10 +37,10 @@ export default function TemplateEditorPage() {
 
   const from = searchParams.get('from')
 
-  const fallback = from === 'workouts' ? '/workouts' : '/templates'
-
   const { id } = useParams()
   const isCreate = !id
+
+  const fallback = from === 'workouts' ? '/workouts' : `/templates/${id}`
 
   const [showRenameModal, setShowRenameModal] = useState(false)
 
@@ -196,10 +196,6 @@ export default function TemplateEditorPage() {
           hasUnsavedChanges={hasUnsavedChanges}
           hasExercises={template.exercises.length > 0}
         />
-
-        {/* FEEDBACK */}
-
-        {error && <p className="error center">{error}</p>}
 
         {/* ADD EXERCISE(S) */}
 

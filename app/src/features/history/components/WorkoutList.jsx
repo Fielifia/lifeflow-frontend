@@ -66,8 +66,7 @@ export default function WorkoutList({
         error={error}
         data={workouts}
         variant="card-workout"
-        emptyTitle="No workouts yet"
-        emptyText="Start your first workout to begin tracking your progress."
+        emptyText="No workouts yet"
         count={5}
       >
         <div className="section">
@@ -75,11 +74,13 @@ export default function WorkoutList({
             const menuItems = [
               {
                 label: 'Open',
-                onClick: () => navigate(`/workouts/${workout._id}`),
+                onClick: () =>
+                  navigate(`/workouts/${workout._id}?from=history`),
               },
               {
                 label: 'Edit',
-                onClick: () => navigate(`/workouts/${workout._id}/edit`),
+                onClick: () =>
+                  navigate(`/workouts/${workout._id}/edit?from=history`),
               },
               {
                 label: 'Delete',

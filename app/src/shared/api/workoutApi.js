@@ -1,24 +1,39 @@
 import { buildPreviousExerciseData } from '../../features/workout/utils/buildPreviousExerciseData'
 import { normalizeExercise } from '../utils/normalizeExercise'
+import { cache } from '../utils/cache/cache'
 import API from './api'
 
 // ===== GET WORKOUTS =====
 
 export const getWorkoutsApi = async () => {
-  const res = await API.get('/workouts')
+  try {
+    const res = await API.get('/workouts')
 
-  return {
-    ...res.data,
+    const data = {
+      ...res.data,
 
-    results:
-      res.data.results?.map((workout) => ({
-        ...workout,
+      results:
+        res.data.results?.map((workout) => ({
+          ...workout,
 
-        exercises:
-          workout.exercises?.map(
-            normalizeExercise,
-          ) || [],
-      })) || [],
+          exercises:
+            workout.exercises?.map(
+              normalizeExercise,
+            ) || [],
+        })) || [],
+    }
+
+    cache.set('workouts', data)
+
+    return data
+  } catch (err) {
+    const cached = cache.get('workouts')
+
+    if (cached) {
+      return cached
+    }
+
+    throw err
   }
 }
 

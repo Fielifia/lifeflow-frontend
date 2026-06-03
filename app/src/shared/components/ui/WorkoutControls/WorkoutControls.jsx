@@ -63,7 +63,6 @@ export default function WorkoutControls({
   deleting = false,
   hasExercises = false,
 }) {
-
   const buttonCount = [
     onSave,
     onSecondaryAction,
@@ -177,7 +176,7 @@ export default function WorkoutControls({
           {/* EDIT */}
 
           {onEdit && (
-            <Button variant="secondary" size="lg" fullWidth onClick={onEdit}>
+            <Button variant="secondary" size="lg" onClick={onEdit}>
               {editLabel}
             </Button>
           )}
@@ -227,22 +226,14 @@ export default function WorkoutControls({
 
           {/* SECONDARY ACTION */}
           {onSecondaryAction && (
-            <Button
-              variant="secondary"
-              size="lg"
-              onClick={onSecondaryAction}
-            >
+            <Button variant="secondary" size="lg" onClick={onSecondaryAction}>
               {secondaryActionLabel}
             </Button>
           )}
 
           {/* DISCARD */}
           {onDiscardTemplate && (
-            <Button
-              variant="danger"
-              size="lg"
-              onClick={onDiscardTemplate}
-            >
+            <Button variant="danger" size="lg" onClick={onDiscardTemplate}>
               {discardLabel}
             </Button>
           )}

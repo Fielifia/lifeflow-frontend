@@ -34,9 +34,9 @@ export default function WorkoutEditPage() {
 
   const from = searchParams.get('from')
 
-  const fallback = from === 'history' ? '/history' : '/workouts'
-
   const { id } = useParams()
+
+  const fallback = from === 'history' ? '/history' : `/workouts/${id}`
 
   // ===== STATE =====
 
@@ -280,10 +280,6 @@ export default function WorkoutEditPage() {
           discardLabel="Discard"
           hasExercises={workout.exercises.length > 0}
         />
-
-        {/* FEEDBACK */}
-
-        {error && <p className="error center">{error}</p>}
 
         {/* ADD EXERCISE(S) */}
 
