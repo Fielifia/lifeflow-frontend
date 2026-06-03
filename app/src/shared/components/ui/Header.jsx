@@ -7,8 +7,7 @@ import {
   UserPlus,
 } from 'lucide-react'
 
-
-import { userStorage } from '../../utils/storage/userStorage'
+import { useUser } from '../../context/UserContext'
 
 import { useConfirm } from '../../hooks/useConfirm'
 
@@ -23,6 +22,7 @@ import ActionMenu from './action-menu/ActionMenu'
  */
 export default function Header({ subtitle, variant = 'authenticated' }) {
   const confirm = useConfirm()
+  const { setUser } = useUser()
 
   /**
    * Handles logout flow.
@@ -38,8 +38,7 @@ export default function Header({ subtitle, variant = 'authenticated' }) {
       return
     }
 
-    userStorage.clear()
-
+    setUser(null)
     window.location.href = '/login'
   }
 

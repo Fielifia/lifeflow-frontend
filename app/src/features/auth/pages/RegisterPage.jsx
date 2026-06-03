@@ -2,6 +2,8 @@ import { Eye, EyeOff } from 'lucide-react'
 
 import { useState } from 'react'
 
+import { useUser } from '../../../shared/context/UserContext'
+
 import { register } from '../../../shared/api/authApi'
 
 import Button from '../../../shared/components/ui/button/Button'
@@ -10,10 +12,11 @@ import Header from '../../../shared/components/ui/Header'
 
 /**
  * Register component for creating a new user account.
- * @param {{ setUser: (user: object) => void }} props - Component props
  * @returns {import('react').ReactElement} Registration form UI
  */
-export default function RegisterPage({ setUser }) {
+export default function RegisterPage() {
+  const { setUser } = useUser()
+
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')

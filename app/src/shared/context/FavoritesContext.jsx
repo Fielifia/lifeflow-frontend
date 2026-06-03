@@ -1,12 +1,12 @@
 import { createContext, useEffect, useState } from 'react'
 
+import { useUser } from './UserContext'
+
 import {
   addFavoriteExerciseApi,
   getFavoriteExercisesApi,
   removeFavoriteExerciseApi,
 } from '../api/exerciseApi'
-
-import { userStorage } from '../utils/storage/userStorage'
 
 export const FavoritesContext = createContext(null)
 
@@ -18,6 +18,8 @@ export const FavoritesContext = createContext(null)
  * @returns {import('react').ReactElement} Provider
  */
 export function FavoritesProvider({ children }) {
+  const { user } = useUser()
+
   // ===== STATE =====
 
   const [favorites, setFavorites] = useState([])
@@ -29,9 +31,7 @@ export function FavoritesProvider({ children }) {
   // ===== LOAD FAVORITES =====
 
   useEffect(() => {
-    const storedUser = userStorage.get()
-
-    if (!storedUser?.token) {
+    if (!user?.token) {
       setLoading(false)
 
       return

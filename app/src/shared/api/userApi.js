@@ -12,6 +12,24 @@ export const getCurrentUserApi = async () => {
   return res.data
 }
 
+// ===== UPDATE USER INFO =====
+
+/**
+ * Updates the current user's information.
+ * @param {object} updates - User information updates
+ * @returns {Promise<object>} Updated user response
+ */
+export const updateUserInformationApi = async (
+  updates
+) => {
+  const { data } = await API.patch(
+    '/user',
+    updates
+  )
+
+  return data
+}
+
 // ===== UPDATE USER SETTINGS =====
 
 /**
@@ -26,6 +44,7 @@ export const updateUserSettingsApi = async (settings) => {
 }
 
 // ===== DELETE ACCOUNT =====
+
 /**
  * Deletes the current user's account.
  * @returns {Promise<void>} Resolves when account is deleted

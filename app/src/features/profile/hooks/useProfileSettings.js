@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react'
 
+
+import { useUser } from '../../../shared/context/UserContext'
+
 import {
-  getCurrentUserApi,
-  updateUserSettingsApi,
   deleteAccountApi,
+  getCurrentUserApi,
+  updateUserInformationApi,
+  updateUserSettingsApi,
 } from '../../../shared/api/userApi'
 
 import { deleteAllWorkoutsApi } from '../../../shared/api/workoutApi'
@@ -24,11 +28,15 @@ import { deleteAllTemplatesApi } from '../../../shared/api/templateApi'
  *     soundEnabled: boolean
  *   }|null,
  *   loading: boolean,
- *   updateSettings: (updates: object) => Promise<void>
+ *   updateSettings: (updates: object) => Promise<void>,
+ *   updateUserInformation: (updates: object) => Promise<void>
+ *   deleteWorkoutHistory: () => Promise<void>,
+ *   deleteTemplates: () => Promise<void>,
+ *   deleteAccount: () => Promise<void>,
  * }} Profile settings state and actions.
  */
 export function useProfileSettings() {
-  const [user, setUser] = useState(null)
+  const { user, setUser } = useUser()
 
   const [settings, setSettings] = useState(null)
 
@@ -36,25 +44,28 @@ export function useProfileSettings() {
 
   const [error, setError] = useState(null)
 
-  const loadSettings = async () => {
-    try {
-      setError(null)
-
-      const userData =
-        await getCurrentUserApi()
-
-      setUser(userData)
-      setSettings(userData.settings)
-    } catch {
-      setError('Unable to load profile')
-    } finally {
-      setLoading(false)
-    }
-  }
-
   useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        setError(null)
+
+        const userData = await getCurrentUserApi()
+
+        setUser((prev) => ({
+          ...prev,
+          ...userData,
+        }))
+        setSettings(userData.settings)
+      } catch {
+        setError('Unable to load profile')
+      } finally {
+        setLoading(false)
+      }
+    }
+    
+
     loadSettings()
-  }, [])
+  }, [setUser])
 
   /**
    * Updates user settings.
@@ -66,6 +77,21 @@ export function useProfileSettings() {
       await updateUserSettingsApi(updates)
 
     setSettings(updated)
+  }
+
+  /**
+   * Updates the current user's information.
+   * @param {object} updates - User information updates.
+   * @returns {Promise<void>} Resolves when information is updated.
+   */
+  const updateUserInformation = async (updates) => {
+    const updated =
+      await updateUserInformationApi(updates)
+
+    setUser((prev) => ({
+      ...prev,
+      ...updated,
+    }))
   }
 
   /**
@@ -98,6 +124,7 @@ export function useProfileSettings() {
     loading,
     error,
     updateSettings,
+    updateUserInformation,
     deleteAccount,
     deleteWorkoutHistory,
     deleteTemplates,

@@ -1,6 +1,8 @@
-import { useState } from 'react'
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import { userStorage } from './shared/utils/storage/userStorage'
+
+import { useState } from 'react'
+
+import { useUser } from './shared/context/UserContext'
 import { useOnlineStatus } from './shared/hooks/useOnlineStatus'
 
 import Login from './features/auth/pages/LoginPage'
@@ -34,22 +36,16 @@ import { ConfirmProvider } from './shared/context/ConfirmContext'
 import { ExerciseFlowProvider } from './shared/context/ExerciseFlowContext'
 import { FavoritesProvider } from './shared/context/FavoritesContext'
 import { ToastProvider } from './shared/context/ToastContext'
+import { UserProvider } from './shared/context/UserContext'
 import { WorkoutProvider } from './shared/context/WorkoutContext'
 
 /**
  * Root application component handling authentication and routing.
  * @returns {import('react').ReactElement} Application UI
  */
-function App() {
-  let storedUser = null
+function AppContent() {
+  const { user } = useUser()
 
-  try {
-    storedUser = userStorage.get()
-  } catch {
-    storedUser = null
-  }
-
-  const [user, setUser] = useState(storedUser || null)
   const [showRegister, setShowRegister] = useState(false)
 
   const isOnline = useOnlineStatus()
@@ -64,7 +60,7 @@ function App() {
                 <div className="app">
                   {showRegister ? (
                     <>
-                      <Register setUser={setUser} />
+                      <Register />
 
                       <p
                         className="message"
@@ -75,7 +71,7 @@ function App() {
                     </>
                   ) : (
                     <>
-                      <Login setUser={setUser} />
+                      <Login />
 
                       <p
                         className="message"
@@ -97,10 +93,7 @@ function App() {
 
                     <div className="app">
                       <Routes>
-                        <Route
-                          path="/"
-                          element={<Dashboard setUser={setUser} />}
-                        />
+                        <Route path="/" element={<Dashboard />} />
                         <Route
                           path="/exercises"
                           element={<ExerciseLibraryPage />}
@@ -181,4 +174,14 @@ function App() {
   )
 }
 
-export default App
+/**
+ * Root application component.
+ * @returns {import('react').ReactElement} Application UI
+ */
+export default function App() {
+  return (
+    <UserProvider>
+      <AppContent />
+    </UserProvider>
+  )
+}

@@ -1,13 +1,19 @@
 import { render, screen, fireEvent } from '@testing-library/react'
+
 import { ConfirmProvider } from '../../shared/context/ConfirmContext'
+import { UserProvider } from '../../shared/context/UserContext'
+
 import Register from '../../features/auth/pages/RegisterPage'
 
 describe('Register', () => {
   test('shows error if passwords do not match', () => {
     render(
-      <ConfirmProvider>
-        <Register setUser={jest.fn()} />
-      </ConfirmProvider>)
+      <UserProvider>
+        <ConfirmProvider>
+          <Register />
+        </ConfirmProvider>
+      </UserProvider>
+    )
 
     fireEvent.change(screen.getByPlaceholderText(/email/i), {
       target: { value: 'test@test.com' },
@@ -25,8 +31,12 @@ describe('Register', () => {
       target: { value: '456' },
     })
 
-    fireEvent.click(screen.getByRole('button', { name: /create account/i }))
+    fireEvent.click(
+      screen.getByRole('button', { name: /create account/i })
+    )
 
-    expect(screen.getByText(/passwords do not match/i)).toBeInTheDocument()
+    expect(
+      screen.getByText(/passwords do not match/i)
+    ).toBeInTheDocument()
   })
 })

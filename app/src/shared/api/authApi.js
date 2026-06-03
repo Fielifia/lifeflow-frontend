@@ -1,4 +1,3 @@
-import { userStorage } from '../utils/storage/userStorage'
 import API from './api'
 
 /**
@@ -11,16 +10,15 @@ import API from './api'
  * @returns {Promise<object>} Authenticated user
  */
 export const login = async ({ email, password }) => {
-  const res = await API.post('/auth/login', { email, password })
+  const res = await API.post('/auth/login', {
+    email,
+    password,
+  })
 
-  const userWithToken = {
+  return {
     ...res.data.user,
     token: res.data.token,
   }
-
-  userStorage.set(userWithToken)
-
-  return userWithToken
 }
 
 /**
@@ -44,12 +42,8 @@ export const register = async ({ email, username, password }) => {
     throw new Error('Invalid register response from server')
   }
 
-  const userWithToken = {
+  return {
     ...res.data.user,
     token: res.data.token,
   }
-
-  userStorage.set(userWithToken)
-
-  return userWithToken
 }

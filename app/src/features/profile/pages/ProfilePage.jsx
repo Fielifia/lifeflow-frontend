@@ -2,6 +2,7 @@ import { useProfileSettings } from '../hooks/useProfileSettings'
 
 import { userStorage } from '../../../shared/utils/storage/userStorage'
 
+
 import { useConfirm } from '../../../shared/hooks/useConfirm'
 
 import DataState from '../../../shared/components/ui/skeleton/DataState'
@@ -27,6 +28,7 @@ export default function ProfilePage() {
     loading,
     error,
     updateSettings,
+    updateUserInformation,
     deleteAccount,
     deleteWorkoutHistory,
     deleteTemplates,
@@ -102,7 +104,7 @@ export default function ProfilePage() {
   if (!user || !settings) {
     return (
       <div className="app">
-        <Header subtitle="Profile" />
+        <Header subtitle={`${user.username}'s Profile`} />
 
         <div className="empty-state">
           <h3>Profile unavailable</h3>
@@ -114,23 +116,36 @@ export default function ProfilePage() {
 
   return (
     <div className="app">
-      <Header subtitle="Profile" />
+      <Header subtitle={`${user.username}'s Profile`} />
 
       <div className="profile-header">
-        <div>
-          <h1>{user.username}</h1>
-
-          <p className="muted">{user.email}</p>
-        </div>
+        <h1>Profile</h1>
       </div>
 
-      <h2>Workout Settings</h2>
       <div className="section">
+        <h2>User Information</h2>
+        <SettingInput
+          label="Username"
+          value={user.username}
+          type="text"
+          onSave={(value) => updateUserInformation({ username: value })}
+        />
+        <SettingInput
+          label="Email"
+          value={user.email}
+          type="email"
+          onSave={(value) => updateUserInformation({ email: value })}
+        />
+      </div>
+
+      <div className="section">
+        <h2>Workout Settings</h2>
         <div className="settings-list">
           <SettingInput
             label="Monthly goal"
             value={settings.monthlyGoal}
             suffix="workouts"
+            type="number"
             onSave={(value) =>
               updateSettings({
                 monthlyGoal: value,
@@ -142,6 +157,7 @@ export default function ProfilePage() {
             label="Default rest time"
             value={settings.defaultRestTime}
             suffix="s"
+            type="number"
             onSave={(value) =>
               updateSettings({
                 defaultRestTime: value,
