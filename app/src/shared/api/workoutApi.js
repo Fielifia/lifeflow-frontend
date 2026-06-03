@@ -76,3 +76,8 @@ export const deleteWorkoutApi = async (id) => {
   const res = await API.delete(`/workouts/${id}`)
   return res.data
 }
+
+export const deleteAllWorkoutsApi = async () => {
+  const res = await API.delete('/workouts')
+  return res.data
+}

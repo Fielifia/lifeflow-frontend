@@ -44,3 +44,8 @@ export const deleteTemplateApi = async (id) => {
   const res = await API.delete(`/templates/${id}`)
   return res.data
 }
+
+export const deleteAllTemplatesApi = async () => {
+  const res = await API.delete('/templates')
+  return res.data
+}

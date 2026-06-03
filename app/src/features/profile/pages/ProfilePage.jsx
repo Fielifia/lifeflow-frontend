@@ -21,11 +21,53 @@ import '../Profile.css'
  * @returns {import('react').ReactElement} Profile page UI.
  */
 export default function ProfilePage() {
-  const { user, settings, loading, error, updateSettings, deleteAccount } =
-    useProfileSettings()
-  
+  const {
+    user,
+    settings,
+    loading,
+    error,
+    updateSettings,
+    deleteAccount,
+    deleteWorkoutHistory,
+    deleteTemplates,
+  } = useProfileSettings()
+
   const confirm = useConfirm()
 
+  // ===== HANDLERS =====
+
+  // ===== DELETE WORKOUT HISTORY =====
+
+  const handleDeleteWorkoutHistory = async () => {
+    const confirmed = await confirm({
+      title: 'Delete workout history?',
+      text: 'This will permanently delete all your past workouts and cannot be undone.',
+      confirmText: 'Delete history',
+    })
+
+    if (!confirmed) {
+      return
+    }
+
+    await deleteWorkoutHistory()
+  }
+
+  // ===== DELETE TEMPLATES =====
+  const handleDeleteTemplates = async () => {
+    const confirmed = await confirm({
+      title: 'Delete workout templates?',
+      text: 'This will permanently delete all your workout templates and cannot be undone.',
+      confirmText: 'Delete templates',
+    })
+
+    if (!confirmed) {
+      return
+    }
+
+    await deleteTemplates()
+  }
+
+  // ===== DELETE ACCOUNT =====
   const handleDeleteAccount = async () => {
     const confirmed = await confirm({
       title: 'Delete account?',
@@ -43,6 +85,8 @@ export default function ProfilePage() {
 
     window.location.href = '/login'
   }
+
+  // ===== RENDER =====
 
   if (loading) {
     return (
@@ -126,9 +170,31 @@ export default function ProfilePage() {
           />
         </div>
 
-        <Button variant="danger" onClick={handleDeleteAccount}>
-          Delete Account
-        </Button>
+        <div className="danger-zone">
+          <h2>Danger Zone</h2>
+          <div className="danger-zone-actions">
+            <Button
+              variant="danger"
+              size="sm"
+              onClick={handleDeleteWorkoutHistory}
+            >
+              Delete Workout History
+            </Button>
+
+            <Button variant="danger" size="sm" onClick={handleDeleteTemplates}>
+              Delete Workout Templates
+            </Button>
+
+            <Button
+              variant="danger"
+              size="sm"
+              fullWidth
+              onClick={handleDeleteAccount}
+            >
+              Delete My Account
+            </Button>
+          </div>
+        </div>
       </div>
     </div>
   )

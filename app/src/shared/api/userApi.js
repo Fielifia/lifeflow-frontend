@@ -7,7 +7,7 @@ import API from './api'
  * @returns {Promise<object>} User response
  */
 export const getCurrentUserApi = async () => {
-  const res = await API.get('/users/me')
+  const res = await API.get('/user/me')
 
   return res.data
 }
@@ -20,7 +20,7 @@ export const getCurrentUserApi = async () => {
  * @returns {Promise<object>} User response
  */
 export const updateUserSettingsApi = async (settings) => {
-  const res = await API.patch('/users/settings', settings)
+  const res = await API.patch('/user/settings', settings)
 
   return res.data
 }
@@ -31,5 +31,5 @@ export const updateUserSettingsApi = async (settings) => {
  * @returns {Promise<void>} Resolves when account is deleted
  */
 export const deleteAccountApi = async () => {
-  await API.delete('/users/me')
+  await API.delete('/user')
 }
