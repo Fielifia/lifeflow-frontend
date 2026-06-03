@@ -24,3 +24,12 @@ export const updateUserSettingsApi = async (settings) => {
 
   return res.data
 }
+
+// ===== DELETE ACCOUNT =====
+/**
+ * Deletes the current user's account.
+ * @returns {Promise<void>} Resolves when account is deleted
+ */
+export const deleteAccountApi = async () => {
+  await API.delete('/users/me')
+}

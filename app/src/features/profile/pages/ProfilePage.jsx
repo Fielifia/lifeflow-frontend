@@ -1,8 +1,14 @@
 import { useProfileSettings } from '../hooks/useProfileSettings'
 
+import { userStorage } from '../../../shared/utils/storage/userStorage'
+
+import { useConfirm } from '../../../shared/hooks/useConfirm'
+
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 
 import Header from '../../../shared/components/ui/Header'
+
+import Button from '../../../shared/components/ui/button/Button'
 
 import SettingInput from '../components/SettingInput'
 
@@ -15,10 +21,38 @@ import '../Profile.css'
  * @returns {import('react').ReactElement} Profile page UI.
  */
 export default function ProfilePage() {
-  const { user, settings, loading, error, updateSettings } = useProfileSettings()
+  const { user, settings, loading, error, updateSettings, deleteAccount } =
+    useProfileSettings()
+  
+  const confirm = useConfirm()
+
+  const handleDeleteAccount = async () => {
+    const confirmed = await confirm({
+      title: 'Delete account?',
+      text: 'This will permanently delete your account and all associated data.',
+      confirmText: 'Delete account',
+    })
+
+    if (!confirmed) {
+      return
+    }
+
+    await deleteAccount()
+
+    userStorage.clear()
+
+    window.location.href = '/login'
+  }
 
   if (loading) {
-    return <DataState variant='card-template' loading={loading} error={error} data={user} />
+    return (
+      <DataState
+        variant="card-template"
+        loading={loading}
+        error={error}
+        data={user}
+      />
+    )
   }
 
   if (!user || !settings) {
@@ -91,6 +125,10 @@ export default function ProfilePage() {
             }
           />
         </div>
+
+        <Button variant="danger" onClick={handleDeleteAccount}>
+          Delete Account
+        </Button>
       </div>
     </div>
   )

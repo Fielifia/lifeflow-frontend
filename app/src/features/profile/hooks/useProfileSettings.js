@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import {
   getCurrentUserApi,
   updateUserSettingsApi,
+  deleteAccountApi,
 } from '../../../shared/api/userApi'
 
 /**
@@ -63,11 +64,20 @@ export function useProfileSettings() {
     setSettings(updated)
   }
 
+  /**
+   * Deletes the user's account.
+   * @returns {Promise<void>} Resolves when account is deleted.
+   */
+  const deleteAccount = async () => {
+    await deleteAccountApi()
+  }
+
   return {
     user,
     settings,
     loading,
     error,
     updateSettings,
+    deleteAccount,
   }
 }
