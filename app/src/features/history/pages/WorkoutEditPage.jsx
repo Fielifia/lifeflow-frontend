@@ -344,7 +344,7 @@ export default function WorkoutEditPage() {
       {/* BOTTOM ACTIONS */}
 
       {workout.exercises.length >= 3 && (
-        <div className="contrainer">
+        <div className="container">
           {/* ADD EXERCISE */}
 
           <Button variant="action" size="md" fullWidth onClick={openLibrary}>

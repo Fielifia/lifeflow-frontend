@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
+import { X } from 'lucide-react'
 
 import { useExerciseFlow } from '../../../shared/context/ExerciseFlowContext'
 
@@ -269,14 +270,33 @@ export default function ExercisesLibraryPage() {
 
         {/* SEARCH */}
 
-        <input
-          className="input-base"
-          id="search-exercises"
-          placeholder="Search exercises..."
-          value={searchInput}
-          onFocus={(e) => e.target.select()}
-          onChange={(e) => setSearchInput(e.target.value)}
-        />
+        <div className="search-input-wrapper">
+          <input
+            className="input-base"
+            id="search-exercises"
+            placeholder="Search exercises..."
+            value={searchInput}
+            onFocus={(e) => e.target.select()}
+            onChange={(e) => setSearchInput(e.target.value)}
+          />
+
+          {searchInput && (
+            <button
+              className="search-clear-btn"
+              type="button"
+              onClick={() => {
+                setSearchInput('')
+
+                updateParams({
+                  search: null,
+                  limit: null,
+                })
+              }}
+            >
+              <X size={16} />
+            </button>
+          )}
+        </div>
 
         {/* FILTERS */}
         <div className="filters-wrapper">

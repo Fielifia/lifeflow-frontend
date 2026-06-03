@@ -11,6 +11,8 @@ import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 
 import { useWorkoutLogic } from '../hooks/useWorkoutLogic'
 
+import { getCurrentExerciseObject } from '../../../shared/utils/getCurrentExercise'
+
 import { formatElapsedTime } from '../../../shared/utils/format'
 
 import BackButton from '../../../shared/components/ui/button/BackButton'
@@ -108,6 +110,9 @@ export default function WorkoutRunPage() {
   } = useWorkoutContext()
 
   const restTimerEnabled = workout.restTimerEnabled ?? true
+  
+  const currentExercise =
+  getCurrentExerciseObject(workout?.exercises || [])
 
   useEffect(() => {
     if (
@@ -372,7 +377,7 @@ export default function WorkoutRunPage() {
         </Button>
       </div>
 
-      <div className="container">
+      <div className="section">
         {/* EXERCISES */}
         <DataState
           data={workout.exercises}
@@ -395,6 +400,7 @@ export default function WorkoutRunPage() {
                         mode="run"
                         ex={ex}
                         i={i}
+                        currentExercise={currentExercise}
                         navigate={navigate}
                         actions={exerciseActions}
                         dragHandleProps={dragHandleProps}

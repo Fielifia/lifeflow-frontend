@@ -7,10 +7,11 @@
   border: none;
   cursor: pointer;
   justify-content: end;
-  padding: var(--space-1) 0;
+  padding: var(--space-1) var(--space-2);
 }
 
 .action-menu button.action-menu-icon-button.action-menu-profile {
+  padding: 0;
   width: 3rem;
   height: 3rem;
 }

@@ -32,6 +32,7 @@ import './ExerciseItem.css'
  *   sets: Array<object>
  * }} props.ex - Exercise data.
  * @param {number} props.i - Exercise index.
+ * @param {object|null} props.currentExercise - Currently active exercise for highlighting.
  * @param {(path: string, options?: object) => void} props.navigate - Navigation function.
  * @param {object} props.actions - Exercise action handlers.
  * @param {'run' | 'workout' | 'edit' | 'template'} [props.mode] - Exercise item mode.
@@ -43,6 +44,7 @@ import './ExerciseItem.css'
 export default function ExerciseItem({
   ex,
   i,
+  currentExercise,
   navigate,
   actions,
   mode = 'run',
@@ -115,7 +117,11 @@ export default function ExerciseItem({
   }, [])
 
   return (
-    <div className={`workout-exercise ${mode}`}>
+    <div
+      className={`workout-exercise ${mode} ${
+        ex.id === currentExercise?.id ? 'current-exercise' : ''
+      }`}
+    >
       {/* EXERCISE ITEM HEADER */}
 
       <div className="exercise-item-header">
@@ -196,7 +202,9 @@ export default function ExerciseItem({
                 }}
               />
             ) : (
-              <span className="rest-badge">{formatRestTime(safeRest)} <Clock3 /></span>
+              <span className="rest-badge">
+                {formatRestTime(safeRest)} <Clock3 />
+              </span>
             )}
           </div>
 

@@ -29,6 +29,7 @@
 
 .exercise-card.is-selected {
   outline: 2px solid var(--primary);
+  transform: scale(0.99);
 }
 
 .exercise-info-wrapper {
