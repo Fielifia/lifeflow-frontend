@@ -68,7 +68,7 @@ export default function RegisterPage({ setUser }) {
       <Header
         title="Create Account"
         subtitle="Start your fitness journey"
-        variant="guest"
+        variant="register"
       />
 
       <div className="card-base card-auth">

@@ -71,23 +71,26 @@ export default function Header({ subtitle, variant = 'authenticated' }) {
 
       {/* PROFILE MENU */}
 
-      <ActionMenu
-        variant="profile"
-        triggerIcon={Icon}
-        items={[
-          {
-            label: 'Profile',
-            icon: Settings,
-            onClick: () => (window.location.href = '/profile'),
-          },
-
-          {
-            label: 'Log out',
-            icon: LogOut,
-            onClick: handleLogout,
-          },
-        ]}
-      ></ActionMenu>
+      {variant === 'authenticated' ? (
+        <ActionMenu
+          variant="profile"
+          triggerIcon={Icon}
+          items={[
+            {
+              label: 'Profile',
+              icon: Settings,
+              onClick: () => (window.location.href = '/profile'),
+            },
+            {
+              label: 'Log out',
+              icon: LogOut,
+              onClick: handleLogout,
+            },
+          ]}
+        />
+      ) : (
+        <Icon className="header-icon" />
+      )}
     </div>
   )
 }
