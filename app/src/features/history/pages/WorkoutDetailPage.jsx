@@ -59,15 +59,14 @@ export default function WorkoutDetailPage() {
       <div className="app">
         <Header />
 
-        <BackButton fallback="/workouts" />
+        <BackButton fallback="/history" />
 
         <DataState
           loading={loading}
           error={error}
           data={workout ? [workout] : []}
           variant="card-workout"
-          emptyTitle="Workout not found"
-          emptyText="It may have been deleted or no longer exists."
+          emptyText="No workout found"
           count={1}
         />
       </div>
@@ -117,16 +116,12 @@ export default function WorkoutDetailPage() {
           startWorkout({ workout })
         }}
         onEdit={() => {
-          navigate(`/workouts/${workout._id}/edit?from=history`)
+          navigate(`/workouts/${workout._id}/edit`)
         }}
         onDelete={handleDeleteWorkout}
         editLabel="Edit Workout"
         deleteLabel="Delete"
       />
-
-      {/* FEEDBACK */}
-
-      {error && <p className="error center">{error}</p>}
 
       {/* EXERCISES */}
       <div className="section">

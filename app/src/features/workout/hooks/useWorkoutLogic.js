@@ -148,8 +148,6 @@ export function useWorkoutLogic(workoutId, navigate) {
 
   const [saving, setSaving] = useState(false)
 
-  const [error, setError] = useState(null)
-
   const updateDefaultRestTime = (value) => {
     setWorkout((prev) => ({
       ...prev,
@@ -371,7 +369,6 @@ export function useWorkoutLogic(workoutId, navigate) {
       }
 
       setSaving(true)
-      setError(null)
 
       const payload =
         buildWorkoutPayload(
@@ -410,7 +407,7 @@ export function useWorkoutLogic(workoutId, navigate) {
 
       draftWorkoutStorage.clear()
     } catch (err) {
-      setError(err?.message || ERROR_MESSAGES.SAVE_WORKOUT)
+      toast.error(ERROR_MESSAGES.SAVE_WORKOUT)
     } finally {
       setSaving(false)
     }
@@ -421,7 +418,6 @@ export function useWorkoutLogic(workoutId, navigate) {
   const saveAsTemplate = async () => {
     try {
       setSaving(true)
-      setError(null)
 
       await createTemplateApi(
         buildTemplatePayload(workout),
@@ -432,7 +428,7 @@ export function useWorkoutLogic(workoutId, navigate) {
       await delay(300)
 
     } catch (err) {
-      setError(ERROR_MESSAGES.SAVE_TEMPLATE)
+      toast.error(ERROR_MESSAGES.SAVE_TEMPLATE)
     } finally {
       setSaving(false)
     }
@@ -484,7 +480,6 @@ export function useWorkoutLogic(workoutId, navigate) {
     updateDefaultRestTime,
 
     saving,
-    error,
 
     openLibrary,
 

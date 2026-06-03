@@ -2,6 +2,8 @@ import { createContext, useEffect, useState } from 'react'
 
 import { useUser } from './UserContext'
 
+import { useToast } from './ToastContext'
+
 import {
   addFavoriteExerciseApi,
   getFavoriteExercisesApi,
@@ -20,13 +22,15 @@ export const FavoritesContext = createContext(null)
 export function FavoritesProvider({ children }) {
   const { user } = useUser()
 
+  const toast = useToast()
+
   // ===== STATE =====
 
   const [favorites, setFavorites] = useState([])
 
   const [loading, setLoading] = useState(true)
 
-  const [error, setError] = useState(null)
+  const [error] = useState(null)
 
   // ===== LOAD FAVORITES =====
 
@@ -45,7 +49,6 @@ export function FavoritesProvider({ children }) {
 
         setFavorites(data.map((ex) => ex._id))
       } catch (err) {
-        setError('Unable to load favorite exercises.')
       } finally {
         setLoading(false)
       }
@@ -76,7 +79,7 @@ export function FavoritesProvider({ children }) {
 
       setFavorites((prev) => [...prev, id])
     } catch (err) {
-      setError('Unable to update favorite exercises.')
+      toast.error('Unable to update favorite exercises.')
     }
   }
 

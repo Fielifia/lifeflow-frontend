@@ -62,8 +62,7 @@ export default function TemplateList({
         error={error}
         data={filteredTemplates}
         variant="card-template"
-        emptyTitle="No templates yet"
-        emptyText="Create a template to quickly start future workouts."
+        emptyText="No templates found"
         count={5}
       >
         <div className="section">
@@ -76,7 +75,8 @@ export default function TemplateList({
               },
               {
                 label: 'Edit',
-                onClick: () => navigate(`/templates/${template._id}/edit`),
+                onClick: () =>
+                  navigate(`/templates/${template._id}/edit?from=workouts`),
               },
               {
                 label: 'Delete',

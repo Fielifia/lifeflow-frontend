@@ -359,7 +359,6 @@ export function useTemplateManager(
     async () => {
       try {
         setSaving(true)
-        setError(null)
 
         const payload =
           buildTemplatePayload(
@@ -404,7 +403,7 @@ export function useTemplateManager(
           )
         }
       } catch (err) {
-        setError(
+        toast.error(
           isCreate
             ? ERROR_MESSAGES.SAVE_TEMPLATE
             : ERROR_MESSAGES.UPDATE_TEMPLATE,
@@ -505,7 +504,7 @@ export function useTemplateManager(
         if (err.response?.status === 404) {
           setError(ERROR_MESSAGES.TEMPLATE_NOT_FOUND)
         } else {
-          setError(ERROR_MESSAGES.DELETE_TEMPLATE)
+          toast.error(ERROR_MESSAGES.DELETE_TEMPLATE)
         }
 
         return false

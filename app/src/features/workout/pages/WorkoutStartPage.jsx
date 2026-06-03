@@ -12,6 +12,8 @@ import { useStartWorkout } from '../hooks/useStartWorkout'
 
 import { useWorkoutContext } from '../../../shared/context/WorkoutContext'
 
+import { useToast } from '../../../shared/context/ToastContext'
+
 import { useConfirm } from '../../../shared/hooks/useConfirm'
 
 import {
@@ -38,6 +40,8 @@ export default function WorkoutStartPage() {
   const { startWorkout } = useStartWorkout()
 
   const confirm = useConfirm()
+
+  const toast = useToast()
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -85,7 +89,7 @@ export default function WorkoutStartPage() {
 
       setTemplates((prev) => prev.filter((template) => template._id !== id))
     } catch (err) {
-      setError(ERROR_MESSAGES.DELETE_TEMPLATE)
+      toast.error(ERROR_MESSAGES.DELETE_TEMPLATE)
     }
   }
 
