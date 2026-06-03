@@ -49,13 +49,14 @@ export function FavoritesProvider({ children }) {
 
         setFavorites(data.map((ex) => ex._id))
       } catch (err) {
+        //
       } finally {
         setLoading(false)
       }
     }
 
     loadFavorites()
-  }, [])
+  }, [user?.token])
 
   // ===== HELPERS =====
 
