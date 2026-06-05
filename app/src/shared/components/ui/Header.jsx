@@ -13,6 +13,8 @@ import { useConfirm } from '../../hooks/useConfirm'
 
 import ActionMenu from './action-menu/ActionMenu'
 
+import NotificationBell from '../../../features/notifications/components/NotificationBell'
+
 /**
  * Shared app header.
  * @param {object} props - Component props
@@ -68,28 +70,34 @@ export default function Header({ subtitle, variant = 'authenticated' }) {
         {subtitle && <p className="body muted close">{subtitle}</p>}
       </div>
 
-      {/* PROFILE MENU */}
+      <div className="header-buttons">
+        {/* NOTIFICATIONS */}
 
-      {variant === 'authenticated' ? (
-        <ActionMenu
-          variant="profile"
-          triggerIcon={Icon}
-          items={[
-            {
-              label: 'Profile',
-              icon: Settings,
-              onClick: () => (window.location.href = '/profile'),
-            },
-            {
-              label: 'Log out',
-              icon: LogOut,
-              onClick: handleLogout,
-            },
-          ]}
-        />
-      ) : (
-        <Icon className="header-icon" />
-      )}
+        <NotificationBell />
+
+        {/* PROFILE MENU */}
+
+        {variant === 'authenticated' ? (
+          <ActionMenu
+            variant="profile"
+            triggerIcon={Icon}
+            items={[
+              {
+                label: 'Profile',
+                icon: Settings,
+                onClick: () => (window.location.href = '/profile'),
+              },
+              {
+                label: 'Log out',
+                icon: LogOut,
+                onClick: handleLogout,
+              },
+            ]}
+          />
+        ) : (
+          <Icon className="header-icon" />
+        )}
+      </div>
     </div>
   )
 }

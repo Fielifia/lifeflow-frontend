@@ -68,9 +68,9 @@ button {
 }
 
 .btn-icon {
-  width: 18px;
-  height: 18px;
   padding: 0;
+  width: 2.5rem;
+  height: 2.5rem;
   flex-shrink: 0;
 }
 
