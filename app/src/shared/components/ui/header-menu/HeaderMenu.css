@@ -50,3 +50,12 @@
   max-height: 400px;
   overflow-y: auto;
 }
+
+.notification-item.unread {
+  background:
+    rgba(var(--primary-rgb), 0.12);
+}
+
+.notification-item.read {
+  opacity: 0.6;
+}

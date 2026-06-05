@@ -14,7 +14,6 @@ const isTouchDevice =
  *
  * Used for profile menu, notifications
  * and other header-based dropdowns.
- *
  * @param {object} props - Component props.
  * @param {import('react').ReactNode} props.children
  * Menu content.

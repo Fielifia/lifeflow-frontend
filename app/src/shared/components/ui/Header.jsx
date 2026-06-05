@@ -26,7 +26,11 @@ import HeaderMenu from './header-menu/HeaderMenu'
 export default function Header({ subtitle, variant = 'authenticated' }) {
   const confirm = useConfirm()
   const { setUser } = useUser()
-  const { notifications } = useNotifications()
+  const { notifications, markAsRead } = useNotifications()
+
+  const unreadCount = notifications.filter(
+    (notification) => !notification.read,
+  ).length
 
   /**
    * Handles logout flow.
@@ -80,10 +84,8 @@ export default function Header({ subtitle, variant = 'authenticated' }) {
             <>
               <Bell />
 
-              {notifications.length > 0 && (
-                <span className="notification-badge">
-                  {notifications.length}
-                </span>
+              {unreadCount > 0 && (
+                <span className="notification-badge">{unreadCount}</span>
               )}
             </>
           }
@@ -95,7 +97,18 @@ export default function Header({ subtitle, variant = 'authenticated' }) {
               <p>No notifications</p>
             ) : (
               notifications.map((notification) => (
-                <div key={notification._id} className="notification-item">
+                <div
+                  key={notification._id}
+                  className={`
+    notification-item
+    ${notification.read ? 'read' : 'unread'}
+  `}
+                  onClick={() => {
+                    if (!notification.read) {
+                      markAsRead(notification._id)
+                    }
+                  }}
+                >
                   <strong>{notification.title}</strong>
 
                   <p>{notification.message}</p>
