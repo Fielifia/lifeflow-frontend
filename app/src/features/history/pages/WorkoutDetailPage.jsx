@@ -14,7 +14,7 @@ import Header from '../../../shared/components/ui/Header'
 
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 
-import WorkoutControls from '../../../shared/components/ui/WorkoutControls/WorkoutControls'
+import WorkoutControls from '../../../shared/components/ui/workout-controls/WorkoutControls'
 
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
 

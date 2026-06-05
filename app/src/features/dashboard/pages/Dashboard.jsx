@@ -1,3 +1,4 @@
+import '../Dashboard.css'
 import Header from '../../../shared/components/ui/Header'
 import DashboardSkeleton from '../../../shared/components/ui/skeleton/DashboardSkeleton'
 import { useUser } from '../../../shared/context/UserContext'

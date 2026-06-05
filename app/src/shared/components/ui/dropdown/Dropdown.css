@@ -47,7 +47,7 @@
   top: calc(100% + 0.5rem);
   left: 0;
 
-  z-index: 1000;
+  z-index: 85;
 
   min-width: 220px;
   max-height: 320px;

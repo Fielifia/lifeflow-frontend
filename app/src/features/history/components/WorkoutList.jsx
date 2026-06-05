@@ -7,7 +7,7 @@ import { formatDate, formatDuration } from '../../../shared/utils/format'
 
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 
-import WorkoutPreviewCard from '../../../shared/components/cards/WorkoutPreviewCard'
+import WorkoutPreviewCard from '../../../shared/components/ui/cards/WorkoutPreviewCard'
 // import WorkoutCard from './WorkoutCard'
 
 /**

@@ -13,13 +13,13 @@ import { useTemplateManager } from '../hooks/useTemplateManager'
 import BackButton from '../../../shared/components/ui/button/BackButton'
 import Button from '../../../shared/components/ui/button/Button'
 
-import Notes from '../../../shared/components/ui/input/Notes'
 import Header from '../../../shared/components/ui/Header'
+import Notes from '../../../shared/components/ui/input/Notes'
 
 import EditModal from '../../workout/components/time/EditModal'
 
 import DataState from '../../../shared/components/ui/skeleton/DataState'
-import WorkoutControls from '../../../shared/components/ui/WorkoutControls/WorkoutControls'
+import WorkoutControls from '../../../shared/components/ui/workout-controls/WorkoutControls'
 
 import WorkoutHeader from '../../workout/components/WorkoutHeader'
 
