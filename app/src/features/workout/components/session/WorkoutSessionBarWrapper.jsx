@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom'
+import './WorkoutSessionBar.css'
 import { useWorkoutContext } from '../../../../shared/context/WorkoutContext'
 import { hasWorkoutDraftContent } from '../../../../shared/utils/storage/draftStorage'
 import { draftWorkoutStorage } from '../../../../shared/utils/storage/draftStorage'

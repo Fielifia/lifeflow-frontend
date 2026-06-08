@@ -1,8 +1,10 @@
 import { useState } from 'react'
 
-import ActionMenu from '../ui/action-menu/ActionMenu'
+import './WorkoutPreviewCard.css'
 
-import WorkoutControls from '../ui/WorkoutControls/WorkoutControls'
+import ActionMenu from '../action-menu/ActionMenu'
+
+import WorkoutControls from '../workout-controls/WorkoutControls'
 
 /**
  * Shared preview card for workouts and templates.
@@ -60,9 +62,7 @@ export default function WorkoutPreviewCard({
 
         {/* ACTION MENU */}
 
-        {hasMenu && (
-          <ActionMenu items={menuItems} onOpenChange={setMenuOpen} />
-        )}
+        {hasMenu && <ActionMenu items={menuItems} onOpenChange={setMenuOpen} />}
       </div>
 
       {/* EXERCISE PREVIEW */}

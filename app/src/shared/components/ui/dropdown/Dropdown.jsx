@@ -1,12 +1,8 @@
-// shared/components/ui/dropdown/Dropdown.jsx
-
-import {
-  useEffect,
-  useRef,
-  useState,
-} from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 import { ChevronDown, Check } from 'lucide-react'
+
+import './Dropdown.css'
 
 /**
  * Reusable custom dropdown component.
@@ -29,8 +25,7 @@ export default function Dropdown({
   onSelect,
   className = '',
 }) {
-  const [isOpen, setIsOpen] =
-    useState(false)
+  const [isOpen, setIsOpen] = useState(false)
 
   const dropdownRef = useRef(null)
 
@@ -38,32 +33,20 @@ export default function Dropdown({
 
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
         setIsOpen(false)
       }
     }
 
-    document.addEventListener(
-      'mousedown',
-      handleClickOutside,
-    )
+    document.addEventListener('mousedown', handleClickOutside)
 
     return () => {
-      document.removeEventListener(
-        'mousedown',
-        handleClickOutside,
-      )
+      document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [])
 
   return (
-    <div
-      className={`dropdown ${className}`}
-      ref={dropdownRef}
-    >
+    <div className={`dropdown ${className}`} ref={dropdownRef}>
       {/* TRIGGER */}
 
       <button
@@ -72,9 +55,7 @@ export default function Dropdown({
           dropdown-trigger
           ${selected ? 'active' : ''}
         `}
-        onClick={() =>
-          setIsOpen((prev) => !prev)
-        }
+        onClick={() => setIsOpen((prev) => !prev)}
       >
         <span>{label}</span>
 
@@ -91,17 +72,12 @@ export default function Dropdown({
 
       {isOpen && (
         <div className="dropdown-menu">
-
           {items.map((item) => {
-
             // ===== GROUP =====
 
             if (item.type === 'group') {
               return (
-                <div
-                  key={item.value}
-                  className="dropdown-group"
-                >
+                <div key={item.value} className="dropdown-group">
                   {item.label}
                 </div>
               )
@@ -109,8 +85,7 @@ export default function Dropdown({
 
             // ===== ITEM =====
 
-            const isSelected =
-              selected === item.value
+            const isSelected = selected === item.value
 
             return (
               <button
@@ -125,13 +100,9 @@ export default function Dropdown({
                   setIsOpen(false)
                 }}
               >
-                <span>
-                  {item.label}
-                </span>
+                <span>{item.label}</span>
 
-                {isSelected && (
-                  <Check size={16} />
-                )}
+                {isSelected && <Check size={16} />}
               </button>
             )
           })}

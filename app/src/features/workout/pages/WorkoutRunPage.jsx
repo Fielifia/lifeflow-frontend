@@ -25,12 +25,12 @@ import Header from '../../../shared/components/ui/Header'
 
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 
-import WorkoutControls from '../../../shared/components/ui/WorkoutControls/WorkoutControls'
+import WorkoutControls from '../../../shared/components/ui/workout-controls/WorkoutControls'
 
 import SortableExerciseItem from '../../exercise/components/SortableExerciseItem'
 
-import ExerciseItem from '../../exercise/components/ExerciseItem/ExerciseItem'
 import Notes from '../../../shared/components/ui/input/Notes'
+import ExerciseItem from '../../exercise/components/ExerciseItem/ExerciseItem'
 
 import RestTimer from '../components/time/RestTimer'
 
@@ -109,9 +109,8 @@ export default function WorkoutRunPage() {
   } = useWorkoutContext()
 
   const restTimerEnabled = workout.restTimerEnabled ?? true
-  
-  const currentExercise =
-  getCurrentExerciseObject(workout?.exercises || [])
+
+  const currentExercise = getCurrentExerciseObject(workout?.exercises || [])
 
   useEffect(() => {
     if (

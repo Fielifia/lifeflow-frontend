@@ -5,15 +5,16 @@ import {
   UserCheck,
   UserLock,
   UserPlus,
+  Bell,
 } from 'lucide-react'
 
 import { useUser } from '../../context/UserContext'
 
 import { useConfirm } from '../../hooks/useConfirm'
 
-import ActionMenu from './action-menu/ActionMenu'
+import { useNotifications } from '../../../features/notifications/hooks/useNotifications'
 
-import NotificationBell from '../../../features/notifications/components/NotificationBell'
+import HeaderMenu from './header-menu/HeaderMenu'
 
 /**
  * Shared app header.
@@ -25,6 +26,11 @@ import NotificationBell from '../../../features/notifications/components/Notific
 export default function Header({ subtitle, variant = 'authenticated' }) {
   const confirm = useConfirm()
   const { setUser } = useUser()
+  const { notifications, markAsRead } = useNotifications()
+
+  const unreadCount = notifications.filter(
+    (notification) => !notification.read,
+  ).length
 
   /**
    * Handles logout flow.
@@ -73,27 +79,71 @@ export default function Header({ subtitle, variant = 'authenticated' }) {
       <div className="header-buttons">
         {/* NOTIFICATIONS */}
 
-        <NotificationBell />
+        <HeaderMenu
+          trigger={
+            <>
+              <Bell />
+
+              {unreadCount > 0 && (
+                <span className="notification-badge">{unreadCount}</span>
+              )}
+            </>
+          }
+        >
+          <div className="notification-panel">
+            <h3>Notifications</h3>
+
+            {notifications.length === 0 ? (
+              <p>No notifications</p>
+            ) : (
+              notifications.map((notification) => (
+                <div
+                  key={notification._id}
+                  className={`
+    notification-item
+    ${notification.read ? 'read' : 'unread'}
+  `}
+                  onClick={() => {
+                    if (!notification.read) {
+                      markAsRead(notification._id)
+                    }
+                  }}
+                >
+                  <strong>{notification.title}</strong>
+
+                  <p>{notification.message}</p>
+                </div>
+              ))
+            )}
+          </div>
+        </HeaderMenu>
 
         {/* PROFILE MENU */}
 
         {variant === 'authenticated' ? (
-          <ActionMenu
-            variant="profile"
-            triggerIcon={Icon}
-            items={[
-              {
-                label: 'Profile',
-                icon: Settings,
-                onClick: () => (window.location.href = '/profile'),
-              },
-              {
-                label: 'Log out',
-                icon: LogOut,
-                onClick: handleLogout,
-              },
-            ]}
-          />
+          <HeaderMenu trigger={<Icon className="header-icon" />}>
+            <div className="profile-menu">
+              <button
+                type="button"
+                className="header-menu-item"
+                onClick={() => {
+                  window.location.href = '/profile'
+                }}
+              >
+                <Settings className="icon-small" />
+                <span>Profile</span>
+              </button>
+
+              <button
+                type="button"
+                className="header-menu-item"
+                onClick={handleLogout}
+              >
+                <LogOut className="icon-small" />
+                <span>Log out</span>
+              </button>
+            </div>
+          </HeaderMenu>
         ) : (
           <Icon className="header-icon" />
         )}

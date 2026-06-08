@@ -5,7 +5,7 @@ import { useStartWorkout } from '../../workout/hooks/useStartWorkout'
 
 import DataState from '../../../shared/components/ui/skeleton/DataState'
 
-import WorkoutPreviewCard from '../../../shared/components/cards/WorkoutPreviewCard'
+import WorkoutPreviewCard from '../../../shared/components/ui/cards/WorkoutPreviewCard'
 
 /**
  * Displays a searchable list of workout templates with incremental loading.

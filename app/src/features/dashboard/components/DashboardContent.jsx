@@ -16,7 +16,7 @@ import { getRandomMotivationQuote } from '../../../shared/utils/quoteGenerator'
 
 import StatsGrid from '../../../shared/components/ui/statsgrid/StatsGrid'
 import MonthlyGoal from './MonthlyGoals'
-import WorkoutPreviewCard from '../../../shared/components/cards/WorkoutPreviewCard'
+import WorkoutPreviewCard from '../../../shared/components/ui/cards/WorkoutPreviewCard'
 
 import {
   formatDate,

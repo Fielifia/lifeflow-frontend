@@ -12,10 +12,10 @@ import { useWorkoutManager } from '../hooks/useWorkoutManager'
 import BackButton from '../../../shared/components/ui/button/BackButton'
 import Button from '../../../shared/components/ui/button/Button'
 
-import Notes from '../../../shared/components/ui/input/Notes'
 import Header from '../../../shared/components/ui/Header'
+import Notes from '../../../shared/components/ui/input/Notes'
 import DataState from '../../../shared/components/ui/skeleton/DataState'
-import WorkoutControls from '../../../shared/components/ui/WorkoutControls/WorkoutControls'
+import WorkoutControls from '../../../shared/components/ui/workout-controls/WorkoutControls'
 
 import ExerciseItem from '../../exercise/components/ExerciseItem/ExerciseItem'
 
